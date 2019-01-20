@@ -5,6 +5,6 @@
 - 后台配置数据源 (gmdb)
   - gihub版
 
-- 游戏数据（gamedb）
+- 服务数据源（gamedb）
   - mysql版
 
