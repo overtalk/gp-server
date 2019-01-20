@@ -1,6 +1,10 @@
 package parse
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/QHasaki/Server/logger"
+)
 
 func Bytes(in interface{}) []byte {
 	var ret []byte
@@ -12,7 +16,7 @@ func Bytes(in interface{}) []byte {
 	case nil:
 		return nil
 	default:
-		sugar.Error(errors.New("parse to string error(unknown) : error type"))
+		logger.Sugar.Error(errors.New("parse to string error(unknown) : error type"))
 		return nil
 	}
 

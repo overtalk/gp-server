@@ -2,6 +2,8 @@ package driver
 
 import (
 	"database/sql"
+
+	"github.com/QHasaki/Server/logger"
 )
 
 type Resp struct {
@@ -26,13 +28,13 @@ func (p *Pool) Exec(sql string, args ...interface{}) error {
 
 	res, err := db.Exec(sql, args...)
 	if err != nil {
-		sugar.Errorf("failed to update db: %v", err)
+		logger.Sugar.Errorf("failed to update db: %v", err)
 		return err
 	}
 
 	count, err := res.RowsAffected()
 	if err != nil {
-		sugar.Errorf("failed to count affected rows: %v", err)
+		logger.Sugar.Errorf("failed to count affected rows: %v", err)
 		return err
 	}
 	if count == 0 {
@@ -50,7 +52,7 @@ func (p *Pool) Query(query string, args ...interface{}) (*Resp, error) {
 
 	rows, err := db.Query(query, args...)
 	if err != nil {
-		sugar.Errorf("failed to query rows: %v", err)
+		logger.Sugar.Errorf("failed to query rows: %v", err)
 		return nil, err
 	}
 

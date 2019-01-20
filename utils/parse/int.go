@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"strconv"
+
+	"github.com/QHasaki/Server/logger"
 )
 
 func Int(in interface{}) int64 {
@@ -21,7 +23,7 @@ func Int(in interface{}) int64 {
 		var err error
 		left, err := strconv.ParseInt(inp, 10, 64)
 		if err != nil {
-			sugar.Errorf("parse to int error(string) : %v",err)
+			logger.Sugar.Errorf("parse to int error(string) : %v", err)
 			return ret
 		}
 		ret = left
@@ -42,10 +44,9 @@ func Int(in interface{}) int64 {
 	case nil:
 		return 0
 	default:
-		sugar.Error(errors.New("parse to int error(unknown) : error type"))
+		logger.Sugar.Error(errors.New("parse to int error(unknown) : error type"))
 		return 0
 	}
 
 	return ret
 }
-

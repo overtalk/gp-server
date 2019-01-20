@@ -6,7 +6,7 @@ import (
 
 type DB struct {
 	origin *originDB
-	cache *Cache
+	cache  *Cache
 }
 
 func (p *DB) Set(document string, data Data, where Data) error {

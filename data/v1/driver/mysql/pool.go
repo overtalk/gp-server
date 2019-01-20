@@ -8,6 +8,7 @@ import (
 	"time"
 
 	// initialize mysql driver
+	"github.com/QHasaki/Server/logger"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -31,7 +32,7 @@ type Pool struct {
 // NewMysqlPool creates a mysql connection pool
 func NewMysqlPool(size int, addr, username, password, dbname string) (*Pool, error) {
 	if size < 1 {
-		sugar.Errorf("invalid mysql pool size: %d", size)
+		logger.Sugar.Errorf("invalid mysql pool size: %d", size)
 		return nil, errors.New("invalid mysql pool size")
 	}
 	pool := &Pool{
@@ -48,11 +49,11 @@ func NewMysqlPool(size int, addr, username, password, dbname string) (*Pool, err
 func (p *Pool) CreateDBConn() (*sql.DB, error) {
 	db, err := sql.Open("mysql", p.dsn)
 	if err != nil {
-		sugar.Errorf("failed to open mysql: %v", err)
+		logger.Sugar.Errorf("failed to open mysql: %v", err)
 		return nil, err
 	}
 	if err = db.Ping(); err != nil {
-		sugar.Errorf("failed to ping mysql: %v", err)
+		logger.Sugar.Errorf("failed to ping mysql: %v", err)
 		return nil, err
 	}
 
@@ -123,4 +124,3 @@ func (p *Pool) Close() error {
 
 	return nil
 }
-

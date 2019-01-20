@@ -8,11 +8,11 @@ import (
 
 func TestNewConnect(t *testing.T) {
 	dbinfo := DataInfo{
-		Size:	 10,
-		Addr:	 "172.26.32.12",
-		Username:"sausage",
-		Password:"sausage_shooter",
-		DBName:  "sausage_shooter",
+		Size:     10,
+		Addr:     "172.26.32.12",
+		Username: "sausage",
+		Password: "sausage_shooter",
+		DBName:   "sausage_shooter",
 	}
 	_, err := NewConnect(dbinfo)
 	if err != nil {
@@ -22,11 +22,11 @@ func TestNewConnect(t *testing.T) {
 
 func TestDataDB_Set(t *testing.T) {
 	dbinfo := DataInfo{
-		Size:	 10,
-		Addr:	 "172.26.32.12",
-		Username:"sausage",
-		Password:"sausage_shooter",
-		DBName:  "sausage_shooter",
+		Size:     10,
+		Addr:     "172.26.32.12",
+		Username: "sausage",
+		Password: "sausage_shooter",
+		DBName:   "sausage_shooter",
 	}
 	db, err := NewConnect(dbinfo)
 	if err != nil {
@@ -49,11 +49,11 @@ func TestDataDB_Set(t *testing.T) {
 
 func TestDataDB_Get(t *testing.T) {
 	dbinfo := DataInfo{
-		Size:	 10,
-		Addr:	 "172.26.32.12",
-		Username:"sausage",
-		Password:"sausage_shooter",
-		DBName:  "sausage_shooter",
+		Size:     10,
+		Addr:     "172.26.32.12",
+		Username: "sausage",
+		Password: "sausage_shooter",
+		DBName:   "sausage_shooter",
 	}
 	db, err := NewConnect(dbinfo)
 	if err != nil {

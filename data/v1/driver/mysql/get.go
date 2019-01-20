@@ -3,6 +3,8 @@ package driver
 import (
 	"errors"
 	"strings"
+
+	"github.com/QHasaki/Server/logger"
 )
 
 var (
@@ -15,8 +17,8 @@ var (
 func Get(p *Pool, document string, column []string, where Data) (Data, error) {
 	var (
 		columns string
-		wheres []string
-		values []interface{}
+		wheres  []string
+		values  []interface{}
 	)
 	sql := "SELECT "
 
@@ -25,17 +27,17 @@ func Get(p *Pool, document string, column []string, where Data) (Data, error) {
 	for k, v := range where {
 		switch v.(type) {
 		case Where:
-			wheres = append(wheres, k + " " + v.(Where).Operator + " ?")
+			wheres = append(wheres, k+" "+v.(Where).Operator+" ?")
 			values = append(values, v.(Where).Value)
 		default:
-			wheres = append(wheres, k + " = ?")
+			wheres = append(wheres, k+" = ?")
 			values = append(values, v)
 		}
 	}
 
-	resp, err := p.Query(sql + columns + " FROM `" + document + "` WHERE " + strings.Join(wheres, " AND "), values...)
+	resp, err := p.Query(sql+columns+" FROM `"+document+"` WHERE "+strings.Join(wheres, " AND "), values...)
 	if err != nil {
-		sugar.Errorf("failed to query row : %v", err)
+		logger.Sugar.Errorf("failed to query row : %v", err)
 		return nil, err
 	}
 	defer resp.Close()

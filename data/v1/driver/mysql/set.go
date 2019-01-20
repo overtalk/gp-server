@@ -1,6 +1,10 @@
 package driver
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/QHasaki/Server/logger"
+)
 
 func Set(p *Pool, document string, data Data, where Data) error {
 	if where == nil {
@@ -14,20 +18,20 @@ func Set(p *Pool, document string, data Data, where Data) error {
 
 		for k, v := range data {
 			column = append(column, k)
-			needed = append(needed,"?")
+			needed = append(needed, "?")
 			values = append(values, v)
 		}
 
-		resp, err := p.Query(sql + "(" + strings.Join(column, ",") + ") VALUES (" + strings.Join(needed,", ") + ")", values...)
+		resp, err := p.Query(sql+"("+strings.Join(column, ",")+") VALUES ("+strings.Join(needed, ", ")+")", values...)
 		if err != nil {
-			sugar.Errorf("failed to query row : %v", err)
+			logger.Sugar.Errorf("failed to query row : %v", err)
 			return err
 		}
 
 		defer resp.Close()
 	} else {
 		var (
-			datas []string
+			datas  []string
 			wheres []string
 			values []interface{}
 		)
@@ -35,24 +39,24 @@ func Set(p *Pool, document string, data Data, where Data) error {
 		sql := "UPDATE `" + document + "` SET "
 
 		for k, v := range data {
-			datas = append(datas, k + " = ?")
+			datas = append(datas, k+" = ?")
 			values = append(values, v)
 		}
 
 		for k, v := range where {
 			switch v.(type) {
 			case Where:
-				wheres = append(wheres, k + " " + v.(Where).Operator + " ?")
+				wheres = append(wheres, k+" "+v.(Where).Operator+" ?")
 				values = append(values, v.(Where).Value)
 			default:
-				wheres = append(wheres, k + " = ?")
+				wheres = append(wheres, k+" = ?")
 				values = append(values, v)
 			}
 		}
 
-		resp, err := p.Query(sql + strings.Join(datas, ", ") + " WHERE " + strings.Join(wheres," AND "), values...)
+		resp, err := p.Query(sql+strings.Join(datas, ", ")+" WHERE "+strings.Join(wheres, " AND "), values...)
 		if err != nil {
-			sugar.Errorf("failed to query row : %v", err)
+			logger.Sugar.Errorf("failed to query row : %v", err)
 			return err
 		}
 
