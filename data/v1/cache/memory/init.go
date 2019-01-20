@@ -1,9 +1,10 @@
 package cache
 
 import (
-	"github.com/go-redis/redis"
 	"sync"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 type Cache struct {
@@ -11,7 +12,6 @@ type Cache struct {
 }
 
 type CacheInfo struct {
-
 }
 
 type CacheData struct {
@@ -20,4 +20,3 @@ type CacheData struct {
 }
 
 type Pool = redis.Cmdable
-

@@ -1,11 +1,11 @@
 package data
 
 import (
-	"hub000.xindong.com/SausageShoot/GameServer/data/v1/driver/mysql"
+	"github.com/QHasaki/Server/data/v1/driver/mysql"
 )
 
 type originDB struct {
-	conn  *driver.Pool
+	conn *driver.Pool
 }
 
 func (p *originDB) Set(document string, data Data, where Data) error {

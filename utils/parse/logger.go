@@ -1,4 +1,4 @@
-package data
+package parse
 
 import (
 	"github.com/QHasaki/Server/logger"

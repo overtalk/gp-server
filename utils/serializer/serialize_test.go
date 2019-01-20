@@ -3,9 +3,8 @@ package serializer_test
 import (
 	"testing"
 
+	"github.com/QHasaki/Server/utils/serializer"
 	"github.com/stretchr/testify/require"
-
-	"hub000.xindong.com/SausageShoot/GameServer/utils/serializer"
 )
 
 type message struct {

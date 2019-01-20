@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"graduationProject/server/logger"
+	"github.com/QHasaki/Server/logger"
 )
 
 // Github describes github repo of gmdata
@@ -19,7 +19,7 @@ type Github struct {
 }
 
 // NewGithub creates a new Github
-func NewGithub(repoURL string) *Github {
+func NewGithub() *Github {
 	if os.Getenv("GITHUB_USERNAME") == "" {
 		log.Fatal(`Enviroment "GITHUB_USERNAME" must be set`)
 	}
@@ -36,7 +36,8 @@ func NewGithub(repoURL string) *Github {
 	}
 }
 
-func (g *Github) fetch(fileName string) ([]byte, error) {
+// Fetch is to get details from github
+func (g *Github) Fetch(fileName string) ([]byte, error) {
 	fileURL := fmt.Sprintf("%s/%s", g.repoURL, fileName)
 	client := new(http.Client)
 	req, err := http.NewRequest(http.MethodGet, fileURL, nil)

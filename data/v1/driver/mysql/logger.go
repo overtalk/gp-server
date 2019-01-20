@@ -1,8 +1,7 @@
 package driver
 
 import (
-	"hub000.xindong.com/SausageShoot/GameServer/logger"
+	"github.com/QHasaki/Server/logger"
 )
 
 var sugar = logger.Sugar
-

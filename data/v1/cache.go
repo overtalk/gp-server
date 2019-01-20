@@ -1,7 +1,7 @@
 package data
 
 import (
-	"hub000.xindong.com/SausageShoot/GameServer/utils/parse"
+	"github.com/QHasaki/Server/utils/parse"
 	"strings"
 )
 
@@ -21,7 +21,7 @@ func (p *DB) MakeCacheKey(document string, where Data) string {
 	}
 	for _, key := range primary {
 		if v, ok := where[key]; ok {
-			cacheKeyList = append(cacheKeyList, key + "=" + parse.String(v))
+			cacheKeyList = append(cacheKeyList, key+"="+parse.String(v))
 		}
 	}
 	return strings.Join(cacheKeyList, "_")
