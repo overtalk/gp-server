@@ -26,10 +26,13 @@ func NewGithub(repoURL string) *Github {
 	if os.Getenv("GITHUB_TOKEN") == "" {
 		log.Fatal(`Environment "GITHUB_TOKEN" must be set`)
 	}
+	if os.Getenv("GITHUB_REPO_URL") == "" {
+		log.Fatal(`Environment "GITHUB_REPO_URL" must be set`)
+	}
 	return &Github{
 		username: os.Getenv("GITHUB_USERNAME"),
 		token:    os.Getenv("GITHUB_TOKEN"),
-		repoURL:  repoURL,
+		repoURL:  os.Getenv("GITHUB_REPO_URL"),
 	}
 }
 
