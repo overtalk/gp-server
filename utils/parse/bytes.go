@@ -1,13 +1,13 @@
 package parse
 
 import (
-	"errors"
-
 	"github.com/QHasaki/Server/logger"
 )
 
+// Bytes turn ( interface{} ) to ( []byte )
 func Bytes(in interface{}) []byte {
 	var ret []byte
+
 	switch in.(type) {
 	case []byte:
 		ret = in.([]byte)
@@ -16,7 +16,7 @@ func Bytes(in interface{}) []byte {
 	case nil:
 		return nil
 	default:
-		logger.Sugar.Error(errors.New("parse to string error(unknown) : error type"))
+		logger.Sugar.Error("parse to []byte error : unknown type ")
 		return nil
 	}
 

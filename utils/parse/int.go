@@ -2,12 +2,12 @@ package parse
 
 import (
 	"encoding/json"
-	"errors"
 	"strconv"
 
 	"github.com/QHasaki/Server/logger"
 )
 
+// Int turn ( interface{} ) to ( int64 )
 func Int(in interface{}) int64 {
 	var ret int64
 	jsonIn, ok := in.(json.Number)
@@ -20,7 +20,6 @@ func Int(in interface{}) int64 {
 		if inp == "" {
 			return 0
 		}
-		var err error
 		left, err := strconv.ParseInt(inp, 10, 64)
 		if err != nil {
 			logger.Sugar.Errorf("parse to int error(string) : %v", err)
@@ -35,6 +34,8 @@ func Int(in interface{}) int64 {
 		ret = in.(int64)
 	case uint:
 		ret = int64(in.(uint))
+	case uint16:
+		ret = int64(in.(uint16))
 	case uint32:
 		ret = int64(in.(uint32))
 	case uint64:
@@ -44,7 +45,7 @@ func Int(in interface{}) int64 {
 	case nil:
 		return 0
 	default:
-		logger.Sugar.Error(errors.New("parse to int error(unknown) : error type"))
+		logger.Sugar.Error("parse to int error : unknown type")
 		return 0
 	}
 

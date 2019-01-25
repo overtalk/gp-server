@@ -6,6 +6,7 @@ import (
 	"github.com/QHasaki/Server/logger"
 )
 
+// String turn ( interface{} ) to ( string )
 func String(in interface{}) string {
 	var ret string
 	switch in.(type) {
