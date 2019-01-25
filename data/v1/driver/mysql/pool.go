@@ -8,8 +8,9 @@ import (
 	"time"
 
 	// initialize mysql driver
-	"github.com/QHasaki/Server/logger"
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/QHasaki/Server/logger"
 )
 
 var (

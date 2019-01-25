@@ -1,17 +1,10 @@
 package driver
 
 import (
-	"errors"
 	"strings"
 
+	"github.com/QHasaki/Server/data/v1/error"
 	"github.com/QHasaki/Server/logger"
-)
-
-var (
-	// ErrNoRowsFound describes now rows found error
-	ErrNoRowsFound = errors.New("no rows found")
-	// ErrInvalidInput describes nil pointer for update error
-	ErrInvalidInput = errors.New("invalid input parameters for update database")
 )
 
 func Get(p *Pool, document string, column []string, where Data) (Data, error) {
@@ -69,5 +62,5 @@ func Get(p *Pool, document string, column []string, where Data) (Data, error) {
 
 		return assoc, nil
 	}
-	return nil, ErrNoRowsFound
+	return nil, dataError.ErrNoRowsFound
 }

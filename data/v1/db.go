@@ -2,6 +2,7 @@ package data
 
 import (
 	"github.com/QHasaki/Server/data/v1/driver/mysql"
+	"github.com/QHasaki/Server/logger"
 )
 
 type DB struct {
@@ -18,7 +19,7 @@ func (p *DB) Set(document string, data Data, where Data) error {
 		return err
 	}
 	if err := p.cache.Delete(cacheKey); err != nil {
-		sugar.Errorf("cant delete data cache : %v", err)
+		logger.Sugar.Errorf("cant delete data cache : %v", err)
 	}
 	return nil
 }
@@ -36,7 +37,7 @@ func (p *DB) Get(document string, column []string, where Data) (Data, error) {
 		}
 		err = p.cache.SetAll(cacheKey, data)
 		if err != nil {
-			sugar.Errorf("cant save to data cache: %v", err)
+			logger.Sugar.Errorf("cant save to data cache: %v", err)
 		}
 		return data, nil
 	}

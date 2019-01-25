@@ -1,8 +1,9 @@
 package data
 
 import (
-	"github.com/QHasaki/Server/utils/parse"
 	"strings"
+
+	"github.com/QHasaki/Server/utils/parse"
 )
 
 func (p *DB) CacheRefresh(document string, where Data) error {
