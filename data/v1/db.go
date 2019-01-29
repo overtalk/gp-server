@@ -41,9 +41,5 @@ func (p *DB) Get(document string, column []string, where Data) (Data, error) {
 		}
 		return data, nil
 	}
-	result := make(Data)
-	for k, v := range cacheData {
-		result[k] = interface{}(v)
-	}
-	return result, nil
+	return cacheData, nil
 }
