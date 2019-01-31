@@ -11,7 +11,9 @@ import (
 	"go.uber.org/zap/zapcore"
 
 	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/Server/model/v1"
 	"github.com/QHasaki/Server/service/config/v1"
+	"github.com/QHasaki/Server/service/configSource/github"
 	"github.com/QHasaki/Server/service/gate/v1"
 )
 
@@ -31,7 +33,11 @@ func main() {
 	flag.StringVar(&keyFile, "keyFile", "", "ssl private key filename")
 	flag.Parse()
 
-	dataStorage := config.NewConfig().GetDataStorage()
+	conf := getConfig()
+	dataStorage, err := conf.GetDataStorage()
+	if err != nil {
+		logger.Sugar.Fatalf("failed to get dataStorage : %v", err)
+	}
 
 	gateService := gate.NewService(addr, httpDir, dataStorage)
 	if certFile != "" && keyFile != "" {
@@ -60,4 +66,11 @@ func main() {
 
 	log.Printf("Starting gate server on %s\n", addr)
 	gateService.Start()
+}
+
+func getConfig() model.Config {
+	confSource := configSource.NewGithub()
+	conf := config.NewConfig(confSource)
+
+	return conf
 }

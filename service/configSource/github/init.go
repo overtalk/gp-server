@@ -1,4 +1,4 @@
-package gmdb
+package configSource
 
 import (
 	"encoding/json"
@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/Server/model/v1"
 )
 
 // Github describes github repo of gmdata
@@ -62,11 +63,11 @@ func (g *Github) Fetch(fileName string) ([]byte, error) {
 
 	if len(body) == 0 {
 		logger.Sugar.Errorf("file %s is empty", fileName)
-		return nil, ErrInvalidConfigJSON
+		return nil, model.ErrInvalidConfigJSON
 	}
 
 	if !json.Valid(body) {
-		return nil, ErrInvalidConfigJSON
+		return nil, model.ErrInvalidConfigJSON
 	}
 	return body, nil
 }

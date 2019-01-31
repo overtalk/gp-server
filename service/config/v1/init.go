@@ -1,9 +1,27 @@
 package config
 
-type Config map[string]string
+import (
+	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/Server/model/v1"
+)
 
-// NewConfig is the constructor of Config
-func NewConfig() Config {
-	config := make(Config)
-	return config
+// Config implemente Config interface in model
+type Config struct {
+	configSource model.ConfigSource
+	configMap    model.ConfigMap
+}
+
+// NewConfig return Config
+func NewConfig(configSource model.ConfigSource) *Config {
+	c := &Config{
+		configSource: configSource,
+	}
+
+	configMap, err := c.configSource.GetConfig()
+	if err != nil {
+		logger.Sugar.Fatalf("failed to get config : %v", err)
+	}
+	c.configMap = configMap
+
+	return c
 }
