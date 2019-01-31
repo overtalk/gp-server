@@ -2,7 +2,7 @@ package cache
 
 import "time"
 
-func (c *Cache) Delete(key string) error {
+func (c *Cache) Delete(key interface{}) error {
 	c.storage.Store(key, nil)
 	c.storage.Delete(key)
 	return nil
@@ -10,12 +10,16 @@ func (c *Cache) Delete(key string) error {
 
 func (c *Cache) Daemon() {
 	for {
+		needDel := []interface{}{}
 		c.storage.Range(func(key, value interface{}) bool {
 			if value.(*CacheData).Expire.Unix() <= time.Now().Unix() {
-				_ = c.Delete(key.(string))
+				needDel = append(needDel, key)
 			}
 			return true
 		})
+		for key := range needDel {
+			_ = c.Delete(key)
+		}
 		time.Sleep(15 * time.Minute)
 	}
 }

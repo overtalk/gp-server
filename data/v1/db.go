@@ -43,3 +43,10 @@ func (p *DB) Get(document string, column []string, where Data) (Data, error) {
 	}
 	return cacheData, nil
 }
+
+func (p *DB) Inc(document string, column []string, where Data) error {
+	if err := driver.Inc(p.origin.conn, document, column, where); err != nil {
+		return err
+	}
+	return nil
+}

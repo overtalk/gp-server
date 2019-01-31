@@ -21,3 +21,10 @@ func (p *originDB) Get(document string, column []string, where Data) (Data, erro
 	}
 	return driver.Get(p.conn, document, column, where)
 }
+
+func (p *originDB) Inc(document string, column []string, where Data) error {
+	if err := setCondition(document, column, where); err != nil {
+		return err
+	}
+	return driver.Inc(p.conn, document, column, where)
+}

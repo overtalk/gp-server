@@ -11,6 +11,7 @@ type Cache struct {
 }
 
 type CacheInfo struct {
+
 }
 
 type CacheData struct {
@@ -19,3 +20,4 @@ type CacheData struct {
 }
 
 type Pool = redis.Cmdable
+
