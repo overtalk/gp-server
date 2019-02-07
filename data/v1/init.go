@@ -5,11 +5,15 @@ import (
 	"github.com/QHasaki/Server/logger"
 )
 
+// DB defines data storage for all the service
+// db write operate db directly
+// db read search cache(memory / redis ...) first, if not, read db
 type DB struct {
 	origin *originDB
 	cache  *Cache
 }
 
+// Set means db write
 func (p *DB) Set(document string, data Data, where Data) error {
 	if err := getCondition(document, data, where); err != nil {
 		return err
@@ -24,6 +28,7 @@ func (p *DB) Set(document string, data Data, where Data) error {
 	return nil
 }
 
+// Get means db read
 func (p *DB) Get(document string, column []string, where Data) (Data, error) {
 	if err := setCondition(document, column, where); err != nil {
 		return nil, err
