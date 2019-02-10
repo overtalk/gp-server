@@ -5,6 +5,6 @@ import (
 )
 
 // GetDataStorage is to get the data storage for the server
-func (c Config) GetDataStorage() (*model.DataStorage, error) {
+func (c *Config) GetDataStorage() (*model.DataStorage, error) {
 	return nil, nil
 }

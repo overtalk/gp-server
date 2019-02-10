@@ -13,7 +13,7 @@ import (
 	"github.com/QHasaki/Server/logger"
 	"github.com/QHasaki/Server/model/v1"
 	"github.com/QHasaki/Server/service/config/v1"
-	"github.com/QHasaki/Server/service/configSource/github"
+	"github.com/QHasaki/Server/service/config/v1/configSource/github"
 	"github.com/QHasaki/Server/service/gate/v1"
 )
 

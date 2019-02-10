@@ -25,3 +25,16 @@ func NewConfig(configSource model.ConfigSource) *Config {
 
 	return c
 }
+
+// Reload is to get config from config source
+func (c *Config) Reload() {
+	if c.configSource == nil {
+		logger.Sugar.Errorf("[Reload Config Error] : nil configSource")
+		return
+	}
+	configMap, err := c.configSource.GetConfig()
+	if err != nil {
+		logger.Sugar.Fatalf("failed to get config : %v", err)
+	}
+	c.configMap = configMap
+}

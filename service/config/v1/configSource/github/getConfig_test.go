@@ -3,7 +3,7 @@ package configSource_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/service/configSource/github"
+	"github.com/QHasaki/Server/service/config/configSource/github"
 )
 
 func TestFetch(t *testing.T) {
