@@ -21,5 +21,5 @@ type ConfigSource interface {
 type Config interface {
 	InitConfig() error
 	ReloadConfig() error
-	GetConfigByConfigName(ConfigName string) (string, error)
+	GetConfigByConfigName(configName string) (string, error)
 }

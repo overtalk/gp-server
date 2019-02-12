@@ -13,7 +13,7 @@ func (g *Github) GetConfig() (model.ConfigMap, error) {
 
 	data, err := g.fetch("server.json")
 	if err != nil {
-		logger.Sugar.Errorf("failed to get server.json from gm scorce (github version) : %v", err)
+		logger.Sugar.Errorf("failed to get %s from gm scorce (github version) : %v", fileName, err)
 		return nil, err
 	}
 

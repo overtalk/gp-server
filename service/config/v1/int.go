@@ -20,5 +20,7 @@ func NewConfig() (*Config, error) {
 		configSource: source.NewGithub(),
 	}
 
+	c.InitConfig()
+
 	return c, nil
 }
