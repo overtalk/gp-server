@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 
@@ -22,13 +21,13 @@ type Github struct {
 // NewGithub creates a new Github
 func NewGithub() *Github {
 	if os.Getenv("GITHUB_USERNAME") == "" {
-		log.Fatal(`Enviroment "GITHUB_USERNAME" must be set`)
+		logger.Sugar.Fatal(`Enviroment "GITHUB_USERNAME" must be set`)
 	}
 	if os.Getenv("GITHUB_TOKEN") == "" {
-		log.Fatal(`Environment "GITHUB_TOKEN" must be set`)
+		logger.Sugar.Fatal(`Environment "GITHUB_TOKEN" must be set`)
 	}
 	if os.Getenv("GITHUB_REPO_URL") == "" {
-		log.Fatal(`Environment "GITHUB_REPO_URL" must be set`)
+		logger.Sugar.Fatal(`Environment "GITHUB_REPO_URL" must be set`)
 	}
 	return &Github{
 		username: os.Getenv("GITHUB_USERNAME"),
