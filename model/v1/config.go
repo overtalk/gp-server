@@ -12,16 +12,14 @@ var (
 // ConfigMap defines configurations for server
 type ConfigMap map[string]string
 
-// DataStorage defines data storage model
-type DataStorage struct {
-}
-
-// ConfigSource defines gm config source
+// ConfigSource defines config source
 type ConfigSource interface {
 	GetConfig() (ConfigMap, error)
 }
 
-// Config defines server config
+// Config defines config
 type Config interface {
-	GetDataStorage() (*DataStorage, error)
+	InitConfig() error
+	ReloadConfig() error
+	GetConfigByConfigName(ConfigName string) (string, error)
 }

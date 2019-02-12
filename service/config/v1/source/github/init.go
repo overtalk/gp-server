@@ -1,4 +1,4 @@
-package configSource
+package source
 
 import (
 	"encoding/json"
@@ -38,7 +38,7 @@ func NewGithub() *Github {
 }
 
 // Fetch is to get details from github
-func (g *Github) Fetch(fileName string) ([]byte, error) {
+func (g *Github) fetch(fileName string) ([]byte, error) {
 	fileURL := fmt.Sprintf("%s/%s", g.repoURL, fileName)
 	client := new(http.Client)
 	req, err := http.NewRequest(http.MethodGet, fileURL, nil)

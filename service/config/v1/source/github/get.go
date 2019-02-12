@@ -1,4 +1,4 @@
-package configSource
+package source
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 func (g *Github) GetConfig() (model.ConfigMap, error) {
 	const fileName = "server.json"
 
-	data, err := g.Fetch("server.json")
+	data, err := g.fetch("server.json")
 	if err != nil {
 		logger.Sugar.Errorf("failed to get server.json from gm scorce (github version) : %v", err)
 		return nil, err

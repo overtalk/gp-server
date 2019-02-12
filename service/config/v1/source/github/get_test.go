@@ -1,13 +1,13 @@
-package configSource_test
+package source_test
 
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/service/config/configSource/github"
+	"github.com/QHasaki/Server/service/config/v1/source/github"
 )
 
 func TestFetch(t *testing.T) {
-	gmSource := configSource.NewGithub()
+	gmSource := source.NewGithub()
 
 	config, err := gmSource.GetConfig()
 	if err != nil {
