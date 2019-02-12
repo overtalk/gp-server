@@ -7,11 +7,8 @@ import (
 )
 
 func TestGetConfigByConfigName(t *testing.T) {
-	c, err := config.NewConfig()
-	if err != nil {
-		t.Errorf("failed to new config : %v", err)
-		return
-	}
+	c := config.NewConfig()
+
 	configKey := "MYSQL_USERNAME"
 	configValue, err := c.GetConfigByConfigName(configKey)
 	if err != nil {

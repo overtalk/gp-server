@@ -15,12 +15,12 @@ type Config struct {
 }
 
 // NewConfig is the constructor of config model
-func NewConfig() (*Config, error) {
+func NewConfig() *Config {
 	c := &Config{
 		configSource: source.NewGithub(),
 	}
 
 	c.InitConfig()
 
-	return c, nil
+	return c
 }
