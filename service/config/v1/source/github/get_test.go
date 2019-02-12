@@ -6,7 +6,7 @@ import (
 	"github.com/QHasaki/Server/service/config/v1/source/github"
 )
 
-func TestFetch(t *testing.T) {
+func TestGetConfig(t *testing.T) {
 	gmSource := source.NewGithub()
 
 	config, err := gmSource.GetConfig()
