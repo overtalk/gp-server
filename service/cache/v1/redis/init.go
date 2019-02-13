@@ -47,3 +47,12 @@ func NewRedisCache(addr, password string, poolSize int) (*RedisCache, error) {
 	}
 	return redisCache, nil
 }
+
+// Ping is to test the redis connection
+func (r *RedisCache) Ping() error {
+	if _, err := r.client.Ping().Result(); err != nil {
+		return err
+	}
+
+	return nil
+}
