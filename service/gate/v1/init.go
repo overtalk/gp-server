@@ -3,7 +3,6 @@ package gate
 import (
 	"context"
 	"net/http"
-	"sync"
 	"time"
 
 	"github.com/QHasaki/Server/logger"
@@ -16,18 +15,12 @@ var closed = make(chan struct{})
 type Service struct {
 	certFile string
 	keyFile  string
-	handlers *ServiceHandler
 	server   http.Server
-	Closed   <-chan struct{}
 }
 
 // NewService creates a game gate service
 func NewService(addr, httpDir string, dataStorage *model.DataStorage) *Service {
 	s := new(Service)
-	s.handlers = &ServiceHandler{
-		protoMap: make(map[uint16]model.Handler),
-		l:        new(sync.RWMutex),
-	}
 
 	mux := http.NewServeMux()
 
