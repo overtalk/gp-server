@@ -11,29 +11,15 @@ import (
 
 // UpdateToken is to update token for player
 func (r *RedisCache) UpdateToken(playerID string) (string, error) {
-	if _, err := r.client.Ping().Result(); err != nil {
-		logger.Sugar.Errorf("[UpdateToken error] failed to ping redis: %v", err)
+	if err := r.DelToken(playerID); err != nil {
 		return "", err
-	}
-
-	// del old token key
-	playerIDToTokenKey := r.getPlayerIDToTokenKey(playerID)
-	token, err := r.client.Get(playerIDToTokenKey).Result()
-	if err == nil {
-		// old token is not deleted
-		// del the old token
-		_, err := r.client.Del(r.getTokenToPlayerIDKey(token)).Result()
-		if err != nil {
-			logger.Sugar.Errorf("[UpdateToken error] failed to del old token: %v", err)
-			return "", err
-		}
-		logger.Sugar.Infof("del old token: %s", token)
 	}
 
 	// expiration defines the expiration time for token
 	const expiration time.Duration = 15 * time.Minute
 
-	token = GetToken(playerID)
+	token := GetToken(playerID)
+	playerIDToTokenKey := r.getPlayerIDToTokenKey(playerID)
 	tokenToPlayerKey := r.getTokenToPlayerIDKey(token)
 
 	if _, err := r.client.Set(playerIDToTokenKey, token, expiration).Result(); err != nil {
@@ -49,6 +35,29 @@ func (r *RedisCache) UpdateToken(playerID string) (string, error) {
 	// TODO: refresh memory cache
 
 	return token, nil
+}
+
+// DelToken is to delete expired token
+func (r *RedisCache) DelToken(playerID string) error {
+	if _, err := r.client.Ping().Result(); err != nil {
+		logger.Sugar.Errorf("[DelToken error] failed to ping redis: %v", err)
+		return err
+	}
+
+	// del old token key
+	playerIDToTokenKey := r.getPlayerIDToTokenKey(playerID)
+	token, err := r.client.Get(playerIDToTokenKey).Result()
+	if err == nil {
+		// old token is not deleted
+		// del the old token
+		_, err := r.client.Del(r.getTokenToPlayerIDKey(token)).Result()
+		if err != nil {
+			logger.Sugar.Errorf("[UpdateToken error] failed to del old token: %v", err)
+			return err
+		}
+	}
+
+	return nil
 }
 
 // GetToken is to get token key
