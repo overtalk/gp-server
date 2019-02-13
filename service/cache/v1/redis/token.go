@@ -1,10 +1,10 @@
 package cache
 
 import (
-	"math/rand"
 	"time"
 
 	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/Server/utils"
 	"github.com/QHasaki/Server/utils/mode"
 	"github.com/QHasaki/Server/utils/parse"
 )
@@ -16,11 +16,24 @@ func (r *RedisCache) UpdateToken(playerID string) (string, error) {
 		return "", err
 	}
 
+	// del old token key
+	playerIDToTokenKey := r.getPlayerIDToTokenKey(playerID)
+	token, err := r.client.Get(playerIDToTokenKey).Result()
+	if err == nil {
+		// old token is not deleted
+		// del the old token
+		_, err := r.client.Del(r.getTokenToPlayerIDKey(token)).Result()
+		if err != nil {
+			logger.Sugar.Errorf("[UpdateToken error] failed to del old token: %v", err)
+			return "", err
+		}
+		logger.Sugar.Infof("del old token: %s", token)
+	}
+
 	// expiration defines the expiration time for token
 	const expiration time.Duration = 15 * time.Minute
 
-	token := GetToken(playerID)
-	playerIDToTokenKey := r.getPlayerIDToTokenKey(playerID)
+	token = GetToken(playerID)
 	tokenToPlayerKey := r.getTokenToPlayerIDKey(token)
 
 	if _, err := r.client.Set(playerIDToTokenKey, token, expiration).Result(); err != nil {
@@ -34,9 +47,6 @@ func (r *RedisCache) UpdateToken(playerID string) (string, error) {
 	}
 
 	// TODO: refresh memory cache
-	// if err := c.dataDB.RefreshByPlayerID(playerID); err != nil {
-	// 	sugar.Errorf("refresh player cache failed : %v", err)
-	// }
 
 	return token, nil
 }
@@ -48,5 +58,8 @@ func GetToken(playerID string) string {
 		return playerID
 	}
 
-	return playerID + parse.String(time.Now().Unix()) + parse.String(rand.Int63()+rand.Int63())
+	// return playerID + parse.String(time.Now().Unix()) + parse.String(rand.Int63()+rand.Int63())
+	rand1, _ := utils.RandInt(0, 1000000)
+	rand2, _ := utils.RandInt(0, 1000000)
+	return playerID + "_" + parse.String(time.Now().Unix()) + "_" + parse.String(int64(rand1)+int64(rand2))
 }
