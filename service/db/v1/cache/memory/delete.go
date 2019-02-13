@@ -24,7 +24,7 @@ func (c *MemoryCache) Daemon() {
 			}
 			return true
 		})
-		for key := range needDel {
+		for _, key := range needDel {
 			_ = c.Delete(key)
 		}
 		time.Sleep(DefaultClearDuration)

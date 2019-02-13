@@ -11,8 +11,8 @@ func (c *MemoryCache) GetAll(key string) (map[string]interface{}, error) {
 	if ok && data != nil {
 		switch data.(type) {
 		case *DataDetails:
-			var value map[string]interface{}
-			if err := serializer.Decode(data.(*DataDetails).Data, value); err != nil {
+			value := make(map[string]interface{})
+			if err := serializer.Decode(data.(*DataDetails).Data, &value); err != nil {
 				return nil, err
 			}
 			return value, nil
