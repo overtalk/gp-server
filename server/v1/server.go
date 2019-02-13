@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -40,10 +39,10 @@ func main() {
 			zap.AddStacktrace(zapcore.PanicLevel),
 		)
 		if err != nil {
-			log.Fatal("failed to initialize zap logger")
+			logger.Sugar.Fatal("failed to initialize zap logger")
 		}
 		logger.Sugar = l.Sugar()
-		log.Printf("Debug is on\n")
+		logger.Sugar.Infof("Debug is on\n")
 	}
 
 	sigChan := make(chan os.Signal, 1)
@@ -51,10 +50,10 @@ func main() {
 
 	go func() {
 		<-sigChan
-		log.Println("Shutting down gate server...")
+		logger.Sugar.Infof("Shutting down gate server...\n")
 		gateService.Stop()
 	}()
 
-	log.Printf("Starting gate server on %s\n", addr)
+	logger.Sugar.Infof("Starting gate server on %s\n", addr)
 	gateService.Start()
 }
