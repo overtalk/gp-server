@@ -13,13 +13,13 @@ import (
 // check above before use func `Get` & `GetOne`
 func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}, error) {
 	// checkout the input args
-	if document == "" {
-		return "", nil, ErrMissDocument
-	}
+	// if document == "" {
+	// 	return "", nil, ErrMissDocument
+	// }
 
-	if len(column) == 0 {
-		return "", nil, ErrMissColumn
-	}
+	// if len(column) == 0 {
+	// 	return "", nil, ErrMissColumn
+	// }
 
 	var (
 		columns string
@@ -52,17 +52,17 @@ func GetQuerySQL(document string, column []string, where model.Data) (string, []
 // GetExecSQL returns exec sql
 // the input arg `document` : cannot be nil
 // the input arg `data` : cannot be nil
-// the input arg `where` : can be nil
+// the input arg `where` : cannot be nil
 // check above before use func `Get` & `GetOne`
 func GetExecSQL(document string, data model.Data, where model.Data) (string, []interface{}, error) {
 	// checkout the input args
-	if document == "" {
-		return "", nil, ErrMissDocument
-	}
+	// if document == "" {
+	// 	return "", nil, ErrMissDocument
+	// }
 
-	if len(data) == 0 {
-		return "", nil, ErrMissData
-	}
+	// if len(data) == 0 {
+	// 	return "", nil, ErrMissData
+	// }
 
 	// where == nil : create a new record
 	if where == nil {

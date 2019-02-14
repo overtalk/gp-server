@@ -26,10 +26,10 @@ type DBCache interface {
 	DeleteCache(key interface{}) error
 }
 
-// CachedDB defines data storage for all the service
-// db write operate db directly
-// db read search cache(memory / redis ...) first, if not, read db
-type CachedDB struct {
-	source DBDriver
-	cache  DBCache
+// CachedDB defines data storage
+type CachedDB interface {
+	NoCache() DBDriver // NoCache operate db directly
+	Set(document string, data Data, where Data) error
+	Get(document string, column []string, where Data) ([]Data, error)
+	GetOne(document string, column []string, where Data) (Data, error)
 }
