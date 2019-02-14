@@ -50,10 +50,10 @@ func main() {
 
 	go func() {
 		<-sigChan
-		logger.Sugar.Infof("Shutting down gate server...\n")
+		logger.Sugar.Infof("Shutting down gate server...")
 		gateService.Stop()
 	}()
 
-	logger.Sugar.Infof("Starting gate server on %s\n", addr)
+	logger.Sugar.Infof("Starting gate server on %s", addr)
 	gateService.Start()
 }
