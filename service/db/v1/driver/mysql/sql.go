@@ -8,7 +8,7 @@ import (
 
 // GetQuerySQL returns query sql
 // the input arg `document` : cannot be nil
-// the input arg `column` : at least include one string
+// the input arg `column` : at least include one string, "*" means query all
 // the input arg `where` : can be nil
 // check above before use func `Get` & `GetOne`
 func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}) {
