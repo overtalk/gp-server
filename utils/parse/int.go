@@ -15,6 +15,17 @@ func Int(in interface{}) int64 {
 		in = jsonIn.String()
 	}
 	switch in.(type) {
+	case []uint8:
+		inp := string(in.([]uint8))
+		if inp == "" {
+			return 0
+		}
+		left, err := strconv.ParseInt(inp, 10, 64)
+		if err != nil {
+			logger.Sugar.Errorf("parse to int error([]uint8) : %v", err)
+			return ret
+		}
+		ret = left
 	case string:
 		inp := in.(string)
 		if inp == "" {
