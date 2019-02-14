@@ -8,6 +8,7 @@ import (
 )
 
 // Set is to modify db
+// if where = nil, create a new record, or update the record
 func (p *MysqlDriver) Set(document string, data model.Data, where model.Data) error {
 	if where == nil {
 		var (
