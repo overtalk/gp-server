@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/QHasaki/Server/model/v1"
-	"github.com/QHasaki/Server/service/db/v1/driver/mysql"
 	"github.com/QHasaki/Server/utils/parse"
 )
 
@@ -42,14 +41,4 @@ func TestGetOne(t *testing.T) {
 	}
 
 	t.Logf("id = %d, nickname = %s ", parse.Int(data["id"]), parse.String(data["nickname"]))
-}
-
-func TestGetQuerySQL(t *testing.T) {
-	document := "player"
-	columns := []string{"id", "nickname"}
-	where := make(model.Data)
-
-	where["id"] = 1
-
-	t.Log(driver.GetQuerySQL(document, columns, where))
 }

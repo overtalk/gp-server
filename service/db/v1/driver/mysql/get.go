@@ -1,8 +1,6 @@
 package driver
 
 import (
-	"strings"
-
 	"github.com/QHasaki/Server/data/v1/error"
 	"github.com/QHasaki/Server/logger"
 	"github.com/QHasaki/Server/model/v1"
@@ -95,34 +93,4 @@ func (p *MysqlDriver) GetOne(document string, column []string, where model.Data)
 		return assoc, nil
 	}
 	return nil, dataError.ErrNoRowsFound
-}
-
-// GetQuerySQL return query sql
-func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}) {
-	var (
-		columns string
-		wheres  []string
-		values  []interface{}
-	)
-	sql := "SELECT "
-
-	columns = strings.Join(column, ",")
-
-	for k, v := range where {
-		switch v.(type) {
-		case model.Where:
-			wheres = append(wheres, k+" "+v.(model.Where).Operator+" ?")
-			values = append(values, v.(model.Where).Value)
-		default:
-			wheres = append(wheres, k+" = ?")
-			values = append(values, v)
-		}
-	}
-
-	sql += columns + " FROM `" + document + "`"
-	if len(wheres) != 0 {
-		sql += " WHERE " + strings.Join(wheres, " AND ")
-	}
-
-	return sql, values
 }
