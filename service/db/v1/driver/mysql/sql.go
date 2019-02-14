@@ -11,7 +11,16 @@ import (
 // the input arg `column` : at least include one string, "*" means query all
 // the input arg `where` : can be nil
 // check above before use func `Get` & `GetOne`
-func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}) {
+func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}, error) {
+	// checkout the input args
+	if document == "" {
+		return "", nil, ErrMissDocument
+	}
+
+	if len(column) == 0 {
+		return "", nil, ErrMissColumn
+	}
+
 	var (
 		columns string
 		wheres  []string
@@ -37,7 +46,7 @@ func GetQuerySQL(document string, column []string, where model.Data) (string, []
 		sql += " WHERE " + strings.Join(wheres, " AND ")
 	}
 
-	return sql, values
+	return sql, values, nil
 }
 
 // GetExecSQL returns exec sql
@@ -45,7 +54,16 @@ func GetQuerySQL(document string, column []string, where model.Data) (string, []
 // the input arg `data` : cannot be nil
 // the input arg `where` : can be nil
 // check above before use func `Get` & `GetOne`
-func GetExecSQL(document string, data model.Data, where model.Data) (string, []interface{}) {
+func GetExecSQL(document string, data model.Data, where model.Data) (string, []interface{}, error) {
+	// checkout the input args
+	if document == "" {
+		return "", nil, ErrMissDocument
+	}
+
+	if len(data) == 0 {
+		return "", nil, ErrMissData
+	}
+
 	// where == nil : create a new record
 	if where == nil {
 		var (
@@ -62,7 +80,7 @@ func GetExecSQL(document string, data model.Data, where model.Data) (string, []i
 			values = append(values, v)
 		}
 
-		return sql + "(" + strings.Join(column, ",") + ") VALUES (" + strings.Join(needed, ", ") + ")", values
+		return sql + "(" + strings.Join(column, ",") + ") VALUES (" + strings.Join(needed, ", ") + ")", values, nil
 	}
 
 	// where != nil : update old record
@@ -96,6 +114,6 @@ func GetExecSQL(document string, data model.Data, where model.Data) (string, []i
 		sql += " WHERE " + strings.Join(wheres, " AND ")
 	}
 
-	return sql, values
+	return sql, values, nil
 
 }

@@ -8,7 +8,11 @@ import (
 
 // Get query data from db
 func (p *MysqlDriver) Get(document string, column []string, where model.Data) ([]model.Data, error) {
-	sql, args := GetQuerySQL(document, column, where)
+	sql, args, err := GetQuerySQL(document, column, where)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get query sql : %v", err)
+		return nil, err
+	}
 
 	resp, err := p.Query(sql, args...)
 	if err != nil {
@@ -55,7 +59,11 @@ func (p *MysqlDriver) Get(document string, column []string, where model.Data) ([
 // GetOne query data from db
 // at most one record
 func (p *MysqlDriver) GetOne(document string, column []string, where model.Data) (model.Data, error) {
-	sql, args := GetQuerySQL(document, column, where)
+	sql, args, err := GetQuerySQL(document, column, where)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get query sql : %v", err)
+		return nil, err
+	}
 	sql += " LIMIT 1"
 
 	resp, err := p.Query(sql, args...)

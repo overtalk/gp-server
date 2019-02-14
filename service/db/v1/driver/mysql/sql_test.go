@@ -22,16 +22,28 @@ func TestGetExecSQL(t *testing.T) {
 	data := make(model.Data)
 	data["id"] = 1
 
-	execSQL, args := driver.GetExecSQL(document, data, nil)
+	execSQL, args, err := driver.GetExecSQL(document, data, nil)
+	if err != nil {
+		t.Errorf("failed to get exec sql : %v", err)
+		return
+	}
 	t.Logf("INSERT ----> execSQL = %s, args = %v", execSQL, args)
 
 	where := make(model.Data)
 
-	execSQL, args = driver.GetExecSQL(document, data, where)
+	execSQL, args, err = driver.GetExecSQL(document, data, where)
+	if err != nil {
+		t.Errorf("failed to get exec sql : %v", err)
+		return
+	}
 	t.Logf("UPDATE(NO WHERE LIMIT) ----> execSQL = %s, args = %v", execSQL, args)
 
 	where["nickname"] = "aaa"
 
-	execSQL, args = driver.GetExecSQL(document, data, where)
+	execSQL, args, err = driver.GetExecSQL(document, data, where)
+	if err != nil {
+		t.Errorf("failed to get exec sql : %v", err)
+		return
+	}
 	t.Logf("UPDATE(WITH WHERE LIMIT) ----> execSQL = %s, args = %v", execSQL, args)
 }
