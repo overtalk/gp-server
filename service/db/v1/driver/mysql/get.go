@@ -9,28 +9,58 @@ import (
 )
 
 // Get query data from db
-func (p *MysqlDriver) Get(document string, column []string, where model.Data) (model.Data, error) {
-	var (
-		columns string
-		wheres  []string
-		values  []interface{}
-	)
-	sql := "SELECT "
+func (p *MysqlDriver) Get(document string, column []string, where model.Data) ([]model.Data, error) {
+	sql, args := GetQuerySQL(document, column, where)
 
-	columns = strings.Join(column, ",")
+	resp, err := p.Query(sql, args...)
+	if err != nil {
+		logger.Sugar.Errorf("failed to query row : %v", err)
+		return nil, err
+	}
+	defer resp.Close()
 
-	for k, v := range where {
-		switch v.(type) {
-		case model.Where:
-			wheres = append(wheres, k+" "+v.(model.Where).Operator+" ?")
-			values = append(values, v.(model.Where).Value)
-		default:
-			wheres = append(wheres, k+" = ?")
-			values = append(values, v)
-		}
+	rows := resp.GetRows()
+
+	rowColumns, err := rows.Columns()
+	rowColumnCount := len(rowColumns)
+	scanAddr := make([]interface{}, rowColumnCount)
+	scanResult := make([]interface{}, rowColumnCount)
+	for i, _ := range scanAddr {
+		scanAddr[i] = &scanResult[i]
 	}
 
-	resp, err := p.Query(sql+columns+" FROM `"+document+"` WHERE "+strings.Join(wheres, " AND "), values...)
+	var datas []model.Data
+
+	for rows.Next() {
+		err = rows.Scan(scanAddr...)
+		if err != nil {
+			return nil, err
+		}
+
+		assoc := make(model.Data)
+
+		// Build the associative map from values and column names
+		for i, _ := range scanResult {
+			assoc[rowColumns[i]] = scanResult[i]
+		}
+
+		datas = append(datas, assoc)
+	}
+
+	if len(datas) == 0 {
+		return nil, dataError.ErrNoRowsFound
+	}
+
+	return datas, nil
+}
+
+// GetOne query data from db
+// at most one record
+func (p *MysqlDriver) GetOne(document string, column []string, where model.Data) (model.Data, error) {
+	sql, args := GetQuerySQL(document, column, where)
+	sql += " LIMIT 1"
+
+	resp, err := p.Query(sql, args...)
 	if err != nil {
 		logger.Sugar.Errorf("failed to query row : %v", err)
 		return nil, err
@@ -65,4 +95,34 @@ func (p *MysqlDriver) Get(document string, column []string, where model.Data) (m
 		return assoc, nil
 	}
 	return nil, dataError.ErrNoRowsFound
+}
+
+// GetQuerySQL return query sql
+func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}) {
+	var (
+		columns string
+		wheres  []string
+		values  []interface{}
+	)
+	sql := "SELECT "
+
+	columns = strings.Join(column, ",")
+
+	for k, v := range where {
+		switch v.(type) {
+		case model.Where:
+			wheres = append(wheres, k+" "+v.(model.Where).Operator+" ?")
+			values = append(values, v.(model.Where).Value)
+		default:
+			wheres = append(wheres, k+" = ?")
+			values = append(values, v)
+		}
+	}
+
+	sql += columns + " FROM `" + document + "`"
+	if len(wheres) != 0 {
+		sql += " WHERE " + strings.Join(wheres, " AND ")
+	}
+
+	return sql, values
 }

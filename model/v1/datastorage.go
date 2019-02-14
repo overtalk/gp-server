@@ -14,7 +14,8 @@ type Data = map[string]interface{}
 // DBDriver defines the data source
 type DBDriver interface {
 	Set(document string, data Data, where Data) error
-	Get(document string, column []string, where Data) (Data, error)
+	Get(document string, column []string, where Data) ([]Data, error)
+	GetOne(document string, column []string, where Data) (Data, error)
 	Inc(document string, column []string, where Data) error
 }
 
