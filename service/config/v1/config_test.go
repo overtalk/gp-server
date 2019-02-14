@@ -9,8 +9,8 @@ import (
 func TestGetConfigByConfigName(t *testing.T) {
 	c := config.NewConfig()
 
-	configKey := "MYSQL_USERNAME"
-	configValue, err := c.GetConfigByConfigName(configKey)
+	configKey := "REDIS_ADDR"
+	configValue, err := c.GetConfigByName(configKey)
 	if err != nil {
 		t.Error(err)
 		return

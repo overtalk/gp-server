@@ -36,8 +36,8 @@ func (c *Config) ReloadConfig() error {
 	return nil
 }
 
-// GetConfigByConfigName is to get config value by config key
-func (c *Config) GetConfigByConfigName(configName string) (string, error) {
+// GetConfigByName is to get config value by config key
+func (c *Config) GetConfigByName(configName string) (string, error) {
 	c.RLock()
 	defer c.RUnlock()
 
