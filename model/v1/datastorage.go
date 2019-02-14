@@ -33,8 +33,8 @@ type DBSource interface {
 
 // DBCache defines a cache for db
 type DBCache interface {
-	SetCache(key string, value map[string]interface{}) error
-	GetCache(key string) (map[string]interface{}, error)
+	SetCache(key string, value Data) error
+	GetCache(key string) (Data, error)
 	DeleteCache(key interface{}) error
 }
 
