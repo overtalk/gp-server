@@ -4,7 +4,7 @@ import (
 	"github.com/QHasaki/Server/model/v1"
 )
 
-func setCondition(document string, data model.Data, where model.Data) error {
+func checkSetCondition(document string, data model.Data, where model.Data) error {
 	if document == "" {
 		return ErrMissDocument
 	}
@@ -14,7 +14,7 @@ func setCondition(document string, data model.Data, where model.Data) error {
 	return nil
 }
 
-func getCondition(document string, column []string, where model.Data) error {
+func checkGetCondition(document string, column []string, where model.Data) error {
 	if document == "" {
 		return ErrMissDocument
 	}

@@ -7,7 +7,7 @@ import (
 // Get get data
 // TODO: get from DBCache first, if not found, query db source
 func (c *CachedDB) Get(document string, column []string, where model.Data) ([]model.Data, error) {
-	if err := getCondition(document, column, where); err != nil {
+	if err := checkGetCondition(document, column, where); err != nil {
 		return nil, err
 	}
 
@@ -17,7 +17,7 @@ func (c *CachedDB) Get(document string, column []string, where model.Data) ([]mo
 // GetOne get from DBCache first
 // if not founded in DBCache, query from db
 func (c *CachedDB) GetOne(document string, column []string, where model.Data) (model.Data, error) {
-	if err := getCondition(document, column, where); err != nil {
+	if err := checkGetCondition(document, column, where); err != nil {
 		return nil, err
 	}
 

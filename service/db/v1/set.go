@@ -6,7 +6,7 @@ import (
 
 // Set data
 func (c *CachedDB) Set(document string, data model.Data, where model.Data) error {
-	if err := setCondition(document, data, where); err != nil {
+	if err := checkSetCondition(document, data, where); err != nil {
 		return err
 	}
 
