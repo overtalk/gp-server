@@ -29,7 +29,7 @@ func main() {
 	flag.StringVar(&keyFile, "keyFile", "", "ssl private key filename")
 	flag.Parse()
 
-	gateService := gate.NewService(addr, httpDir, nil)
+	gateService := gate.NewService(addr, httpDir)
 	if certFile != "" && keyFile != "" {
 		gateService.AddTLSConfig(certFile, keyFile)
 	}

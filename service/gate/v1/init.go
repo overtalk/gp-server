@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
 )
 
 var closed = make(chan struct{})
@@ -19,7 +18,7 @@ type Service struct {
 }
 
 // NewService creates a game gate service
-func NewService(addr, httpDir string, dataStorage *model.DataStorage) *Service {
+func NewService(addr, httpDir string) *Service {
 	s := new(Service)
 
 	mux := http.NewServeMux()
