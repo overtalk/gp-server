@@ -5,8 +5,8 @@ import (
 	"github.com/QHasaki/Server/utils/serializer"
 )
 
-// GetAll is to get cached data from the memery cache
-func (c *MemoryCache) GetAll(key string) (map[string]interface{}, error) {
+// GetCache is to get cached data from the memery cache
+func (c *MemoryCache) GetCache(key string) (map[string]interface{}, error) {
 	data, ok := c.storage.Load(key)
 	if ok && data != nil {
 		switch data.(type) {

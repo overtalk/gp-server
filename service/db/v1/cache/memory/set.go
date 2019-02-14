@@ -9,8 +9,8 @@ import (
 // DefaultCacheDuration describes the default
 var DefaultCacheDuration = time.Hour
 
-// SetAll is to set data to memory
-func (c *MemoryCache) SetAll(key string, value map[string]interface{}) error {
+// SetCache is to set data to memory
+func (c *MemoryCache) SetCache(key string, value map[string]interface{}) error {
 	data, err := serializer.Encode(value)
 	if err != nil {
 		return err

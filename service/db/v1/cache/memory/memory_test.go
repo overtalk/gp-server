@@ -6,7 +6,7 @@ import (
 	"github.com/QHasaki/Server/service/db/v1/cache/memory"
 )
 
-func TestSetAllAndGetAll(t *testing.T) {
+func TestSetCacheAndGetCache(t *testing.T) {
 	memoryCache := cache.NewDBCache()
 
 	key := "DBCache_testKey1"
@@ -14,12 +14,12 @@ func TestSetAllAndGetAll(t *testing.T) {
 	value["id"] = "test_player_id"
 	value["username"] = "test_player_username"
 
-	if err := memoryCache.SetAll(key, value); err != nil {
+	if err := memoryCache.SetCache(key, value); err != nil {
 		t.Errorf("failed to SetAll : %v", err)
 		return
 	}
 
-	all, err := memoryCache.GetAll(key)
+	all, err := memoryCache.GetCache(key)
 	if err != nil {
 		t.Errorf("failed to GetAll : %v", err)
 		return

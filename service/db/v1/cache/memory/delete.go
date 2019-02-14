@@ -7,8 +7,8 @@ import (
 // DefaultClearDuration describes the sleep time of daemon thread
 var DefaultClearDuration = 15 * time.Minute
 
-// Delete del the key in memory cache
-func (c *MemoryCache) Delete(key interface{}) error {
+// DeleteCache del the key in memory cache
+func (c *MemoryCache) DeleteCache(key interface{}) error {
 	c.storage.Store(key, nil)
 	c.storage.Delete(key)
 	return nil
@@ -25,7 +25,7 @@ func (c *MemoryCache) Daemon() {
 			return true
 		})
 		for _, key := range needDel {
-			_ = c.Delete(key)
+			c.DeleteCache(key)
 		}
 		time.Sleep(DefaultClearDuration)
 	}

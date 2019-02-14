@@ -33,9 +33,9 @@ type DBSource interface {
 
 // DBCache defines a cache for db
 type DBCache interface {
-	Set(set SetInput) error
-	Get(get GetInput) (Data, error)
-	Inc(inc IncInput) error
+	SetCache(key string, value map[string]interface{}) error
+	GetCache(key string) (map[string]interface{}, error)
+	DeleteCache(key interface{}) error
 }
 
 // CachedDB defines data storage for all the service
