@@ -1,5 +1,13 @@
 package model
 
+// Where defines the query condition
+// Operator(>, <, =, <=, >=, !=)
+// Value means the details
+type Where struct {
+	Operator string
+	Value    interface{}
+}
+
 // Data defines a table in sql db, value in k-v pair in no sql db
 type Data = map[string]interface{}
 
