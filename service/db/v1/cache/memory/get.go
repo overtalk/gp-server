@@ -1,8 +1,10 @@
 package cache
 
 import (
+	"bytes"
+	"encoding/gob"
+
 	"github.com/QHasaki/Server/model/v1"
-	"github.com/QHasaki/Server/utils/serializer"
 )
 
 // GetCache is to get cached data from the memery cache
@@ -11,8 +13,11 @@ func (c *MemoryCache) GetCache(key string) (model.Data, error) {
 	if ok && data != nil {
 		switch data.(type) {
 		case *DataDetails:
-			value := make(model.Data)
-			if err := serializer.Decode(data.(*DataDetails).Data, &value); err != nil {
+			var value map[string]interface{}
+			var network bytes.Buffer
+			network.Write(data.(*DataDetails).Data)
+			enc := gob.NewDecoder(&network)
+			if err := enc.Decode(&value); err != nil {
 				return nil, err
 			}
 			return value, nil

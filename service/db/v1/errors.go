@@ -13,4 +13,6 @@ var (
 	ErrMissData = errors.New("failed to set data : miss data")
 	// ErrMissWhere describes the error of lack of query condition
 	ErrMissWhere = errors.New("failed to get data : miss where condition")
+	// ErrMissPK describes the error of lack of pk in get cache key
+	ErrMissPK = errors.New("failed to get cache key : miss pk")
 )
