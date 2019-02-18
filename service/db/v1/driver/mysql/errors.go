@@ -13,4 +13,6 @@ var (
 	ErrMissColumn = errors.New("failed to get data : miss column")
 	// ErrMissData describes the error of lack data to exec
 	ErrMissData = errors.New("failed to set data : miss data")
+	// ErrNoRowsFound describes now rows found error
+	ErrNoRowsFound = errors.New("no rows found")
 )

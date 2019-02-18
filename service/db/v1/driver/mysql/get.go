@@ -1,7 +1,6 @@
 package driver
 
 import (
-	"github.com/QHasaki/Server/data/v1/error"
 	"github.com/QHasaki/Server/logger"
 	"github.com/QHasaki/Server/model/v1"
 )
@@ -50,7 +49,7 @@ func (p *MysqlDriver) Get(document string, column []string, where model.Data) ([
 	}
 
 	if len(datas) == 0 {
-		return nil, dataError.ErrNoRowsFound
+		return nil, ErrNoRowsFound
 	}
 
 	return datas, nil
@@ -100,5 +99,5 @@ func (p *MysqlDriver) GetOne(document string, column []string, where model.Data)
 
 		return assoc, nil
 	}
-	return nil, dataError.ErrNoRowsFound
+	return nil, ErrNoRowsFound
 }

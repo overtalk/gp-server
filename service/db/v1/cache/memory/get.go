@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"github.com/QHasaki/Server/data/v1/error"
 	"github.com/QHasaki/Server/model/v1"
 	"github.com/QHasaki/Server/utils/serializer"
 )
@@ -20,9 +19,9 @@ func (c *MemoryCache) GetCache(key string) (model.Data, error) {
 		case nil:
 			return make(model.Data), nil
 		default:
-			return nil, dataError.ErrInvalidType
+			return nil, ErrInvalidType
 		}
 	} else {
-		return nil, dataError.ErrNoRowsFound
+		return nil, ErrNoRowsFound
 	}
 }
