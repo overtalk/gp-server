@@ -2,8 +2,14 @@ package gate
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
+
+	"github.com/golang/protobuf/proto"
+
+	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/Server/protocol/v1"
 )
 
 func (s *Service) route() http.Handler {
@@ -17,7 +23,29 @@ func (s *Service) route() http.Handler {
 		}
 		w.Header().Set("Access-Control-Allow-Origin", origin)
 
-		fmt.Fprint(w, "Reload success")
+		result, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			logger.Sugar.Errorf("failed to get resp.body : %v", err)
+		}
+
+		if r.Method == "POST" {
+			logger.Sugar.Debug("POST")
+
+			req := &protocol.TestRequest{}
+
+			if err := proto.Unmarshal(result, req); err != nil {
+				logger.Sugar.Errorf("failed to unmarshal : %v", err)
+			} else {
+				logger.Sugar.Infof("request from client : %v", req)
+			}
+
+			// TODO: get resp, and marshal
+
+			
+
+			fmt.Fprint(w, "Reload success")
+		}
+
 	})
 
 	return httpMux

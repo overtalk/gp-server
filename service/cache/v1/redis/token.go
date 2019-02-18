@@ -32,8 +32,6 @@ func (r *RedisCache) UpdateToken(playerID string) (string, error) {
 		return "", err
 	}
 
-	// TODO: refresh memory cache
-
 	return token, nil
 }
 
