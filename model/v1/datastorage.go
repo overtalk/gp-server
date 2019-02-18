@@ -13,10 +13,9 @@ type Data = map[string]interface{}
 
 // DBDriver defines the data source
 type DBDriver interface {
-	Set(document string, data Data, where Data) error
-	Get(document string, column []string, where Data) ([]Data, error)
-	GetOne(document string, column []string, where Data) (Data, error)
-	Inc(document string, column []string, where Data) error
+	Set(document string, data Data, where Data) error // update & insert
+	Get(document string, where Data) ([]Data, error)
+	GetOne(document string, where Data) (Data, error)
 }
 
 // DBCache defines a cache for db
@@ -28,8 +27,8 @@ type DBCache interface {
 
 // CachedDB defines data storage
 type CachedDB interface {
-	NoCache() DBDriver // NoCache operate db directly
-	Set(document string, data Data, where Data) error
-	Get(document string, column []string, where Data) ([]Data, error)
-	GetOne(document string, column []string, where Data) (Data, error)
+	NoCache() DBDriver                                // NoCache operate db directly
+	Set(document string, data Data, where Data) error // update & insert
+	Get(document string, where Data) ([]Data, error)
+	GetOne(document string, where Data) (Data, error)
 }

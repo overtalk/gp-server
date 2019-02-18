@@ -6,8 +6,8 @@ import (
 )
 
 // Get query data from db
-func (p *MysqlDriver) Get(document string, column []string, where model.Data) ([]model.Data, error) {
-	sql, args, err := GetQuerySQL(document, column, where)
+func (p *MysqlDriver) Get(document string, where model.Data) ([]model.Data, error) {
+	sql, args, err := GetQuerySQL(document, where)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get query sql : %v", err)
 		return nil, err
@@ -57,8 +57,8 @@ func (p *MysqlDriver) Get(document string, column []string, where model.Data) ([
 
 // GetOne query data from db
 // at most one record
-func (p *MysqlDriver) GetOne(document string, column []string, where model.Data) (model.Data, error) {
-	sql, args, err := GetQuerySQL(document, column, where)
+func (p *MysqlDriver) GetOne(document string, where model.Data) (model.Data, error) {
+	sql, args, err := GetQuerySQL(document, where)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get query sql : %v", err)
 		return nil, err

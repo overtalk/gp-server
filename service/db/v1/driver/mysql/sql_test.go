@@ -9,12 +9,11 @@ import (
 
 func TestGetQuerySQL(t *testing.T) {
 	document := "player"
-	columns := []string{"id", "nickname"}
 	where := make(model.Data)
 
 	where["id"] = 1
 
-	t.Log(driver.GetQuerySQL(document, columns, where))
+	t.Log(driver.GetQuerySQL(document, where))
 }
 
 func TestGetExecSQL(t *testing.T) {

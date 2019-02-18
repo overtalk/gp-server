@@ -11,10 +11,9 @@ func TestGet(t *testing.T) {
 	mysqlDriver := getMySqlDriver(t)
 
 	document := "player"
-	columns := []string{"id", "nickname"}
 	where := make(model.Data)
 
-	datas, err := mysqlDriver.Get(document, columns, where)
+	datas, err := mysqlDriver.Get(document, where)
 	if err != nil {
 		t.Errorf("failed to get : %v", err)
 		return
@@ -29,12 +28,11 @@ func TestGetOne(t *testing.T) {
 	mysqlDriver := getMySqlDriver(t)
 
 	document := "player"
-	columns := []string{"id", "nickname"}
 	where := make(model.Data)
 
 	where["id"] = 1
 
-	data, err := mysqlDriver.GetOne(document, columns, where)
+	data, err := mysqlDriver.GetOne(document, where)
 	if err != nil {
 		t.Errorf("failed to get : %v", err)
 		return

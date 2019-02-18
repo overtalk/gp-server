@@ -11,7 +11,7 @@ import (
 // the input arg `column` : at least include one string, "*" means query all
 // the input arg `where` : can be nil
 // check above before use func `Get` & `GetOne`
-func GetQuerySQL(document string, column []string, where model.Data) (string, []interface{}, error) {
+func GetQuerySQL(document string, where model.Data) (string, []interface{}, error) {
 	// checkout the input args
 	// if document == "" {
 	// 	return "", nil, ErrMissDocument
@@ -26,9 +26,7 @@ func GetQuerySQL(document string, column []string, where model.Data) (string, []
 		wheres  []string
 		values  []interface{}
 	)
-	sql := "SELECT "
-
-	columns = strings.Join(column, ",")
+	sql := "SELECT * "
 
 	for k, v := range where {
 		switch v.(type) {
