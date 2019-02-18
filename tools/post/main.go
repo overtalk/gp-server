@@ -40,5 +40,11 @@ func main() {
 		return
 	}
 
-	fmt.Printf("%d - %s", res.StatusCode, result)
+	resp := &protocol.TestResponse{}
+	if err := proto.Unmarshal(result, resp); err != nil {
+		logger.Sugar.Error(err)
+		return
+	}
+
+	fmt.Printf("%d - %v", res.StatusCode, resp)
 }

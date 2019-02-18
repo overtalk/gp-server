@@ -20,7 +20,7 @@ func addRoute(router *gin.Engine) {
 
 		result, err := ioutil.ReadAll(c.Request.Body)
 		if err != nil {
-			logger.Sugar.Errorf("failed to get resp.body : %v", err)
+			logger.Sugar.Errorf("failed to get body : %v", err)
 		}
 
 		if err := proto.Unmarshal(result, req); err != nil {
@@ -29,8 +29,13 @@ func addRoute(router *gin.Engine) {
 			logger.Sugar.Infof("request from client : %v", req)
 		}
 
+		resp := &protocol.TestResponse{
+			A: "111",
+			B: "111",
+		}
+
 		// TODO: get resp, and marshal
 
-		c.String(http.StatusOK, "Reload success")
+		c.ProtoBuf(http.StatusOK, resp)
 	})
 }
