@@ -12,17 +12,16 @@ func TestSet(t *testing.T) {
 	cachedDB := getCachedDB(t)
 
 	document := "player"
-	columns := []string{"id", "nickname"}
 	where := make(model.Data)
 	where["id"] = 3
 
-	data, err := cachedDB.GetOne(document, columns, where)
+	data, err := cachedDB.GetOne(document, where)
 	if err != nil {
 		t.Errorf("failed to get data from db : %v", err)
 		return
 	}
 
-	data, err = cachedDB.GetOne(document, columns, where)
+	data, err = cachedDB.GetOne(document, where)
 	if err != nil {
 		t.Errorf("failed to get data from db : %v", err)
 		return

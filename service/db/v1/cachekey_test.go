@@ -10,7 +10,7 @@ import (
 func TestMakeCacheKey(t *testing.T) {
 	document := "player"
 	where := make(model.Data)
-	//where["id"] = 1
+	where["id"] = 1
 	where["nickname"] = "qinhan"
 
 	t.Log(db.MakeCacheKey(document, where))

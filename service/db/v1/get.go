@@ -7,18 +7,18 @@ import (
 
 // Get get data
 // TODO: get from DBCache first, if not found, query db source
-func (c *CachedDB) Get(document string, column []string, where model.Data) ([]model.Data, error) {
-	if err := checkGetCondition(document, column, where); err != nil {
+func (c *CachedDB) Get(document string, where model.Data) ([]model.Data, error) {
+	if err := checkGetCondition(document, where); err != nil {
 		return nil, err
 	}
 
-	return c.source.Get(document, column, where)
+	return c.source.Get(document, where)
 }
 
 // GetOne get from DBCache first
 // if not founded in DBCache, query from db
-func (c *CachedDB) GetOne(document string, column []string, where model.Data) (model.Data, error) {
-	if err := checkGetCondition(document, column, where); err != nil {
+func (c *CachedDB) GetOne(document string, where model.Data) (model.Data, error) {
+	if err := checkGetCondition(document, where); err != nil {
 		return nil, err
 	}
 
@@ -36,7 +36,7 @@ func (c *CachedDB) GetOne(document string, column []string, where model.Data) (m
 		}
 	}
 
-	data, err := c.source.GetOne(document, []string{"*"}, where)
+	data, err := c.source.GetOne(document, where)
 	if err != nil {
 		return nil, err
 	}
