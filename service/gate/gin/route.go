@@ -9,32 +9,25 @@ import (
 
 	"github.com/QHasaki/Server/logger"
 	"github.com/QHasaki/Server/protocol/v1"
+	"github.com/QHasaki/Server/service/test"
 )
 
 func addRoute(router *gin.Engine) {
-
 	router.POST("/post", func(c *gin.Context) {
-		logger.Sugar.Info("POST")
-
-		req := &protocol.TestRequest{}
-
 		result, err := ioutil.ReadAll(c.Request.Body)
 		if err != nil {
 			logger.Sugar.Errorf("failed to get body : %v", err)
 		}
 
+		req := &protocol.TestRequest{}
 		if err := proto.Unmarshal(result, req); err != nil {
 			logger.Sugar.Errorf("failed to unmarshal : %v", err)
+			c.ProtoBuf(http.StatusOK, nil)
 		} else {
 			logger.Sugar.Infof("request from client : %v", req)
 		}
 
-		resp := &protocol.TestResponse{
-			A: "111",
-			B: "111",
-		}
-
-		// TODO: get resp, and marshal
+		resp := test.Test(req)
 
 		c.ProtoBuf(http.StatusOK, resp)
 	})
