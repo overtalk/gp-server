@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	postAddr = "http://localhost:5353/config/reload"
+	postAddr = "http://127.0.0.1:5353/post"
 )
 
 func main() {

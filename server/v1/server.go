@@ -10,26 +10,24 @@ import (
 	"go.uber.org/zap/zapcore"
 
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/service/gate/v1"
+	"github.com/QHasaki/Server/service/gate/gin"
 )
 
 func main() {
 	var (
 		debug    bool
 		addr     string
-		httpDir  string
 		certFile string
 		keyFile  string
 	)
 
 	flag.BoolVar(&debug, "debug", false, "enable debug mode")
 	flag.StringVar(&addr, "addr", ":5353", "listen address")
-	flag.StringVar(&httpDir, "httpDir", "/tmp", "root dir for http fileserver")
 	flag.StringVar(&certFile, "certFile", "", "ssl certficate filename")
 	flag.StringVar(&keyFile, "keyFile", "", "ssl private key filename")
 	flag.Parse()
 
-	gateService := gate.NewService(addr, httpDir)
+	gateService := gate.NewService(addr)
 	if certFile != "" && keyFile != "" {
 		gateService.AddTLSConfig(certFile, keyFile)
 	}
