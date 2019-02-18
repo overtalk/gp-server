@@ -11,12 +11,12 @@ import (
 func getRedisCache(t *testing.T) model.Cache {
 	c := config.NewConfig()
 
-	addr, err := c.GetConfigByConfigName("REDIS_ADDR")
+	addr, err := c.GetConfigByName("REDIS_ADDR")
 	if err != nil {
 		t.Error(err)
 		return nil
 	}
-	pass, err := c.GetConfigByConfigName("REDIS_PASS")
+	pass, err := c.GetConfigByName("REDIS_PASS")
 	if err != nil {
 		t.Error(err)
 		return nil
