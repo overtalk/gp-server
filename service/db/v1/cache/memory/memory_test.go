@@ -13,6 +13,7 @@ func TestSetCacheAndGetCache(t *testing.T) {
 	value := make(map[string]interface{})
 	value["id"] = "test_player_id"
 	value["username"] = "test_player_username"
+	value["time"] = 100
 
 	if err := memoryCache.SetCache(key, value); err != nil {
 		t.Errorf("failed to SetAll : %v", err)

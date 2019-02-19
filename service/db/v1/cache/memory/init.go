@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// DataDetails defines the cached data details
-type DataDetails struct {
+// CachedDetails defines the cached data details
+type CachedDetails struct {
 	Data   []byte
 	Expire time.Time
 }

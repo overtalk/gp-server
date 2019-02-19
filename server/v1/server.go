@@ -6,9 +6,6 @@ import (
 	"os/signal"
 	"syscall"
 
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
-
 	"github.com/QHasaki/Server/logger"
 	"github.com/QHasaki/Server/service/gate/gin"
 )
@@ -33,14 +30,7 @@ func main() {
 	}
 
 	if debug {
-		l, err := zap.NewDevelopment(
-			zap.AddStacktrace(zapcore.PanicLevel),
-		)
-		if err != nil {
-			logger.Sugar.Fatal("failed to initialize zap logger")
-		}
-		logger.Sugar = l.Sugar()
-		logger.Sugar.Infof("Debug is on\n")
+		logger.AddDebugLogger()
 	}
 
 	sigChan := make(chan os.Signal, 1)

@@ -22,12 +22,12 @@ func init() {
 
 // AddDebugLogger is to add new logger for debug
 func AddDebugLogger() {
-	logger, err := zap.NewDevelopment(
+	l, err := zap.NewDevelopment(
 		zap.AddStacktrace(zapcore.PanicLevel),
 	)
 	if err != nil {
-		log.Fatal("failed to initialize debug zap logger")
+		Sugar.Fatal("failed to initialize zap logger")
 	}
-
-	Sugar = logger.Sugar()
+	Sugar = l.Sugar()
+	Sugar.Infof("Debug is on\n")
 }

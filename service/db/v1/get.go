@@ -41,7 +41,10 @@ func (c *CachedDB) GetOne(document string, where model.Data) (model.Data, error)
 		return nil, err
 	}
 
-	c.cache.SetCache(cacheKey, data) //nolint : error check
+	if err := c.cache.SetCache(cacheKey, data); err != nil {
+		logger.Sugar.Errorf("failed to set cache key [%s] : %v", cacheKey, err)
+		return data, nil
+	}
 
 	return data, err
 }
