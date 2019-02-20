@@ -19,7 +19,7 @@ func (c *MemoryCache) Daemon() {
 	for {
 		needDel := []interface{}{}
 		c.storage.Range(func(key, value interface{}) bool {
-			if value.(*CachedDetails).Expire.Unix() <= time.Now().Unix() {
+			if value.(*CachedData).Expire.Unix() <= time.Now().Unix() {
 				needDel = append(needDel, key)
 			}
 			return true

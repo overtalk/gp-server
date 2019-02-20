@@ -12,10 +12,10 @@ func (c *MemoryCache) GetCache(key string) (model.Data, error) {
 	data, ok := c.storage.Load(key)
 	if ok && data != nil {
 		switch data.(type) {
-		case *CachedDetails:
+		case *CachedData:
 			var value map[string]interface{}
 			var network bytes.Buffer
-			network.Write(data.(*CachedDetails).Data)
+			network.Write(data.(*CachedData).Data)
 			enc := gob.NewDecoder(&network)
 			if err := enc.Decode(&value); err != nil {
 				return nil, err

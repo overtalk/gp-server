@@ -19,7 +19,7 @@ func (c *MemoryCache) SetCache(key string, value model.Data) error {
 	if err != nil {
 		return err
 	}
-	c.storage.Store(key, &CachedDetails{
+	c.storage.Store(key, &CachedData{
 		Data:   network.Bytes(),
 		Expire: time.Now().Add(time.Hour),
 	})
