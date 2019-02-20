@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"encoding/gob"
 	"sync"
 	"time"
 )
@@ -18,5 +19,6 @@ type MemoryCache struct {
 
 // NewDBCache returns a MemoryCache
 func NewDBCache() *MemoryCache {
+	gob.Register(time.Time{})
 	return &MemoryCache{}
 }

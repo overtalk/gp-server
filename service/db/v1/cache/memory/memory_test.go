@@ -2,6 +2,7 @@ package cache_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/QHasaki/Server/service/db/v1/cache/memory"
 )
@@ -13,7 +14,7 @@ func TestSetCacheAndGetCache(t *testing.T) {
 	value := make(map[string]interface{})
 	value["id"] = "test_player_id"
 	value["username"] = "test_player_username"
-	value["time"] = 100
+	value["time"] = time.Now()
 
 	if err := memoryCache.SetCache(key, value); err != nil {
 		t.Errorf("failed to SetAll : %v", err)
