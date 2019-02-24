@@ -24,5 +24,10 @@ func (g *Github) GetConfig() (model.ConfigMap, error) {
 		return nil, err
 	}
 
+	if _, ok := config["ISSUCCEED"]; !ok {
+		logger.Sugar.Error(ErrGetConfFail)
+		return nil, ErrGetConfFail
+	}
+
 	return config, nil
 }
