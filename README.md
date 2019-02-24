@@ -5,6 +5,6 @@
 - 后台配置数据源 (gmdb)
   - github版
 
-- 服务数据源（gamedb）
+- 服务数据源（db）
   - mysql版
 
