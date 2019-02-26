@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 	"github.com/QHasaki/Server/service/db/v1/cache/memory"
 	"github.com/QHasaki/Server/service/db/v1/driver/mysql"
 )
@@ -10,8 +10,8 @@ import (
 // db write operate db directly
 // db read search cache(memory / redis ...) first, if not, read db
 type CachedDB struct {
-	source model.DBDriver
-	cache  model.DBCache
+	source module.DBDriver
+	cache  module.DBCache
 }
 
 // NewCachedDB returns CachedDB
@@ -30,6 +30,6 @@ func NewCachedDB(mySQLinfo *driver.MysqlDBInfo) (*CachedDB, error) {
 }
 
 // NoCache return DBDriver, operate db directly
-func (c *CachedDB) NoCache() model.DBDriver {
+func (c *CachedDB) NoCache() module.DBDriver {
 	return c.source
 }

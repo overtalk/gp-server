@@ -3,15 +3,15 @@ package config
 import (
 	"sync"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 	"github.com/QHasaki/Server/service/config/v1/source/github"
 )
 
 // Config describes Config model
 type Config struct {
 	sync.RWMutex
-	configSource model.ConfigSource
-	configMap    model.ConfigMap
+	configSource module.ConfigSource
+	configMap    module.ConfigMap
 }
 
 // NewConfig is the constructor of config model

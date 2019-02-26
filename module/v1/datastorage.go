@@ -1,4 +1,4 @@
-package model
+package module
 
 // Where defines the query condition
 // Operator(>, <, =, <=, >=, !=)

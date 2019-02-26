@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 func TestGetOne(t *testing.T) {
@@ -12,7 +12,7 @@ func TestGetOne(t *testing.T) {
 	cachedDB := getCachedDB(t)
 
 	document := "player"
-	where := make(model.Data)
+	where := make(module.Data)
 	where["id"] = 1
 
 	for i := 0; i < 10; i++ {

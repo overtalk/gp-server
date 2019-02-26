@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // GetConfig return config
-func (g *Github) GetConfig() (model.ConfigMap, error) {
+func (g *Github) GetConfig() (module.ConfigMap, error) {
 	const fileName = "server.json"
 
 	data, err := g.fetch("server.json")
@@ -17,7 +17,7 @@ func (g *Github) GetConfig() (model.ConfigMap, error) {
 		return nil, err
 	}
 
-	config := make(model.ConfigMap)
+	config := make(module.ConfigMap)
 
 	if err := json.Unmarshal(data, &config); err != nil {
 		logger.Sugar.Errorf("failed to decode %s: %v", fileName, err)

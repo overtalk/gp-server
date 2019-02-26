@@ -2,11 +2,11 @@ package db
 
 import (
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // Set data
-func (c *CachedDB) Set(document string, data model.Data, where model.Data) error {
+func (c *CachedDB) Set(document string, data module.Data, where module.Data) error {
 	if err := checkSetCondition(document, data, where); err != nil {
 		return err
 	}

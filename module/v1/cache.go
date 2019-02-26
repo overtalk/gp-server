@@ -1,4 +1,4 @@
-package model
+package module
 
 // Cache defines the service cache model (redis ...)
 // all distributed node use one

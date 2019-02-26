@@ -1,13 +1,13 @@
 package db
 
 import (
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // set illegal condition :
 // document == ""
 // len(data) < 1
-func checkSetCondition(document string, data model.Data, where model.Data) error {
+func checkSetCondition(document string, data module.Data, where module.Data) error {
 	if document == "" {
 		return ErrMissDocument
 	}
@@ -21,7 +21,7 @@ func checkSetCondition(document string, data model.Data, where model.Data) error
 // document == ""
 // len(where) < 1
 // len(column) < 1
-func checkGetCondition(document string, where model.Data) error {
+func checkGetCondition(document string, where module.Data) error {
 	if document == "" {
 		return ErrMissDocument
 	}

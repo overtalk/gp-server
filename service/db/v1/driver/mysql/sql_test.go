@@ -3,13 +3,13 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 	"github.com/QHasaki/Server/service/db/v1/driver/mysql"
 )
 
 func TestGetQuerySQL(t *testing.T) {
 	document := "player"
-	where := make(model.Data)
+	where := make(module.Data)
 
 	where["id"] = 1
 
@@ -18,7 +18,7 @@ func TestGetQuerySQL(t *testing.T) {
 
 func TestGetExecSQL(t *testing.T) {
 	document := "player"
-	data := make(model.Data)
+	data := make(module.Data)
 	data["id"] = 1
 
 	execSQL, args, err := driver.GetExecSQL(document, data, nil)
@@ -28,7 +28,7 @@ func TestGetExecSQL(t *testing.T) {
 	}
 	t.Logf("INSERT ----> execSQL = %s, args = %v", execSQL, args)
 
-	where := make(model.Data)
+	where := make(module.Data)
 
 	execSQL, args, err = driver.GetExecSQL(document, data, where)
 	if err != nil {

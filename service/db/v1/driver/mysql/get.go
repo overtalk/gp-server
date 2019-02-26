@@ -2,11 +2,11 @@ package driver
 
 import (
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // Get query data from db
-func (p *MysqlDriver) Get(document string, where model.Data) ([]model.Data, error) {
+func (p *MysqlDriver) Get(document string, where module.Data) ([]module.Data, error) {
 	sql, args, err := GetQuerySQL(document, where)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get query sql : %v", err)
@@ -30,7 +30,7 @@ func (p *MysqlDriver) Get(document string, where model.Data) ([]model.Data, erro
 		scanAddr[i] = &scanResult[i]
 	}
 
-	var datas []model.Data
+	var datas []module.Data
 
 	for rows.Next() {
 		err = rows.Scan(scanAddr...)
@@ -38,7 +38,7 @@ func (p *MysqlDriver) Get(document string, where model.Data) ([]model.Data, erro
 			return nil, err
 		}
 
-		assoc := make(model.Data)
+		assoc := make(module.Data)
 
 		// Build the associative map from values and column names
 		for i, _ := range scanResult {
@@ -57,7 +57,7 @@ func (p *MysqlDriver) Get(document string, where model.Data) ([]model.Data, erro
 
 // GetOne query data from db
 // at most one record
-func (p *MysqlDriver) GetOne(document string, where model.Data) (model.Data, error) {
+func (p *MysqlDriver) GetOne(document string, where module.Data) (module.Data, error) {
 	sql, args, err := GetQuerySQL(document, where)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get query sql : %v", err)
@@ -90,7 +90,7 @@ func (p *MysqlDriver) GetOne(document string, where model.Data) (model.Data, err
 			return nil, err
 		}
 
-		assoc := make(model.Data)
+		assoc := make(module.Data)
 
 		// Build the associative map from values and column names
 		for i, _ := range scanTo {

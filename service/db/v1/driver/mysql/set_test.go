@@ -3,7 +3,7 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 func TestUpdate(t *testing.T) {
@@ -11,10 +11,10 @@ func TestUpdate(t *testing.T) {
 
 	document := "player"
 
-	data := make(model.Data)
+	data := make(module.Data)
 	data["nickname"] = "aaa"
 
-	where := make(model.Data)
+	where := make(module.Data)
 	where["id"] = 1
 
 	if err := mysqlDriver.Set(document, data, where); err != nil {
@@ -28,7 +28,7 @@ func TestInsert(t *testing.T) {
 
 	document := "player"
 
-	data := make(model.Data)
+	data := make(module.Data)
 	data["id"] = 131499
 	data["open_id"] = 131499
 	data["nickname"] = "aaa"

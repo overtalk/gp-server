@@ -3,7 +3,7 @@ package driver
 import (
 	"strings"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // GetQuerySQL returns query sql
@@ -11,7 +11,7 @@ import (
 // the input arg `column` : at least include one string, "*" means query all
 // the input arg `where` : can be nil
 // check above before use func `Get` & `GetOne`
-func GetQuerySQL(document string, where model.Data) (string, []interface{}, error) {
+func GetQuerySQL(document string, where module.Data) (string, []interface{}, error) {
 	// checkout the input args
 	// if document == "" {
 	// 	return "", nil, ErrMissDocument
@@ -30,9 +30,9 @@ func GetQuerySQL(document string, where model.Data) (string, []interface{}, erro
 
 	for k, v := range where {
 		switch v.(type) {
-		case model.Where:
-			wheres = append(wheres, k+" "+v.(model.Where).Operator+" ?")
-			values = append(values, v.(model.Where).Value)
+		case module.Where:
+			wheres = append(wheres, k+" "+v.(module.Where).Operator+" ?")
+			values = append(values, v.(module.Where).Value)
 		default:
 			wheres = append(wheres, k+" = ?")
 			values = append(values, v)
@@ -52,7 +52,7 @@ func GetQuerySQL(document string, where model.Data) (string, []interface{}, erro
 // the input arg `data` : cannot be nil
 // the input arg `where` : cannot be nil
 // check above before use func `Get` & `GetOne`
-func GetExecSQL(document string, data model.Data, where model.Data) (string, []interface{}, error) {
+func GetExecSQL(document string, data module.Data, where module.Data) (string, []interface{}, error) {
 	// checkout the input args
 	// if document == "" {
 	// 	return "", nil, ErrMissDocument
@@ -97,9 +97,9 @@ func GetExecSQL(document string, data model.Data, where model.Data) (string, []i
 
 	for k, v := range where {
 		switch v.(type) {
-		case model.Where:
-			wheres = append(wheres, k+" "+v.(model.Where).Operator+" ?")
-			values = append(values, v.(model.Where).Value)
+		case module.Where:
+			wheres = append(wheres, k+" "+v.(module.Where).Operator+" ?")
+			values = append(values, v.(module.Where).Value)
 		default:
 			wheres = append(wheres, k+" = ?")
 			values = append(values, v)

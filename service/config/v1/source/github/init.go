@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // Github describes github repo of gmdata
@@ -62,11 +62,11 @@ func (g *Github) fetch(fileName string) ([]byte, error) {
 
 	if len(body) == 0 {
 		logger.Sugar.Errorf("file %s is empty", fileName)
-		return nil, model.ErrInvalidConfigJSON
+		return nil, module.ErrInvalidConfigJSON
 	}
 
 	if !json.Valid(body) {
-		return nil, model.ErrInvalidConfigJSON
+		return nil, module.ErrInvalidConfigJSON
 	}
 	return body, nil
 }

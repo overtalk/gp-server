@@ -4,7 +4,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 	"github.com/QHasaki/Server/utils/parse"
 )
 
@@ -15,7 +15,7 @@ func init() {
 }
 
 // MakeCacheKey is to get cache key
-func MakeCacheKey(document string, where model.Data) (string, error) {
+func MakeCacheKey(document string, where module.Data) (string, error) {
 	cacheKeyList := []string{document}
 
 	pkName, ok := documentCacheKey.Load(document)

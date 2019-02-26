@@ -3,12 +3,12 @@ package cache_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 	"github.com/QHasaki/Server/service/cache/v1/redis"
 	"github.com/QHasaki/Server/service/config/v1"
 )
 
-func getRedisCache(t *testing.T) model.Cache {
+func getRedisCache(t *testing.T) module.Cache {
 	c := config.NewConfig()
 
 	addr, err := c.GetConfigByName("REDIS_ADDR")

@@ -2,12 +2,12 @@ package db
 
 import (
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // Get get data
 // TODO: get from DBCache first, if not found, query db source
-func (c *CachedDB) Get(document string, where model.Data) ([]model.Data, error) {
+func (c *CachedDB) Get(document string, where module.Data) ([]module.Data, error) {
 	if err := checkGetCondition(document, where); err != nil {
 		return nil, err
 	}
@@ -17,7 +17,7 @@ func (c *CachedDB) Get(document string, where model.Data) ([]model.Data, error) 
 
 // GetOne get from DBCache first
 // if not founded in DBCache, query from db
-func (c *CachedDB) GetOne(document string, where model.Data) (model.Data, error) {
+func (c *CachedDB) GetOne(document string, where module.Data) (module.Data, error) {
 	if err := checkGetCondition(document, where); err != nil {
 		return nil, err
 	}

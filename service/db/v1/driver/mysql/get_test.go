@@ -3,7 +3,7 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 	"github.com/QHasaki/Server/utils/parse"
 )
 
@@ -11,7 +11,7 @@ func TestGet(t *testing.T) {
 	mysqlDriver := getMySqlDriver(t)
 
 	document := "player"
-	where := make(model.Data)
+	where := make(module.Data)
 
 	datas, err := mysqlDriver.Get(document, where)
 	if err != nil {
@@ -28,7 +28,7 @@ func TestGetOne(t *testing.T) {
 	mysqlDriver := getMySqlDriver(t)
 
 	document := "player"
-	where := make(model.Data)
+	where := make(module.Data)
 
 	where["id"] = 1
 

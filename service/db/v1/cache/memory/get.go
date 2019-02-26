@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"encoding/gob"
 
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // GetCache is to get cached data from the memery cache
-func (c *MemoryCache) GetCache(key string) (model.Data, error) {
+func (c *MemoryCache) GetCache(key string) (module.Data, error) {
 	data, ok := c.storage.Load(key)
 	if ok && data != nil {
 		switch data.(type) {
@@ -22,7 +22,7 @@ func (c *MemoryCache) GetCache(key string) (model.Data, error) {
 			}
 			return value, nil
 		case nil:
-			return make(model.Data), nil
+			return make(module.Data), nil
 		default:
 			return nil, ErrInvalidType
 		}

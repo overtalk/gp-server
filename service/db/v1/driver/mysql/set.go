@@ -2,12 +2,12 @@ package driver
 
 import (
 	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/model/v1"
+	"github.com/QHasaki/Server/module/v1"
 )
 
 // Set is to modify db
 // if where = nil, create a new record, or update the record
-func (p *MysqlDriver) Set(document string, data model.Data, where model.Data) error {
+func (p *MysqlDriver) Set(document string, data module.Data, where module.Data) error {
 	sql, args, err := GetExecSQL(document, data, where)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get exec sql : %v", err)
