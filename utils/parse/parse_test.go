@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/QHasaki/gp-server/utils/parse"
+	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 func TestBytes(t *testing.T) {

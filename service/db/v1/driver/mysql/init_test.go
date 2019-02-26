@@ -3,7 +3,7 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/service/db/v1/driver/mysql"
+	"github.com/qinhan-shu/gp-server/service/db/v1/driver/mysql"
 )
 
 func getMySqlDriver(t *testing.T) *driver.MysqlDriver {

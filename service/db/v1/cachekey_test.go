@@ -3,8 +3,8 @@ package db_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/module/v1"
-	"github.com/QHasaki/gp-server/service/db/v1"
+	"github.com/qinhan-shu/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/service/db/v1"
 )
 
 func TestMakeCacheKey(t *testing.T) {

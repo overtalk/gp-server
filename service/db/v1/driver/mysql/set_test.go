@@ -3,7 +3,7 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/module/v1"
 )
 
 func TestUpdate(t *testing.T) {

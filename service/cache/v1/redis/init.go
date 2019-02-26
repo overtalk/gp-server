@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-redis/redis"
 
-	"github.com/QHasaki/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/logger"
 )
 
 var (

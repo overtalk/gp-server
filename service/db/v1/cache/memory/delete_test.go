@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/QHasaki/gp-server/service/db/v1/cache/memory"
+	"github.com/qinhan-shu/gp-server/service/db/v1/cache/memory"
 )
 
 func TestDeleteCache(t *testing.T) {

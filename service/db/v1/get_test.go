@@ -3,8 +3,8 @@ package db_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/logger"
-	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module/v1"
 )
 
 func TestGetOne(t *testing.T) {

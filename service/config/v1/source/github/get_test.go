@@ -3,7 +3,7 @@ package source_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/service/config/v1/source/github"
+	"github.com/qinhan-shu/gp-server/service/config/v1/source/github"
 )
 
 func TestGetConfig(t *testing.T) {

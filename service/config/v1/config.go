@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/QHasaki/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/logger"
 )
 
 // InitConfig is to get config

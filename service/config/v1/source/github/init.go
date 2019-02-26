@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/QHasaki/gp-server/logger"
-	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module/v1"
 )
 
 // Github describes github repo of gmdata

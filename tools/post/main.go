@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/QHasaki/gp-server/logger"
-	"github.com/QHasaki/gp-server/protocol/v1"
+	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/protocol/v1"
 	"github.com/golang/protobuf/proto"
 )
 

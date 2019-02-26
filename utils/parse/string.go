@@ -3,7 +3,7 @@ package parse
 import (
 	"strconv"
 
-	"github.com/QHasaki/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/logger"
 )
 
 // String turn ( interface{} ) to ( string )

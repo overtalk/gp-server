@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/QHasaki/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/logger"
 )
 
 var closed = make(chan struct{})

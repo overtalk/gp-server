@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/QHasaki/gp-server/utils"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 func TestRandInt(t *testing.T) {

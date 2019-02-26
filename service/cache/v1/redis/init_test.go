@@ -3,9 +3,9 @@ package cache_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/module/v1"
-	"github.com/QHasaki/gp-server/service/cache/v1/redis"
-	"github.com/QHasaki/gp-server/service/config/v1"
+	"github.com/qinhan-shu/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/service/cache/v1/redis"
+	"github.com/qinhan-shu/gp-server/service/config/v1"
 )
 
 func getRedisCache(t *testing.T) module.Cache {

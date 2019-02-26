@@ -3,7 +3,7 @@ package driver
 import (
 	"database/sql"
 
-	"github.com/QHasaki/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/logger"
 )
 
 // Resp describes the result of mysql query

@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/QHasaki/gp-server/logger"
-	"github.com/QHasaki/gp-server/service/gate/gin"
+	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/service/gate/gin"
 )
 
 func main() {

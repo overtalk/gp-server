@@ -1,7 +1,7 @@
 package parse
 
 import (
-	"github.com/QHasaki/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/logger"
 )
 
 // Bytes turn ( interface{} ) to ( []byte )

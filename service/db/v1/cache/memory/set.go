@@ -5,7 +5,7 @@ import (
 	"encoding/gob"
 	"time"
 
-	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/module/v1"
 )
 
 // DefaultCacheDuration describes the default

@@ -3,8 +3,8 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/gp-server/module/v1"
-	"github.com/QHasaki/gp-server/utils/parse"
+	"github.com/qinhan-shu/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 func TestGet(t *testing.T) {

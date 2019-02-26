@@ -3,7 +3,7 @@ package driver
 import (
 	"strings"
 
-	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/module/v1"
 )
 
 // GetQuerySQL returns query sql
