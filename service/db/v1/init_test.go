@@ -3,8 +3,8 @@ package db_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/service/db/v1"
-	"github.com/QHasaki/Server/service/db/v1/driver/mysql"
+	"github.com/QHasaki/gp-server/service/db/v1"
+	"github.com/QHasaki/gp-server/service/db/v1/driver/mysql"
 )
 
 func getCachedDB(t *testing.T) *db.CachedDB {

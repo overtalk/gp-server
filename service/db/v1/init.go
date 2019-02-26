@@ -1,9 +1,9 @@
 package db
 
 import (
-	"github.com/QHasaki/Server/module/v1"
-	"github.com/QHasaki/Server/service/db/v1/cache/memory"
-	"github.com/QHasaki/Server/service/db/v1/driver/mysql"
+	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/QHasaki/gp-server/service/db/v1/cache/memory"
+	"github.com/QHasaki/gp-server/service/db/v1/driver/mysql"
 )
 
 // CachedDB defines data storage for all the service

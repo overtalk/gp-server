@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/gp-server/logger"
 )
 
 // Int turn ( interface{} ) to ( int64 )

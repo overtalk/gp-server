@@ -8,7 +8,7 @@ import (
 	// initialize mysql driver
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/gp-server/logger"
 )
 
 // MysqlDBInfo describes the details of mysql db

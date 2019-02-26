@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/gob"
 
-	"github.com/QHasaki/Server/module/v1"
+	"github.com/QHasaki/gp-server/module/v1"
 )
 
 // GetCache is to get cached data from the memery cache

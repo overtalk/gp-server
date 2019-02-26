@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/gp-server/logger"
 )
 
 var closed = make(chan struct{})

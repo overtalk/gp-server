@@ -4,8 +4,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/QHasaki/Server/module/v1"
-	"github.com/QHasaki/Server/utils/parse"
+	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/QHasaki/gp-server/utils/parse"
 )
 
 var documentCacheKey sync.Map

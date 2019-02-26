@@ -3,8 +3,8 @@ package driver_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/module/v1"
-	"github.com/QHasaki/Server/service/db/v1/driver/mysql"
+	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/QHasaki/gp-server/service/db/v1/driver/mysql"
 )
 
 func TestGetQuerySQL(t *testing.T) {

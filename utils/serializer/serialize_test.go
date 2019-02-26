@@ -3,7 +3,7 @@ package serializer_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/utils/serializer"
+	"github.com/QHasaki/gp-server/utils/serializer"
 	"github.com/stretchr/testify/require"
 )
 

@@ -3,7 +3,7 @@ package config_test
 import (
 	"testing"
 
-	"github.com/QHasaki/Server/service/config/v1"
+	"github.com/QHasaki/gp-server/service/config/v1"
 )
 
 func TestGetConfigByConfigName(t *testing.T) {

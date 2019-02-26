@@ -1,8 +1,8 @@
 package driver
 
 import (
-	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/module/v1"
+	"github.com/QHasaki/gp-server/logger"
+	"github.com/QHasaki/gp-server/module/v1"
 )
 
 // Get query data from db

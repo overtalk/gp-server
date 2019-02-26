@@ -8,8 +8,8 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/protocol/v1"
+	"github.com/QHasaki/gp-server/logger"
+	"github.com/QHasaki/gp-server/protocol/v1"
 )
 
 func (s *Service) route() http.Handler {

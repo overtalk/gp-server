@@ -3,8 +3,8 @@ package config
 import (
 	"sync"
 
-	"github.com/QHasaki/Server/module/v1"
-	"github.com/QHasaki/Server/service/config/v1/source/github"
+	"github.com/QHasaki/gp-server/module/v1"
+	"github.com/QHasaki/gp-server/service/config/v1/source/github"
 )
 
 // Config describes Config model

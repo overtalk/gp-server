@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/QHasaki/Server/utils/parse"
+	"github.com/QHasaki/gp-server/utils/parse"
 )
 
 func TestQuery(t *testing.T) {

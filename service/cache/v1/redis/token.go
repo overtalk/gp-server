@@ -3,10 +3,10 @@ package cache
 import (
 	"time"
 
-	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/utils"
-	"github.com/QHasaki/Server/utils/mode"
-	"github.com/QHasaki/Server/utils/parse"
+	"github.com/QHasaki/gp-server/logger"
+	"github.com/QHasaki/gp-server/utils"
+	"github.com/QHasaki/gp-server/utils/mode"
+	"github.com/QHasaki/gp-server/utils/parse"
 )
 
 // UpdateToken is to update token for player

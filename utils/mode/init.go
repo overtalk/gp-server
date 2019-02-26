@@ -1,7 +1,7 @@
 package mode
 
 import (
-	"github.com/QHasaki/Server/logger"
+	"github.com/QHasaki/gp-server/logger"
 )
 
 const (

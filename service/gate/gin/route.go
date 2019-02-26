@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
-	"github.com/QHasaki/Server/logger"
-	"github.com/QHasaki/Server/protocol/v1"
-	"github.com/QHasaki/Server/service/test"
+	"github.com/QHasaki/gp-server/logger"
+	"github.com/QHasaki/gp-server/protocol/v1"
+	"github.com/QHasaki/gp-server/service/test"
 )
 
 func addRoute(router *gin.Engine) {

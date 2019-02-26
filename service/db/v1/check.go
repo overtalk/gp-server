@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/QHasaki/Server/module/v1"
+	"github.com/QHasaki/gp-server/module/v1"
 )
 
 // set illegal condition :
