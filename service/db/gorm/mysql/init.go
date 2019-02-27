@@ -14,6 +14,16 @@ type MysqlDriver struct {
 
 // NewMysqlDriver : MysqlDriver 的构造方法
 func NewMysqlDriver(config *MysqlConfig) (*MysqlDriver, error) {
+	// 设置默认连接数量
+	if config.MaxOpenConnsNum <= 0 {
+		config.MaxIdleConnsNum = DefaultMaxOpenConnsNum
+	}
+
+	// 设置默认空闲连接数量
+	if config.MaxIdleConnsNum <= 0 {
+		config.MaxIdleConnsNum = DefaultMaxIdleConnsNum
+	}
+
 	mysqlDriver := &MysqlDriver{
 		config: config,
 	}
@@ -44,6 +54,11 @@ func (m *MysqlDriver) Connect() error {
 }
 
 func (m *MysqlDriver) initialization() {
+	//连接池的空闲数大小
+	m.conn.DB().SetMaxIdleConns(m.config.MaxIdleConnsNum)
+	//最大打开连接数
+	m.conn.DB().SetMaxIdleConns(m.config.MaxOpenConnsNum)
+
 	// 设置表名就是结构体的名字
 	// 如果不设置的话，表名默认为结构体名的复数
 	m.conn.SingularTable(true)
