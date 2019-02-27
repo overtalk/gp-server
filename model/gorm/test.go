@@ -6,7 +6,7 @@ import (
 
 // Test : test表
 type Test struct {
-	ID          string    `gorm:"type : int(20); primary_key; not null"`
+	ID          int       `gorm:"type : int(20); primary_key; not null; auto_increment"`
 	Nickname    string    `gorm:"type : varchar(50); not null; default : 'nickname'"`
 	CreatedAt   time.Time `gorm:"type : timestamp; not null"`
 	Achievement []byte    `gorm:"type : blob"`
