@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	postAddr = "http://127.0.0.1:5353/post"
+	postAddr = "http://127.0.0.1:5353/example"
 )
 
 func main() {
