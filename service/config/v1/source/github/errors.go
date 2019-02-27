@@ -1,10 +1,9 @@
 package source
 
-import (
-	"errors"
-)
+type ErrGetConfFail struct {
+	info string
+}
 
-var (
-	// ErrGetConfFail descirbes the error of get config fail, but get error code details
-	ErrGetConfFail = errors.New("failed to get config from github")
-)
+func (e ErrGetConfFail) Error() string {
+	return "failed to get config from github, error message [ " + e.info + " ]"
+}

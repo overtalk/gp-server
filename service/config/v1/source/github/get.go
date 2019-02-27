@@ -2,6 +2,7 @@ package source
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module/v1"
@@ -25,8 +26,9 @@ func (g *Github) GetConfig() (module.ConfigMap, error) {
 	}
 
 	if _, ok := config["ISSUCCEED"]; !ok {
-		logger.Sugar.Error(ErrGetConfFail)
-		return nil, ErrGetConfFail
+		return nil, ErrGetConfFail{
+			info: fmt.Sprintf("%v", config),
+		}
 	}
 
 	return config, nil
