@@ -43,7 +43,7 @@ func main() {
 		gateService.Stop()
 	}()
 
-	logger.Sugar.Infof("Starting gate server on %s", addr)
+	logger.Sugar.Infof("Starting gate server on %s", *addr)
 	gateService.Start()
 }
 
