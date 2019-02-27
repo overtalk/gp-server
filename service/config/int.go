@@ -3,8 +3,8 @@ package config
 import (
 	"sync"
 
-	"github.com/qinhan-shu/gp-server/module/v1"
-	"github.com/qinhan-shu/gp-server/service/config/v1/source/github"
+	"github.com/qinhan-shu/gp-server/module"
+	"github.com/qinhan-shu/gp-server/service/config/source/github"
 )
 
 // Config describes Config model

@@ -9,7 +9,7 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/protocol/v1"
+	"github.com/qinhan-shu/gp-server/protocol"
 )
 
 func (s *Service) route() http.Handler {
@@ -40,8 +40,6 @@ func (s *Service) route() http.Handler {
 			}
 
 			// TODO: get resp, and marshal
-
-			
 
 			fmt.Fprint(w, "Reload success")
 		}

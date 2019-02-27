@@ -3,7 +3,7 @@ package db_test
 import (
 	"testing"
 
-	"github.com/qinhan-shu/gp-server/service/config/v1"
+	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/db/gorm/mysql"
 )
 

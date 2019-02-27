@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/protocol/v1"
 	"github.com/golang/protobuf/proto"
+	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/protocol"
 )
 
 var (

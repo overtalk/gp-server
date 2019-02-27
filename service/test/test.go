@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/qinhan-shu/gp-server/protocol/v1"
+	"github.com/qinhan-shu/gp-server/protocol"
 )
 
 // Test is the

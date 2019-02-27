@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 // Github describes github repo of gmdata

@@ -8,7 +8,7 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/protocol/v1"
+	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/service/test"
 )
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/module/v1"
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 // GetConfig return config
