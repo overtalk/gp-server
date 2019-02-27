@@ -8,3 +8,8 @@ type Router struct {
 	Method  string  // http方法
 	Handler Handler // 处理函数（目前使用protobuf作为通信协议，返回的interface{}为proto.Message）
 }
+
+// Gate : 网关模块
+type Gate interface {
+	RegisterRoute(router string, handler Router)
+}
