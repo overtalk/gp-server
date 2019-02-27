@@ -52,5 +52,6 @@ func main() {
 }
 
 func registerModule(gate module.Gate) {
-	example.NewExampleModule(gate).Register()
+
+	example.Register(gate)
 }
