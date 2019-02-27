@@ -5,19 +5,19 @@ import (
 )
 
 var (
-	// ErrInvalidConfigJSON defines invalid config json error
+	// ErrInvalidConfigJSON : 配置文件不是JSON的错误
 	ErrInvalidConfigJSON = errors.New("invalid config json")
 )
 
-// ConfigMap defines configurations for server
+// ConfigMap : 项目配置的map
 type ConfigMap map[string]string
 
-// ConfigSource defines config source
+// ConfigSource : 配置文件数据源
 type ConfigSource interface {
 	GetConfig() (ConfigMap, error)
 }
 
-// Config defines config
+// Config : 配置模块接口
 type Config interface {
 	InitConfig() error
 	ReloadConfig() error

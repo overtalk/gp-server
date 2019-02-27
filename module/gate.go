@@ -4,11 +4,5 @@ import (
 	"github.com/golang/protobuf/proto"
 )
 
-// Handler describes service handler
+// Handler : 业务逻辑处理函数的格式（protobuf版）
 type Handler func(req proto.Message) proto.Message
-
-// BinaryMessage describes websocket binary message
-type BinaryMessage struct {
-	ProtoID uint16
-	Body    []byte
-}

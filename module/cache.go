@@ -1,7 +1,6 @@
 package module
 
-// Cache defines the service cache model (redis ...)
-// all distributed node use one
+// Cache : 分布式共享缓存模块接口
 type Cache interface {
 	Ping() error
 	UpdateToken(playerID string) (string, error)
