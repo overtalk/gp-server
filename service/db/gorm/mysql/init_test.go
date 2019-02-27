@@ -8,42 +8,39 @@ import (
 )
 
 func TestMysqlDriver_Connect(t *testing.T) {
+	_, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+}
+
+func getMysqlDriver() (*db.MysqlDriver, error) {
 	configs := config.NewConfig()
 
-	mysqlAddr, err := configs.GetConfigByName("MYSQL_ADDR")
-	if err != nil {
-		t.Error(err)
-		return
+	keys := []string{
+		"MYSQL_ADDR",
+		"MYSQL_USER",
+		"MYSQL_PASS",
+		"MYSQL_DBNAME",
 	}
 
-	mysqlUser, err := configs.GetConfigByName("MYSQL_USER")
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	serverCfg := make(map[string]string)
 
-	mysqlPassword, err := configs.GetConfigByName("MYSQL_PASS")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	mysqlDBName, err := configs.GetConfigByName("MYSQL_DBNAME")
-	if err != nil {
-		t.Error(err)
-		return
+	for _, key := range keys {
+		value, err := configs.GetConfigByName(key)
+		if err != nil {
+			return nil, err
+		}
+		serverCfg[key] = value
 	}
 
 	c := &db.MysqlConfig{
-		Addr:     mysqlAddr,
-		Username: mysqlUser,
-		Password: mysqlPassword,
-		DBName:   mysqlDBName,
+		Addr:     serverCfg["MYSQL_ADDR"],
+		Username: serverCfg["MYSQL_USER"],
+		Password: serverCfg["MYSQL_PASS"],
+		DBName:   serverCfg["MYSQL_DBNAME"],
 	}
 
-	_, err = db.NewMysqlDriver(c)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	return db.NewMysqlDriver(c)
 }
