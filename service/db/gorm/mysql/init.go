@@ -51,6 +51,8 @@ func (m *MysqlDriver) Connect() error {
 		return err
 	}
 
+	db.SingularTable(true)
+
 	m.conn = db
 	return nil
 }
