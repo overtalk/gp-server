@@ -12,7 +12,7 @@ import (
 func (g *Github) GetConfig() (module.ConfigMap, error) {
 	const fileName = "server.json"
 
-	data, err := g.fetch("server.json")
+	data, err := g.fetch(fileName)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get %s from gm scorce (github version) : %v", fileName, err)
 		return nil, err
