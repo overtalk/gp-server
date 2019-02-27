@@ -18,19 +18,18 @@ type Service struct {
 	addr     string
 	certFile string
 	keyFile  string
-	router   *gin.Engine
+	gin      *gin.Engine
 	srv      *http.Server
 	routeMap map[string]module.Router
 }
 
 // NewService creates a game gate service
 func NewService(addr string) *Service {
-	s := new(Service)
-	s.router = gin.New()
-	s.addr = addr
-
-	// 将已经注册到routeMap中的所有路由注册到gate中
-	s.registerToGate()
+	s := &Service{
+		addr:     addr,
+		gin:      gin.New(),
+		routeMap: make(map[string]module.Router),
+	}
 
 	return s
 }
@@ -45,11 +44,14 @@ func (s *Service) AddTLSConfig(certFile, keyFile string) {
 func (s *Service) Start() {
 	logger.Sugar.Debugf("all registered router : %v", s.routeMap)
 
+	// 将已经注册到routeMap中的所有路由注册到gate中
+	s.registerToGate()
+
 	var err error
 
 	srv := &http.Server{
 		Addr:    s.addr,
-		Handler: s.router,
+		Handler: s.gin,
 	}
 
 	s.srv = srv

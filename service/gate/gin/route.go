@@ -24,7 +24,8 @@ func (s *Service) registerToGate() {
 		switch handler.Method {
 		case "POST":
 			{
-				s.router.POST(router, func(c *gin.Context) {
+				s.gin.POST(router, func(c *gin.Context) {
+					logger.Sugar.Debugf("a post request for router [%s]", router)
 					data, err := ioutil.ReadAll(c.Request.Body)
 					if err != nil {
 						logger.Sugar.Errorf("failed to get body : %v", err)
