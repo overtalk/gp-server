@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 var closed = make(chan struct{})
@@ -19,6 +20,7 @@ type Service struct {
 	keyFile  string
 	router   *gin.Engine
 	srv      *http.Server
+	routeMap map[string]module.Router
 }
 
 // NewService creates a game gate service
@@ -26,7 +28,9 @@ func NewService(addr string) *Service {
 	s := new(Service)
 	s.router = gin.New()
 	s.addr = addr
-	addRoute(s.router)
+
+	// 将已经注册到routeMap中的所有路由注册到gate中
+	s.registerToGate()
 
 	return s
 }
@@ -39,6 +43,8 @@ func (s *Service) AddTLSConfig(certFile, keyFile string) {
 
 // Start game gate service
 func (s *Service) Start() {
+	logger.Sugar.Debugf("all registered router : %v", s.routeMap)
+
 	var err error
 
 	srv := &http.Server{
