@@ -18,8 +18,12 @@ func TestMysqlDriver_Insert(t *testing.T) {
 		Nickname:    "qinhan",
 		CreatedAt:   time.Now(),
 		Achievement: []byte("aaaa"),
-		Level:       3,
 	}
 
-	mysqlDriver.Insert(test)
+	if err := mysqlDriver.Insert(test); err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("%v", test)
 }
