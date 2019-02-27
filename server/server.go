@@ -7,6 +7,8 @@ import (
 	"syscall"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
+	"github.com/qinhan-shu/gp-server/service/example"
 	"github.com/qinhan-shu/gp-server/service/gate/gin"
 )
 
@@ -24,14 +26,17 @@ func main() {
 	flag.StringVar(&keyFile, "keyFile", "", "ssl private key filename")
 	flag.Parse()
 
+	if debug {
+		logger.AddDebugLogger()
+	}
+
 	gateService := gate.NewService(addr)
 	if certFile != "" && keyFile != "" {
 		gateService.AddTLSConfig(certFile, keyFile)
 	}
 
-	if debug {
-		logger.AddDebugLogger()
-	}
+	// 注册具体的模块
+	registerModule(gateService)
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
@@ -44,4 +49,8 @@ func main() {
 
 	logger.Sugar.Infof("Starting gate server on %s", addr)
 	gateService.Start()
+}
+
+func registerModule(gate module.Gate) {
+	example.NewExampleModule(gate).Register()
 }
