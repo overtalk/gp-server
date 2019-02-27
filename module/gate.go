@@ -1,8 +1,10 @@
 package module
 
-import (
-	"github.com/golang/protobuf/proto"
-)
+// Handler : 业务逻辑处理函数的格式
+type Handler func(data interface{}) interface{}
 
-// Handler : 业务逻辑处理函数的格式（protobuf版）
-type Handler func(req proto.Message) proto.Message
+// Router : http method & 业务逻辑函数
+type Router struct {
+	Method  string  // http方法
+	Handler Handler // 处理函数（目前使用protobuf作为通信协议，返回的interface{}为proto.Message）
+}
