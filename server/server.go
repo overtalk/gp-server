@@ -12,27 +12,23 @@ import (
 	"github.com/qinhan-shu/gp-server/service/gate/gin"
 )
 
-func main() {
-	var (
-		debug    bool
-		addr     string
-		certFile string
-		keyFile  string
-	)
+var (
+	debug    = flag.Bool("debug", false, "enable debug mode")
+	addr     = flag.String("addr", ":5353", "listen address")
+	certFile = flag.String("certFile", "", "ssl certficate filename")
+	keyFile  = flag.String("keyFile", "", "ssl private key filename")
+)
 
-	flag.BoolVar(&debug, "debug", false, "enable debug mode")
-	flag.StringVar(&addr, "addr", ":5353", "listen address")
-	flag.StringVar(&certFile, "certFile", "", "ssl certficate filename")
-	flag.StringVar(&keyFile, "keyFile", "", "ssl private key filename")
+func main() {
 	flag.Parse()
 
-	if debug {
+	if *debug {
 		logger.AddDebugLogger()
 	}
 
-	gateService := gate.NewService(addr)
-	if certFile != "" && keyFile != "" {
-		gateService.AddTLSConfig(certFile, keyFile)
+	gateService := gate.NewService(*addr)
+	if *certFile != "" && *keyFile != "" {
+		gateService.AddTLSConfig(*certFile, *keyFile)
 	}
 
 	// 注册具体的模块
