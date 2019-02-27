@@ -51,6 +51,8 @@ func (m *MysqlDriver) Connect() error {
 		return err
 	}
 
+	// 设置表名就是结构体的名字
+	// 如果不设置的话，表名默认为结构体名的复数 
 	db.SingularTable(true)
 
 	m.conn = db
