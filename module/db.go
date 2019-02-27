@@ -6,5 +6,5 @@ import (
 
 // DB : 数据库模块接口
 type DB interface {
-	GetPlayerByID(id int) (model.Test, error)
+	Test(id int) (*model.Test, error) // db模块用于测试的接口，后续进行删除
 }
