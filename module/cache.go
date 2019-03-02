@@ -1,6 +1,6 @@
 package module
 
-// Cache : 分布式共享缓存模块接口
+// Cache : distributed shared cache module
 type Cache interface {
 	Ping() error
 	UpdateToken(playerID string) (string, error)

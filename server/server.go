@@ -31,7 +31,7 @@ func main() {
 		gateService.AddTLSConfig(*certFile, *keyFile)
 	}
 
-	// 注册具体的模块
+	// register modules
 	registerModule(gateService)
 
 	sigChan := make(chan os.Signal, 1)

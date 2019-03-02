@@ -44,7 +44,7 @@ func (s *Service) AddTLSConfig(certFile, keyFile string) {
 func (s *Service) Start() {
 	logger.Sugar.Debugf("all registered router : %v", s.routeMap)
 
-	// 将已经注册到routeMap中的所有路由注册到gate中
+	// register all routes that have been registered to routeMap to the gate
 	s.registerToGate()
 
 	var err error

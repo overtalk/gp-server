@@ -5,6 +5,6 @@ import (
 )
 
 var (
-	// ErrNoMysqlConf : 缺少mysql配置
+	// ErrNoMysqlConf : missing mysql configuration
 	ErrNoMysqlConf = errors.New("lack of mysql config")
 )

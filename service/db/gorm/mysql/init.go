@@ -6,20 +6,18 @@ import (
 	//"github.com/qinhan-shu/gp-server/model/gorm"
 )
 
-// MysqlDriver : mysql 驱动
+// MysqlDriver : mysql driver
 type MysqlDriver struct {
 	config *MysqlConfig
 	conn   *gorm.DB
 }
 
-// NewMysqlDriver : MysqlDriver 的构造方法
+// NewMysqlDriver : constructor of MysqlDriver
 func NewMysqlDriver(config *MysqlConfig) (*MysqlDriver, error) {
-	// 设置默认连接数量
+	// Set the default settings
 	if config.MaxOpenConnsNum <= 0 {
 		config.MaxIdleConnsNum = DefaultMaxOpenConnsNum
 	}
-
-	// 设置默认空闲连接数量
 	if config.MaxIdleConnsNum <= 0 {
 		config.MaxIdleConnsNum = DefaultMaxIdleConnsNum
 	}
@@ -35,7 +33,7 @@ func NewMysqlDriver(config *MysqlConfig) (*MysqlDriver, error) {
 	return mysqlDriver, nil
 }
 
-// Connect : 连接数据库，并初始化数据库连接
+// Connect : connect to the database and initialize the database connection
 func (m *MysqlDriver) Connect() error {
 	if m.config == nil {
 		return ErrNoMysqlConf
@@ -47,22 +45,24 @@ func (m *MysqlDriver) Connect() error {
 	}
 	m.conn = db
 
-	// 初始化数据库连接（数据库最多连接数量，自动迁移，设置表名称...）
+	// initialize the database connection
 	m.initialization()
 
 	return nil
 }
 
 func (m *MysqlDriver) initialization() {
-	//连接池的空闲数大小
+	// set the number of idle pools in the connection pool
 	m.conn.DB().SetMaxIdleConns(m.config.MaxIdleConnsNum)
-	//最大打开连接数
+	// set the number of maximum open connections
 	m.conn.DB().SetMaxIdleConns(m.config.MaxOpenConnsNum)
 
-	// 设置表名就是结构体的名字
-	// 如果不设置的话，表名默认为结构体名的复数
+	// set the table name is the name of the structure
+	// is not, the table name be the plural number of structure name
 	m.conn.SingularTable(true)
 
-	// 自动迁移，对于注册的model， 将增加数据库中没有但是model中定义过的字段，不会删除（改变）原先的字段&数据
+	// Automatic migration
+	// for registered models, will increase the fields in the database but not defined in the model
+	// will not delete (change) the original fields & data
 	//m.conn.AutoMigrate(&model.Test{})
 }

@@ -1,15 +1,15 @@
 package module
 
-// Handler : 业务逻辑处理函数的格式
+// Handler : handler func format
 type Handler func(data interface{}) interface{}
 
-// Router : http method & 业务逻辑函数
+// Router : http method & handler func
 type Router struct {
-	Method  string  // http方法
-	Handler Handler // 处理函数（目前使用protobuf作为通信协议，返回的interface{}为proto.Message）
+	Method  string  // http method (Get, Post ...)
+	Handler Handler // handler func（use protobuf，return arg (interface{}) should be proto.Message）
 }
 
-// Gate : 网关模块
+// Gate : gateway module
 type Gate interface {
 	RegisterRoute(router string, handler Router)
 }

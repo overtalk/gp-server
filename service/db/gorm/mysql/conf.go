@@ -5,16 +5,16 @@ import (
 )
 
 var (
-	// DefaultMaxOpenConnsNum : 默认的最大mysql连接数
+	// DefaultMaxOpenConnsNum : The default maximum number of mysql connections
 	DefaultMaxOpenConnsNum = 20
-	// DefaultMaxIdleConnsNum : 默认的最大mysql空闲连接数
+	// DefaultMaxIdleConnsNum : The default maximum number of mysql idle connections
 	DefaultMaxIdleConnsNum = 0
 )
 
-// MysqlConfig : mysql 数据库配置
+// MysqlConfig : mysql database configuration
 type MysqlConfig struct {
-	MaxOpenConnsNum int // 最大打开连接数
-	MaxIdleConnsNum int // 最大空闲连接数
+	MaxOpenConnsNum int // maximum open connections
+	MaxIdleConnsNum int // maximum number of idle connections
 	Addr            string
 	Username        string
 	Password        string

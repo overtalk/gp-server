@@ -10,7 +10,7 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 )
 
-// RegisterRoute : 注册路由
+// RegisterRoute : registered route
 func (s *Service) RegisterRoute(router string, handler module.Router) {
 	if _, ok := s.routeMap[router]; ok {
 		logger.Sugar.Fatal("repeated router : %s", router)
