@@ -6,5 +6,5 @@ import (
 
 // DB : database module
 type DB interface {
-	Test(id int) (*model.Test, error) // db模块用于测试的接口，后续进行删除
+	GetUserByID(id int) (*model.User, error)
 }
