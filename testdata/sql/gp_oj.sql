@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 CREATE TABLE IF NOT EXISTS `match` (
   `id` int(20) NOT NULL auto_increment,
   `paper_id` int(20) NOT NULL,  -- 试卷id
@@ -74,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `user_oj` (
   `user_id` int(20) NOT NULL,
   `oj_id` varchar(100) NOT NULL,   -- 暂时还不知道从第三方数据中拿到的题目id是什么格式，暂定未varchar（100）
 
-  `pass_time` int(20) DEFAULT NULL,
-  `refused_time` int(20) DEFAULT NULL,  
+  `pass_time` int(20) DEFAULT 0,
+  `refused_time` int(20) DEFAULT 0,  
   
 	PRIMARY KEY(`user_id`, `oj_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
