@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `class` (
   `id` int(20) NOT NULL auto_increment,
   `tutor` int(20) NOT NULL,  -- 导师id
 
-  `name` int(64) NOT NULL,  
+  `name` varchar(100) NOT NULL,  
   `created_time` int(64) NOT NULL,  -- 创建班级时间 ： 时间戳
 
 	PRIMARY KEY(`id`)
