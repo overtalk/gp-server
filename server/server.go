@@ -8,6 +8,8 @@ import (
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
+	"github.com/qinhan-shu/gp-server/service/auth"
+	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/example"
 	"github.com/qinhan-shu/gp-server/service/gate/gin"
 )
@@ -48,6 +50,12 @@ func main() {
 }
 
 func registerModule(gate module.Gate) {
+	c := config.NewConfig()
+	dataStorage, err := c.GetDataStorage()
+	if err != nil {
+		logger.Sugar.Fatalf("failed to get data storage : %v", err)
+	}
 
+	auth.Register(gate, dataStorage)
 	example.Register(gate)
 }
