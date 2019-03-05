@@ -26,11 +26,22 @@ func main() {
 		logger.Sugar.Fatalf("failed to marshal test request : %v", err)
 	}
 
-	body := bytes.NewBuffer(reqByte)
-	res, err := http.Post(postAddr, "application/binary;charset=utf-8", body)
+	client := &http.Client{}
+
+	request, err := http.NewRequest("POST", postAddr, bytes.NewReader(reqByte))
 	if err != nil {
 		logger.Sugar.Fatal(err)
-		return
+	}
+
+	// set cookie
+	request.AddCookie(&http.Cookie{
+		Name:  "token",
+		Value: "aaa",
+	})
+
+	res, err := client.Do(request)
+	if err != nil {
+		logger.Sugar.Fatal(err)
 	}
 
 	result, err := ioutil.ReadAll(res.Body)
