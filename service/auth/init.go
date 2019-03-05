@@ -11,7 +11,7 @@ type Auth struct {
 }
 
 // NewAuth : constructor for module Auth
-func NewAuth(dataStorage module.DataStorage) *Auth {
+func NewAuth(dataStorage *module.DataStorage) *Auth {
 	return &Auth{
 		db:    dataStorage.DB,
 		cache: dataStorage.Cache,
@@ -19,7 +19,7 @@ func NewAuth(dataStorage module.DataStorage) *Auth {
 }
 
 // Register : register module auth to gate
-func Register(gate module.Gate, dataStorage module.DataStorage) {
+func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	authModule := NewAuth(dataStorage)
 	gate.RegisterRoute("/login", module.Router{
 		Method:  "POST",
