@@ -1,5 +1,6 @@
 package source
 
+// ErrGetConfFail : failed to get config details, and pring details info
 type ErrGetConfFail struct {
 	info string
 }
