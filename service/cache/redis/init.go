@@ -20,24 +20,24 @@ type RedisCache struct {
 }
 
 // NewRedisCache creates a new RedisCache
-func NewRedisCache(addr, password string, poolSize int) (*RedisCache, error) {
-	if addr == "" {
+func NewRedisCache(conf *RedisConfig) (*RedisCache, error) {
+	if conf.Addr == "" {
 		return nil, ErrInvalidRedisAddr
 	}
 
 	redisCache := new(RedisCache)
-	redisAddrs := strings.Split(addr, ",")
+	redisAddrs := strings.Split(conf.Addr, ",")
 	if len(redisAddrs) > 1 {
 		redisCache.client = redis.NewClusterClient(&redis.ClusterOptions{
 			Addrs:    redisAddrs,
-			Password: password,
-			PoolSize: poolSize,
+			Password: conf.Password,
+			PoolSize: conf.PoolSize,
 		})
 	} else {
 		redisCache.client = redis.NewClient(&redis.Options{
-			Addr:     addr,
-			Password: password,
-			PoolSize: poolSize,
+			Addr:     conf.Addr,
+			Password: conf.Password,
+			PoolSize: conf.PoolSize,
 		})
 	}
 

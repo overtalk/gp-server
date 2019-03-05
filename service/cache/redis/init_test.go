@@ -22,7 +22,13 @@ func getRedisCache(t *testing.T) module.Cache {
 		return nil
 	}
 
-	redisCache, err := cache.NewRedisCache(addr, pass, 1)
+	conf := &cache.RedisConfig{
+		Addr:     addr,
+		Password: pass,
+		PoolSize: 1,
+	}
+
+	redisCache, err := cache.NewRedisCache(conf)
 	if err != nil {
 		t.Errorf("failed to new redis cache : %v", err)
 		return nil
