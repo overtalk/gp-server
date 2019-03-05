@@ -20,19 +20,19 @@ type Github struct {
 
 // NewGithub creates a new Github
 func NewGithub() *Github {
-	if os.Getenv("GITHUB_USERNAME") == "" {
+	if os.Getenv("GITHUB_USER") == "" {
 		logger.Sugar.Fatal(`Enviroment "GITHUB_USERNAME" must be set`)
 	}
-	if os.Getenv("GITHUB_TOKEN") == "" {
+	if os.Getenv("GITHUB_KEY") == "" {
 		logger.Sugar.Fatal(`Environment "GITHUB_TOKEN" must be set`)
 	}
-	if os.Getenv("GITHUB_REPO_URL") == "" {
+	if os.Getenv("GITHUB_URL") == "" {
 		logger.Sugar.Fatal(`Environment "GITHUB_REPO_URL" must be set`)
 	}
 	return &Github{
-		username: os.Getenv("GITHUB_USERNAME"),
-		token:    os.Getenv("GITHUB_TOKEN"),
-		repoURL:  os.Getenv("GITHUB_REPO_URL"),
+		username: os.Getenv("GITHUB_USER"),
+		token:    os.Getenv("GITHUB_KEY"),
+		repoURL:  os.Getenv("GITHUB_URL"),
 	}
 }
 
@@ -50,7 +50,7 @@ func (g *Github) fetch(fileName string) ([]byte, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		logger.Sugar.Errorf("failed to fetch %s: %v", fileName, err)
+		logger.Sugar.Errorf("failed to fetch file[%s]: %v", fileName, err)
 		return nil, err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
