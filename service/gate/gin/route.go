@@ -26,17 +26,23 @@ func (s *Service) registerToGate() {
 			{
 				s.gin.POST(router, func(c *gin.Context) {
 					logger.Sugar.Debugf("a post request for router [%s]", router)
-					data, err := ioutil.ReadAll(c.Request.Body)
-					if err != nil {
-						logger.Sugar.Errorf("failed to get body : %v", err)
-					}
+					var inputArgs []interface{}
 
 					cookie, err := c.Request.Cookie("token")
 					if err != nil {
 						logger.Sugar.Infof("failed to get token : %v", err)
 					}
+					if cookie != nil {
+						inputArgs = append(inputArgs, cookie.Value)
+					}
 
-					resp := handler.Handler(cookie.Value, data)
+					data, err := ioutil.ReadAll(c.Request.Body)
+					if err != nil {
+						logger.Sugar.Errorf("failed to get body : %v", err)
+					}
+					inputArgs = append(inputArgs, data)
+
+					resp := handler.Handler(inputArgs...)
 					// 目前使用protobuf作为通信协议
 					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成
 					c.ProtoBuf(http.StatusOK, resp)
