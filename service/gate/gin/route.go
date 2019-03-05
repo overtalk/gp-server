@@ -30,8 +30,13 @@ func (s *Service) registerToGate() {
 					if err != nil {
 						logger.Sugar.Errorf("failed to get body : %v", err)
 					}
-					resp := handler.Handler(data)
 
+					cookie, err := c.Request.Cookie("token")
+					if err != nil {
+						logger.Sugar.Infof("failed to get token : %v", err)
+					}
+
+					resp := handler.Handler(cookie.Value, data)
 					// 目前使用protobuf作为通信协议
 					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成
 					c.ProtoBuf(http.StatusOK, resp)
