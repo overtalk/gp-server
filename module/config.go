@@ -22,4 +22,5 @@ type Config interface {
 	InitConfig() error
 	ReloadConfig() error
 	GetConfigByName(configName string) (string, error)
+	GetDataStorage() (*DataStorage, error)
 }

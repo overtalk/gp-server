@@ -18,3 +18,15 @@ func TestGetConfigByConfigName(t *testing.T) {
 
 	t.Logf("%s = %s", configKey, configValue)
 }
+
+func TestGetDataStorage(t *testing.T) {
+	c := config.NewConfig()
+
+	dataStorage, err := c.GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Logf("%v", dataStorage)
+
+}
