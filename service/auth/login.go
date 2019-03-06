@@ -4,20 +4,22 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils"
 	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 // Login : authentication, and get token
-func (a *Auth) Login(data ...interface{}) interface{} {
-	req := &protocol.LoginReq{}
+func (a *Auth) Login(args map[string]interface{}) interface{} {
 	resp := &protocol.LoginResp{}
-	if len(data) != 1 {
+	if err := utils.CheckArgs(args, module.Request); err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
-	if err := proto.Unmarshal(parse.Bytes(data[0]), req); err != nil {
+	req := &protocol.LoginReq{}
+	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
@@ -37,6 +39,6 @@ func (a *Auth) Login(data ...interface{}) interface{} {
 }
 
 // Logout : log out, and del token
-func (a *Auth) Logout(data ...interface{}) interface{} {
+func (a *Auth) Logout(args map[string]interface{}) interface{} {
 	return nil
 }
