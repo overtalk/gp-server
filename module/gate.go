@@ -1,7 +1,12 @@
 package module
 
+var (
+	Token   = "1"
+	Request = "2"
+)
+
 // Handler : handler func format
-type Handler func(data ...interface{}) interface{}
+type Handler func(args map[string]interface{}) interface{}
 
 // Router : http method & handler func
 type Router struct {
