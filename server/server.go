@@ -10,7 +10,6 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/config"
-	"github.com/qinhan-shu/gp-server/service/example"
 	"github.com/qinhan-shu/gp-server/service/gate/gin"
 )
 
@@ -57,5 +56,4 @@ func registerModule(gate module.Gate) {
 	}
 
 	auth.Register(gate, dataStorage)
-	example.Register(gate)
 }
