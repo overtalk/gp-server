@@ -5,4 +5,5 @@ type Cache interface {
 	Ping() error
 	UpdateToken(playerID string) (string, error)
 	DelToken(playerID string) error
+	GetPlayerIDByToken(token string) (string, error)
 }
