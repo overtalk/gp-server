@@ -13,13 +13,13 @@ func (a *Auth) Login(data ...interface{}) interface{} {
 	req := &protocol.LoginReq{}
 	resp := &protocol.LoginResp{}
 	if len(data) != 1 {
-		resp.Code = protocol.Code_invaild_data
+		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
 	if err := proto.Unmarshal(parse.Bytes(data[0]), req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		resp.Code = protocol.Code_invaild_data
+		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
@@ -28,7 +28,7 @@ func (a *Auth) Login(data ...interface{}) interface{} {
 
 	token, err := a.cache.UpdateToken(playerID)
 	if err != nil {
-		resp.Code = protocol.Code_internal
+		resp.Code = protocol.Code_INTERNAL
 		return resp
 	}
 
