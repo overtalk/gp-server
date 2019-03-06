@@ -19,3 +19,20 @@ func TestMysqlDriver_GetUserByID(t *testing.T) {
 
 	t.Logf("%v", user)
 }
+
+func TestMysqlDriver_GetUserByAuthCode(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	authCode := "qinhan"
+	user, err := mysqlDriver.GetUserByAuthCode(authCode)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("%v", user)
+}
