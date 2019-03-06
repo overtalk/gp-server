@@ -14,7 +14,7 @@ import (
 func (a *Auth) Login(args map[string]interface{}) interface{} {
 	resp := &protocol.LoginResp{}
 	if err := utils.CheckArgs(args, module.Request); err != nil {
-		resp.Code = protocol.Code_INVAILD_DATA
+		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
 
@@ -27,7 +27,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 
 	user, err := a.db.GetUserByAuthCode(req.Username)
 	if err != nil {
-		resp.Code = protocol.Code_INVAILD_DATA
+		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
 
