@@ -3,12 +3,12 @@ package gate
 import (
 	"context"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/module"
 )
 
 var closed = make(chan struct{})
@@ -20,15 +20,14 @@ type Service struct {
 	keyFile  string
 	gin      *gin.Engine
 	srv      *http.Server
-	routeMap map[string]module.Router
+	routeMap sync.Map
 }
 
 // NewService creates a game gate service
 func NewService(addr string) *Service {
 	s := &Service{
-		addr:     addr,
-		gin:      gin.New(),
-		routeMap: make(map[string]module.Router),
+		addr: addr,
+		gin:  gin.New(),
 	}
 
 	return s
