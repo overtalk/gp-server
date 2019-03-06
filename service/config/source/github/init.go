@@ -21,13 +21,13 @@ type Github struct {
 // NewGithub creates a new Github
 func NewGithub() *Github {
 	if os.Getenv("GITHUB_USER") == "" {
-		logger.Sugar.Fatal(`Enviroment "GITHUB_USERNAME" must be set`)
+		logger.Sugar.Fatal(`Enviroment "GITHUB_USER" must be set`)
 	}
 	if os.Getenv("GITHUB_KEY") == "" {
-		logger.Sugar.Fatal(`Environment "GITHUB_TOKEN" must be set`)
+		logger.Sugar.Fatal(`Environment "GITHUB_KEY" must be set`)
 	}
 	if os.Getenv("GITHUB_URL") == "" {
-		logger.Sugar.Fatal(`Environment "GITHUB_REPO_URL" must be set`)
+		logger.Sugar.Fatal(`Environment "GITHUB_URL" must be set`)
 	}
 	return &Github{
 		username: os.Getenv("GITHUB_USER"),
