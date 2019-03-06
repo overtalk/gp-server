@@ -4,10 +4,11 @@ import (
 	"time"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 // UpdateToken : update token for user
-func (r *RedisCache) UpdateToken(userID string) (string, error) {
+func (r *RedisCache) UpdateToken(userID int) (string, error) {
 	if err := r.DelToken(userID); err != nil {
 		return "", err
 	}
@@ -33,7 +34,7 @@ func (r *RedisCache) UpdateToken(userID string) (string, error) {
 }
 
 // DelToken : delete expired token
-func (r *RedisCache) DelToken(userID string) error {
+func (r *RedisCache) DelToken(userID int) error {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("[DelToken error] failed to ping redis: %v", err)
 		return err
@@ -56,11 +57,20 @@ func (r *RedisCache) DelToken(userID string) error {
 }
 
 // GetUserIDByToken : get userID by token
-func (r *RedisCache) GetUserIDByToken(token string) (string, error) {
+func (r *RedisCache) GetUserIDByToken(token string) (int, error) {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("[GetUserIDByToken error] failed to ping redis: %v", err)
-		return "", err
+		return 0, err
 	}
 
-	return r.client.Get(r.getTokenToUserIDKey(token)).Result()
+	userIDStr, err := r.client.Get(r.getTokenToUserIDKey(token)).Result()
+	if err != nil {
+		return 0, err
+	}
+
+	userID, err := parse.IntWithError(userIDStr)
+	if err != nil {
+		return 0, err
+	}
+	return int(userID), nil
 }

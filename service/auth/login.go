@@ -25,10 +25,13 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	// TODO: check the user, and get userID
-	userID := "test"
+	user, err := a.db.GetUserByAuthCode(req.Username)
+	if err != nil {
+		resp.Code = protocol.Code_INVAILD_DATA
+		return resp
+	}
 
-	token, err := a.cache.UpdateToken(userID)
+	token, err := a.cache.UpdateToken(user.ID)
 	if err != nil {
 		resp.Code = protocol.Code_INTERNAL
 		return resp
