@@ -4,12 +4,9 @@ import (
 	"time"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/utils"
-	"github.com/qinhan-shu/gp-server/utils/mode"
-	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
-// UpdateToken is to update token for player
+// UpdateToken : update token for player
 func (r *RedisCache) UpdateToken(playerID string) (string, error) {
 	if err := r.DelToken(playerID); err != nil {
 		return "", err
@@ -35,7 +32,7 @@ func (r *RedisCache) UpdateToken(playerID string) (string, error) {
 	return token, nil
 }
 
-// DelToken is to delete expired token
+// DelToken : delete expired token
 func (r *RedisCache) DelToken(playerID string) error {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("[DelToken error] failed to ping redis: %v", err)
@@ -58,15 +55,12 @@ func (r *RedisCache) DelToken(playerID string) error {
 	return nil
 }
 
-// GetToken is to get token key
-func GetToken(playerID string) string {
-	// in test mode, token = playerID
-	if mode.GetMode() == mode.TestMode {
-		return playerID
+// GetPlayerIDByToken : get playerID by token
+func (r *RedisCache) GetPlayerIDByToken(token string) (string, error) {
+	if _, err := r.client.Ping().Result(); err != nil {
+		logger.Sugar.Errorf("[GetPlayerIDByToken error] failed to ping redis: %v", err)
+		return "", err
 	}
 
-	// return playerID + parse.String(time.Now().Unix()) + parse.String(rand.Int63()+rand.Int63())
-	rand1, _ := utils.RandInt(0, 1000000)
-	rand2, _ := utils.RandInt(0, 1000000)
-	return playerID + "_" + parse.String(time.Now().Unix()) + "_" + parse.String(int64(rand1)+int64(rand2))
+	return r.client.Get(r.getTokenToPlayerIDKey(token)).Result()
 }
