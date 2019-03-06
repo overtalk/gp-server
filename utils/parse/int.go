@@ -9,10 +9,7 @@ import (
 
 // Int turn ( interface{} ) to ( int64 )
 func Int(in interface{}) int64 {
-	out, err := IntWithError(in)
-	if err != nil {
-		out = 0
-	}
+	out, _ := IntWithError(in)
 	return out
 }
 

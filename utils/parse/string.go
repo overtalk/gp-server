@@ -8,6 +8,12 @@ import (
 
 // String turn ( interface{} ) to ( string )
 func String(in interface{}) string {
+	out, _ := StringWithError(in)
+	return out
+}
+
+// StringWithError turn ( interface{} ) to ( string ) with error
+func StringWithError(in interface{}) (string, error) {
 	var ret string
 	switch in.(type) {
 	case string:
@@ -19,11 +25,11 @@ func String(in interface{}) string {
 	case int:
 		ret = strconv.Itoa(in.(int))
 	case nil:
-		return ""
+		return "", Err{method: "String", origin: in}
 	default:
 		logger.Sugar.Errorf("parse to string error(unknown) : %v", in)
-		return ""
+		return "", Err{method: "String", origin: in}
 	}
 
-	return ret
+	return ret, nil
 }
