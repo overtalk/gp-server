@@ -16,7 +16,7 @@ import (
 
 var (
 	debug    = flag.Bool("debug", false, "enable debug mode")
-	addr     = flag.String("addr", ":5353", "listen address")
+	addr     = flag.String("addr", ":9999", "listen address")
 	certFile = flag.String("certFile", "", "ssl certficate filename")
 	keyFile  = flag.String("keyFile", "", "ssl private key filename")
 )
