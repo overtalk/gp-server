@@ -25,10 +25,10 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	// TODO: check the player, and get playerID
-	playerID := "test"
+	// TODO: check the user, and get userID
+	userID := "test"
 
-	token, err := a.cache.UpdateToken(playerID)
+	token, err := a.cache.UpdateToken(userID)
 	if err != nil {
 		resp.Code = protocol.Code_INTERNAL
 		return resp

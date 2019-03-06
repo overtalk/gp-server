@@ -4,14 +4,14 @@ import (
 	"fmt"
 )
 
-// getTokenKey is to get to get key for the pair (playerID-token)
-// the key is to used to make sure the uniqueness pair for playerID and token
-func (r *RedisCache) getPlayerIDToTokenKey(playerID string) string {
-	return fmt.Sprintf("player_t_%s", playerID)
+// getTokenKey is to get to get key for the pair (userID-token)
+// the key is to used to make sure the uniqueness pair for userID and token
+func (r *RedisCache) getUserIDToTokenKey(userID string) string {
+	return fmt.Sprintf("user_t_%s", userID)
 }
 
-// getPlayerTokenKey is to get key for the pair (token-playerID)
-// the key is to used to authenticate the token, and get playerID
-func (r *RedisCache) getTokenToPlayerIDKey(token string) string {
+// getTokenToUserIDKey is to get key for the pair (token-userID)
+// the key is to used to authenticate the token, and get userID
+func (r *RedisCache) getTokenToUserIDKey(token string) string {
 	return fmt.Sprintf("token_p_%s", token)
 }

@@ -6,12 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUpdateTokenAndGetPlayerIDByToken(t *testing.T) {
+func TestUpdateTokenAndGetUserIDByToken(t *testing.T) {
 	redisCache := getRedisCache(t)
 
-	playerID := "test_playerID"
+	userID := "test_userID"
 
-	token, err := redisCache.UpdateToken(playerID)
+	token, err := redisCache.UpdateToken(userID)
 	if err != nil {
 		t.Errorf("failed to update token : %v", err)
 		return
@@ -19,14 +19,14 @@ func TestUpdateTokenAndGetPlayerIDByToken(t *testing.T) {
 
 	t.Logf("token = %s", token)
 
-	redisPlayerID, err := redisCache.GetPlayerIDByToken(token)
+	redisUserID, err := redisCache.GetUserIDByToken(token)
 	if err != nil {
-		t.Errorf("failed to get playerID by token : %v", err)
+		t.Errorf("failed to get userID by token : %v", err)
 		return
 	}
 
-	if !assert.Equal(t, redisPlayerID, playerID) {
-		t.Errorf("playerID in redis [%s] is not equal to original playerID [%s]", redisPlayerID, playerID)
+	if !assert.Equal(t, redisUserID, userID) {
+		t.Errorf("userID in redis [%s] is not equal to original userID [%s]", redisUserID, userID)
 		return
 	}
 }
