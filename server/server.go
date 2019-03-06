@@ -15,7 +15,7 @@ import (
 
 var (
 	debug    = flag.Bool("debug", false, "enable debug mode")
-	addr     = flag.String("addr", ":9999", "listen address")
+	port     = flag.String("addr", ":9999", "listen address")
 	certFile = flag.String("certFile", "", "ssl certficate filename")
 	keyFile  = flag.String("keyFile", "", "ssl private key filename")
 )
@@ -27,7 +27,7 @@ func main() {
 		logger.AddDebugLogger()
 	}
 
-	gateService := gate.NewService(*addr)
+	gateService := gate.NewService(*port)
 	if *certFile != "" && *keyFile != "" {
 		gateService.AddTLSConfig(*certFile, *keyFile)
 	}
@@ -44,7 +44,7 @@ func main() {
 		gateService.Stop()
 	}()
 
-	logger.Sugar.Infof("Starting gate server on %s", *addr)
+	logger.Sugar.Infof("Starting gate server on %s", *port)
 	gateService.Start()
 }
 
