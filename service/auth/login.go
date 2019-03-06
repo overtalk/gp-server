@@ -33,8 +33,6 @@ func (a *Auth) Login(data ...interface{}) interface{} {
 	}
 
 	resp.Token = token
-
-	logger.Sugar.Debug(resp)
 	return resp
 }
 
