@@ -22,7 +22,10 @@ func (s *Service) RegisterRoute(router string, handler module.Router) {
 
 func (s *Service) registerToGate() {
 	s.routeMap.Range(func(k, v interface{}) bool {
-		router := parse.String(k)
+		router, err := parse.StringWithError(k)
+		if err != nil {
+			logger.Sugar.Fatalf("illegal http router[%v], not string, parse error [%v]", k, err)
+		}
 		handler := v.(module.Router)
 		switch handler.Method {
 		case "POST":
