@@ -12,14 +12,15 @@ import (
 )
 
 var (
-	postAddr = "http://127.0.0.1:5353/example"
+	postAddr = "http://127.0.0.1:9999/login"
 )
 
 func main() {
-	req := &protocol.TestRequest{
-		A: "aaa",
-		B: "bbb",
+	req := &protocol.LoginReq{
+		Username: "aaa",
+		Password: "bbb",
 	}
+	resp := &protocol.LoginResp{}
 
 	reqByte, err := proto.Marshal(req)
 	if err != nil {
@@ -34,10 +35,10 @@ func main() {
 	}
 
 	// set cookie
-	request.AddCookie(&http.Cookie{
-		Name:  "token",
-		Value: "aaa",
-	})
+	// request.AddCookie(&http.Cookie{
+	// 	Name:  "token",
+	// 	Value: "aaa",
+	// })
 
 	res, err := client.Do(request)
 	if err != nil {
@@ -51,7 +52,6 @@ func main() {
 		return
 	}
 
-	resp := &protocol.TestResponse{}
 	if err := proto.Unmarshal(result, resp); err != nil {
 		logger.Sugar.Error(err)
 		return
