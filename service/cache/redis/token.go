@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -20,15 +19,15 @@ func (r *RedisCache) UpdateToken(userID int) (string, error) {
 	}
 
 	token := GetToken(userID)
-	userIDToTokenKey := r.getUserIDToTokenKey(fmt.Sprintf("%d", userID))
-	tokenToUserKey := r.getTokenToUserIDKey(token)
+	getTokenKey := getTokenKey(userID)
+	getUserIDKey := getUserIDKey(token)
 
-	if _, err := r.client.Set(userIDToTokenKey, token, expiration).Result(); err != nil {
+	if _, err := r.client.Set(getTokenKey, token, expiration).Result(); err != nil {
 		logger.Sugar.Errorf("failed to update token of user [%s]", userID)
 		return "", err
 	}
 
-	if _, err := r.client.Set(tokenToUserKey, userID, expiration).Result(); err != nil {
+	if _, err := r.client.Set(getUserIDKey, userID, expiration).Result(); err != nil {
 		logger.Sugar.Errorf("failed to update token of user [%s]", userID)
 		return "", err
 	}
@@ -43,7 +42,7 @@ func (r *RedisCache) GetUserIDByToken(token string) (int, error) {
 		return 0, err
 	}
 
-	userIDStr, err := r.client.Get(r.getTokenToUserIDKey(token)).Result()
+	userIDStr, err := r.client.Get(getUserIDKey(token)).Result()
 	if err != nil {
 		return 0, err
 	}
@@ -63,12 +62,12 @@ func (r *RedisCache) DelTokenByUserID(userID int) error {
 	}
 
 	// del old token key
-	userIDToTokenKey := r.getUserIDToTokenKey(fmt.Sprintf("%d", userID))
-	token, err := r.client.Get(userIDToTokenKey).Result()
+	getTokenKey := getTokenKey(userID)
+	token, err := r.client.Get(getTokenKey).Result()
 	if err == nil {
 		// old token is not deleted
 		// del the old token
-		_, err := r.client.Del(r.getTokenToUserIDKey(token), userIDToTokenKey).Result()
+		_, err := r.client.Del(getUserIDKey(token), getTokenKey).Result()
 		if err != nil {
 			logger.Sugar.Errorf("[DelToken error] failed to del old token: %v", err)
 			return err
@@ -86,12 +85,12 @@ func (r *RedisCache) DelTokenByToken(token string) error {
 	}
 
 	// del old token key
-	tokenToUserIDKey := r.getTokenToUserIDKey(token)
-	userID, err := r.client.Get(tokenToUserIDKey).Result()
+	getUserIDKey := getUserIDKey(token)
+	userID, err := r.client.Get(getUserIDKey).Result()
 	if err == nil {
 		// old token is not deleted
 		// del the old token
-		_, err := r.client.Del(r.getUserIDToTokenKey(userID), tokenToUserIDKey).Result()
+		_, err := r.client.Del(getTokenKey(userID), getUserIDKey).Result()
 		if err != nil {
 			logger.Sugar.Errorf("[DelToken error] failed to del old token: %v", err)
 			return err

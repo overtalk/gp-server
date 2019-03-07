@@ -1,17 +1,15 @@
 package cache
 
 import (
-	"fmt"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
-// getTokenKey is to get to get key for the pair (userID-token)
-// the key is to used to make sure the uniqueness pair for userID and token
-func (r *RedisCache) getUserIDToTokenKey(userID string) string {
-	return fmt.Sprintf("u_%s", userID)
+// getTokenKey is the key to get token by userID
+func getTokenKey(userID interface{}) string {
+	return utils.RedisKey("TOKEN", "getToken", userID)
 }
 
-// getTokenToUserIDKey is to get key for the pair (token-userID)
-// the key is to used to authenticate the token, and get userID
-func (r *RedisCache) getTokenToUserIDKey(token string) string {
-	return fmt.Sprintf("t_%s", token)
+// getUserIDKey is the key to get userID by token
+func getUserIDKey(token string) string {
+	return utils.RedisKey("TOKEN", "getUserID", token)
 }
