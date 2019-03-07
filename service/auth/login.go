@@ -66,15 +66,7 @@ func (a *Auth) Logout(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	// authority authentication
-	userID, err := a.cache.GetUserIDByToken(parse.String(args[module.Token]))
-	if err != nil {
-		resp.Code = protocol.Code_PERMISSION_DENIED
-		return resp
-	}
+	a.cache.DelTokenByToken(parse.String(args[module.Token])) // nolint : err check
 
-	if err := a.cache.DelToken(userID); err != nil {
-		resp.Code = protocol.Code_INTERNAL
-	}
 	return resp
 }
