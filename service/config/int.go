@@ -9,7 +9,7 @@ import (
 
 // Config describes Config model
 type Config struct {
-	sync.RWMutex
+	rwMutex      sync.RWMutex
 	configSource module.ConfigSource
 	configMap    module.ConfigMap
 }

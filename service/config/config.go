@@ -18,8 +18,8 @@ func (c *Config) InitConfig() {
 		logger.Sugar.Fatalf("failed to init config : %v", err)
 	}
 
-	c.Lock()
-	defer c.Unlock()
+	c.rwMutex.Lock()
+	defer c.rwMutex.Unlock()
 
 	c.configMap = configMap
 }
@@ -32,8 +32,8 @@ func (c *Config) ReloadConfig() error {
 		return err
 	}
 
-	c.Lock()
-	defer c.Unlock()
+	c.rwMutex.Lock()
+	defer c.rwMutex.Unlock()
 
 	c.configMap = configMap
 
@@ -42,8 +42,8 @@ func (c *Config) ReloadConfig() error {
 
 // GetConfigByName is to get config value by config key
 func (c *Config) GetConfigByName(configName string) (string, error) {
-	c.RLock()
-	defer c.RUnlock()
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
 
 	configValue := c.configMap[configName]
 	if configValue == "" {
