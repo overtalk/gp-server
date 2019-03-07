@@ -53,5 +53,28 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 
 // Logout : log out, and del token
 func (a *Auth) Logout(args map[string]interface{}) interface{} {
-	return nil
+	resp := &protocol.LogOutResp{}
+	if err := utils.CheckArgs(args, module.Request, module.Token); err != nil {
+		resp.Code = protocol.Code_PERMISSION_DENIED
+		return resp
+	}
+
+	req := &protocol.LogOutReq{}
+	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal : %v", err)
+		resp.Code = protocol.Code_INVAILD_DATA
+		return resp
+	}
+
+	// authority authentication
+	userID, err := a.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	if err != nil {
+		resp.Code = protocol.Code_PERMISSION_DENIED
+		return resp
+	}
+
+	if err := a.cache.DelToken(userID); err != nil {
+		resp.Code = protocol.Code_INTERNAL
+	}
+	return resp
 }
