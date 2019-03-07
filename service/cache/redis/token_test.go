@@ -9,7 +9,7 @@ import (
 func TestUpdateTokenAndGetUserIDByToken(t *testing.T) {
 	redisCache := getRedisCache(t)
 
-	userID := "test_userID"
+	userID := 1
 
 	token, err := redisCache.UpdateToken(userID)
 	if err != nil {
@@ -26,7 +26,7 @@ func TestUpdateTokenAndGetUserIDByToken(t *testing.T) {
 	}
 
 	if !assert.Equal(t, redisUserID, userID) {
-		t.Errorf("userID in redis [%s] is not equal to original userID [%s]", redisUserID, userID)
+		t.Errorf("userID in redis [%d] is not equal to original userID [%d]", redisUserID, userID)
 		return
 	}
 }

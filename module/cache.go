@@ -4,6 +4,7 @@ package module
 type Cache interface {
 	Ping() error
 	UpdateToken(userID int) (string, error)
-	DelToken(userID int) error
 	GetUserIDByToken(token string) (int, error)
+	DelTokenByUserID(userID int) error
+	DelTokenByToken(token string) error
 }
