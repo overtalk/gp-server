@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `operation_auth` tinyint(4) NOT NULL DEFAULT 0,
   `role` tinyint(4) NOT NULL DEFAULT 0, -- 0 ： 学生
 
-  `nickname` varchar(50) NOT NULL ,
-  `real_name` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `sex` boolean NOT NULL,
   `email` varchar(50) NOT NULL,
   `academy` varchar(50) NOT NULL, -- 暂定string， 以后可改成枚举
