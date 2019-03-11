@@ -20,15 +20,16 @@ func TestMysqlDriver_GetUserByID(t *testing.T) {
 	t.Logf("%v", user)
 }
 
-func TestMysqlDriver_GetUserByAuthCode(t *testing.T) {
+func TestMysqlDriver_CheckPlayer(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	authCode := "qinhan"
-	user, err := mysqlDriver.GetUserByAuthCode(authCode)
+	username := "jack"
+	pwd := "jack"
+	user, err := mysqlDriver.CheckPlayer(username, pwd)
 	if err != nil {
 		t.Error(err)
 		return

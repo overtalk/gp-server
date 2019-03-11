@@ -19,9 +19,9 @@ func (m *MysqlDriver) GetUserByID(id int) (*model.User, error) {
 	return user, nil
 }
 
-// GetUserByAuthCode : get uer model by auth code
-func (m *MysqlDriver) GetUserByAuthCode(authCode string) (*model.User, error) {
-	db := m.conn.Where("auth_code = ?", authCode).First(&model.User{})
+// CheckPlayer : get uer model by username and password
+func (m *MysqlDriver) CheckPlayer(username, password string) (*model.User, error) {
+	db := m.conn.Where("username = ? and password = ?", username, password).First(&model.User{})
 	if db.Error != nil {
 		return nil, db.Error
 	}

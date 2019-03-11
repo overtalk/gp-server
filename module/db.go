@@ -6,7 +6,7 @@ import (
 
 // DB : database module
 type DB interface {
-	GetUserByAuthCode(authCode string) (*model.User, error)
+	CheckPlayer(username, password string) (*model.User, error)
 	GetUserByID(id int) (*model.User, error)
 	GetMatchByID(id int) (*model.Match, error)
 }
