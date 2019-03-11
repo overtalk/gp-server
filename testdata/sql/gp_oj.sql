@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `academy` varchar(50) NOT NULL, -- 暂定string， 以后可改成枚举
   `major` varchar(50) NOT NULL,  -- 暂定string， 以后可改成枚举
   
-  `last_login` TIMESTAMP NOT NULL DEFAULT current_TIMESTAMP ,   -- 上次登陆时间 ： 时间戳
+  `last_login` int(64) NOT NULL,   -- 上次登陆时间 ： 时间戳
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `match` (
   `invitation_code` varchar(50) NOT NULL UNIQUE,
   `is_public` boolean NOT NULL DEFAULT 1, -- 比赛默认是公开的，所有人都可以参加
 
-  `start_time`  TIMESTAMP NOT NULL,  -- 开始比赛时间 ： 时间戳
+  `start_time`  int(64) NOT NULL,  -- 开始比赛时间 ： 时间戳
   `duration` int(20) NOT NULL, -- 比赛时长， 默认单位是秒
 
 	PRIMARY KEY(`id`)
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `class` (
   `tutor` int(20) NOT NULL,  -- 导师id
 
   `name` varchar(100) NOT NULL,  
-  `created_time`  TIMESTAMP NOT NULL DEFAULT current_TIMESTAMP,  -- 创建班级时间 ： 时间戳
+  `created_time`  int(64) NOT NULL,  -- 创建班级时间 ： 时间戳
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `problem` (
 
   `tags` varchar(300) NOT NULL,
   `difficulty` tinyint(4) NOT NULL DEFAULT 0,
-  `last_used`  TIMESTAMP NOT NULL,          -- 上次使用时间
+  `last_used`  int(64) NOT NULL,          -- 上次使用时间
   `used_time` int(20) NOT NULL DEFAULT 0,   -- 使用次数
 
 	PRIMARY KEY(`id`)
