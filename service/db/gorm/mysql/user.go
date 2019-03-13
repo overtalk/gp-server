@@ -53,3 +53,9 @@ func (m *MysqlDriver) UpdateUser(user *model.User) error {
 	}
 	return m.conn.Model(originUser).Updates(*user).Error
 }
+
+// DelUser : delete user
+func (m *MysqlDriver) DelUser(user *model.User) error {
+	return m.conn.Where(user).Delete(model.User{}).Error
+	// return m.conn.Delete(user).Error
+}

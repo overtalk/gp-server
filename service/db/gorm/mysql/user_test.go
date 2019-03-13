@@ -133,3 +133,42 @@ func TestMysqlDriver_UpdateUser(t *testing.T) {
 	}
 
 }
+
+func TestMysqlDriver_DelUser(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	newUser := &model.User{
+		Username:  "test12",
+		Password:  "test",
+		Name:      "test",
+		Sex:       false,
+		Email:     "test",
+		Academy:   "test",
+		Major:     "test",
+		Create:    time.Now().Unix(),
+		LastLogin: time.Now().Unix(),
+	}
+	if err := mysqlDriver.AddUser(newUser); err != nil {
+		t.Error(err)
+		return
+	}
+
+	delUser := &model.User{
+		Email: newUser.Email,
+	}
+
+	if err := mysqlDriver.DelUser(delUser); err != nil {
+		t.Error(err)
+		return
+	}
+
+	_, err = mysqlDriver.GetUserByID(newUser.ID)
+	if err == nil {
+		t.Error("failed to delete player")
+		return
+	}
+}
