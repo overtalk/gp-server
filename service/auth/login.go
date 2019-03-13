@@ -54,7 +54,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 // Logout : log out, and del token
 func (a *Auth) Logout(args map[string]interface{}) interface{} {
 	resp := &protocol.LogOut{}
-	if err := utils.CheckArgs(args, module.Request, module.Token); err != nil {
+	if err := utils.CheckArgs(args, module.Token); err != nil {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}

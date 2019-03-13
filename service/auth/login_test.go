@@ -48,24 +48,16 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 	t.Logf("userID = %d", userID)
 
 	// logout operations
-	logoutReqBytes, err := proto.Marshal(&protocol.LogOutReq{
-		Username: "aaa",
-	})
-	if err != nil {
-		t.Error(err)
-		return
-	}
 	args = map[string]interface{}{
-		module.Request: logoutReqBytes,
-		module.Token:   loginResp.Token,
+		module.Token: loginResp.Token,
 	}
 	data = authModule.Logout(args)
-	logoutResp := data.(*protocol.LogOutResp)
+	logoutResp := data.(*protocol.LogOut)
 	if logoutResp.Code != protocol.Code_OK {
 		t.Error(err)
 		return
 	}
-	t.Log("logoutResp.Code = ", logoutResp.Code)
+	t.Log("LogOut.Code = ", logoutResp.Code)
 
 	// check the redis again
 	userID, err = dataStorage.Cache.GetUserIDByToken(loginResp.Token)
