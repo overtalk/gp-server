@@ -12,10 +12,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `name` varchar(50) NOT NULL,
   `sex` boolean NOT NULL,
   `email` varchar(50) NOT NULL,
-  `academy` varchar(50) NOT NULL, -- 暂定string， 以后可改成枚举
-  `major` varchar(50) NOT NULL,  -- 暂定string， 以后可改成枚举
+  `academy` varchar(50) NOT NULL,   -- 暂定string， 以后可改成枚举
+  `major` varchar(50) NOT NULL,     -- 暂定string， 以后可改成枚举
   
-  `last_login` int(64) NOT NULL,   -- 上次登陆时间 ： 时间戳
+  `create` int(64) NOT NULL,        -- 创建时间 ： 时间戳
+  `last_login` int(64) NOT NULL,    -- 上次登陆时间 ： 时间戳
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `user_class` (
 
 CREATE TABLE IF NOT EXISTS `user_problem` (
   `user_id` int(20) NOT NULL,
-  `problem_id` varchar(100) NOT NULL,   -- 暂时还不知道从第三方数据中拿到的题目id是什么格式，暂定未varchar（100）
+  `problem_id` int(20) NOT NULL,   -- 暂时还不知道从第三方数据中拿到的题目id是什么格式，暂定未varchar（100）
 
   `pass_time` int(20) DEFAULT 0,
   `refused_time` int(20) DEFAULT 0,  
