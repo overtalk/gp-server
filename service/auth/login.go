@@ -14,7 +14,7 @@ import (
 func (a *Auth) Login(args map[string]interface{}) interface{} {
 	resp := &protocol.LoginResp{}
 	if err := utils.CheckArgs(args, module.Request); err != nil {
-		resp.Code = protocol.Code_PERMISSION_DENIED
+		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
@@ -56,7 +56,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 func (a *Auth) Logout(args map[string]interface{}) interface{} {
 	resp := &protocol.LogOut{}
 	if err := utils.CheckArgs(args, module.Token); err != nil {
-		resp.Code = protocol.Code_PERMISSION_DENIED
+		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
