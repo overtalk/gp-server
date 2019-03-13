@@ -12,6 +12,7 @@ type DB interface {
 
 	// user manage
 	GetUsersByRole(role int64) ([]*model.User, error) // role < 0 : get all user
+	AddUser(user *model.User) error
 
 	GetMatchByID(id int) (*model.Match, error)
 }

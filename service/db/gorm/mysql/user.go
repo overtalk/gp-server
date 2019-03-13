@@ -1,7 +1,6 @@
 package db
 
 import (
-	// "github.com/jinzhu/gorm"
 	"github.com/qinhan-shu/gp-server/model/gorm"
 )
 
@@ -39,4 +38,9 @@ func (m *MysqlDriver) GetUsersByRole(role int64) ([]*model.User, error) {
 		return nil, err
 	}
 	return users, nil
+}
+
+// AddUser : add new record
+func (m *MysqlDriver) AddUser(user *model.User) error {
+	return m.conn.Create(user).Error
 }
