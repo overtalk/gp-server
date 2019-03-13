@@ -9,7 +9,7 @@ import (
 func TestUpdateTokenAndGetUserIDByToken(t *testing.T) {
 	redisCache := getRedisCache(t)
 
-	userID := 1
+	var userID int64 = 1
 
 	token, err := redisCache.UpdateToken(userID)
 	if err != nil {

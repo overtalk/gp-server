@@ -10,7 +10,7 @@ import (
 )
 
 // GetToken is to get token key
-func GetToken(userID int) string {
+func GetToken(userID int64) string {
 	// in test mode, token = userID
 	if mode.GetMode() == mode.TestMode {
 		return fmt.Sprintf("%d", userID)

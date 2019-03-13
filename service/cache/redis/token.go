@@ -13,7 +13,7 @@ var (
 )
 
 // UpdateToken : update token for user
-func (r *RedisCache) UpdateToken(userID int) (string, error) {
+func (r *RedisCache) UpdateToken(userID int64) (string, error) {
 	if err := r.DelTokenByUserID(userID); err != nil {
 		return "", err
 	}
@@ -36,7 +36,7 @@ func (r *RedisCache) UpdateToken(userID int) (string, error) {
 }
 
 // GetUserIDByToken : get userID by token
-func (r *RedisCache) GetUserIDByToken(token string) (int, error) {
+func (r *RedisCache) GetUserIDByToken(token string) (int64, error) {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("[GetUserIDByToken error] failed to ping redis: %v", err)
 		return 0, err
@@ -51,11 +51,11 @@ func (r *RedisCache) GetUserIDByToken(token string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	return int(userID), nil
+	return userID, nil
 }
 
 // DelTokenByUserID : delete expired token
-func (r *RedisCache) DelTokenByUserID(userID int) error {
+func (r *RedisCache) DelTokenByUserID(userID int64) error {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("[DelToken error] failed to ping redis: %v", err)
 		return err
