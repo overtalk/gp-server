@@ -8,11 +8,12 @@ import (
 type DB interface {
 	// auth
 	CheckPlayer(username, password string) (*model.User, error)
-	GetUserByID(id int) (*model.User, error)
+	GetUserByID(id int64) (*model.User, error)
 
 	// user manage
 	GetUsersByRole(role int64) ([]*model.User, error) // role < 0 : get all user
 	AddUser(user *model.User) error
+	UpdateUser(user *model.User) error
 
 	GetMatchByID(id int) (*model.Match, error)
 }

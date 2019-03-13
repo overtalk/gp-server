@@ -5,7 +5,7 @@ import (
 )
 
 // GetUserByID : get uer model by user id
-func (m *MysqlDriver) GetUserByID(id int) (*model.User, error) {
+func (m *MysqlDriver) GetUserByID(id int64) (*model.User, error) {
 	var user model.User
 	if err := m.conn.First(&user, id).Error; err != nil {
 		return nil, err
@@ -43,4 +43,13 @@ func (m *MysqlDriver) GetUsersByRole(role int64) ([]*model.User, error) {
 // AddUser : add new record
 func (m *MysqlDriver) AddUser(user *model.User) error {
 	return m.conn.Create(user).Error
+}
+
+// UpdateUser : update user
+func (m *MysqlDriver) UpdateUser(user *model.User) error {
+	originUser, err := m.GetUserByID(user.ID)
+	if err != nil {
+		return err
+	}
+	return m.conn.Model(originUser).Updates(*user).Error
 }

@@ -4,6 +4,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/qinhan-shu/gp-server/model/gorm"
 )
 
@@ -84,5 +86,50 @@ func TestMysqlDriver_AddUser(t *testing.T) {
 	}
 
 	t.Logf("%+v\n", user)
+}
+
+func TestMysqlDriver_UpdateUser(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var userID int64 = 1
+	originUser, err := mysqlDriver.GetUserByID(userID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	change := &model.User{
+		ID:   userID,
+		Name: originUser.Name + "000",
+	}
+	if err := mysqlDriver.UpdateUser(change); err != nil {
+		t.Error(err)
+		return
+	}
+
+	changedUser, err := mysqlDriver.GetUserByID(userID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	if !assert.NotEqual(t, originUser.Name, changedUser.Name) {
+		t.Error("filed [Name] is not changed")
+		return
+	}
+
+	if !assert.Equal(t, changedUser.Name, change.Name) {
+		t.Error("filed [Name] is not changed to expected value")
+		return
+	}
+
+	if !assert.Equal(t, originUser.Username, changedUser.Username) {
+		t.Error("other filed [Username] is changed")
+		return
+	}
 
 }
