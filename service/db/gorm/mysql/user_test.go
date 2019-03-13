@@ -27,8 +27,8 @@ func TestMysqlDriver_CheckPlayer(t *testing.T) {
 		return
 	}
 
-	username := "jack"
-	pwd := "jack"
+	username := "aaa"
+	pwd := "aaa"
 	user, err := mysqlDriver.CheckPlayer(username, pwd)
 	if err != nil {
 		t.Error(err)
@@ -36,4 +36,23 @@ func TestMysqlDriver_CheckPlayer(t *testing.T) {
 	}
 
 	t.Logf("%v", user)
+}
+
+func TestMysqlDriver_GetUsersByRole(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var role int64 = -1
+	users, err := mysqlDriver.GetUsersByRole(role)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	for _, user := range users {
+		t.Logf("%+v\n", user)
+	}
 }
