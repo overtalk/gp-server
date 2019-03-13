@@ -38,6 +38,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 	}
 
 	resp.User = &protocol.UserInfo{
+		Id:        user.ID,
 		Name:      user.Name,
 		Sex:       user.Sex,
 		Academy:   user.Academy,
