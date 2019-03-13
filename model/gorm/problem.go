@@ -2,7 +2,7 @@ package model
 
 // Problem : teble `problem`
 type Problem struct {
-	ID          int    `gorm:"type : int(20); primary_key; not null; auto_increment"`
+	ID          int64  `gorm:"type : int(20); primary_key; not null; auto_increment"`
 	Title       string `gorm:"type : varchar(300); not null"`
 	Description string `gorm:"type : text; not null"`
 	Example     string `gorm:"type : text; not null"`
