@@ -11,6 +11,7 @@ import (
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/gate/gin"
+	"github.com/qinhan-shu/gp-server/service/user_manage"
 )
 
 var (
@@ -56,4 +57,5 @@ func registerModule(gate module.Gate) {
 	}
 
 	auth.Register(gate, dataStorage)
+	user_manage.Register(gate, dataStorage)
 }
