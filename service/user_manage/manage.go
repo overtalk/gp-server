@@ -25,6 +25,7 @@ func (m *UserManager) GetUsers(args map[string]interface{}) interface{} {
 		return resp
 	}
 
+	// check token
 	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
 	if err != nil {
 		logger.Sugar.Errorf("invaild token : %v", err)
@@ -32,19 +33,20 @@ func (m *UserManager) GetUsers(args map[string]interface{}) interface{} {
 		return resp
 	}
 
+	// get user from db, and get the operation auth of the player
 	user, err := m.db.GetUserByID(userID)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
-
 	if user.OperationAuth == int(protocol.Role_MANAGER) {
 		logger.Sugar.Errorf("failed to get users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
 
+	// get required users informations
 	role := req.Role
 	if req.GetAll {
 		role = -1
@@ -56,6 +58,7 @@ func (m *UserManager) GetUsers(args map[string]interface{}) interface{} {
 		return resp
 	}
 
+	// add users informations to response
 	for _, user := range users {
 		resp.Users = append(resp.Users, user.TurnProto())
 	}
