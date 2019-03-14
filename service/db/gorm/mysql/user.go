@@ -42,20 +42,18 @@ func (m *MysqlDriver) GetUsersByRole(role int64) ([]*model.User, error) {
 
 // AddUser : add new record
 func (m *MysqlDriver) AddUser(user *model.User) error {
-	return m.conn.Create(user).Error
+	if checkDefaultValue(user) && m.conn.NewRecord(user) {
+		return m.conn.Create(user).Error
+	}
+	return ErrMissingDefaultValue
 }
 
 // UpdateUser : update user
 func (m *MysqlDriver) UpdateUser(user *model.User) error {
-	originUser, err := m.GetUserByID(user.ID)
-	if err != nil {
-		return err
-	}
-	return m.conn.Model(originUser).Updates(*user).Error
+	return m.conn.Model(user).Updates(*user).Error
 }
 
 // DelUser : delete user
 func (m *MysqlDriver) DelUser(user *model.User) error {
 	return m.conn.Where(user).Delete(model.User{}).Error
-	// return m.conn.Delete(user).Error
 }

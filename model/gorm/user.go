@@ -12,7 +12,7 @@ type User struct {
 	OperationAuth int    `gorm:"type : tinyint(4); not null; default : 0"`
 	Role          int    `gorm:"type : tinyint(4); not null; default : 0"`
 	Name          string `gorm:"type : varchar(50); not null"`
-	Sex           bool   `gorm:"type : boolean; not null"`
+	Sex           bool   `gorm:"type : boolean; not null; default : false"`
 	Email         string `gorm:"type : varchar(50); not null"`
 	Academy       string `gorm:"type : varchar(50); not null"`
 	Major         string `gorm:"type : varchar(50); not null"`
@@ -33,6 +33,11 @@ func (u *User) TurnProto() *protocol.UserInfo {
 		Create:    u.Create,
 		LastLogin: u.LastLogin,
 	}
+}
+
+// IsInited : check the default value of each fields
+func (u *User) IsInited() bool {
+	return u.Username != "" && u.Password != "" && u.Name != "" && u.Email != "" && u.Academy != "" && u.Major != "" && u.Create != 0 && u.LastLogin != 0
 }
 
 // TurnUser : turn protobuf to user
