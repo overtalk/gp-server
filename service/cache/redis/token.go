@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/utils/mode"
 	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
@@ -37,6 +38,11 @@ func (r *RedisCache) UpdateToken(userID int64) (string, error) {
 
 // GetUserIDByToken : get userID by token
 func (r *RedisCache) GetUserIDByToken(token string) (int64, error) {
+	// for test mode, token is user id itself in test mode
+	if mode.GetMode() == mode.TestMode {
+		return parse.IntWithError(token)
+	}
+
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("[GetUserIDByToken error] failed to ping redis: %v", err)
 		return 0, err
