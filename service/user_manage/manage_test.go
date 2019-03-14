@@ -45,3 +45,81 @@ func TestUserManage_GetUsers(t *testing.T) {
 		t.Logf("%+v", user)
 	}
 }
+
+func TestUserManage_AddUsers(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	userManagerModule := user_manage.NewUserManager(dataStorage)
+
+	// add users operations
+	addUsersReqBytes, err := proto.Marshal(&protocol.AddUsersReq{
+		Users: []*protocol.UserInfo{
+			&protocol.UserInfo{
+				Name:     "asdf",
+				Sex:      true,
+				Role:     0,
+				Academy:  "it",
+				Major:    "cs",
+				Username: "AddUsers_10",
+				Password: "AddUsers_10",
+			},
+			&protocol.UserInfo{
+				Name:     "asdf",
+				Sex:      true,
+				Role:     0,
+				Academy:  "it",
+				Major:    "cs",
+				Username: "AddUsers_20",
+				Password: "AddUsers_20",
+			},
+			&protocol.UserInfo{
+				Name:     "asdf",
+				Sex:      true,
+				Role:     0,
+				Academy:  "it",
+				Major:    "cs",
+				Username: "AddUsers_30",
+				Password: "AddUsers_30",
+			},
+			&protocol.UserInfo{
+				Id:       2,
+				Name:     "asdf",
+				Sex:      false,
+				Role:     0,
+				Academy:  "it",
+				Major:    "cs",
+				Username: "AddUsers_40",
+				Password: "AddUsers_40",
+			},
+		},
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	args := map[string]interface{}{
+		module.Token:   "1",
+		module.Request: addUsersReqBytes,
+	}
+
+	data := userManagerModule.AddUsers(args)
+	addUsersResp := data.(*protocol.AddUsersResp)
+	if addUsersResp.Code != protocol.Code_OK {
+		t.Error(err)
+		return
+	}
+
+	t.Log("-------Succeed-------")
+	for _, user := range addUsersResp.Succeed {
+		t.Logf("%+v", user)
+	}
+
+	t.Log("-------failed-------")
+	for _, user := range addUsersResp.Fail {
+		t.Logf("%+v", user)
+	}
+}
