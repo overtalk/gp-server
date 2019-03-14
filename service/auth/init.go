@@ -26,7 +26,7 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 		Handler: authModule.Login,
 	})
 	gate.RegisterRoute("/logout", module.Router{
-		Method:  "POST",
+		Method:  "GET",
 		Handler: authModule.Logout,
 	})
 }

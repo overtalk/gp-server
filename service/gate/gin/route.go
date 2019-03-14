@@ -54,6 +54,26 @@ func (s *Service) registerToGate() {
 					c.ProtoBuf(http.StatusOK, resp)
 				})
 			}
+		case "GET":
+			{
+				s.gin.GET(router, func(c *gin.Context) {
+					args := make(map[string]interface{})
+					// get `token`
+					cookie, err := c.Request.Cookie("token")
+					if err != nil {
+						logger.Sugar.Infof("failed to get token : %v", err)
+					}
+					if cookie != nil {
+						args[module.Token] = cookie.Value
+					}
+
+					resp := handler.Handler(args)
+					logger.Sugar.Debugf("a get request for router [%s], response : %v", router, resp)
+					// 目前使用protobuf作为通信协议
+					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成
+					c.ProtoBuf(http.StatusOK, resp)
+				})
+			}
 		default:
 			logger.Sugar.Fatalf("illegal http method [%s] for router [%s]", handler.Method, router)
 		}
