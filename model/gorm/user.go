@@ -21,6 +21,7 @@ type User struct {
 }
 
 // TurnProto : turn user to protobuf
+// username & password is not allowed to send to client
 func (u *User) TurnProto() *protocol.UserInfo {
 	return &protocol.UserInfo{
 		Id:        u.ID,
@@ -31,5 +32,21 @@ func (u *User) TurnProto() *protocol.UserInfo {
 		Major:     u.Major,
 		Create:    u.Create,
 		LastLogin: u.LastLogin,
+	}
+}
+
+// TurnUser : turn protobuf to user
+func TurnUser(user *protocol.UserInfo) *User {
+	return &User{
+		ID:        user.Id,
+		Name:      user.Name,
+		Sex:       user.Sex,
+		Role:      int(user.Role),
+		Academy:   user.Academy,
+		Major:     user.Major,
+		LastLogin: user.LastLogin,
+		Create:    user.Create,
+		Username:  user.Username,
+		Password:  user.Password,
 	}
 }
