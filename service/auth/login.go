@@ -12,13 +12,13 @@ import (
 
 // Login : authentication, and get token
 func (a *Auth) Login(args map[string]interface{}) interface{} {
+	// get request and response
+	req := &protocol.LoginReq{}
 	resp := &protocol.LoginResp{}
 	if err := utils.CheckArgs(args, module.Request); err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
-
-	req := &protocol.LoginReq{}
 	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
