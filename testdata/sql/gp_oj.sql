@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` tinyint(4) NOT NULL DEFAULT 0, -- 0 ： 学生
 
   `name` varchar(50) NOT NULL,
-  `sex` boolean NOT NULL,
+  `sex` boolean NOT NULL DEFAULT 0,
   `email` varchar(50) NOT NULL,
   `academy` varchar(50) NOT NULL,   -- 暂定string， 以后可改成枚举
   `major` varchar(50) NOT NULL,     -- 暂定string， 以后可改成枚举
