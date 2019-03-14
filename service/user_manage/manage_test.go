@@ -22,7 +22,7 @@ func TestUserManage_GetUsers(t *testing.T) {
 	userManagerModule := user_manage.NewUserManager(dataStorage)
 
 	// get user operations
-	getUsersReqBytes, err := proto.Marshal(&protocol.GetUsersReq{
+	reqBytes, err := proto.Marshal(&protocol.GetUsersReq{
 		GetAll: false,
 		Role:   protocol.Role_TEACHER,
 	})
@@ -32,16 +32,16 @@ func TestUserManage_GetUsers(t *testing.T) {
 	}
 	args := map[string]interface{}{
 		module.Token:   "1",
-		module.Request: getUsersReqBytes,
+		module.Request: reqBytes,
 	}
 
 	data := userManagerModule.GetUsers(args)
-	getUsersResp := data.(*protocol.GetUsersResp)
-	if getUsersResp.Code != protocol.Code_OK {
+	resp := data.(*protocol.GetUsersResp)
+	if resp.Code != protocol.Code_OK {
 		t.Error(err)
 		return
 	}
-	for _, user := range getUsersResp.Users {
+	for _, user := range resp.Users {
 		t.Logf("%+v", user)
 	}
 }
@@ -56,7 +56,7 @@ func TestUserManage_AddUsers(t *testing.T) {
 	userManagerModule := user_manage.NewUserManager(dataStorage)
 
 	// add users operations
-	addUsersReqBytes, err := proto.Marshal(&protocol.AddUsersReq{
+	reqBytes, err := proto.Marshal(&protocol.AddUsersReq{
 		Users: []*protocol.UserInfo{
 			&protocol.UserInfo{
 				Name:     "asdf",
@@ -103,23 +103,121 @@ func TestUserManage_AddUsers(t *testing.T) {
 	}
 	args := map[string]interface{}{
 		module.Token:   "1",
-		module.Request: addUsersReqBytes,
+		module.Request: reqBytes,
 	}
 
 	data := userManagerModule.AddUsers(args)
-	addUsersResp := data.(*protocol.AddUsersResp)
-	if addUsersResp.Code != protocol.Code_OK {
+	resp := data.(*protocol.AddUsersResp)
+	if resp.Code != protocol.Code_OK {
 		t.Error(err)
 		return
 	}
 
 	t.Log("-------Succeed-------")
-	for _, user := range addUsersResp.Succeed {
+	for _, user := range resp.Succeed {
 		t.Logf("%+v", user)
 	}
 
 	t.Log("-------failed-------")
-	for _, user := range addUsersResp.Fail {
+	for _, user := range resp.Fail {
+		t.Logf("%+v", user)
+	}
+}
+
+func TestUserManage_UpdateUsers(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	userManagerModule := user_manage.NewUserManager(dataStorage)
+
+	// update users operations
+	reqBytes, err := proto.Marshal(&protocol.UpdateUsersReq{
+		Users: []*protocol.UserInfo{
+			&protocol.UserInfo{
+				Id:       2,
+				Name:     "1",
+				Sex:      true,
+				Role:     0,
+				Academy:  "2",
+				Major:    "2",
+				Username: "2",
+				Password: "2",
+			},
+		},
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	args := map[string]interface{}{
+		module.Token:   "1",
+		module.Request: reqBytes,
+	}
+
+	data := userManagerModule.UpdateUsers(args)
+	resp := data.(*protocol.UpdateUsersResp)
+	if resp.Code != protocol.Code_OK {
+		t.Error(err)
+		return
+	}
+
+	t.Log("-------Succeed-------")
+	for _, user := range resp.Succeed {
+		t.Logf("%+v", user)
+	}
+
+	t.Log("-------failed-------")
+	for _, user := range resp.Fail {
+		t.Logf("%+v", user)
+	}
+}
+
+func TestUserManage_DelUsers(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	userManagerModule := user_manage.NewUserManager(dataStorage)
+
+	// del users operations
+	reqBytes, err := proto.Marshal(&protocol.DelUsersReq{
+		Users: []*protocol.UserInfo{
+			&protocol.UserInfo{
+				Id: 14,
+			},
+			&protocol.UserInfo{
+				Id: 15,
+			},
+		},
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	args := map[string]interface{}{
+		module.Token:   "1",
+		module.Request: reqBytes,
+	}
+
+	data := userManagerModule.DelUsers(args)
+	resp := data.(*protocol.DelUsersResp)
+	if resp.Code != protocol.Code_OK {
+		t.Error(err)
+		return
+	}
+
+	t.Log("-------Succeed-------")
+	for _, user := range resp.Succeed {
+		t.Logf("%+v", user)
+	}
+
+	t.Log("-------failed-------")
+	for _, user := range resp.Fail {
 		t.Logf("%+v", user)
 	}
 }

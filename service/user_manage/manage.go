@@ -173,8 +173,8 @@ func (m *UserManager) UpdateUsers(args map[string]interface{}) interface{} {
 // DelUsers : delete users
 func (m *UserManager) DelUsers(args map[string]interface{}) interface{} {
 	// get request and response
-	req := &protocol.UpdateUsersReq{}
-	resp := &protocol.UpdateUsersResp{}
+	req := &protocol.DelUsersReq{}
+	resp := &protocol.DelUsersResp{}
 	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
