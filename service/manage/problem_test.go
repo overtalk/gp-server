@@ -107,8 +107,10 @@ func TestUserManage_AddProblem(t *testing.T) {
 				Time: "62s",
 				Mem:  "7m",
 			},
-			Tags:       []string{"求和", "数组", "树"},
-			Difficluty: protocol.ProblemDifficluty_HARD,
+			Tags:         []string{"求和", "数组", "树"},
+			Difficluty:   protocol.ProblemDifficluty_HARD,
+			JudgeInFile:  []byte("JudgeInFile test file"),
+			JudgeOutFile: []byte("JudgeOutFile test file"),
 		},
 	})
 	if err != nil {

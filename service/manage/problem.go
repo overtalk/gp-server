@@ -2,12 +2,13 @@ package manage
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/qinhan-shu/gp-server/model/gorm"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/model/gorm"
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
+	"github.com/qinhan-shu/gp-server/utils/file"
 	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
@@ -118,7 +119,19 @@ func (m *BackStageManage) AddProblem(args map[string]interface{}) interface{} {
 	}
 
 	// add problem
-	if err := m.db.AddProblem(model.TurnProblem(req.Problem)); err != nil {
+	p := model.TurnProblem(req.Problem)
+	relativePath := m.judgeFilePath + getJudgeFileRelativePath(p.Title)
+	if err := file.Write(relativePath+"_in.txt", req.Problem.JudgeInFile); err != nil {
+		resp.IsSuccess = false
+		return resp
+	}
+	if err := file.Write(relativePath+"_out.txt", req.Problem.JudgeOutFile); err != nil {
+		resp.IsSuccess = false
+		return resp
+	}
+
+	p.JudgeFile = relativePath
+	if err := m.db.AddProblem(p); err != nil {
 		resp.IsSuccess = false
 	} else {
 		resp.IsSuccess = true
