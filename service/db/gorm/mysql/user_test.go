@@ -187,7 +187,7 @@ func TestAddSomeUsers(t *testing.T) {
 		role, _ := utils.RandInt(0, 1)
 		user := &model.User{
 			Account:   key,
-			Password:  key,
+			Password:  utils.MD5(key),
 			Role:      role,
 			Name:      key,
 			Sex:       role == 0,
