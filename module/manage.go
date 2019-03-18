@@ -10,5 +10,6 @@ type BackStageManage interface {
 
 	// problems manage
 	GetProblems(args map[string]interface{}) interface{}
+	GetProblemByID(args map[string]interface{}) interface{}
 	AddProblem(args map[string]interface{}) interface{}
 }

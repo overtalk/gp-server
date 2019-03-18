@@ -27,23 +27,10 @@ func (m *BackStageManage) GetProblems(args map[string]interface{}) interface{} {
 	}
 
 	// check token
-	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	_, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
 	if err != nil {
 		logger.Sugar.Errorf("invaild token : %v", err)
 		resp.Code = protocol.Code_INVAILD_TOKEN
-		return resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		resp.Code = protocol.Code_PERMISSION_DENIED
-		return resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to add problem[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
 
@@ -57,6 +44,40 @@ func (m *BackStageManage) GetProblems(args map[string]interface{}) interface{} {
 	for _, problem := range problems {
 		resp.Problems = append(resp.Problems, problem.TurnMinProto())
 	}
+	return resp
+}
+
+// GetProblemByID : get problem by id
+func (m *BackStageManage) GetProblemByID(args map[string]interface{}) interface{} {
+	// get request and response
+	req := &protocol.GetProblemByIDReq{}
+	resp := &protocol.GetProblemByIDResp{}
+	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
+		resp.Code = protocol.Code_INVAILD_DATA
+		return resp
+	}
+	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal : %v", err)
+		resp.Code = protocol.Code_INVAILD_DATA
+		return resp
+	}
+
+	// check token
+	_, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	if err != nil {
+		logger.Sugar.Errorf("invaild token : %v", err)
+		resp.Code = protocol.Code_INVAILD_TOKEN
+		return resp
+	}
+
+	problem, err := m.db.GetProblemByID(req.Id)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get problem by id : %v", err)
+		resp.Code = protocol.Code_INTERNAL
+		return resp
+	}
+
+	resp.Problem = problem.TurnProto()
 	return resp
 }
 
