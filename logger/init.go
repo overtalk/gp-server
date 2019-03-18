@@ -8,26 +8,48 @@ import (
 )
 
 // Sugar is a zap sugared logger
-var Sugar *zap.SugaredLogger
+var (
+	Sugar        *zap.SugaredLogger
+	loggerConfig zap.Config
+)
 
-func init() {
-	logger, err := zap.NewProduction(
+// InitLogger : constructor og logger
+func InitLogger(lvString string) {
+	var (
+		err error
+		lvl zapcore.Level
+	)
+
+	if lvl, err = getLoggerLevel(lvString); err != nil {
+		log.Fatalln("failed to initalize logger due to:", err)
+	}
+
+	if lvl == zapcore.DebugLevel {
+		loggerConfig = zap.NewDevelopmentConfig()
+	} else {
+		loggerConfig = zap.NewProductionConfig()
+	}
+
+	loggerConfig.Level = zap.NewAtomicLevelAt(lvl)
+	zapLogger, err := loggerConfig.Build(
 		zap.AddStacktrace(zapcore.PanicLevel),
 	)
+
 	if err != nil {
-		log.Fatalln("failed to initialize zap logger")
+		log.Fatalln("failed to initialize logger due to:", err)
 	}
-	Sugar = logger.Sugar()
+
+	Sugar = zapLogger.Sugar()
 }
 
-// AddDebugLogger is to add new logger for debug
-func AddDebugLogger() {
-	l, err := zap.NewDevelopment(
-		zap.AddStacktrace(zapcore.PanicLevel),
+func getLoggerLevel(lvString string) (zapcore.Level, error) {
+	var (
+		lvl zapcore.Level
 	)
-	if err != nil {
-		Sugar.Fatal("failed to initialize zap logger")
+
+	if err := lvl.UnmarshalText([]byte(lvString)); err != nil {
+		return lvl, err
 	}
-	Sugar = l.Sugar()
-	Sugar.Infof("Debug is on\n")
+
+	return lvl, nil
 }
