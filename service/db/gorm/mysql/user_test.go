@@ -184,7 +184,7 @@ func TestAddSomeUsers(t *testing.T) {
 	num := 10
 	for i := 0; i < num; i++ {
 		key := keyWord + fmt.Sprintf("%d", i)
-		role, _ := utils.RandInt(0, 1)
+		role, _ := utils.RandInt(0, 2)
 		user := &model.User{
 			Account:   key,
 			Password:  utils.MD5(key),
