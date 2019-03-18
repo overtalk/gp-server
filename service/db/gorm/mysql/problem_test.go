@@ -6,6 +6,21 @@ import (
 	"github.com/qinhan-shu/gp-server/model/gorm"
 )
 
+func TestMysqlDriver_GetProblemByID(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var id int64 = 1
+	problem, err := mysqlDriver.GetProblemByID(id)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Log(problem)
+}
 func TestMysqlDriver_AddProblem(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {

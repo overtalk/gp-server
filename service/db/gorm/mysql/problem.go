@@ -9,6 +9,16 @@ func (m *MysqlDriver) GetProblems() ([]*model.Problem, error) {
 	return nil, nil
 }
 
+// GetProblemByID : get problem by id
+func (m *MysqlDriver) GetProblemByID(id int64) (*model.Problem, error) {
+	var p model.Problem
+	if err := m.conn.First(&p, id).Error; err != nil {
+		return nil, err
+	}
+
+	return &p, nil
+}
+
 // AddProblem : add problem to db
 func (m *MysqlDriver) AddProblem(problem *model.Problem) error {
 	if checkDefaultValue(problem) && m.conn.NewRecord(problem) {

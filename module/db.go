@@ -19,6 +19,7 @@ type DB interface {
 	// problem manage
 	GetProblems() ([]*model.Problem, error)
 	AddProblem(problem *model.Problem) error
+	GetProblemByID(id int64) (*model.Problem, error)
 
 	GetMatchByID(id int) (*model.Match, error)
 }
