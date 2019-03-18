@@ -1,13 +1,19 @@
 package config
 
 import (
+	"flag"
 	"fmt"
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/cache/redis"
 	"github.com/qinhan-shu/gp-server/service/db/gorm/mysql"
+	"github.com/qinhan-shu/gp-server/utils/file"
 	"github.com/qinhan-shu/gp-server/utils/parse"
+)
+
+var (
+	judgeFileDir = flag.String("judgeFileDir", "/judge", "judge files dir")
 )
 
 // InitConfig is to get config
@@ -113,8 +119,14 @@ func (c *Config) GetDataStorage() (*module.DataStorage, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if !file.IsDir(*judgeFileDir) {
+		return nil, fmt.Errorf("path[%s] is not a dir", *judgeFileDir)
+	}
+	logger.Sugar.Debugf("judgeFileDir = %s", *judgeFileDir)
 	return &module.DataStorage{
-		DB:    mysqlDB,
-		Cache: redisCache,
+		JudgeFilePath: *judgeFileDir,
+		DB:            mysqlDB,
+		Cache:         redisCache,
 	}, nil
 }
