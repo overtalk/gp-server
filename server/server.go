@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	debug    = flag.Bool("debug", false, "enable debug mode")
+	mode     = flag.String("mode", "debug", "running mode, optional( debug | prod), default is debug mode")
 	port     = flag.String("addr", ":9999", "listen address")
 	certFile = flag.String("certFile", "", "ssl certficate filename")
 	keyFile  = flag.String("keyFile", "", "ssl private key filename")
@@ -24,7 +24,7 @@ var (
 func main() {
 	flag.Parse()
 
-	if *debug {
+	if *mode == "debug" {
 		logger.AddDebugLogger()
 	}
 
