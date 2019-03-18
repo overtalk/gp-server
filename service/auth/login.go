@@ -25,7 +25,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	user, err := a.db.CheckPlayer(req.Account, req.Password)
+	user, err := a.db.CheckPlayer(req.Account, utils.MD5(req.Password))
 	if err != nil {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp

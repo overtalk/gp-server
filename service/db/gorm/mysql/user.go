@@ -17,7 +17,7 @@ func (m *MysqlDriver) GetUserByID(id int64) (*model.User, error) {
 // CheckPlayer : get uer model by username and password
 func (m *MysqlDriver) CheckPlayer(username, password string) (*model.User, error) {
 	var user model.User
-	if err := m.conn.Where("username = ? and password = ?", username, password).First(&user).Error; err != nil {
+	if err := m.conn.Where("account = ? and password = ?", username, password).First(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil

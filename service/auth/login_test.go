@@ -21,8 +21,8 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 
 	// login operations
 	loginReqBytes, err := proto.Marshal(&protocol.LoginReq{
-		Username: "aaa",
-		Password: "aaa",
+		Account:  "jack0",
+		Password: "jack0",
 	})
 	if err != nil {
 		t.Error(err)
@@ -34,7 +34,7 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 	data := authModule.Login(args)
 	loginResp := data.(*protocol.LoginResp)
 	if loginResp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("loginResp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(loginResp.Code)])
 		return
 	}
 	t.Log(loginResp)
