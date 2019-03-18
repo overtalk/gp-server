@@ -19,7 +19,7 @@ func TestUserManage_GetUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := manage.NewBackStageManager(dataStorage)
+	managerModule := manage.NewBackStageManager(dataStorage)
 
 	// get user operations
 	reqBytes, err := proto.Marshal(&protocol.GetUsersReq{
@@ -35,10 +35,10 @@ func TestUserManage_GetUsers(t *testing.T) {
 		module.Request: reqBytes,
 	}
 
-	data := userManagerModule.GetUsers(args)
+	data := managerModule.GetUsers(args)
 	resp := data.(*protocol.GetUsersResp)
 	if resp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
 		return
 	}
 	for _, user := range resp.Users {
@@ -53,7 +53,7 @@ func TestUserManage_AddUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := manage.NewBackStageManager(dataStorage)
+	managerModule := manage.NewBackStageManager(dataStorage)
 
 	// add users operations
 	reqBytes, err := proto.Marshal(&protocol.AddUsersReq{
@@ -109,10 +109,10 @@ func TestUserManage_AddUsers(t *testing.T) {
 		module.Request: reqBytes,
 	}
 
-	data := userManagerModule.AddUsers(args)
+	data := managerModule.AddUsers(args)
 	resp := data.(*protocol.AddUsersResp)
 	if resp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
 		return
 	}
 
@@ -134,7 +134,7 @@ func TestUserManage_UpdateUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := manage.NewBackStageManager(dataStorage)
+	managerModule := manage.NewBackStageManager(dataStorage)
 
 	// update users operations
 	reqBytes, err := proto.Marshal(&protocol.UpdateUsersReq{
@@ -161,10 +161,10 @@ func TestUserManage_UpdateUsers(t *testing.T) {
 		module.Request: reqBytes,
 	}
 
-	data := userManagerModule.UpdateUsers(args)
+	data := managerModule.UpdateUsers(args)
 	resp := data.(*protocol.UpdateUsersResp)
 	if resp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
 		return
 	}
 
@@ -186,7 +186,7 @@ func TestUserManage_DelUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := manage.NewBackStageManager(dataStorage)
+	managerModule := manage.NewBackStageManager(dataStorage)
 
 	// del users operations
 	reqBytes, err := proto.Marshal(&protocol.DelUsersReq{
@@ -201,10 +201,10 @@ func TestUserManage_DelUsers(t *testing.T) {
 		module.Request: reqBytes,
 	}
 
-	data := userManagerModule.DelUsers(args)
+	data := managerModule.DelUsers(args)
 	resp := data.(*protocol.DelUsersResp)
 	if resp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
 		return
 	}
 

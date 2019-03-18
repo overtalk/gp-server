@@ -32,15 +32,15 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 		module.Request: loginReqBytes,
 	}
 	data := authModule.Login(args)
-	loginResp := data.(*protocol.LoginResp)
-	if loginResp.Code != protocol.Code_OK {
-		t.Errorf("loginResp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(loginResp.Code)])
+	resp := data.(*protocol.LoginResp)
+	if resp.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
 		return
 	}
-	t.Log(loginResp)
+	t.Log(resp)
 
 	// check the redis
-	userID, err := dataStorage.Cache.GetUserIDByToken(loginResp.Token)
+	userID, err := dataStorage.Cache.GetUserIDByToken(resp.Token)
 	if err != nil {
 		t.Error(err)
 		return
@@ -49,20 +49,20 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 
 	// logout operations
 	args = map[string]interface{}{
-		module.Token: loginResp.Token,
+		module.Token: resp.Token,
 	}
 	data = authModule.Logout(args)
 	logoutResp := data.(*protocol.LogOut)
 	if logoutResp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("logoutResp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(logoutResp.Code)])
 		return
 	}
 	t.Log("LogOut.Code = ", logoutResp.Code)
 
 	// check the redis again
-	userID, err = dataStorage.Cache.GetUserIDByToken(loginResp.Token)
+	userID, err = dataStorage.Cache.GetUserIDByToken(resp.Token)
 	if err == nil {
-		t.Errorf("logout fail. get userID[%d] using old token[%s]", userID, loginResp.Token)
+		t.Errorf("logout fail. get userID[%d] using old token[%s]", userID, resp.Token)
 		return
 	}
 }

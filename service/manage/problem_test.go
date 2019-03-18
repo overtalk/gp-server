@@ -12,6 +12,37 @@ import (
 	"github.com/qinhan-shu/gp-server/utils/mode"
 )
 
+func TestUserManage_GetProblems(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	// get user operations
+	reqBytes, err := proto.Marshal(&protocol.GetProblemsReq{})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	args := map[string]interface{}{
+		module.Token:   "1",
+		module.Request: reqBytes,
+	}
+
+	data := managerModule.GetProblems(args)
+	resp := data.(*protocol.GetProblemsResp)
+	if resp.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+		return
+	}
+
+	for _, problem := range resp.Problems {
+		t.Logf("%+v", problem)
+	}
+}
 func TestUserManage_AddProblem(t *testing.T) {
 	mode.SetMode(mode.TestMode)
 	dataStorage, err := config.NewConfig().GetDataStorage()
@@ -59,7 +90,7 @@ func TestUserManage_AddProblem(t *testing.T) {
 	data := managerModule.AddProblem(args)
 	resp := data.(*protocol.AddProblemResp)
 	if resp.Code != protocol.Code_OK {
-		t.Error(err)
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
 		return
 	}
 }
