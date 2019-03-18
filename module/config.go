@@ -19,7 +19,7 @@ type ConfigSource interface {
 
 // Config : configuration module
 type Config interface {
-	InitConfig() error
+	InitConfig()
 	ReloadConfig() error
 	GetConfigByName(configName string) (string, error)
 	GetDataStorage() (*DataStorage, error)

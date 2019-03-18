@@ -3,7 +3,8 @@ package db
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	//"github.com/qinhan-shu/gp-server/model/gorm"
+
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 // MysqlDriver : mysql driver
@@ -13,7 +14,7 @@ type MysqlDriver struct {
 }
 
 // NewMysqlDriver : constructor of MysqlDriver
-func NewMysqlDriver(config *MysqlConfig) (*MysqlDriver, error) {
+func NewMysqlDriver(config *MysqlConfig) (module.DB, error) {
 	// Set the default settings
 	if config.MaxOpenConnsNum <= 0 {
 		config.MaxIdleConnsNum = DefaultMaxOpenConnsNum

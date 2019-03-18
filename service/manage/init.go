@@ -1,18 +1,18 @@
-package user_manage
+package manage
 
 import (
 	"github.com/qinhan-shu/gp-server/module"
 )
 
-// UserManager : implementation of UserManage module
-type UserManager struct {
+// BackStageManage : implementation of backstage manager module
+type BackStageManage struct {
 	db    module.DB
 	cache module.Cache
 }
 
-// NewUserManager : constructor for module NewUserManager
-func NewUserManager(dataStorage *module.DataStorage) *UserManager {
-	return &UserManager{
+// NewBackStageManager : constructor for module BackStageManager
+func NewBackStageManager(dataStorage *module.DataStorage) module.BackStageManage {
+	return &BackStageManage{
 		db:    dataStorage.DB,
 		cache: dataStorage.Cache,
 	}
@@ -20,21 +20,22 @@ func NewUserManager(dataStorage *module.DataStorage) *UserManager {
 
 // Register : register module auth to gate
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
-	userManagerModule := NewUserManager(dataStorage)
+	managerModule := NewBackStageManager(dataStorage)
+	// user manage
 	gate.RegisterRoute("/getUsers", module.Router{
 		Method:  "POST",
-		Handler: userManagerModule.GetUsers,
+		Handler: managerModule.GetUsers,
 	})
 	gate.RegisterRoute("/addUsers", module.Router{
 		Method:  "POST",
-		Handler: userManagerModule.AddUsers,
+		Handler: managerModule.AddUsers,
 	})
 	gate.RegisterRoute("/updateUsers", module.Router{
 		Method:  "POST",
-		Handler: userManagerModule.UpdateUsers,
+		Handler: managerModule.UpdateUsers,
 	})
 	gate.RegisterRoute("/delUsers", module.Router{
 		Method:  "POST",
-		Handler: userManagerModule.DelUsers,
+		Handler: managerModule.DelUsers,
 	})
 }

@@ -15,7 +15,7 @@ type Config struct {
 }
 
 // NewConfig is the constructor of config model
-func NewConfig() *Config {
+func NewConfig() module.Config {
 	c := &Config{
 		configSource: source.NewGithub(),
 	}

@@ -7,6 +7,7 @@ import (
 	"github.com/go-redis/redis"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 var (
@@ -20,7 +21,7 @@ type RedisCache struct {
 }
 
 // NewRedisCache creates a new RedisCache
-func NewRedisCache(conf *RedisConfig) (*RedisCache, error) {
+func NewRedisCache(conf *RedisConfig) (module.Cache, error) {
 	if conf.Addr == "" {
 		return nil, ErrInvalidRedisAddr
 	}

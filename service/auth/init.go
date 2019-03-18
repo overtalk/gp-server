@@ -11,7 +11,7 @@ type Auth struct {
 }
 
 // NewAuth : constructor for module Auth
-func NewAuth(dataStorage *module.DataStorage) *Auth {
+func NewAuth(dataStorage *module.DataStorage) module.Auth {
 	return &Auth{
 		db:    dataStorage.DB,
 		cache: dataStorage.Cache,

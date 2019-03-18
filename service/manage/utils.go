@@ -1,4 +1,4 @@
-package user_manage
+package manage
 
 import (
 	"github.com/qinhan-shu/gp-server/protocol"

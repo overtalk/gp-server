@@ -1,4 +1,4 @@
-package user_manage_test
+package manage_test
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/service/config"
-	"github.com/qinhan-shu/gp-server/service/user_manage"
+	"github.com/qinhan-shu/gp-server/service/manage"
 	"github.com/qinhan-shu/gp-server/utils/mode"
 )
 
@@ -19,7 +19,7 @@ func TestUserManage_GetUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := user_manage.NewUserManager(dataStorage)
+	userManagerModule := manage.NewBackStageManager(dataStorage)
 
 	// get user operations
 	reqBytes, err := proto.Marshal(&protocol.GetUsersReq{
@@ -53,7 +53,7 @@ func TestUserManage_AddUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := user_manage.NewUserManager(dataStorage)
+	userManagerModule := manage.NewBackStageManager(dataStorage)
 
 	// add users operations
 	reqBytes, err := proto.Marshal(&protocol.AddUsersReq{
@@ -134,7 +134,7 @@ func TestUserManage_UpdateUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := user_manage.NewUserManager(dataStorage)
+	userManagerModule := manage.NewBackStageManager(dataStorage)
 
 	// update users operations
 	reqBytes, err := proto.Marshal(&protocol.UpdateUsersReq{
@@ -186,7 +186,7 @@ func TestUserManage_DelUsers(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	userManagerModule := user_manage.NewUserManager(dataStorage)
+	userManagerModule := manage.NewBackStageManager(dataStorage)
 
 	// del users operations
 	reqBytes, err := proto.Marshal(&protocol.DelUsersReq{

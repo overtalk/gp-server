@@ -1,4 +1,4 @@
-package user_manage
+package manage
 
 import (
 	"time"
@@ -14,7 +14,7 @@ import (
 )
 
 // GetUsers : get users
-func (m *UserManager) GetUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) GetUsers(args map[string]interface{}) interface{} {
 	// get request and response
 	req := &protocol.GetUsersReq{}
 	resp := &protocol.GetUsersResp{}
@@ -70,7 +70,7 @@ func (m *UserManager) GetUsers(args map[string]interface{}) interface{} {
 }
 
 // AddUsers : add users to db
-func (m *UserManager) AddUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) AddUsers(args map[string]interface{}) interface{} {
 	// get request and response
 	req := &protocol.AddUsersReq{}
 	resp := &protocol.AddUsersResp{}
@@ -122,7 +122,7 @@ func (m *UserManager) AddUsers(args map[string]interface{}) interface{} {
 }
 
 // UpdateUsers : update users
-func (m *UserManager) UpdateUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) UpdateUsers(args map[string]interface{}) interface{} {
 	// get request and response
 	req := &protocol.UpdateUsersReq{}
 	resp := &protocol.UpdateUsersResp{}
@@ -171,7 +171,7 @@ func (m *UserManager) UpdateUsers(args map[string]interface{}) interface{} {
 }
 
 // DelUsers : delete users
-func (m *UserManager) DelUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) DelUsers(args map[string]interface{}) interface{} {
 	// get request and response
 	req := &protocol.DelUsersReq{}
 	resp := &protocol.DelUsersResp{}
