@@ -56,6 +56,8 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `id` int(20) NOT NULL auto_increment,
   `title` varchar(300) NOT NULL,
   `description` text NOT NULL,
+  `in_description` text NOT NULL,
+  `out_description` text NOT NULL,
   `hint` text,         -- 题目提示（可为空）
   `example` text NOT NULL,      -- 输入输出样例
   `judge_file` varchar(100) NOT NULL,
