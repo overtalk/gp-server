@@ -3,6 +3,7 @@ package db_test
 import (
 	"testing"
 
+	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/db/gorm/mysql"
 )
@@ -15,7 +16,7 @@ func TestMysqlDriver_Connect(t *testing.T) {
 	}
 }
 
-func getMysqlDriver() (*db.MysqlDriver, error) {
+func getMysqlDriver() (module.DB, error) {
 	configs := config.NewConfig()
 
 	keys := []string{

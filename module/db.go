@@ -16,5 +16,9 @@ type DB interface {
 	UpdateUser(user *model.User) error // only id and changed filed is required
 	DelUser(userID int64) error
 
+	// problem manage
+	GetProblems() ([]*model.Problem, error)
+	AddProblem(problem *model.Problem) error
+
 	GetMatchByID(id int) (*model.Match, error)
 }
