@@ -15,18 +15,17 @@ import (
 )
 
 var (
-	mode     = flag.String("mode", "debug", "running mode, optional( debug | prod), default is debug mode")
-	port     = flag.String("addr", ":9999", "listen address")
-	certFile = flag.String("certFile", "", "ssl certficate filename")
-	keyFile  = flag.String("keyFile", "", "ssl private key filename")
+	logLevel     = flag.String("log-level", "error", "log level, optional( debug | info | warn | error | dpanic | panic | fatal), default is error")
+	port         = flag.String("addr", ":9999", "listen address")
+	certFile     = flag.String("certFile", "", "ssl certficate filename")
+	keyFile      = flag.String("keyFile", "", "ssl private key filename")
+	judgeFileDir = flag.String("judgeFileDir", "/judge", "judge files dir")
 )
 
 func main() {
 	flag.Parse()
 
-	if *mode == "debug" {
-		logger.AddDebugLogger()
-	}
+	logger.InitLogger(*logLevel)
 
 	gateService := gate.NewService(*port)
 	if *certFile != "" && *keyFile != "" {
