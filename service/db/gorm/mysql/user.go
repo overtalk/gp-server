@@ -54,6 +54,6 @@ func (m *MysqlDriver) UpdateUser(user *model.User) error {
 }
 
 // DelUser : delete user
-func (m *MysqlDriver) DelUser(user *model.User) error {
-	return m.conn.Where(user).Delete(model.User{}).Error
+func (m *MysqlDriver) DelUser(userID int64) error {
+	return m.conn.Where("id = ?", userID).Delete(model.User{}).Error
 }

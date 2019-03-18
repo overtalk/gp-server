@@ -4,16 +4,15 @@ USE gp_oj;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(20) NOT NULL auto_increment,
-  `username` varchar(50) NOT NULL UNIQUE,
+  `account` varchar(50) NOT NULL UNIQUE,  -- 用户登陆的账号密码
   `password` varchar(100) NOT NULL,
-  `operation_auth` tinyint(4) NOT NULL DEFAULT 0,
-  `role` tinyint(4) NOT NULL DEFAULT 0, -- 0 ： 学生
-
+  `role` tinyint(4) NOT NULL DEFAULT 0,  -- 0 ： 学生
   `name` varchar(50) NOT NULL,
   `sex` boolean NOT NULL DEFAULT 0,
-  `email` varchar(50) NOT NULL,
-  `academy` varchar(50) NOT NULL,   -- 暂定string， 以后可改成枚举
-  `major` varchar(50) NOT NULL,     -- 暂定string， 以后可改成枚举
+  
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `school` varchar(50) DEFAULT NULL,      
   
   `create` int(64) NOT NULL,        -- 创建时间 ： 时间戳
   `last_login` int(64) NOT NULL,    -- 上次登陆时间 ： 时间戳

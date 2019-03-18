@@ -25,7 +25,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	user, err := a.db.CheckPlayer(req.Username, req.Password)
+	user, err := a.db.CheckPlayer(req.Account, req.Password)
 	if err != nil {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
@@ -37,16 +37,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	resp.User = &protocol.UserInfo{
-		Id:        user.ID,
-		Name:      user.Name,
-		Sex:       user.Sex,
-		Academy:   user.Academy,
-		Major:     user.Major,
-		Email:     user.Email,
-		LastLogin: user.LastLogin,
-		Role:      protocol.Role(user.Role),
-	}
+	resp.User = user.TurnProto()
 	resp.Token = token
 
 	return resp

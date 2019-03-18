@@ -1,12 +1,14 @@
 package db_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 
 	"github.com/qinhan-shu/gp-server/model/gorm"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 func TestMysqlDriver_GetUserByID(t *testing.T) {
@@ -70,13 +72,14 @@ func TestMysqlDriver_AddUser(t *testing.T) {
 	}
 
 	user := &model.User{
-		Username:  "test",
+		Account:   "test",
 		Password:  "test",
+		Role:      0,
 		Name:      "test",
 		Sex:       false,
 		Email:     "test",
-		Academy:   "test",
-		Major:     "test",
+		Phone:     "909",
+		School:    "shu",
 		Create:    time.Now().Unix(),
 		LastLogin: time.Now().Unix(),
 	}
@@ -127,7 +130,7 @@ func TestMysqlDriver_UpdateUser(t *testing.T) {
 		return
 	}
 
-	if !assert.Equal(t, originUser.Username, changedUser.Username) {
+	if !assert.Equal(t, originUser.Account, changedUser.Account) {
 		t.Error("other filed [Username] is changed")
 		return
 	}
@@ -142,13 +145,14 @@ func TestMysqlDriver_DelUser(t *testing.T) {
 	}
 
 	newUser := &model.User{
-		Username:  "test12",
+		Account:   "test12",
 		Password:  "test",
+		Role:      1,
 		Name:      "test",
 		Sex:       false,
 		Email:     "test",
-		Academy:   "test",
-		Major:     "test",
+		Phone:     "test",
+		School:    "test",
 		Create:    time.Now().Unix(),
 		LastLogin: time.Now().Unix(),
 	}
@@ -157,11 +161,7 @@ func TestMysqlDriver_DelUser(t *testing.T) {
 		return
 	}
 
-	delUser := &model.User{
-		Email: newUser.Email,
-	}
-
-	if err := mysqlDriver.DelUser(delUser); err != nil {
+	if err := mysqlDriver.DelUser(newUser.ID); err != nil {
 		t.Error(err)
 		return
 	}
@@ -170,5 +170,36 @@ func TestMysqlDriver_DelUser(t *testing.T) {
 	if err == nil {
 		t.Error("failed to delete player")
 		return
+	}
+}
+
+func TestAddSomeUsers(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	keyWord := "jack"
+	num := 10
+	for i := 0; i < num; i++ {
+		key := keyWord + fmt.Sprintf("%d", i)
+		role, _ := utils.RandInt(0, 1)
+		user := &model.User{
+			Account:   key,
+			Password:  key,
+			Role:      role,
+			Name:      key,
+			Sex:       role == 0,
+			Phone:     key,
+			Email:     key,
+			School:    key,
+			Create:    time.Now().Unix(),
+			LastLogin: time.Now().Unix(),
+		}
+		if err := mysqlDriver.AddUser(user); err != nil {
+			t.Error(err)
+			return
+		}
 	}
 }
