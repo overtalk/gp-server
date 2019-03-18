@@ -34,7 +34,7 @@ func (m *BackStageManage) GetProblems(args map[string]interface{}) interface{} {
 		return resp
 	}
 
-	problems, err := m.db.GetProblems()
+	problems, err := m.db.GetProblems(req.Tag)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all problems : %v", err)
 		resp.Code = protocol.Code_INTERNAL

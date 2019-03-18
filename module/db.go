@@ -17,7 +17,7 @@ type DB interface {
 	DelUser(userID int64) error
 
 	// problem manage
-	GetProblems() ([]*model.Problem, error)
+	GetProblems(tag string) ([]*model.Problem, error)
 	AddProblem(problem *model.Problem) error
 	GetProblemByID(id int64) (*model.Problem, error)
 

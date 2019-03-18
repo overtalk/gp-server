@@ -76,6 +76,7 @@ func TestUserManage_GetProblemByID(t *testing.T) {
 	t.Logf("%v", resp.Problem.JudgeLimit)
 	t.Logf("%v", resp.Problem.Tags)
 }
+
 func TestUserManage_AddProblem(t *testing.T) {
 	mode.SetMode(mode.TestMode)
 	dataStorage, err := config.NewConfig().GetDataStorage()

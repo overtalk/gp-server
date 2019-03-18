@@ -5,9 +5,16 @@ import (
 )
 
 // GetProblems : get problems
-func (m *MysqlDriver) GetProblems() ([]*model.Problem, error) {
+func (m *MysqlDriver) GetProblems(tag string) ([]*model.Problem, error) {
 	var problems []*model.Problem
-	if err := m.conn.Find(&problems).Error; err != nil {
+	var err error
+	if tag == "" {
+		err = m.conn.Find(&problems).Error
+	} else {
+		arg := `%"` + tag + `"%`
+		err = m.conn.Where("tags LIKE ?", arg).Find(&problems).Error
+	}
+	if err != nil {
 		return nil, err
 	}
 	return problems, nil

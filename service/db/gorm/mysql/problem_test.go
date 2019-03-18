@@ -13,7 +13,8 @@ func TestMysqlDriver_GetProblems(t *testing.T) {
 		return
 	}
 
-	problems, err := mysqlDriver.GetProblems()
+	tag := `求和`
+	problems, err := mysqlDriver.GetProblems(tag)
 	if err != nil {
 		t.Error(err)
 		return
