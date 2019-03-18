@@ -6,7 +6,11 @@ import (
 
 // GetProblems : get problems
 func (m *MysqlDriver) GetProblems() ([]*model.Problem, error) {
-	return nil, nil
+	var problems []*model.Problem
+	if err := m.conn.Find(&problems).Error; err != nil {
+		return nil, err
+	}
+	return problems, nil
 }
 
 // GetProblemByID : get problem by id
