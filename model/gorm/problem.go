@@ -43,9 +43,9 @@ func (p *Problem) TurnProto() *protocol.Problem {
 		SubmitTime:  p.SubmitTime,
 		AcceptTime:  p.Ac,
 	}
-	json.Unmarshal([]byte(p.Example), problemProtobuf.InOutExamples)
-	json.Unmarshal([]byte(p.Tags), problemProtobuf.Tags)
-	json.Unmarshal([]byte(p.JudgeLimit), problemProtobuf.JudgeLimit)
+	json.Unmarshal([]byte(p.Example), &problemProtobuf.InOutExamples)
+	json.Unmarshal([]byte(p.Tags), &problemProtobuf.Tags)
+	json.Unmarshal([]byte(p.JudgeLimit), &problemProtobuf.JudgeLimit)
 	return problemProtobuf
 }
 
