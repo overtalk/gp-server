@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 // User : teble `user`
@@ -53,6 +54,6 @@ func TurnUser(user *protocol.UserInfo) *User {
 		LastLogin: user.LastLogin,
 		Create:    user.Create,
 		Account:   user.Account,
-		Password:  user.Password,
+		Password:  utils.MD5(user.Password),
 	}
 }
