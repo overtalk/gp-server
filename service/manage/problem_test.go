@@ -21,7 +21,6 @@ func TestUserManage_GetProblems(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	// get user operations
 	reqBytes, err := proto.Marshal(&protocol.GetProblemsReq{})
 	if err != nil {
 		t.Error(err)
@@ -43,6 +42,40 @@ func TestUserManage_GetProblems(t *testing.T) {
 		t.Logf("%+v", problem)
 	}
 }
+
+func TestUserManage_GetProblemByID(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	reqBytes, err := proto.Marshal(&protocol.GetProblemByIDReq{
+		Id: 1,
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	args := map[string]interface{}{
+		module.Token:   "1",
+		module.Request: reqBytes,
+	}
+
+	data := managerModule.GetProblemByID(args)
+	resp := data.(*protocol.GetProblemByIDResp)
+	if resp.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+		return
+	}
+
+	t.Logf("%v", resp.Problem)
+	t.Logf("%v", resp.Problem.InOutExamples)
+	t.Logf("%v", resp.Problem.JudgeLimit)
+	t.Logf("%v", resp.Problem.Tags)
+}
 func TestUserManage_AddProblem(t *testing.T) {
 	mode.SetMode(mode.TestMode)
 	dataStorage, err := config.NewConfig().GetDataStorage()
@@ -52,7 +85,6 @@ func TestUserManage_AddProblem(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	// get user operations
 	reqBytes, err := proto.Marshal(&protocol.AddProblemReq{
 		Problem: &protocol.Problem{
 			Title:       "这是一个测试题目(求和)",

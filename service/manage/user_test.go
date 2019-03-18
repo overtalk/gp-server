@@ -21,7 +21,6 @@ func TestUserManage_GetUsers(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	// get user operations
 	reqBytes, err := proto.Marshal(&protocol.GetUsersReq{
 		GetAll: false,
 		Role:   protocol.Role_TEACHER,
