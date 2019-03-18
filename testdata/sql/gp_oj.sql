@@ -61,11 +61,11 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `hint` text,         -- 题目提示（可为空）
   `example` text NOT NULL,      -- 输入输出样例
   `judge_file` varchar(100) NOT NULL,
-  `judge_limit` json,
+  `judge_limit` json NOT NULL,
 
-  `tags` varchar(300) NOT NULL,                   -- 题目分类
+  `tags` json NOT NULL,                   -- 题目分类
   `difficulty` tinyint(4) NOT NULL DEFAULT 0,
-  `last_used`  int(64) NOT NULL,          -- 上次使用时间
+  `last_used`  int(64) NOT NULL DEFAULT 0,  -- 上次使用时间
   `used_time` int(20) NOT NULL DEFAULT 0,   -- 使用次数
 
   `submit_time` int(64) NOT NULL DEFAULT 0,   -- 提交总次数

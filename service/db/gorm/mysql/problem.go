@@ -11,5 +11,8 @@ func (m *MysqlDriver) GetProblems() ([]*model.Problem, error) {
 
 // AddProblem : add problem to db
 func (m *MysqlDriver) AddProblem(problem *model.Problem) error {
-	return nil
+	if checkDefaultValue(problem) && m.conn.NewRecord(problem) {
+		return m.conn.Create(problem).Error
+	}
+	return ErrMissingDefaultValue
 }

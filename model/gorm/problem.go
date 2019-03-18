@@ -1,6 +1,8 @@
 package model
 
 import (
+	"encoding/json"
+
 	"github.com/qinhan-shu/gp-server/protocol"
 )
 
@@ -14,7 +16,7 @@ type Problem struct {
 	Hint           string `gorm:"type : text"`
 	Example        string `gorm:"type : text; not null"`
 	JudgeFile      string `gorm:"type : varchar(100); not null"`
-	JudgeLimit     string `gorm:"type : json"`
+	JudgeLimit     string `gorm:"type : json; not null"`
 	Tags           string `gorm:"type : varchar(300); not null"`
 	Difficulty     int    `gorm:"type : tinyint(4); not null; default : 0"`
 	LastUsed       int64  `gorm:"type : int(64); not null"`
@@ -47,5 +49,29 @@ func (p *Problem) TurnProto() *protocol.Problem {
 			Time: "",
 			Mem:  "",
 		},
+	}
+}
+
+// IsInited : check the default value of each fields
+func (p *Problem) IsInited() bool {
+	return p.Title != "" && p.Description != "" && p.InDescription != "" && p.OutDescription != "" && p.Example != "" && p.JudgeLimit != "" && p.JudgeFile != "" && p.Tags != ""
+}
+
+// TurnProblem : turn protobuf to problem
+func TurnProblem(p *protocol.Problem) *Problem {
+	inOutExamples, _ := json.Marshal(p.InOutExamples)
+	judgeLimit, _ := json.Marshal(p.JudgeLimit)
+	tags, _ := json.Marshal(p.Tags)
+	return &Problem{
+		Title:          p.Title,
+		Description:    p.Description,
+		InDescription:  p.In,
+		OutDescription: p.Out,
+		Hint:           p.Hint,
+		Example:        string(inOutExamples),
+		JudgeLimit:     string(judgeLimit),
+		Tags:           string(tags),
+		// TODO:
+		JudgeFile: "/file",
 	}
 }

@@ -43,7 +43,7 @@ func (m *BackStageManage) GetUsers(args map[string]interface{}) interface{} {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
-	if authCheck(user.Role) {
+	if !authCheck(user.Role) {
 		logger.Sugar.Errorf("failed to get users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
@@ -99,7 +99,7 @@ func (m *BackStageManage) AddUsers(args map[string]interface{}) interface{} {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
-	if authCheck(user.Role) {
+	if !authCheck(user.Role) {
 		logger.Sugar.Errorf("failed to add users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
@@ -151,7 +151,7 @@ func (m *BackStageManage) UpdateUsers(args map[string]interface{}) interface{} {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
-	if authCheck(user.Role) {
+	if !authCheck(user.Role) {
 		logger.Sugar.Errorf("failed to update users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
@@ -200,7 +200,7 @@ func (m *BackStageManage) DelUsers(args map[string]interface{}) interface{} {
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
 	}
-	if authCheck(user.Role) {
+	if !authCheck(user.Role) {
 		logger.Sugar.Errorf("failed to delete users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
 		resp.Code = protocol.Code_PERMISSION_DENIED
 		return resp
