@@ -6,15 +6,17 @@ import (
 
 // BackStageManage : implementation of backstage manager module
 type BackStageManage struct {
-	db    module.DB
-	cache module.Cache
+	judgeFilePath string
+	db            module.DB
+	cache         module.Cache
 }
 
 // NewBackStageManager : constructor for module BackStageManager
 func NewBackStageManager(dataStorage *module.DataStorage) module.BackStageManage {
 	return &BackStageManage{
-		db:    dataStorage.DB,
-		cache: dataStorage.Cache,
+		judgeFilePath: dataStorage.JudgeFilePath,
+		db:            dataStorage.DB,
+		cache:         dataStorage.Cache,
 	}
 }
 
