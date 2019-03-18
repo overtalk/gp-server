@@ -32,7 +32,7 @@ type Problem struct {
 
 // TurnProto : turn Problem to protobuf
 func (p *Problem) TurnProto() *protocol.Problem {
-	return &protocol.Problem{
+	problemProtobuf := &protocol.Problem{
 		Id:          p.ID,
 		Title:       p.Title,
 		Description: p.Description,
@@ -42,13 +42,21 @@ func (p *Problem) TurnProto() *protocol.Problem {
 		Difficluty:  protocol.ProblemDifficluty(p.Difficulty),
 		SubmitTime:  p.SubmitTime,
 		AcceptTime:  p.Ac,
-		// TODO:
-		InOutExamples: nil,
-		Tags:          nil,
-		JudgeLimit: &protocol.ProblemJudgeLimit{
-			Time: "",
-			Mem:  "",
-		},
+	}
+	json.Unmarshal([]byte(p.Example), problemProtobuf.InOutExamples)
+	json.Unmarshal([]byte(p.Tags), problemProtobuf.Tags)
+	json.Unmarshal([]byte(p.JudgeLimit), problemProtobuf.JudgeLimit)
+	return problemProtobuf
+}
+
+// TurnMinProto : turn to protobuf with certain fields
+func (p *Problem) TurnMinProto() *protocol.Problem {
+	return &protocol.Problem{
+		Id:         p.ID,
+		Title:      p.Title,
+		Difficluty: protocol.ProblemDifficluty(p.Difficulty),
+		SubmitTime: p.SubmitTime,
+		AcceptTime: p.Ac,
 	}
 }
 
