@@ -38,4 +38,17 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 		Method:  "POST",
 		Handler: managerModule.DelUsers,
 	})
+	// problem manage
+	gate.RegisterRoute("/getProblems", module.Router{
+		Method:  "POST",
+		Handler: managerModule.GetProblems,
+	})
+	gate.RegisterRoute("/getProblemByID", module.Router{
+		Method:  "POST",
+		Handler: managerModule.GetProblemByID,
+	})
+	gate.RegisterRoute("/addProblem", module.Router{
+		Method:  "POST",
+		Handler: managerModule.AddProblem,
+	})
 }
