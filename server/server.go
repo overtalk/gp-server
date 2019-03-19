@@ -18,10 +18,14 @@ var (
 	port     = flag.String("addr", ":9999", "listen address")
 	certFile = flag.String("certFile", "", "ssl certficate filename")
 	keyFile  = flag.String("keyFile", "", "ssl private key filename")
+	logLevel = flag.String("log-level", "error", "log level, optional( debug | info | warn | error | dpanic | panic | fatal), default is error")
 )
 
 func main() {
 	flag.Parse()
+
+	// init logger
+	logger.InitLogger(*logLevel)
 
 	gateService := gate.NewService(*port)
 	if *certFile != "" && *keyFile != "" {

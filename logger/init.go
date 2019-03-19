@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"flag"
 	"log"
 
 	"go.uber.org/zap"
@@ -10,18 +9,22 @@ import (
 
 // Sugar is a zap sugared logger
 var (
-	logLevel     = flag.String("log-level", "error", "log level, optional( debug | info | warn | error | dpanic | panic | fatal), default is error")
 	Sugar        *zap.SugaredLogger
 	loggerConfig zap.Config
 )
 
-// InitLogger : constructor og logger
 func init() {
+	if Sugar == nil {
+		InitLogger("error")
+	}
+}
+
+// InitLogger : constructor og logger
+func InitLogger(lvString string) {
 	var (
 		err error
 		lvl zapcore.Level
 	)
-	lvString := *logLevel
 
 	if lvl, err = getLoggerLevel(lvString); err != nil {
 		log.Fatalln("failed to initalize logger due to:", err)
