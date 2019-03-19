@@ -21,3 +21,7 @@ func TestTurnMysqlWhere(t *testing.T) {
 
 	t.Log(db.TurnMysqlWhere(conditions))
 }
+
+func TestTurnMysqlWhere_nil(t *testing.T) {
+	t.Log(db.TurnMysqlWhere(nil))
+}

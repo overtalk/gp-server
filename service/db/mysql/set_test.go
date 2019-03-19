@@ -17,14 +17,12 @@ func TestMysqlDriver_Update(t *testing.T) {
 	document := "user"
 
 	data := make(map[string]interface{})
-	data["name"] = "TestMysqlDriver_Set1"
+	data["name"] = "TestMysqlDriver_Set"
 
-	if err := mysql.Set(document, data, []db.Condition{
-		db.Condition{
-			Filed:    "id",
-			Operator: "=",
-			Value:    1,
-		},
+	if err := mysql.Set(document, data, db.Condition{
+		Filed:    "id",
+		Operator: "=",
+		Value:    1,
 	}); err != nil {
 		t.Error(err)
 		return
@@ -41,13 +39,13 @@ func TestMysqlDriver_Insert(t *testing.T) {
 	document := "user"
 
 	data := make(map[string]interface{})
-	data["account"] = "jack"
+	data["account"] = "jac"
 	data["password"] = "jack"
 	data["name"] = "jack"
 	data["create"] = time.Now().Unix()
 	data["last_login"] = time.Now().Unix()
 
-	if err := mysql.Set(document, data, nil); err != nil {
+	if err := mysql.Set(document, data); err != nil {
 		t.Error(err)
 		return
 	}

@@ -6,15 +6,17 @@ import (
 
 // Get : get data
 // column : at least one column
-func (m *MysqlDriver) Get(document string, column []string, where string, args ...interface{}) (map[string]interface{}, error) {
+func (m *MysqlDriver) Get(document string, column []string, where ...Condition) (map[string]interface{}, error) {
 	if !getCheck(column) {
 		return nil, ErrInvaildGetArgs
 	}
 
+	whereStr, args := TurnMysqlWhere(where)
+
 	// get sql
 	sql := "SELECT " + strings.Join(column, ",") + " FROM `" + document + "`"
-	if len(where) != 0 {
-		sql += " WHERE " + where
+	if len(whereStr) != 0 {
+		sql += " WHERE " + whereStr
 	}
 	sql += " LIMIT 1"
 
@@ -28,15 +30,17 @@ func (m *MysqlDriver) Get(document string, column []string, where string, args .
 }
 
 // Gets : get more than one record
-func (m *MysqlDriver) Gets(document string, column []string, where string, args ...interface{}) ([]map[string]interface{}, error) {
+func (m *MysqlDriver) Gets(document string, column []string, where ...Condition) ([]map[string]interface{}, error) {
 	if !getCheck(column) {
 		return nil, ErrInvaildGetArgs
 	}
 
+	whereStr, args := TurnMysqlWhere(where)
+
 	// get sql
 	sql := "SELECT " + strings.Join(column, ",") + " FROM `" + document + "`"
 	if len(where) != 0 {
-		sql += " WHERE " + where
+		sql += " WHERE " + whereStr
 	}
 
 	// query

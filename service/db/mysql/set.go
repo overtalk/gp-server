@@ -6,7 +6,7 @@ import (
 
 // Set : update/insert data
 // column : at least one column
-func (m *MysqlDriver) Set(document string, data map[string]interface{}, where []Condition) error {
+func (m *MysqlDriver) Set(document string, data map[string]interface{}, where ...Condition) error {
 	if !setCheck(data) {
 		return ErrInvaildGetArgs
 	}
