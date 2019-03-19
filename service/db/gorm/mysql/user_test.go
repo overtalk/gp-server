@@ -134,7 +134,6 @@ func TestMysqlDriver_UpdateUser(t *testing.T) {
 		t.Error("other filed [Username] is changed")
 		return
 	}
-
 }
 
 func TestMysqlDriver_DelUser(t *testing.T) {

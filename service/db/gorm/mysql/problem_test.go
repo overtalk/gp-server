@@ -3,6 +3,8 @@ package db_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/qinhan-shu/gp-server/model/gorm"
 )
 
@@ -63,6 +65,51 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 	}
 
 	t.Logf("%+v\n", problem)
+}
+
+func TestMysqlDriver_UpdateProblem(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var problemID int64 = 1
+	originProblem, err := mysqlDriver.GetProblemByID(problemID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	change := &model.Problem{
+		ID:    problemID,
+		Title: originProblem.Title + "000",
+	}
+	if err := mysqlDriver.UpdateProblem(change); err != nil {
+		t.Error(err)
+		return
+	}
+
+	changedProblem, err := mysqlDriver.GetProblemByID(problemID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	if !assert.NotEqual(t, originProblem.Title, changedProblem.Title) {
+		t.Error("filed [Title] is not changed")
+		return
+	}
+
+	if !assert.Equal(t, changedProblem.Title, change.Title) {
+		t.Error("filed [Title] is not changed to expected value")
+		return
+	}
+
+	if !assert.Equal(t, originProblem.Description, changedProblem.Description) {
+		t.Error("other filed [Description] is changed")
+		return
+	}
 }
 
 func TestAddSomeProblems(t *testing.T) {
