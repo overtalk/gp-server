@@ -20,6 +20,7 @@ type DB interface {
 	GetProblems(tag string) ([]*model.Problem, error)
 	AddProblem(problem *model.Problem) error
 	GetProblemByID(id int64) (*model.Problem, error)
+	UpdateProblem(problem *model.Problem) error
 
 	GetMatchByID(id int) (*model.Match, error)
 }

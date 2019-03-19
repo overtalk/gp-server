@@ -37,3 +37,8 @@ func (m *MysqlDriver) AddProblem(problem *model.Problem) error {
 	}
 	return ErrMissingDefaultValue
 }
+
+// UpdateProblem : update problem
+func (m *MysqlDriver) UpdateProblem(problem *model.Problem) error {
+	return m.conn.Model(problem).Updates(problem).Error
+}
