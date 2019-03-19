@@ -22,7 +22,7 @@ func (s *Service) RegisterRoute(router, method string, handler module.Handler) {
 	})
 }
 
-func (s *Service) registerToGate(mux *http.ServeMux, httpDir string) {
+func (s *Service) registerToGate(mux *http.ServeMux) {
 	s.routeMap.Range(func(k, v interface{}) bool {
 		router, err := parse.StringWithError(k)
 		if err != nil {

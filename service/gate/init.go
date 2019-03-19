@@ -49,7 +49,7 @@ func (s *Service) Start() {
 
 	// register all routes that have been registered to routeMap to the gate
 	mux := http.NewServeMux()
-	s.registerToGate(mux, "sdf")
+	s.registerToGate(mux)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
