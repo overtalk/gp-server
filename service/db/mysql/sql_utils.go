@@ -33,7 +33,7 @@ func (m *MysqlDriver) Query(query string, args ...interface{}) ([]map[string]int
 	}
 
 	var results []map[string]interface{}
-	if rows.Next() {
+	for rows.Next() {
 		rowColumns, err := rows.Columns()
 		rowColumnCount := len(rowColumns)
 		scanFrom := make([]interface{}, rowColumnCount)

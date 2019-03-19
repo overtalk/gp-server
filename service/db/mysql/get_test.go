@@ -2,6 +2,8 @@ package db_test
 
 import (
 	"testing"
+
+	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 func TestMysqlDriver_Get(t *testing.T) {
@@ -17,8 +19,23 @@ func TestMysqlDriver_Get(t *testing.T) {
 		return
 	}
 
-	r := result.(map[string]interface{})
-	for k, v := range r {
-		t.Logf("%s = %v", k, v)
+	t.Logf("id[%d] --- %v", parse.Int(result["id"]), result)
+}
+
+func TestMysqlDriver_Gets(t *testing.T) {
+	mysql, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	results, err := mysql.Gets("user", []string{"*"}, "")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	for _, result := range results {
+		t.Logf("id[%d] --- %v", parse.Int(result["id"]), result)
 	}
 }
