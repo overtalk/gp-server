@@ -3,7 +3,6 @@ package manage
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -13,13 +12,13 @@ import (
 )
 
 // GetProblems : get problems
-func (m *BackStageManage) GetProblems(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) GetProblems(r *http.Request) (int, proto.Message) {
 	// get request and response
 	code := http.StatusOK
 	req := &protocol.GetProblemsReq{}
 	resp := &protocol.GetProblemsResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -52,13 +51,13 @@ func (m *BackStageManage) GetProblems(c *gin.Context) (int, interface{}) {
 }
 
 // GetProblemByID : get problem by id
-func (m *BackStageManage) GetProblemByID(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) GetProblemByID(r *http.Request) (int, proto.Message) {
 	// get request and response
 	code := http.StatusOK
 	req := &protocol.GetProblemByIDReq{}
 	resp := &protocol.GetProblemByIDResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -89,13 +88,13 @@ func (m *BackStageManage) GetProblemByID(c *gin.Context) (int, interface{}) {
 }
 
 // AddProblem : add problem to db
-func (m *BackStageManage) AddProblem(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) AddProblem(r *http.Request) (int, proto.Message) {
 	// get request and response
 	code := http.StatusOK
 	req := &protocol.AddProblemReq{}
 	resp := &protocol.AddProblemResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -149,13 +148,13 @@ func (m *BackStageManage) AddProblem(c *gin.Context) (int, interface{}) {
 }
 
 // EditProblem : edit problem to db
-func (m *BackStageManage) EditProblem(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) EditProblem(r *http.Request) (int, proto.Message) {
 	// get request and response
 	code := http.StatusOK
 	req := &protocol.EditProblemReq{}
 	resp := &protocol.EditProblemResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp

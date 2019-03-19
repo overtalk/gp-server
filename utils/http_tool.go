@@ -2,8 +2,7 @@ package utils
 
 import (
 	"io/ioutil"
-
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 var (
@@ -11,8 +10,8 @@ var (
 )
 
 // GetToken : get token from gin.Context
-func GetToken(c *gin.Context) (string, error) {
-	cookie, err := c.Request.Cookie(tokenArgName)
+func GetToken(r *http.Request) (string, error) {
+	cookie, err := r.Cookie(tokenArgName)
 	if err != nil {
 		return "", err
 	}
@@ -20,6 +19,6 @@ func GetToken(c *gin.Context) (string, error) {
 }
 
 // GetRequestBody : get request body
-func GetRequestBody(c *gin.Context) ([]byte, error) {
-	return ioutil.ReadAll(c.Request.Body)
+func GetRequestBody(r *http.Request) ([]byte, error) {
+	return ioutil.ReadAll(r.Body)
 }

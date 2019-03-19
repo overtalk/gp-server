@@ -6,9 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/rs/cors"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 var closed = make(chan struct{})
@@ -18,7 +19,6 @@ type Service struct {
 	addr     string
 	certFile string
 	keyFile  string
-	gin      *gin.Engine
 	srv      *http.Server
 	routeMap sync.Map
 }
@@ -27,7 +27,6 @@ type Service struct {
 func NewService(addr string) *Service {
 	s := &Service{
 		addr: addr,
-		gin:  gin.New(),
 	}
 
 	return s
@@ -41,20 +40,31 @@ func (s *Service) AddTLSConfig(certFile, keyFile string) {
 
 // Start game gate service
 func (s *Service) Start() {
-	logger.Sugar.Debugf("all registered router : %v", s.routeMap)
+	logger.Sugar.Debugf("all router:")
+	s.routeMap.Range(func(k, v interface{}) bool {
+		handler := v.(module.Router)
+		logger.Sugar.Debugf("[%s]----[%v]----[%v]", handler.Method, k, handler.Handler)
+		return true
+	})
 
 	// register all routes that have been registered to routeMap to the gate
-	s.registerToGate()
+	mux := http.NewServeMux()
+	s.registerToGate(mux, "sdf")
 
-	var err error
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedHeaders:   []string{"*"},
+		ExposedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
 
 	srv := &http.Server{
 		Addr:    s.addr,
-		Handler: s.gin,
+		Handler: c.Handler(mux),
 	}
 
 	s.srv = srv
-
+	var err error
 	if s.certFile != "" && s.keyFile != "" {
 		err = srv.ListenAndServeTLS(s.certFile, s.keyFile)
 	} else {

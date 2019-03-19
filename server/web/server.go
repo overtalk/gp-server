@@ -10,7 +10,7 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/config"
-	"github.com/qinhan-shu/gp-server/service/gate/gin"
+	"github.com/qinhan-shu/gp-server/service/gate"
 	"github.com/qinhan-shu/gp-server/service/manage"
 )
 

@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -13,12 +12,12 @@ import (
 )
 
 // GetUsers : get users
-func (m *BackStageManage) GetUsers(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) GetUsers(r *http.Request) (int, proto.Message) {
 	code := http.StatusOK
 	req := &protocol.GetUsersReq{}
 	resp := &protocol.GetUsersResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -71,12 +70,12 @@ func (m *BackStageManage) GetUsers(c *gin.Context) (int, interface{}) {
 }
 
 // AddUsers : add users to db
-func (m *BackStageManage) AddUsers(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) AddUsers(r *http.Request) (int, proto.Message) {
 	code := http.StatusOK
 	req := &protocol.AddUsersReq{}
 	resp := &protocol.AddUsersResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -125,12 +124,12 @@ func (m *BackStageManage) AddUsers(c *gin.Context) (int, interface{}) {
 }
 
 // UpdateUsers : update users
-func (m *BackStageManage) UpdateUsers(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) UpdateUsers(r *http.Request) (int, proto.Message) {
 	code := http.StatusOK
 	req := &protocol.UpdateUsersReq{}
 	resp := &protocol.UpdateUsersResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -176,12 +175,12 @@ func (m *BackStageManage) UpdateUsers(c *gin.Context) (int, interface{}) {
 }
 
 // DelUsers : delete users
-func (m *BackStageManage) DelUsers(c *gin.Context) (int, interface{}) {
+func (m *BackStageManage) DelUsers(r *http.Request) (int, proto.Message) {
 	code := http.StatusOK
 	req := &protocol.DelUsersReq{}
 	resp := &protocol.DelUsersResp{}
 	// get token and data
-	data, token, err := getReqAndToken(c)
+	data, token, err := getReqAndToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp

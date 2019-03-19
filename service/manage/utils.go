@@ -1,8 +1,9 @@
 package manage
 
 import (
+	"net/http"
+
 	"github.com/bwmarrin/snowflake"
-	"github.com/gin-gonic/gin"
 
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
@@ -14,7 +15,7 @@ func authCheck(authCode int) bool {
 }
 
 // getReqAndToken : get token and protobuf data
-func getReqAndToken(c *gin.Context) ([]byte, string, error) {
+func getReqAndToken(c *http.Request) ([]byte, string, error) {
 	// get data
 	data, err := utils.GetRequestBody(c)
 	if err != nil {

@@ -1,20 +1,22 @@
 package module
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
+
+	"github.com/golang/protobuf/proto"
 )
 
 // BackStageManage : the backstage administration  module
 type BackStageManage interface {
 	// user manage
-	GetUsers(c *gin.Context) (int, interface{})
-	AddUsers(c *gin.Context) (int, interface{})
-	UpdateUsers(c *gin.Context) (int, interface{})
-	DelUsers(c *gin.Context) (int, interface{})
+	GetUsers(r *http.Request) (int, proto.Message)
+	AddUsers(r *http.Request) (int, proto.Message)
+	UpdateUsers(r *http.Request) (int, proto.Message)
+	DelUsers(r *http.Request) (int, proto.Message)
 
 	// problems manage
-	GetProblems(c *gin.Context) (int, interface{})
-	GetProblemByID(c *gin.Context) (int, interface{})
-	AddProblem(c *gin.Context) (int, interface{})
-	EditProblem(c *gin.Context) (int, interface{})
+	GetProblems(r *http.Request) (int, proto.Message)
+	GetProblemByID(r *http.Request) (int, proto.Message)
+	AddProblem(r *http.Request) (int, proto.Message)
+	EditProblem(r *http.Request) (int, proto.Message)
 }

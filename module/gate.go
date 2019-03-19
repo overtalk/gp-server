@@ -1,11 +1,13 @@
 package module
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
+
+	"github.com/golang/protobuf/proto"
 )
 
 // Handler : handler func format
-type Handler func(c *gin.Context) (int, interface{})
+type Handler func(r *http.Request) (int, proto.Message)
 
 // Router : method and handler
 type Router struct {

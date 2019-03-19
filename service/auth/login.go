@@ -3,7 +3,6 @@ package auth
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -12,12 +11,12 @@ import (
 )
 
 // Login : authentication, and get token
-func (a *Auth) Login(c *gin.Context) (int, interface{}) {
+func (a *Auth) Login(r *http.Request) (int, proto.Message) {
 	// get request and response
 	code := http.StatusOK
 	req := &protocol.LoginReq{}
 	resp := &protocol.LoginResp{}
-	data, err := utils.GetRequestBody(c)
+	data, err := utils.GetRequestBody(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, resp
@@ -48,9 +47,9 @@ func (a *Auth) Login(c *gin.Context) (int, interface{}) {
 }
 
 // Logout : log out, and del token
-func (a *Auth) Logout(c *gin.Context) (int, interface{}) {
+func (a *Auth) Logout(r *http.Request) (int, proto.Message) {
 	code := http.StatusOK
-	token, err := utils.GetToken(c)
+	token, err := utils.GetToken(r)
 	if err != nil {
 		code = http.StatusBadRequest
 		return code, nil

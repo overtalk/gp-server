@@ -1,11 +1,13 @@
 package module
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
+
+	"github.com/golang/protobuf/proto"
 )
 
 // Auth : User identity authentication module
 type Auth interface {
-	Login(c *gin.Context) (int, interface{})
-	Logout(c *gin.Context) (int, interface{})
+	Login(r *http.Request) (int, proto.Message)
+	Logout(r *http.Request) (int, proto.Message)
 }
