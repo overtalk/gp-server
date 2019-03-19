@@ -17,8 +17,8 @@ var (
 
 func main() {
 	req := &protocol.LoginReq{
-		Account:  "aaa",
-		Password: "bbb",
+		Account:  "jack0",
+		Password: "jack0",
 	}
 	resp := &protocol.LoginResp{}
 
