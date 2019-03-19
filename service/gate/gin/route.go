@@ -1,7 +1,6 @@
 package gate
 
 import (
-	"io/ioutil"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,12 +11,15 @@ import (
 )
 
 // RegisterRoute : registered route
-func (s *Service) RegisterRoute(router string, handler module.Handler) {
+func (s *Service) RegisterRoute(router, method string, handler module.Handler) {
 	if _, ok := s.routeMap.Load(router); ok {
 		logger.Sugar.Fatal("repeated router : %s", router)
 	}
 
-	s.routeMap.Store(router, handler)
+	s.routeMap.Store(router, module.Router{
+		Method:  "method",
+		Handler: handler,
+	})
 }
 
 func (s *Service) registerToGate() {
@@ -31,23 +33,7 @@ func (s *Service) registerToGate() {
 		case "POST":
 			{
 				s.gin.POST(router, func(c *gin.Context) {
-					args := make(map[string]interface{})
-					// get `token`
-					cookie, err := c.Request.Cookie("token")
-					if err != nil {
-						logger.Sugar.Infof("failed to get token : %v", err)
-					}
-					if cookie != nil {
-						args[module.Token] = cookie.Value
-					}
-					// get request []bytes
-					data, err := ioutil.ReadAll(c.Request.Body)
-					if err != nil {
-						logger.Sugar.Errorf("failed to get body : %v", err)
-					}
-					args[module.Request] = data
-
-					resp := handler.Handler(args)
+					resp := handler.Handler(c)
 					logger.Sugar.Debugf("a post request for router [%s], response : %v", router, resp)
 					// 目前使用protobuf作为通信协议
 					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成
@@ -57,17 +43,7 @@ func (s *Service) registerToGate() {
 		case "GET":
 			{
 				s.gin.GET(router, func(c *gin.Context) {
-					args := make(map[string]interface{})
-					// get `token`
-					cookie, err := c.Request.Cookie("token")
-					if err != nil {
-						logger.Sugar.Infof("failed to get token : %v", err)
-					}
-					if cookie != nil {
-						args[module.Token] = cookie.Value
-					}
-
-					resp := handler.Handler(args)
+					resp := handler.Handler(c)
 					logger.Sugar.Debugf("a get request for router [%s], response : %v", router, resp)
 					// 目前使用protobuf作为通信协议
 					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成

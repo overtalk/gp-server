@@ -5,10 +5,8 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
-	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 // Login : authentication, and get token
@@ -16,11 +14,13 @@ func (a *Auth) Login(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.LoginReq{}
 	resp := &protocol.LoginResp{}
-	if err := utils.CheckArgs(args, module.Request); err != nil {
+	data, err := utils.GetRequestBody(c)
+	if err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
-	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+
+	if err := proto.Unmarshal(data, req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
@@ -47,12 +47,12 @@ func (a *Auth) Login(c *gin.Context) interface{} {
 // Logout : log out, and del token
 func (a *Auth) Logout(c *gin.Context) interface{} {
 	resp := &protocol.LogOut{}
-	if err := utils.CheckArgs(args, module.Token); err != nil {
+	token, err := utils.GetToken(c)
+	if err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
-	a.cache.DelTokenByToken(parse.String(args[module.Token])) // nolint : err check
-
+	a.cache.DelTokenByToken(token) // nolint : err check
 	return resp
 }

@@ -21,6 +21,6 @@ func NewAuth(dataStorage *module.DataStorage) module.Auth {
 // Register : register module auth to gate
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	module := NewAuth(dataStorage)
-	gate.RegisterRoute("/login", module.Login)
-	gate.RegisterRoute("/logout", module.Logout)
+	gate.RegisterRoute("/login", "POST", module.Login)
+	gate.RegisterRoute("/logout", "GET", module.Logout)
 }

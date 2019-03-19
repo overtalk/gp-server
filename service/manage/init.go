@@ -24,13 +24,13 @@ func NewBackStageManager(dataStorage *module.DataStorage) module.BackStageManage
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	module := NewBackStageManager(dataStorage)
 	// user manage
-	gate.RegisterRoute("/getUsers", module.GetUsers)
-	gate.RegisterRoute("/addUsers", module.AddUsers)
-	gate.RegisterRoute("/updateUsers", module.UpdateUsers)
-	gate.RegisterRoute("/delUsers", module.DelUsers)
+	gate.RegisterRoute("/getUsers", "POST", module.GetUsers)
+	gate.RegisterRoute("/addUsers", "POST", module.AddUsers)
+	gate.RegisterRoute("/updateUsers", "POST", module.UpdateUsers)
+	gate.RegisterRoute("/delUsers", "POST", module.DelUsers)
 	// problem manage
-	gate.RegisterRoute("/getProblems", module.GetProblems)
-	gate.RegisterRoute("/getProblemByID", module.GetProblemByID)
-	gate.RegisterRoute("/addProblem", module.AddProblem)
-	gate.RegisterRoute("/editProblem", module.EditProblem)
+	gate.RegisterRoute("/getProblems", "POST", module.GetProblems)
+	gate.RegisterRoute("/getProblemByID", "POST", module.GetProblemByID)
+	gate.RegisterRoute("/addProblem", "POST", module.AddProblem)
+	gate.RegisterRoute("/editProblem", "POST", module.EditProblem)
 }

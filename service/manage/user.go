@@ -8,10 +8,7 @@ import (
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/gorm"
-	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
-	"github.com/qinhan-shu/gp-server/utils"
-	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 // GetUsers : get users
@@ -19,18 +16,20 @@ func (m *BackStageManage) GetUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.GetUsersReq{}
 	resp := &protocol.GetUsersResp{}
-	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
+	// get token and data
+	data, token, err := getReqAndToken(c)
+	if err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
-	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+	if err := proto.Unmarshal(data, req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
 	// check token
-	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	userID, err := m.cache.GetUserIDByToken(token)
 	if err != nil {
 		logger.Sugar.Errorf("invaild token : %v", err)
 		resp.Code = protocol.Code_INVAILD_TOKEN
@@ -75,18 +74,20 @@ func (m *BackStageManage) AddUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.AddUsersReq{}
 	resp := &protocol.AddUsersResp{}
-	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
+	// get token and data
+	data, token, err := getReqAndToken(c)
+	if err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
-	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+	if err := proto.Unmarshal(data, req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
 	// check token
-	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	userID, err := m.cache.GetUserIDByToken(token)
 	if err != nil {
 		logger.Sugar.Errorf("invaild token : %v", err)
 		resp.Code = protocol.Code_INVAILD_TOKEN
@@ -127,18 +128,20 @@ func (m *BackStageManage) UpdateUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.UpdateUsersReq{}
 	resp := &protocol.UpdateUsersResp{}
-	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
+	// get token and data
+	data, token, err := getReqAndToken(c)
+	if err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
-	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+	if err := proto.Unmarshal(data, req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
 	// check token
-	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	userID, err := m.cache.GetUserIDByToken(token)
 	if err != nil {
 		logger.Sugar.Errorf("invaild token : %v", err)
 		resp.Code = protocol.Code_INVAILD_TOKEN
@@ -176,18 +179,20 @@ func (m *BackStageManage) DelUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.DelUsersReq{}
 	resp := &protocol.DelUsersResp{}
-	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
+	// get token and data
+	data, token, err := getReqAndToken(c)
+	if err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
-	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+	if err := proto.Unmarshal(data, req); err != nil {
 		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Code = protocol.Code_INVAILD_DATA
 		return resp
 	}
 
 	// check token
-	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	userID, err := m.cache.GetUserIDByToken(token)
 	if err != nil {
 		logger.Sugar.Errorf("invaild token : %v", err)
 		resp.Code = protocol.Code_INVAILD_TOKEN
