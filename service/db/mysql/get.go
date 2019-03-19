@@ -2,14 +2,12 @@ package db
 
 import (
 	"strings"
-
-	"github.com/qinhan-shu/gp-server/logger"
 )
 
 // Get : get data
 // column : at least one column
 func (m *MysqlDriver) Get(document string, column []string, where string, args ...interface{}) (map[string]interface{}, error) {
-	if !getCheck(column, where, args) {
+	if !getCheck(column) {
 		return nil, ErrInvaildGetArgs
 	}
 
@@ -23,7 +21,6 @@ func (m *MysqlDriver) Get(document string, column []string, where string, args .
 	// query
 	results, err := m.Query(sql, args...)
 	if err != nil {
-		logger.Sugar.Errorf("failed to query row : %v", err)
 		return nil, err
 	}
 
@@ -32,7 +29,7 @@ func (m *MysqlDriver) Get(document string, column []string, where string, args .
 
 // Gets : get more than one record
 func (m *MysqlDriver) Gets(document string, column []string, where string, args ...interface{}) ([]map[string]interface{}, error) {
-	if !getCheck(column, where, args) {
+	if !getCheck(column) {
 		return nil, ErrInvaildGetArgs
 	}
 
@@ -45,7 +42,6 @@ func (m *MysqlDriver) Gets(document string, column []string, where string, args 
 	// query
 	results, err := m.Query(sql, args...)
 	if err != nil {
-		logger.Sugar.Errorf("failed to query row : %v", err)
 		return nil, err
 	}
 
@@ -53,7 +49,7 @@ func (m *MysqlDriver) Gets(document string, column []string, where string, args 
 }
 
 // getCheck : is the input is available
-func getCheck(column []string, where string, args ...interface{}) bool {
+func getCheck(column []string) bool {
 	if len(column) == 0 {
 		return false
 	}
