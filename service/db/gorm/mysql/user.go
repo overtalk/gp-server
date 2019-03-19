@@ -50,7 +50,7 @@ func (m *MysqlDriver) AddUser(user *model.User) error {
 
 // UpdateUser : update user
 func (m *MysqlDriver) UpdateUser(user *model.User) error {
-	return m.conn.Model(user).Updates(*user).Error
+	return m.conn.Model(user).Updates(user).Error
 }
 
 // DelUser : delete user
