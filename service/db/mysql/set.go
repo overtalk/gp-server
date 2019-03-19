@@ -6,7 +6,7 @@ import (
 
 // Set : update/insert data
 // column : at least one column
-func (m *MysqlDriver) Set(document string, data map[string]interface{}, where string, args ...interface{}) error {
+func (m *MysqlDriver) Set(document string, data map[string]interface{}, where []Condition) error {
 	if !setCheck(data) {
 		return ErrInvaildGetArgs
 	}
@@ -39,9 +39,10 @@ func (m *MysqlDriver) Set(document string, data map[string]interface{}, where st
 		datas = append(datas, k+" = ?")
 		values = append(values, v)
 	}
+	whereStr, args := TurnMysqlWhere(where)
 
 	sql := "UPDATE `" + document + "` SET "
-	sql += strings.Join(datas, ", ") + " WHERE " + where
+	sql += strings.Join(datas, ", ") + " WHERE " + whereStr
 
 	return m.Exec(sql, append(values, args...)...)
 }

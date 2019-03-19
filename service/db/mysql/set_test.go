@@ -3,6 +3,8 @@ package db_test
 import (
 	"testing"
 	"time"
+
+	"github.com/qinhan-shu/gp-server/service/db/mysql"
 )
 
 func TestMysqlDriver_Update(t *testing.T) {
@@ -15,9 +17,15 @@ func TestMysqlDriver_Update(t *testing.T) {
 	document := "user"
 
 	data := make(map[string]interface{})
-	data["name"] = "TestMysqlDriver_Set"
+	data["name"] = "TestMysqlDriver_Set1"
 
-	if err := mysql.Set(document, data, "id = ?", 1); err != nil {
+	if err := mysql.Set(document, data, []db.Condition{
+		db.Condition{
+			Filed:    "id",
+			Operator: "=",
+			Value:    1,
+		},
+	}); err != nil {
 		t.Error(err)
 		return
 	}
@@ -39,7 +47,7 @@ func TestMysqlDriver_Insert(t *testing.T) {
 	data["create"] = time.Now().Unix()
 	data["last_login"] = time.Now().Unix()
 
-	if err := mysql.Set(document, data, ""); err != nil {
+	if err := mysql.Set(document, data, nil); err != nil {
 		t.Error(err)
 		return
 	}
