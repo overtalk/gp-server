@@ -67,19 +67,25 @@ func (p *Problem) IsInited() bool {
 
 // TurnProblem : turn protobuf to problem
 func TurnProblem(p *protocol.Problem) *Problem {
-	inOutExamples, _ := json.Marshal(p.InOutExamples)
-	judgeLimit, _ := json.Marshal(p.JudgeLimit)
-	tags, _ := json.Marshal(p.Tags)
-	return &Problem{
+	problem := &Problem{
+		ID:             p.Id,
 		Title:          p.Title,
 		Description:    p.Description,
 		InDescription:  p.In,
 		OutDescription: p.Out,
 		Hint:           p.Hint,
-		Example:        string(inOutExamples),
-		JudgeLimit:     string(judgeLimit),
-		Tags:           string(tags),
-		// TODO:
-		JudgeFile: "/file",
 	}
+	if p.InOutExamples != nil {
+		inOutExamples, _ := json.Marshal(p.InOutExamples)
+		problem.Example = string(inOutExamples)
+	}
+	if p.JudgeLimit != nil {
+		judgeLimit, _ := json.Marshal(p.JudgeLimit)
+		problem.JudgeLimit = string(judgeLimit)
+	}
+	if p.Tags != nil {
+		tags, _ := json.Marshal(p.Tags)
+		problem.Tags = string(tags)
+	}
+	return problem
 }

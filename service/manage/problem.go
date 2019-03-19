@@ -138,3 +138,47 @@ func (m *BackStageManage) AddProblem(args map[string]interface{}) interface{} {
 	}
 	return resp
 }
+
+// EditProblem : edit problem to db
+func (m *BackStageManage) EditProblem(args map[string]interface{}) interface{} {
+	// get request and response
+	req := &protocol.EditProblemReq{}
+	resp := &protocol.EditProblemResp{}
+	if err := utils.CheckArgs(args, module.Request, module.Request); err != nil {
+		resp.Code = protocol.Code_INVAILD_DATA
+		return resp
+	}
+	if err := proto.Unmarshal(parse.Bytes(args[module.Request]), req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal : %v", err)
+		resp.Code = protocol.Code_INVAILD_DATA
+		return resp
+	}
+
+	// check token
+	userID, err := m.cache.GetUserIDByToken(parse.String(args[module.Token]))
+	if err != nil {
+		logger.Sugar.Errorf("invaild token : %v", err)
+		resp.Code = protocol.Code_INVAILD_TOKEN
+		return resp
+	}
+
+	// get user from db, and get the operation auth of the player
+	user, err := m.db.GetUserByID(userID)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
+		resp.Code = protocol.Code_PERMISSION_DENIED
+		return resp
+	}
+	if !authCheck(user.Role) {
+		logger.Sugar.Errorf("failed to edit problem[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
+		resp.Code = protocol.Code_PERMISSION_DENIED
+		return resp
+	}
+
+	if err := m.db.UpdateProblem(model.TurnProblem(req.Problem)); err != nil {
+		resp.IsSuccess = false
+	} else {
+		resp.IsSuccess = true
+	}
+	return resp
+}

@@ -129,3 +129,35 @@ func TestUserManage_AddProblem(t *testing.T) {
 		return
 	}
 }
+
+func TestUserManage_EditProblem(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	reqBytes, err := proto.Marshal(&protocol.EditProblemReq{
+		Problem: &protocol.Problem{
+			Id:   6,
+			Hint: "在TestUserManage_EditProblem中被修改",
+		},
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	args := map[string]interface{}{
+		module.Token:   "1",
+		module.Request: reqBytes,
+	}
+
+	data := managerModule.EditProblem(args)
+	resp := data.(*protocol.EditProblemResp)
+	if resp.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+		return
+	}
+}
