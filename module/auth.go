@@ -6,6 +6,6 @@ import (
 
 // Auth : User identity authentication module
 type Auth interface {
-	Login(c *gin.Context) interface{}
-	Logout(c *gin.Context) interface{}
+	Login(c *gin.Context) (int, interface{})
+	Logout(c *gin.Context) (int, interface{})
 }

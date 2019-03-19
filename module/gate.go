@@ -5,7 +5,7 @@ import (
 )
 
 // Handler : handler func format
-type Handler func(c *gin.Context) interface{}
+type Handler func(c *gin.Context) (int, interface{})
 
 // Router : method and handler
 type Router struct {

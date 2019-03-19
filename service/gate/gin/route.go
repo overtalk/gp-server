@@ -1,8 +1,6 @@
 package gate
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -33,21 +31,21 @@ func (s *Service) registerToGate() {
 		case "POST":
 			{
 				s.gin.POST(router, func(c *gin.Context) {
-					resp := handler.Handler(c)
+					code, resp := handler.Handler(c)
 					logger.Sugar.Debugf("a post request for router [%s], response : %v", router, resp)
 					// 目前使用protobuf作为通信协议
 					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成
-					c.ProtoBuf(http.StatusOK, resp)
+					c.ProtoBuf(code, resp)
 				})
 			}
 		case "GET":
 			{
 				s.gin.GET(router, func(c *gin.Context) {
-					resp := handler.Handler(c)
+					code, resp := handler.Handler(c)
 					logger.Sugar.Debugf("a get request for router [%s], response : %v", router, resp)
 					// 目前使用protobuf作为通信协议
 					// 由于gin框架支持protbuf，因此所有handler的resp都返回proto.Message,序列化由框架内部完成
-					c.ProtoBuf(http.StatusOK, resp)
+					c.ProtoBuf(code, resp)
 				})
 			}
 		default:

@@ -7,14 +7,14 @@ import (
 // BackStageManage : the backstage administration  module
 type BackStageManage interface {
 	// user manage
-	GetUsers(c *gin.Context) interface{}
-	AddUsers(c *gin.Context) interface{}
-	UpdateUsers(c *gin.Context) interface{}
-	DelUsers(c *gin.Context) interface{}
+	GetUsers(c *gin.Context) (int, interface{})
+	AddUsers(c *gin.Context) (int, interface{})
+	UpdateUsers(c *gin.Context) (int, interface{})
+	DelUsers(c *gin.Context) (int, interface{})
 
 	// problems manage
-	GetProblems(c *gin.Context) interface{}
-	GetProblemByID(c *gin.Context) interface{}
-	AddProblem(c *gin.Context) interface{}
-	EditProblem(c *gin.Context) interface{}
+	GetProblems(c *gin.Context) (int, interface{})
+	GetProblemByID(c *gin.Context) (int, interface{})
+	AddProblem(c *gin.Context) (int, interface{})
+	EditProblem(c *gin.Context) (int, interface{})
 }
