@@ -22,39 +22,15 @@ func NewBackStageManager(dataStorage *module.DataStorage) module.BackStageManage
 
 // Register : register module auth to gate
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
-	managerModule := NewBackStageManager(dataStorage)
+	module := NewBackStageManager(dataStorage)
 	// user manage
-	gate.RegisterRoute("/getUsers", module.Router{
-		Method:  "POST",
-		Handler: managerModule.GetUsers,
-	})
-	gate.RegisterRoute("/addUsers", module.Router{
-		Method:  "POST",
-		Handler: managerModule.AddUsers,
-	})
-	gate.RegisterRoute("/updateUsers", module.Router{
-		Method:  "POST",
-		Handler: managerModule.UpdateUsers,
-	})
-	gate.RegisterRoute("/delUsers", module.Router{
-		Method:  "POST",
-		Handler: managerModule.DelUsers,
-	})
+	gate.RegisterRoute("/getUsers", module.GetUsers)
+	gate.RegisterRoute("/addUsers", module.AddUsers)
+	gate.RegisterRoute("/updateUsers", module.UpdateUsers)
+	gate.RegisterRoute("/delUsers", module.DelUsers)
 	// problem manage
-	gate.RegisterRoute("/getProblems", module.Router{
-		Method:  "POST",
-		Handler: managerModule.GetProblems,
-	})
-	gate.RegisterRoute("/getProblemByID", module.Router{
-		Method:  "POST",
-		Handler: managerModule.GetProblemByID,
-	})
-	gate.RegisterRoute("/addProblem", module.Router{
-		Method:  "POST",
-		Handler: managerModule.AddProblem,
-	})
-	gate.RegisterRoute("/editProblem", module.Router{
-		Method:  "POST",
-		Handler: managerModule.EditProblem,
-	})
+	gate.RegisterRoute("/getProblems", module.GetProblems)
+	gate.RegisterRoute("/getProblemByID", module.GetProblemByID)
+	gate.RegisterRoute("/addProblem", module.AddProblem)
+	gate.RegisterRoute("/editProblem", module.EditProblem)
 }

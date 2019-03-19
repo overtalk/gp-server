@@ -1,16 +1,20 @@
 package module
 
+import (
+	"github.com/gin-gonic/gin"
+)
+
 // BackStageManage : the backstage administration  module
 type BackStageManage interface {
 	// user manage
-	GetUsers(args map[string]interface{}) interface{}
-	AddUsers(args map[string]interface{}) interface{}
-	UpdateUsers(args map[string]interface{}) interface{}
-	DelUsers(args map[string]interface{}) interface{}
+	GetUsers(c *gin.Context) interface{}
+	AddUsers(c *gin.Context) interface{}
+	UpdateUsers(c *gin.Context) interface{}
+	DelUsers(c *gin.Context) interface{}
 
 	// problems manage
-	GetProblems(args map[string]interface{}) interface{}
-	GetProblemByID(args map[string]interface{}) interface{}
-	AddProblem(args map[string]interface{}) interface{}
-	EditProblem(args map[string]interface{}) interface{}
+	GetProblems(c *gin.Context) interface{}
+	GetProblemByID(c *gin.Context) interface{}
+	AddProblem(c *gin.Context) interface{}
+	EditProblem(c *gin.Context) interface{}
 }

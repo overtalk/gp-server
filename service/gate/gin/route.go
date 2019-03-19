@@ -12,7 +12,7 @@ import (
 )
 
 // RegisterRoute : registered route
-func (s *Service) RegisterRoute(router string, handler module.Router) {
+func (s *Service) RegisterRoute(router string, handler module.Handler) {
 	if _, ok := s.routeMap.Load(router); ok {
 		logger.Sugar.Fatal("repeated router : %s", router)
 	}

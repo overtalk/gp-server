@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -11,7 +12,7 @@ import (
 )
 
 // Login : authentication, and get token
-func (a *Auth) Login(args map[string]interface{}) interface{} {
+func (a *Auth) Login(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.LoginReq{}
 	resp := &protocol.LoginResp{}
@@ -44,7 +45,7 @@ func (a *Auth) Login(args map[string]interface{}) interface{} {
 }
 
 // Logout : log out, and del token
-func (a *Auth) Logout(args map[string]interface{}) interface{} {
+func (a *Auth) Logout(c *gin.Context) interface{} {
 	resp := &protocol.LogOut{}
 	if err := utils.CheckArgs(args, module.Token); err != nil {
 		resp.Code = protocol.Code_INVAILD_DATA

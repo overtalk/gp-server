@@ -3,6 +3,7 @@ package manage
 import (
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -14,7 +15,7 @@ import (
 )
 
 // GetUsers : get users
-func (m *BackStageManage) GetUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) GetUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.GetUsersReq{}
 	resp := &protocol.GetUsersResp{}
@@ -70,7 +71,7 @@ func (m *BackStageManage) GetUsers(args map[string]interface{}) interface{} {
 }
 
 // AddUsers : add users to db
-func (m *BackStageManage) AddUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) AddUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.AddUsersReq{}
 	resp := &protocol.AddUsersResp{}
@@ -122,7 +123,7 @@ func (m *BackStageManage) AddUsers(args map[string]interface{}) interface{} {
 }
 
 // UpdateUsers : update users
-func (m *BackStageManage) UpdateUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) UpdateUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.UpdateUsersReq{}
 	resp := &protocol.UpdateUsersResp{}
@@ -171,7 +172,7 @@ func (m *BackStageManage) UpdateUsers(args map[string]interface{}) interface{} {
 }
 
 // DelUsers : delete users
-func (m *BackStageManage) DelUsers(args map[string]interface{}) interface{} {
+func (m *BackStageManage) DelUsers(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.DelUsersReq{}
 	resp := &protocol.DelUsersResp{}

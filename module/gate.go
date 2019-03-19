@@ -1,5 +1,9 @@
 package module
 
+import (
+	"github.com/gin-gonic/gin"
+)
+
 // input args key in the map of Handler's args
 var (
 	Token   = "1"
@@ -7,15 +11,9 @@ var (
 )
 
 // Handler : handler func format
-type Handler func(args map[string]interface{}) interface{}
-
-// Router : http method & handler func
-type Router struct {
-	Method  string  // http method (Get, Post ...)
-	Handler Handler // handler func（use protobuf，return arg (interface{}) should be proto.Message）
-}
+type Handler func(c *gin.Context) interface{}
 
 // Gate : gateway module
 type Gate interface {
-	RegisterRoute(router string, handler Router)
+	RegisterRoute(router string, handler Handler)
 }

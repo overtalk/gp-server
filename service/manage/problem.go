@@ -1,6 +1,7 @@
 package manage
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -13,7 +14,7 @@ import (
 )
 
 // GetProblems : get problems
-func (m *BackStageManage) GetProblems(args map[string]interface{}) interface{} {
+func (m *BackStageManage) GetProblems(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.GetProblemsReq{}
 	resp := &protocol.GetProblemsResp{}
@@ -49,7 +50,7 @@ func (m *BackStageManage) GetProblems(args map[string]interface{}) interface{} {
 }
 
 // GetProblemByID : get problem by id
-func (m *BackStageManage) GetProblemByID(args map[string]interface{}) interface{} {
+func (m *BackStageManage) GetProblemByID(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.GetProblemByIDReq{}
 	resp := &protocol.GetProblemByIDResp{}
@@ -83,7 +84,7 @@ func (m *BackStageManage) GetProblemByID(args map[string]interface{}) interface{
 }
 
 // AddProblem : add problem to db
-func (m *BackStageManage) AddProblem(args map[string]interface{}) interface{} {
+func (m *BackStageManage) AddProblem(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.AddProblemReq{}
 	resp := &protocol.AddProblemResp{}
@@ -140,7 +141,7 @@ func (m *BackStageManage) AddProblem(args map[string]interface{}) interface{} {
 }
 
 // EditProblem : edit problem to db
-func (m *BackStageManage) EditProblem(args map[string]interface{}) interface{} {
+func (m *BackStageManage) EditProblem(c *gin.Context) interface{} {
 	// get request and response
 	req := &protocol.EditProblemReq{}
 	resp := &protocol.EditProblemResp{}
