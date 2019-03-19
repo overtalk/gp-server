@@ -17,7 +17,7 @@ func (s *Service) RegisterRoute(router, method string, handler module.Handler) {
 	}
 
 	s.routeMap.Store(router, module.Router{
-		Method:  "method",
+		Method:  method,
 		Handler: handler,
 	})
 }
