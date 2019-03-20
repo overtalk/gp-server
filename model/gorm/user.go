@@ -3,6 +3,21 @@ package model
 import (
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
+	"github.com/qinhan-shu/gp-server/utils/parse"
+)
+
+var (
+	UserID        = "id"
+	UserAccount   = "account"
+	UserPassword  = "password"
+	UserRole      = "role"
+	UserName      = "name"
+	UserSex       = "sex"
+	UserPhone     = "phone"
+	UserEmail     = "email"
+	UserSchool    = "school"
+	UserCreate    = "create"
+	UserLastLogin = "last_login"
 )
 
 // User : teble `user`
@@ -56,4 +71,70 @@ func TurnUser(user *protocol.UserInfo) *User {
 		Account:   user.Account,
 		Password:  utils.MD5(user.Password),
 	}
+}
+
+// TurnMapToProtoUser : turn map to protobuf user
+func TurnMapToProtoUser(data map[string]interface{}) (*User, error) {
+	// id
+	id, err := parse.IntWithError(data[UserID])
+	if err != nil {
+		return nil, err
+	}
+	// account
+	account, err := parse.StringWithError(data[UserAccount])
+	if err != nil {
+		return nil, err
+	}
+	// role
+	role, err := parse.IntWithError(data[UserRole])
+	if err != nil {
+		return nil, err
+	}
+	// name
+	name, err := parse.StringWithError(data[UserName])
+	if err != nil {
+		return nil, err
+	}
+	// sex
+	sex, err := parse.IntWithError(data[UserSex])
+	if err != nil {
+		return nil, err
+	}
+	// phone
+	phone, err := parse.StringWithError(data[UserPhone])
+	if err != nil {
+		return nil, err
+	}
+	// email
+	email, err := parse.StringWithError(data[UserEmail])
+	if err != nil {
+		return nil, err
+	}
+	// school
+	school, err := parse.StringWithError(data[UserSchool])
+	if err != nil {
+		return nil, err
+	}
+	// create
+	create, err := parse.IntWithError(data[UserCreate])
+	if err != nil {
+		return nil, err
+	}
+	// last_login
+	lastLogin, err := parse.IntWithError(data[UserLastLogin])
+	if err != nil {
+		return nil, err
+	}
+	return &User{
+		ID:        id,
+		Account:   account,
+		Role:      int(role),
+		Name:      name,
+		Sex:       sex == 1,
+		Phone:     phone,
+		Email:     email,
+		School:    school,
+		Create:    create,
+		LastLogin: lastLogin,
+	}, nil
 }

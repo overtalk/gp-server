@@ -57,5 +57,8 @@ func (m *MysqlDriver) Query(query string, args ...interface{}) ([]map[string]int
 
 		results = append(results, assoc)
 	}
+	if len(results) == 0 {
+		return nil, ErrNoRowsFound
+	}
 	return results, nil
 }
