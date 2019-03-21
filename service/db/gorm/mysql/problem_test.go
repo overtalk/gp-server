@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/qinhan-shu/gp-server/model/gorm"
+	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
 func TestMysqlDriver_GetProblems(t *testing.T) {

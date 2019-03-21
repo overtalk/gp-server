@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/qinhan-shu/gp-server/model/gorm"
+	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
 // GetMatchByID : get uer model by match id

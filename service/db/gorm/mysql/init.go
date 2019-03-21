@@ -1,8 +1,8 @@
 package db
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/jinzhu/xorm"
+	_ "github.com/jinzhu/xorm/dialects/mysql"
 
 	"github.com/qinhan-shu/gp-server/module"
 )
@@ -10,7 +10,7 @@ import (
 // MysqlDriver : mysql driver
 type MysqlDriver struct {
 	config *MysqlConfig
-	conn   *gorm.DB
+	conn   *xorm.DB
 }
 
 // NewMysqlDriver : constructor of MysqlDriver
@@ -40,7 +40,7 @@ func (m *MysqlDriver) Connect() error {
 		return ErrNoMysqlConf
 	}
 
-	db, err := gorm.Open("mysql", m.config.getDSN())
+	db, err := xorm.Open("mysql", m.config.getDSN())
 	if err != nil {
 		return err
 	}

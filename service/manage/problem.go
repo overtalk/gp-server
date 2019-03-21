@@ -7,9 +7,9 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/model/gorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils/file"
+	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
 // GetProblems : get problems
@@ -49,7 +49,7 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 	}
 
 	for _, problem := range problems {
-		resp.Problems = append(resp.Problems, problem.TurnMinProto())
+		resp.Problems = append(resp.Problems, transform.ProblemToMinProto(problem))
 	}
 	return resp
 }
@@ -90,7 +90,7 @@ func (m *BackStageManage) GetProblemByID(r *http.Request) proto.Message {
 		return resp
 	}
 
-	resp.Problem = problem.TurnProto()
+	resp.Problem = transform.ProblemToProto(problem)
 	return resp
 }
 
@@ -107,7 +107,7 @@ func (m *BackStageManage) AddProblem(r *http.Request) proto.Message {
 	}
 
 	// add problem
-	p := model.TurnProblem(req.Problem)
+	p := transform.ProtoToProblem(req.Problem)
 	relativePath := m.judgeFilePath + getJudgeFileRelativePath(p.Title)
 	if err := file.Write(relativePath+"_in.txt", req.Problem.JudgeInFile); err != nil {
 		resp.IsSuccess = false
@@ -139,7 +139,7 @@ func (m *BackStageManage) EditProblem(r *http.Request) proto.Message {
 		return resp
 	}
 
-	if err := m.db.UpdateProblem(model.TurnProblem(req.Problem)); err != nil {
+	if err := m.db.UpdateProblem(transform.ProtoToProblem(req.Problem)); err != nil {
 		resp.IsSuccess = false
 	} else {
 		resp.IsSuccess = true

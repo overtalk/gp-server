@@ -7,8 +7,8 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	"github.com/qinhan-shu/gp-server/model/gorm"
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
 // GetUsers : get users
@@ -38,7 +38,7 @@ func (m *BackStageManage) GetUsers(r *http.Request) proto.Message {
 
 	// add users informations to response
 	for _, user := range users {
-		resp.Users = append(resp.Users, user.TurnProto())
+		resp.Users = append(resp.Users, transform.UserToProto(user))
 	}
 
 	return resp
@@ -59,13 +59,13 @@ func (m *BackStageManage) AddUsers(r *http.Request) proto.Message {
 	// add users
 	ts := time.Now().Unix()
 	for _, protoUser := range req.Users {
-		user := model.TurnUser(protoUser)
+		user := transform.ProtoToUser(protoUser)
 		user.LastLogin = ts
 		user.Create = ts
 		if err := m.db.AddUser(user); err != nil {
 			resp.Fail = append(resp.Fail, protoUser)
 		} else {
-			resp.Succeed = append(resp.Succeed, user.TurnProto())
+			resp.Succeed = append(resp.Succeed, transform.UserToProto(user))
 		}
 	}
 
@@ -86,11 +86,11 @@ func (m *BackStageManage) UpdateUsers(r *http.Request) proto.Message {
 
 	// update users
 	for _, protoUser := range req.Users {
-		user := model.TurnUser(protoUser)
+		user := transform.ProtoToUser(protoUser)
 		if err := m.db.UpdateUser(user); err != nil {
 			resp.Fail = append(resp.Fail, protoUser)
 		} else {
-			resp.Succeed = append(resp.Succeed, user.TurnProto())
+			resp.Succeed = append(resp.Succeed, transform.UserToProto(user))
 		}
 	}
 

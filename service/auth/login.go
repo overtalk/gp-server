@@ -8,6 +8,7 @@ import (
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
+	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
 // Login : authentication, and get token
@@ -37,15 +38,15 @@ func (a *Auth) Login(r *http.Request) proto.Message {
 		return resp
 	}
 
-	token, err := a.cache.UpdateToken(user.ID)
+	token, err := a.cache.UpdateToken(user.Id)
 	if err != nil {
-		logger.Sugar.Errorf("failed to update token for player[%d]", user.ID)
+		logger.Sugar.Errorf("failed to update token for player[%d]", user.Id)
 		resp.Status.Code = protocol.Code_INTERNAL
 		resp.Status.Message = "failed to generate token"
 		return resp
 	}
 
-	resp.User = user.TurnProto()
+	resp.User = transform.UserToProto(user)
 	resp.Token = token
 	return resp
 }

@@ -1,7 +1,7 @@
 package module
 
 import (
-	"github.com/qinhan-shu/gp-server/model/gorm"
+	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
 // DB : database module

@@ -5,7 +5,7 @@ import (
 
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/config"
-	"github.com/qinhan-shu/gp-server/service/db/gorm/mysql"
+	"github.com/qinhan-shu/gp-server/service/db/xorm/mysql"
 )
 
 func TestMysqlDriver_Connect(t *testing.T) {
