@@ -1,6 +1,7 @@
 package manage
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/golang/protobuf/proto"
@@ -12,118 +13,97 @@ import (
 )
 
 // GetProblems : get problems
-func (m *BackStageManage) GetProblems(r *http.Request) (int, proto.Message) {
-	// get request and response
-	code := http.StatusOK
+func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 	req := &protocol.GetProblemsReq{}
-	resp := &protocol.GetProblemsResp{}
+	resp := &protocol.GetProblemsResp{Status: &protocol.Status{}}
 	// get token and data
 	data, token, err := getReqAndToken(r)
 	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
 	}
 	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
 	}
 
 	// check token
 	_, err = m.cache.GetUserIDByToken(token)
 	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
 	}
 
 	problems, err := m.db.GetProblems(req.Tag)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all problems : %v", err)
-		code = http.StatusInternalServerError
-		return code, resp
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "ailed to get problems list"
+		return resp
 	}
 
 	for _, problem := range problems {
 		resp.Problems = append(resp.Problems, problem.TurnMinProto())
 	}
-	return code, resp
+	return resp
 }
 
 // GetProblemByID : get problem by id
-func (m *BackStageManage) GetProblemByID(r *http.Request) (int, proto.Message) {
-	// get request and response
-	code := http.StatusOK
+func (m *BackStageManage) GetProblemByID(r *http.Request) proto.Message {
 	req := &protocol.GetProblemByIDReq{}
-	resp := &protocol.GetProblemByIDResp{}
+	resp := &protocol.GetProblemByIDResp{Status: &protocol.Status{}}
 	// get token and data
 	data, token, err := getReqAndToken(r)
 	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
 	}
 	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
 	}
 
 	// check token
 	_, err = m.cache.GetUserIDByToken(token)
 	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
 	}
 
 	problem, err := m.db.GetProblemByID(req.Id)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get problem by id : %v", err)
-		code = http.StatusInternalServerError
-		return code, resp
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = fmt.Sprintf("failed to get problem[id = %d]", req.Id)
+		return resp
 	}
 
 	resp.Problem = problem.TurnProto()
-	return code, resp
+	return resp
 }
 
 // AddProblem : add problem to db
-func (m *BackStageManage) AddProblem(r *http.Request) (int, proto.Message) {
-	// get request and response
-	code := http.StatusOK
+func (m *BackStageManage) AddProblem(r *http.Request) proto.Message {
 	req := &protocol.AddProblemReq{}
-	resp := &protocol.AddProblemResp{}
-	// get token and data
-	data, token, err := getReqAndToken(r)
-	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
-	}
-	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
-	}
+	resp := &protocol.AddProblemResp{Status: &protocol.Status{}}
 
-	// check token
-	userID, err := m.cache.GetUserIDByToken(token)
-	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to add problem[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		code = http.StatusUnauthorized
-		return code, resp
+	status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
 	}
 
 	// add problem
@@ -131,11 +111,11 @@ func (m *BackStageManage) AddProblem(r *http.Request) (int, proto.Message) {
 	relativePath := m.judgeFilePath + getJudgeFileRelativePath(p.Title)
 	if err := file.Write(relativePath+"_in.txt", req.Problem.JudgeInFile); err != nil {
 		resp.IsSuccess = false
-		return code, resp
+		return resp
 	}
 	if err := file.Write(relativePath+"_out.txt", req.Problem.JudgeOutFile); err != nil {
 		resp.IsSuccess = false
-		return code, resp
+		return resp
 	}
 
 	p.JudgeFile = relativePath
@@ -144,46 +124,19 @@ func (m *BackStageManage) AddProblem(r *http.Request) (int, proto.Message) {
 	} else {
 		resp.IsSuccess = true
 	}
-	return code, resp
+	return resp
 }
 
 // EditProblem : edit problem to db
-func (m *BackStageManage) EditProblem(r *http.Request) (int, proto.Message) {
-	// get request and response
-	code := http.StatusOK
+func (m *BackStageManage) EditProblem(r *http.Request) proto.Message {
 	req := &protocol.EditProblemReq{}
-	resp := &protocol.EditProblemResp{}
-	// get token and data
-	data, token, err := getReqAndToken(r)
-	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
-	}
-	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
-	}
+	resp := &protocol.EditProblemResp{Status: &protocol.Status{}}
 
-	// check token
-	userID, err := m.cache.GetUserIDByToken(token)
-	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		code = http.StatusInternalServerError
-		return code, resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to edit problem[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		code = http.StatusUnauthorized
-		return code, resp
+	status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
 	}
 
 	if err := m.db.UpdateProblem(model.TurnProblem(req.Problem)); err != nil {
@@ -191,5 +144,5 @@ func (m *BackStageManage) EditProblem(r *http.Request) (int, proto.Message) {
 	} else {
 		resp.IsSuccess = true
 	}
-	return code, resp
+	return resp
 }

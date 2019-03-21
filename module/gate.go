@@ -7,7 +7,7 @@ import (
 )
 
 // Handler : handler func format
-type Handler func(r *http.Request) (int, proto.Message)
+type Handler func(r *http.Request) proto.Message
 
 // Router : method and handler
 type Router struct {

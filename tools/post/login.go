@@ -11,11 +11,16 @@ import (
 	"github.com/qinhan-shu/gp-server/protocol"
 )
 
-var (
-	postAddr = "http://127.0.0.1:9999/login"
-)
-
 func main() {
+	token := login()
+	logout(token)
+}
+
+func login() string {
+	var (
+		postAddr = "http://127.0.0.1:9999/login"
+	)
+
 	req := &protocol.LoginReq{
 		Account:  "jack0",
 		Password: "jack0",
@@ -34,11 +39,44 @@ func main() {
 		logger.Sugar.Fatal(err)
 	}
 
+	res, err := client.Do(request)
+	if err != nil {
+		logger.Sugar.Fatal(err)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		logger.Sugar.Fatal(err)
+		return ""
+	}
+
+	if err := proto.Unmarshal(result, resp); err != nil {
+		logger.Sugar.Error(err)
+		return ""
+	}
+
+	fmt.Printf("%d - %v", res.StatusCode, resp)
+	return resp.Token
+}
+
+func logout(token string) {
+	var (
+		postAddr = "http://127.0.0.1:9999/logout"
+	)
+
+	client := &http.Client{}
+
+	request, err := http.NewRequest("GET", postAddr, nil)
+	if err != nil {
+		logger.Sugar.Fatal(err)
+	}
+
 	// set cookie
-	// request.AddCookie(&http.Cookie{
-	// 	Name:  "token",
-	// 	Value: "aaa",
-	// })
+	request.AddCookie(&http.Cookie{
+		Name:  "token",
+		Value: token,
+	})
 
 	res, err := client.Do(request)
 	if err != nil {
@@ -52,10 +90,11 @@ func main() {
 		return
 	}
 
+	resp := &protocol.LogoutResp{}
 	if err := proto.Unmarshal(result, resp); err != nil {
 		logger.Sugar.Error(err)
 		return
 	}
 
-	fmt.Printf("%d - %v", res.StatusCode, resp)
+	fmt.Printf("%d - %d", res.StatusCode, resp.Status.Code)
 }

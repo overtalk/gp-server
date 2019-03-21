@@ -3,12 +3,10 @@ package manage_test
 import (
 	"testing"
 
-	"github.com/golang/protobuf/proto"
-
-	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/manage"
+	"github.com/qinhan-shu/gp-server/utils"
 	"github.com/qinhan-shu/gp-server/utils/mode"
 )
 
@@ -21,20 +19,16 @@ func TestUserManage_GetProblems(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	reqBytes, err := proto.Marshal(&protocol.GetProblemsReq{})
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetProblemsReq{})
 	if err != nil {
-		t.Error(err)
+		t.Errorf("failed to mock http request : %v", err)
 		return
 	}
-	args := map[string]interface{}{
-		module.Token:   "1",
-		module.Request: reqBytes,
-	}
 
-	data := managerModule.GetProblems(args)
+	data := managerModule.GetProblems(r)
 	resp := data.(*protocol.GetProblemsResp)
-	if resp.Code != protocol.Code_OK {
-		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
 		return
 	}
 
@@ -52,22 +46,16 @@ func TestUserManage_GetProblemByID(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	reqBytes, err := proto.Marshal(&protocol.GetProblemByIDReq{
-		Id: 1,
-	})
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetProblemByIDReq{Id: 1})
 	if err != nil {
-		t.Error(err)
+		t.Errorf("failed to mock http request : %v", err)
 		return
 	}
-	args := map[string]interface{}{
-		module.Token:   "1",
-		module.Request: reqBytes,
-	}
 
-	data := managerModule.GetProblemByID(args)
+	data := managerModule.GetProblemByID(r)
 	resp := data.(*protocol.GetProblemByIDResp)
-	if resp.Code != protocol.Code_OK {
-		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
 		return
 	}
 
@@ -86,7 +74,7 @@ func TestUserManage_AddProblem(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	reqBytes, err := proto.Marshal(&protocol.AddProblemReq{
+	req := &protocol.AddProblemReq{
 		Problem: &protocol.Problem{
 			Title:       "这是一个测试题目(求和)",
 			Description: "题目描述",
@@ -112,20 +100,17 @@ func TestUserManage_AddProblem(t *testing.T) {
 			JudgeInFile:  []byte("JudgeInFile test file"),
 			JudgeOutFile: []byte("JudgeOutFile test file"),
 		},
-	})
+	}
+	r, err := utils.MockHTTPReq("POST", "1", req)
 	if err != nil {
-		t.Error(err)
+		t.Errorf("failed to mock http request : %v", err)
 		return
 	}
-	args := map[string]interface{}{
-		module.Token:   "1",
-		module.Request: reqBytes,
-	}
 
-	data := managerModule.AddProblem(args)
+	data := managerModule.AddProblem(r)
 	resp := data.(*protocol.AddProblemResp)
-	if resp.Code != protocol.Code_OK {
-		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
 		return
 	}
 }
@@ -139,25 +124,22 @@ func TestUserManage_EditProblem(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	reqBytes, err := proto.Marshal(&protocol.EditProblemReq{
+	req := &protocol.EditProblemReq{
 		Problem: &protocol.Problem{
 			Id:   6,
 			Hint: "在TestUserManage_EditProblem中被修改",
 		},
-	})
+	}
+	r, err := utils.MockHTTPReq("POST", "1", req)
 	if err != nil {
-		t.Error(err)
+		t.Errorf("failed to mock http request : %v", err)
 		return
 	}
-	args := map[string]interface{}{
-		module.Token:   "1",
-		module.Request: reqBytes,
-	}
 
-	data := managerModule.EditProblem(args)
+	data := managerModule.EditProblem(r)
 	resp := data.(*protocol.EditProblemResp)
-	if resp.Code != protocol.Code_OK {
-		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
 		return
 	}
 }

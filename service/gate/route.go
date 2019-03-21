@@ -32,12 +32,13 @@ func (s *Service) registerToGate(mux *http.ServeMux) {
 
 		mux.HandleFunc(router, func(w http.ResponseWriter, r *http.Request) {
 			if r.Method == handler.Method {
-				statusCode, resp := handler.Handler(r)
+				resp := handler.Handler(r)
 				data, err := proto.Marshal(resp)
 				if err != nil {
-					statusCode = http.StatusInternalServerError
+					w.WriteHeader(http.StatusInternalServerError)
+					return
 				}
-				w.WriteHeader(statusCode)
+				w.WriteHeader(http.StatusOK)
 				w.Write(data)
 				return
 			}

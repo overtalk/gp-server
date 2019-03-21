@@ -1,17 +1,56 @@
 package manage
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/bwmarrin/snowflake"
+	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
 )
 
-// authCheck : check weather the user is able to manager user
-func authCheck(authCode int) bool {
-	return authCode == int(protocol.Role_MANAGER)
+func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) *protocol.Status {
+	data, token, err := getReqAndToken(r)
+	if err != nil {
+		return &protocol.Status{
+			Code:    protocol.Code_DATA_LOSE,
+			Message: err.Error(),
+		}
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		return &protocol.Status{
+			Code:    protocol.Code_DATA_LOSE,
+			Message: "failed to unmarshal request body",
+		}
+	}
+
+	// check token
+	userID, err := m.cache.GetUserIDByToken(token)
+	if err != nil {
+		return &protocol.Status{
+			Code:    protocol.Code_UNAUTHORIZATED,
+			Message: "invalid token",
+		}
+	}
+
+	// get user from db, and get the operation auth of the player
+	user, err := m.db.GetUserByID(userID)
+	if err != nil {
+		return &protocol.Status{
+			Code:    protocol.Code_UNAUTHORIZATED,
+			Message: "failed to get user info",
+		}
+	}
+
+	if user.Role != int(protocol.Role_MANAGER) {
+		return &protocol.Status{
+			Code:    protocol.Code_PERMISSION_DENIED,
+			Message: "permission denied",
+		}
+	}
+	return nil
 }
 
 // getReqAndToken : get token and protobuf data
@@ -19,12 +58,12 @@ func getReqAndToken(c *http.Request) ([]byte, string, error) {
 	// get data
 	data, err := utils.GetRequestBody(c)
 	if err != nil {
-		return nil, "", err
+		return nil, "", fmt.Errorf("missing request data")
 	}
 	// get token
 	token, err := utils.GetToken(c)
 	if err != nil {
-		return nil, "", err
+		return nil, "", fmt.Errorf("missing token")
 	}
 	return data, token, nil
 }

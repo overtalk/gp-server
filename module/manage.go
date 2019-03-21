@@ -9,14 +9,14 @@ import (
 // BackStageManage : the backstage administration  module
 type BackStageManage interface {
 	// user manage
-	GetUsers(r *http.Request) (int, proto.Message)
-	AddUsers(r *http.Request) (int, proto.Message)
-	UpdateUsers(r *http.Request) (int, proto.Message)
-	DelUsers(r *http.Request) (int, proto.Message)
+	GetUsers(r *http.Request) proto.Message
+	AddUsers(r *http.Request) proto.Message
+	UpdateUsers(r *http.Request) proto.Message
+	DelUsers(r *http.Request) proto.Message
 
 	// problems manage
-	GetProblems(r *http.Request) (int, proto.Message)
-	GetProblemByID(r *http.Request) (int, proto.Message)
-	AddProblem(r *http.Request) (int, proto.Message)
-	EditProblem(r *http.Request) (int, proto.Message)
+	GetProblems(r *http.Request) proto.Message
+	GetProblemByID(r *http.Request) proto.Message
+	AddProblem(r *http.Request) proto.Message
+	EditProblem(r *http.Request) proto.Message
 }

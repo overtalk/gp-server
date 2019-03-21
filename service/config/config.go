@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	judgeFileDir = flag.String("judgeFileDir", "/judge", "judge files dir")
+	judgeFileDir = flag.String("judgeFileDir", "/Users/qinhan/judge", "judge files dir")
 )
 
 // InitConfig is to get config

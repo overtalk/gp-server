@@ -3,12 +3,10 @@ package auth_test
 import (
 	"testing"
 
-	"github.com/golang/protobuf/proto"
-
-	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/config"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 func TestAuth_LoginAndLogOut(t *testing.T) {
@@ -19,22 +17,19 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 	}
 	authModule := auth.NewAuth(dataStorage)
 
-	// login operations
-	loginReqBytes, err := proto.Marshal(&protocol.LoginReq{
+	r, err := utils.MockHTTPReq("POST", "", &protocol.LoginReq{
 		Account:  "jack0",
 		Password: "jack0",
 	})
 	if err != nil {
-		t.Error(err)
+		t.Errorf("failed to mock http request : %v", err)
 		return
 	}
-	args := map[string]interface{}{
-		module.Request: loginReqBytes,
-	}
-	data := authModule.Login(args)
+
+	data := authModule.Login(r)
 	resp := data.(*protocol.LoginResp)
-	if resp.Code != protocol.Code_OK {
-		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Code)])
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
 		return
 	}
 	t.Log(resp)
@@ -48,16 +43,21 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 	t.Logf("userID = %d", userID)
 
 	// logout operations
-	args = map[string]interface{}{
-		module.Token: resp.Token,
-	}
-	data = authModule.Logout(args)
-	logoutResp := data.(*protocol.LogOut)
-	if logoutResp.Code != protocol.Code_OK {
-		t.Errorf("logoutResp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(logoutResp.Code)])
+	r1, err := utils.MockHTTPReq("GET", resp.Token, &protocol.LoginReq{
+		Account:  "jack0",
+		Password: "jack0",
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
 		return
 	}
-	t.Log("LogOut.Code = ", logoutResp.Code)
+	data = authModule.Logout(r1)
+	logoutResp := data.(*protocol.LogoutResp)
+	if logoutResp.Status.Code != protocol.Code_OK {
+		t.Errorf("logoutResp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(logoutResp.Status.Code)])
+		return
+	}
+	t.Log("LogOut.Code = ", logoutResp.Status.Code)
 
 	// check the redis again
 	userID, err = dataStorage.Cache.GetUserIDByToken(resp.Token)

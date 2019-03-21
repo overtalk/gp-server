@@ -12,41 +12,15 @@ import (
 )
 
 // GetUsers : get users
-func (m *BackStageManage) GetUsers(r *http.Request) (int, proto.Message) {
-	code := http.StatusOK
+func (m *BackStageManage) GetUsers(r *http.Request) proto.Message {
 	req := &protocol.GetUsersReq{}
-	resp := &protocol.GetUsersResp{}
-	// get token and data
-	data, token, err := getReqAndToken(r)
-	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
-	}
-	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
-	}
+	resp := &protocol.GetUsersResp{Status: &protocol.Status{}}
 
-	// check token
-	userID, err := m.cache.GetUserIDByToken(token)
-	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		code = http.StatusInternalServerError
-		return code, resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to get users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		code = http.StatusUnauthorized
-		return code, resp
+	status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
 	}
 
 	// get required users informations
@@ -56,9 +30,10 @@ func (m *BackStageManage) GetUsers(r *http.Request) (int, proto.Message) {
 	}
 	users, err := m.db.GetUsersByRole(int64(role))
 	if err != nil {
-		logger.Sugar.Errorf("failed to get users : %v", userID, err)
-		code = http.StatusInternalServerError
-		return code, resp
+		logger.Sugar.Errorf("failed to get users : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get users"
+		return resp
 	}
 
 	// add users informations to response
@@ -66,45 +41,19 @@ func (m *BackStageManage) GetUsers(r *http.Request) (int, proto.Message) {
 		resp.Users = append(resp.Users, user.TurnProto())
 	}
 
-	return code, resp
+	return resp
 }
 
 // AddUsers : add users to db
-func (m *BackStageManage) AddUsers(r *http.Request) (int, proto.Message) {
-	code := http.StatusOK
+func (m *BackStageManage) AddUsers(r *http.Request) proto.Message {
 	req := &protocol.AddUsersReq{}
-	resp := &protocol.AddUsersResp{}
-	// get token and data
-	data, token, err := getReqAndToken(r)
-	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
-	}
-	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
-	}
+	resp := &protocol.AddUsersResp{Status: &protocol.Status{}}
 
-	// check token
-	userID, err := m.cache.GetUserIDByToken(token)
-	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		code = http.StatusInternalServerError
-		return code, resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to add users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		code = http.StatusUnauthorized
-		return code, resp
+	status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
 	}
 
 	// add users
@@ -120,45 +69,19 @@ func (m *BackStageManage) AddUsers(r *http.Request) (int, proto.Message) {
 		}
 	}
 
-	return code, resp
+	return resp
 }
 
 // UpdateUsers : update users
-func (m *BackStageManage) UpdateUsers(r *http.Request) (int, proto.Message) {
-	code := http.StatusOK
+func (m *BackStageManage) UpdateUsers(r *http.Request) proto.Message {
 	req := &protocol.UpdateUsersReq{}
-	resp := &protocol.UpdateUsersResp{}
-	// get token and data
-	data, token, err := getReqAndToken(r)
-	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
-	}
-	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
-	}
+	resp := &protocol.UpdateUsersResp{Status: &protocol.Status{}}
 
-	// check token
-	userID, err := m.cache.GetUserIDByToken(token)
-	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		code = http.StatusInternalServerError
-		return code, resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to update users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		code = http.StatusUnauthorized
-		return code, resp
+	status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
 	}
 
 	// update users
@@ -171,45 +94,19 @@ func (m *BackStageManage) UpdateUsers(r *http.Request) (int, proto.Message) {
 		}
 	}
 
-	return code, resp
+	return resp
 }
 
 // DelUsers : delete users
-func (m *BackStageManage) DelUsers(r *http.Request) (int, proto.Message) {
-	code := http.StatusOK
+func (m *BackStageManage) DelUsers(r *http.Request) proto.Message {
 	req := &protocol.DelUsersReq{}
-	resp := &protocol.DelUsersResp{}
-	// get token and data
-	data, token, err := getReqAndToken(r)
-	if err != nil {
-		code = http.StatusBadRequest
-		return code, resp
-	}
-	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal : %v", err)
-		code = http.StatusBadRequest
-		return code, resp
-	}
+	resp := &protocol.DelUsersResp{Status: &protocol.Status{}}
 
-	// check token
-	userID, err := m.cache.GetUserIDByToken(token)
-	if err != nil {
-		logger.Sugar.Errorf("invaild token : %v", err)
-		code = http.StatusUnauthorized
-		return code, resp
-	}
-
-	// get user from db, and get the operation auth of the player
-	user, err := m.db.GetUserByID(userID)
-	if err != nil {
-		logger.Sugar.Errorf("failed to get user by id[%d] : %v", userID, err)
-		code = http.StatusInternalServerError
-		return code, resp
-	}
-	if !authCheck(user.Role) {
-		logger.Sugar.Errorf("failed to delete users[permission denied] for user[id = %d, role = %s]", userID, protocol.Role_name[int32(user.Role)])
-		code = http.StatusUnauthorized
-		return code, resp
+	status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
 	}
 
 	// delete users
@@ -221,5 +118,5 @@ func (m *BackStageManage) DelUsers(r *http.Request) (int, proto.Message) {
 		}
 	}
 
-	return code, resp
+	return resp
 }
