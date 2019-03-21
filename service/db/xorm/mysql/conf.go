@@ -19,6 +19,7 @@ type MysqlConfig struct {
 	Username        string
 	Password        string
 	DBName          string
+	IsCached        bool // is cache
 }
 
 func (c *MysqlConfig) getDSN() string {

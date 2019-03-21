@@ -55,4 +55,9 @@ func (m *MysqlDriver) initialization() {
 	m.conn.SetMaxIdleConns(m.config.MaxIdleConnsNum)
 	// set the number of maximum open connections
 	m.conn.SetMaxOpenConns(m.config.MaxOpenConnsNum)
+
+	if m.config.IsCached {
+		cacher := xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000)
+		m.conn.SetDefaultCacher(cacher)
+	}
 }
