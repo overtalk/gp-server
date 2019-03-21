@@ -54,16 +54,14 @@ CREATE TABLE IF NOT EXISTS `class` (
 
 CREATE TABLE IF NOT EXISTS `problem` (
   `id` bigint(64) NOT NULL auto_increment,
-  `title` varchar(300) NOT NULL,
+  `title` text NOT NULL,
   `description` text NOT NULL,
   `in_description` text NOT NULL,
   `out_description` text NOT NULL,
   `hint` text,         -- 题目提示（可为空）
-  `example` text NOT NULL,      -- 输入输出样例
-  `judge_file` varchar(100) NOT NULL,
-  `judge_limit` json NOT NULL,
+  `judge_limit_time` int(11) NOT NULL,    -- 时间限制
+  `judge_limit_mem` int(11) NOT NULL,     -- 内存限制
 
-  `tags` json NOT NULL,                   -- 题目分类
   `difficulty` tinyint(4) NOT NULL DEFAULT 0,
   `last_used`  bigint(64) NOT NULL DEFAULT 0,  -- 上次使用时间
   `used_time` int(64) NOT NULL DEFAULT 0,   -- 使用次数
@@ -75,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `mle` int(64) NOT NULL DEFAULT 0,           -- 超内存次数
   `pe` int(64) NOT NULL DEFAULT 0,            -- 格式错误次数
   `ce` int(64) NOT NULL DEFAULT 0,            -- 编译次数
+
+  `judge_file` varchar(100) NOT NULL,         -- 判题目文件的路径
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -124,4 +124,34 @@ CREATE TABLE IF NOT EXISTS `user_problem` (
   `code` text NOT NULL,  -- 提交的代码
   
 	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 输入输出样例表
+CREATE TABLE IF NOT EXISTS `test_data` (
+  `id` bigint(64) NOT NULL auto_increment,
+  `problem_id` bigint(64) NOT NULL, 
+  `in` text,
+  `out` text,
+  
+	PRIMARY KEY(`id`),
+  foreign key(`problem_id`) references problem(`id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- tag 标签表
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- problem_tag 题目标签对应表
+CREATE TABLE IF NOT EXISTS `problem_tag` (
+  `id` bigint(64) NOT NULL auto_increment,
+  `problem_id` bigint(64) NOT NULL, 
+  `tag_id` int(11) NOT NULL,
+
+	PRIMARY KEY(`id`),
+  foreign key(`problem_id`) references problem(`id`),
+  foreign key(`tag_id`) references tag(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
