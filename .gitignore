@@ -1,3 +1,4 @@
 .vscode
 start.sh
 xorm_gen.sh
+build/
