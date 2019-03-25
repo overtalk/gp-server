@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	model_utils "github.com/qinhan-shu/gp-server/model"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -15,15 +16,37 @@ func TestMysqlDriver_GetProblems(t *testing.T) {
 		return
 	}
 
-	tag := `求和1`
-	problems, err := mysqlDriver.GetProblems(tag)
+	problems, err := mysqlDriver.GetProblems()
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
 	for _, problem := range problems {
-		t.Logf("%+v\n", problem)
+		t.Logf("%+v\n", problem.Detail)
+		t.Logf("%+v\n", problem.InAndOutExample)
+		t.Logf("%+v\n", problem.Tags)
+	}
+}
+
+func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var tagID = 1
+	problems, err := mysqlDriver.GetProblemsByTagID(tagID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	for _, problem := range problems {
+		t.Logf("%+v\n", problem.Detail)
+		t.Logf("%+v\n", problem.InAndOutExample)
+		t.Logf("%+v\n", problem.Tags)
 	}
 }
 
@@ -40,7 +63,10 @@ func TestMysqlDriver_GetProblemByID(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	t.Log(problem)
+
+	t.Logf("%+v\n", problem.Detail)
+	t.Logf("%+v\n", problem.InAndOutExample)
+	t.Logf("%+v\n", problem.Tags)
 }
 
 func TestMysqlDriver_AddProblem(t *testing.T) {
@@ -56,12 +82,33 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 		InDescription:  "输入两个int型数",
 		OutDescription: "输出两个数的和",
 		Hint:           "无提示",
-		Example:        `[{"input":"1 1","output":"2"},{"input":"2 2","output":"4"}]`,
-		JudgeFile:      "/usr/local/in.out",
-		JudgeLimit:     `{"mem": "7m", "time": "62s"}`,
-		Tags:           `["求和", "数组", "树"]`,
+		JudgeLimitTime: 10,
+		JudgeLimitMem:  10,
+		Difficulty:     1,
 	}
-	if err := mysqlDriver.AddProblem(problem); err != nil {
+	tags := []*model.ProblemTag{
+		&model.ProblemTag{
+			TagId: 1,
+		},
+		&model.ProblemTag{
+			TagId: 2,
+		},
+	}
+	testData := []*model.TestData{
+		&model.TestData{
+			In:  "in 1",
+			Out: "out 1",
+		},
+		&model.TestData{
+			In:  "in 2",
+			Out: "out 2",
+		},
+	}
+	if err := mysqlDriver.AddProblem(&model_utils.IntactProblem{
+		Detail:          problem,
+		InAndOutExample: testData,
+		Tags:            tags,
+	}); err != nil {
 		t.Error(err)
 		return
 	}
@@ -83,10 +130,13 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 		return
 	}
 
-	change := &model.Problem{
-		Id:    problemID,
-		Title: originProblem.Title + "000",
+	change := &model_utils.IntactProblem{
+		Detail: &model.Problem{
+			Id:    problemID,
+			Title: originProblem.Detail.Title + "000",
+		},
 	}
+
 	if err := mysqlDriver.UpdateProblem(change); err != nil {
 		t.Error(err)
 		return
@@ -98,17 +148,17 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 		return
 	}
 
-	if !assert.NotEqual(t, originProblem.Title, changedProblem.Title) {
+	if !assert.NotEqual(t, originProblem.Detail.Title, changedProblem.Detail.Title) {
 		t.Error("filed [Title] is not changed")
 		return
 	}
 
-	if !assert.Equal(t, changedProblem.Title, change.Title) {
+	if !assert.Equal(t, changedProblem.Detail.Title, change.Detail.Title) {
 		t.Error("filed [Title] is not changed to expected value")
 		return
 	}
 
-	if !assert.Equal(t, originProblem.Description, changedProblem.Description) {
+	if !assert.Equal(t, originProblem.Detail.Description, changedProblem.Detail.Description) {
 		t.Error("other filed [Description] is changed")
 		return
 	}

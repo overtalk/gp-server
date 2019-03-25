@@ -1,6 +1,7 @@
 package module
 
 import (
+	model_utils "github.com/qinhan-shu/gp-server/model"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -17,8 +18,12 @@ type DB interface {
 	DelUser(userID int64) error
 
 	// problem manage
-	GetProblems(tag string) ([]*model.Problem, error)
-	AddProblem(problem *model.Problem) error
-	GetProblemByID(id int64) (*model.Problem, error)
-	UpdateProblem(problem *model.Problem) error
+	GetProblems() ([]*model_utils.IntactProblem, error)
+	GetProblemsByTagID(tag int) ([]*model_utils.IntactProblem, error)
+	AddProblem(problem *model_utils.IntactProblem) error
+	GetProblemByID(id int64) (*model_utils.IntactProblem, error)
+	UpdateProblem(problem *model_utils.IntactProblem) error
+
+	// tags
+
 }

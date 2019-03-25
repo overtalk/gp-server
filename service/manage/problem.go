@@ -7,8 +7,8 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	model_utils "github.com/qinhan-shu/gp-server/model"
 	"github.com/qinhan-shu/gp-server/protocol"
-	"github.com/qinhan-shu/gp-server/utils/file"
 	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
@@ -40,7 +40,11 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 		return resp
 	}
 
-	problems, err := m.db.GetProblems(req.Tag)
+	var problems []*model_utils.IntactProblem
+	if req.GetAll {
+		problems, err = m.db.GetProblems()
+	}
+	problems, err = m.db.GetProblemsByTagID(int(req.Tag))
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all problems : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
@@ -108,17 +112,17 @@ func (m *BackStageManage) AddProblem(r *http.Request) proto.Message {
 
 	// add problem
 	p := transform.ProtoToProblem(req.Problem)
-	relativePath := m.judgeFilePath + getJudgeFileRelativePath(p.Title)
-	if err := file.Write(relativePath+"_in.txt", req.Problem.JudgeInFile); err != nil {
-		resp.IsSuccess = false
-		return resp
-	}
-	if err := file.Write(relativePath+"_out.txt", req.Problem.JudgeOutFile); err != nil {
-		resp.IsSuccess = false
-		return resp
-	}
+	// relativePath := m.judgeFilePath + getJudgeFileRelativePath(p.Detail.Title)
+	// if err := file.Write(relativePath+"_in.txt", req.Problem.JudgeInFile); err != nil {
+	// 	resp.IsSuccess = false
+	// 	return resp
+	// }
+	// if err := file.Write(relativePath+"_out.txt", req.Problem.JudgeOutFile); err != nil {
+	// 	resp.IsSuccess = false
+	// 	return resp
+	// }
 
-	p.JudgeFile = relativePath
+	// p.JudgeFile = relativePath
 	if err := m.db.AddProblem(p); err != nil {
 		resp.IsSuccess = false
 	} else {
