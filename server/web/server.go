@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	port     = flag.String("addr", ":9999", "listen address")
+	port     = flag.String("addr", ":8080", "listen address")
 	certFile = flag.String("certFile", "", "ssl certficate filename")
 	keyFile  = flag.String("keyFile", "", "ssl private key filename")
 	logLevel = flag.String("log-level", "error", "log level, optional( debug | info | warn | error | dpanic | panic | fatal), default is error")
