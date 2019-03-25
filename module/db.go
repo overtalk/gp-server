@@ -12,14 +12,15 @@ type DB interface {
 	GetUserByID(id int64) (*model.User, error)
 
 	// user manage
-	GetUsersByRole(role int64) ([]*model.User, error) // role < 0 : get all user
+	GetUsers(pageNum, pageIndex int64) ([]*model.User, error)
+	GetUsersByRole(pageNum, pageIndex, role int64) ([]*model.User, error)
 	AddUser(user *model.User) error
 	UpdateUser(user *model.User) error // only id and changed filed is required
 	DelUser(userID int64) error
 
 	// problem manage
-	GetProblems() ([]*model_utils.IntactProblem, error)
-	GetProblemsByTagID(tag int) ([]*model_utils.IntactProblem, error)
+	GetProblems(pageNum, pageIndex int64) ([]*model_utils.IntactProblem, error)
+	GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*model_utils.IntactProblem, error)
 	AddProblem(problem *model_utils.IntactProblem) error
 	GetProblemByID(id int64) (*model_utils.IntactProblem, error)
 	UpdateProblem(problem *model_utils.IntactProblem) error

@@ -30,17 +30,24 @@ func (m *MysqlDriver) CheckPlayer(username, password string) (*model.User, error
 	return user, nil
 }
 
-// GetUsersByRole : get users by required role
-func (m *MysqlDriver) GetUsersByRole(role int64) ([]*model.User, error) {
+// GetUsers : get users
+func (m *MysqlDriver) GetUsers(pageNum, pageIndex int64) ([]*model.User, error) {
 	users := make([]*model.User, 0)
-	var err error
-	if role < 0 {
-		// role < 0 : get all users
-		err = m.conn.Find(&users)
-	} else {
-		err = m.conn.Where("role = ? ", role).Find(&users)
+	if err := m.conn.
+		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Find(&users); err != nil {
+		return nil, err
 	}
-	if err != nil {
+	return users, nil
+}
+
+// GetUsersByRole : get users by required role
+func (m *MysqlDriver) GetUsersByRole(pageNum, pageIndex, role int64) ([]*model.User, error) {
+	users := make([]*model.User, 0)
+	if err := m.conn.
+		Where("role = ?", role).
+		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Find(&users); err != nil {
 		return nil, err
 	}
 	return users, nil

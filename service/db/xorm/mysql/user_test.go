@@ -51,13 +51,37 @@ func TestMysqlDriver_GetUsersByRole(t *testing.T) {
 		return
 	}
 
-	var role int64 = -1
-	users, err := mysqlDriver.GetUsersByRole(role)
+	var role int64 = 1
+	var pageIndex int64 = 1
+	var pageNum int64 = 3
+	users, err := mysqlDriver.GetUsersByRole(pageNum, pageIndex, role)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
+	t.Log(len(users))
+	for _, user := range users {
+		t.Logf("%+v\n", user)
+	}
+}
+
+func TestMysqlDriver_GetUsers(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var pageIndex int64 = 1
+	var pageNum int64 = 3
+	users, err := mysqlDriver.GetUsers(pageNum, pageIndex)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log(len(users))
 	for _, user := range users {
 		t.Logf("%+v\n", user)
 	}

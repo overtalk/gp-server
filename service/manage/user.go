@@ -7,6 +7,7 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
@@ -23,12 +24,14 @@ func (m *BackStageManage) GetUsers(r *http.Request) proto.Message {
 		return resp
 	}
 
+	var users []*model.User
+	var err error
 	// get required users informations
 	role := req.Role
 	if req.GetAll {
-		role = -1
+		users, err = m.db.GetUsers(req.PageNum, req.PageIndex)
 	}
-	users, err := m.db.GetUsersByRole(int64(role))
+	users, err = m.db.GetUsersByRole(req.PageNum, req.PageIndex, int64(role))
 	if err != nil {
 		logger.Sugar.Errorf("failed to get users : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL

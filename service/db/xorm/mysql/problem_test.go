@@ -16,12 +16,15 @@ func TestMysqlDriver_GetProblems(t *testing.T) {
 		return
 	}
 
-	problems, err := mysqlDriver.GetProblems()
+	var pageIndex int64 = 1
+	var pageNum int64 = 3
+	problems, err := mysqlDriver.GetProblems(pageNum, pageIndex)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
+	t.Log(len(problems))
 	for _, problem := range problems {
 		t.Logf("%+v\n", problem.Detail)
 		t.Logf("%+v\n", problem.InAndOutExample)
@@ -37,12 +40,15 @@ func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
 	}
 
 	var tagID = 1
-	problems, err := mysqlDriver.GetProblemsByTagID(tagID)
+	var pageIndex int64 = 1
+	var pageNum int64 = 3
+	problems, err := mysqlDriver.GetProblemsByTagID(pageNum, pageIndex, tagID)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
+	t.Log(len(problems))
 	for _, problem := range problems {
 		t.Logf("%+v\n", problem.Detail)
 		t.Logf("%+v\n", problem.InAndOutExample)

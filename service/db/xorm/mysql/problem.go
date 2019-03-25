@@ -6,9 +6,11 @@ import (
 )
 
 // GetProblems : get problems
-func (m *MysqlDriver) GetProblems() ([]*model_utils.IntactProblem, error) {
+func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*model_utils.IntactProblem, error) {
 	problems := make([]*model.Problem, 0)
-	if err := m.conn.Find(&problems); err != nil {
+	if err := m.conn.
+		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Find(&problems); err != nil {
 		return nil, err
 	}
 
@@ -25,9 +27,11 @@ func (m *MysqlDriver) GetProblems() ([]*model_utils.IntactProblem, error) {
 }
 
 // GetProblemsByTagID : get problem by tag id
-func (m *MysqlDriver) GetProblemsByTagID(tag int) ([]*model_utils.IntactProblem, error) {
+func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*model_utils.IntactProblem, error) {
 	problemTags := make([]*model.ProblemTag, 0)
-	if err := m.conn.Where("tag_id = ?", tag).Find(&problemTags); err != nil {
+	if err := m.conn.
+		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Where("tag_id = ?", tag).Find(&problemTags); err != nil {
 		return nil, err
 	}
 
