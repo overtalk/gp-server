@@ -14,7 +14,7 @@ type BackStageManage struct {
 // NewBackStageManager : constructor for module BackStageManager
 func NewBackStageManager(dataStorage *module.DataStorage) module.BackStageManage {
 	return &BackStageManage{
-		judgeFilePath: dataStorage.JudgeFilePath,
+		// judgeFilePath: dataStorage.JudgeFilePath,
 		db:            dataStorage.DB,
 		cache:         dataStorage.Cache,
 	}

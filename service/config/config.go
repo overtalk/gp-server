@@ -8,7 +8,7 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/cache/redis"
 	"github.com/qinhan-shu/gp-server/service/db/xorm/mysql"
-	"github.com/qinhan-shu/gp-server/utils/file"
+	// "github.com/qinhan-shu/gp-server/utils/file"
 	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
@@ -120,13 +120,13 @@ func (c *Config) GetDataStorage() (*module.DataStorage, error) {
 		return nil, err
 	}
 
-	if !file.IsDir(*judgeFileDir) {
-		return nil, fmt.Errorf("path[%s] is not a dir", *judgeFileDir)
-	}
-	logger.Sugar.Debugf("judgeFileDir = %s", *judgeFileDir)
+	// if !file.IsDir(*judgeFileDir) {
+	// 	return nil, fmt.Errorf("path[%s] is not a dir", *judgeFileDir)
+	// }
+	// logger.Sugar.Debugf("judgeFileDir = %s", *judgeFileDir)
 	return &module.DataStorage{
-		JudgeFilePath: *judgeFileDir,
-		DB:            mysqlDB,
-		Cache:         redisCache,
+		// JudgeFilePath: *judgeFileDir,
+		DB:    mysqlDB,
+		Cache: redisCache,
 	}, nil
 }
