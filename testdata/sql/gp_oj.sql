@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `class` (
   `tutor` bigint(64) NOT NULL,  -- 导师id
 
   `create_time`  bigint(64) NOT NULL,  -- 创建班级时间 ： 时间戳
-  `announcement` json NOT NULL,   -- 班级公告
+  `announcement` text NOT NULL,   -- 班级公告
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `paper` (
   `knowledge_point` text NOT NULL,  -- 考察的知识点，由出题人自己填写/由程序自动生成
   -- 其他组卷所需要填写的限制也需要记录
 
-  `problems` json NOT NULL,         -- 题目id
+  `problems` text NOT NULL,         -- 题目id
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
