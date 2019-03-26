@@ -43,8 +43,9 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 	var problems []*model_utils.IntactProblem
 	if req.GetAll {
 		problems, err = m.db.GetProblems(req.PageNum, req.PageIndex)
+	} else {
+		problems, err = m.db.GetProblemsByTagID(req.PageNum, req.PageIndex, int(req.Tag))
 	}
-	problems, err = m.db.GetProblemsByTagID(req.PageNum, req.PageIndex, int(req.Tag))
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all problems : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
