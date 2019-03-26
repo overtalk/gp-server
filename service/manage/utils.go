@@ -7,20 +7,21 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/golang/protobuf/proto"
 
+	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
 )
 
-func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) *protocol.Status {
+func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) (*model.User, *protocol.Status) {
 	data, token, err := getReqAndToken(r)
 	if err != nil {
-		return &protocol.Status{
+		return nil, &protocol.Status{
 			Code:    protocol.Code_DATA_LOSE,
 			Message: err.Error(),
 		}
 	}
 	if err := proto.Unmarshal(data, req); err != nil {
-		return &protocol.Status{
+		return nil, &protocol.Status{
 			Code:    protocol.Code_DATA_LOSE,
 			Message: "failed to unmarshal request body",
 		}
@@ -29,7 +30,7 @@ func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) *
 	// check token
 	userID, err := m.cache.GetUserIDByToken(token)
 	if err != nil {
-		return &protocol.Status{
+		return nil, &protocol.Status{
 			Code:    protocol.Code_UNAUTHORIZATED,
 			Message: "invalid token",
 		}
@@ -38,19 +39,19 @@ func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) *
 	// get user from db, and get the operation auth of the player
 	user, err := m.db.GetUserByID(userID)
 	if err != nil {
-		return &protocol.Status{
+		return nil, &protocol.Status{
 			Code:    protocol.Code_UNAUTHORIZATED,
 			Message: "failed to get user info",
 		}
 	}
 
 	if user.Role != int(protocol.Role_MANAGER) {
-		return &protocol.Status{
+		return nil, &protocol.Status{
 			Code:    protocol.Code_PERMISSION_DENIED,
 			Message: "permission denied",
 		}
 	}
-	return nil
+	return user, nil
 }
 
 // getReqAndToken : get token and protobuf data

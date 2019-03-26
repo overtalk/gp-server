@@ -7,9 +7,9 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
-	"github.com/qinhan-shu/gp-server/model/transform"
 )
 
 // GetUsers : get users
@@ -17,7 +17,7 @@ func (m *BackStageManage) GetUsers(r *http.Request) proto.Message {
 	req := &protocol.GetUsersReq{}
 	resp := &protocol.GetUsersResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status
@@ -64,7 +64,7 @@ func (m *BackStageManage) AddUsers(r *http.Request) proto.Message {
 	req := &protocol.AddUsersReq{}
 	resp := &protocol.AddUsersResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status
@@ -92,7 +92,7 @@ func (m *BackStageManage) UpdateUsers(r *http.Request) proto.Message {
 	req := &protocol.UpdateUsersReq{}
 	resp := &protocol.UpdateUsersResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status
@@ -117,7 +117,7 @@ func (m *BackStageManage) DelUsers(r *http.Request) proto.Message {
 	req := &protocol.DelUsersReq{}
 	resp := &protocol.DelUsersResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status

@@ -116,7 +116,7 @@ func (m *BackStageManage) AddProblem(r *http.Request) proto.Message {
 	req := &protocol.AddProblemReq{}
 	resp := &protocol.AddProblemResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status
@@ -149,7 +149,7 @@ func (m *BackStageManage) EditProblem(r *http.Request) proto.Message {
 	req := &protocol.EditProblemReq{}
 	resp := &protocol.EditProblemResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status

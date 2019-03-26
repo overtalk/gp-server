@@ -7,6 +7,7 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
 )
 
@@ -71,7 +72,7 @@ func (m *BackStageManage) GetClassByID(r *http.Request) proto.Message {
 	req := &protocol.GetClassByIDReq{}
 	resp := &protocol.GetClassByIDResp{Status: &protocol.Status{}}
 
-	status := m.checkArgsandAuth(r, req)
+	_, status := m.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status
@@ -87,5 +88,61 @@ func (m *BackStageManage) GetClassByID(r *http.Request) proto.Message {
 	}
 
 	resp.Class = class.TurnProto()
+	return resp
+}
+
+// AddClass : add a new class
+func (m *BackStageManage) AddClass(r *http.Request) proto.Message {
+	req := &protocol.AddClassReq{}
+	resp := &protocol.AddClassResp{Status: &protocol.Status{}}
+
+	user, status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
+	}
+
+	// set publisher and tutor
+	intactClass := transform.TurnProtoToIntactClass(req.Class)
+	intactClass.Class.Tutor = user.Id
+	for _, announcement := range intactClass.Announcements {
+		announcement.Publisher = user.Id
+	}
+	if err := m.db.AddClass(intactClass); err != nil {
+		logger.Sugar.Errorf("failed to add the class : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = fmt.Sprintf("failed to add the class")
+		return resp
+	}
+
+	resp.IsSuccess = true
+	return resp
+}
+
+// EditClass : update the message of Class
+func (m *BackStageManage) EditClass(r *http.Request) proto.Message {
+	req := &protocol.EditClassReq{}
+	resp := &protocol.EditClassResp{Status: &protocol.Status{}}
+
+	_, status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
+	}
+
+	intactClass := transform.TurnProtoToIntactClass(req.Class)
+	for _, announcement := range intactClass.Announcements {
+		announcement.ClassId = intactClass.Class.Id
+	}
+	if err := m.db.UpdateClass(intactClass); err != nil {
+		logger.Sugar.Errorf("failed to edit the class : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = fmt.Sprintf("failed to edit the class")
+		return resp
+	}
+
+	resp.IsSuccess = true
 	return resp
 }

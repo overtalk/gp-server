@@ -69,3 +69,74 @@ func TestUserManage_GetClassByID(t *testing.T) {
 		t.Logf("%+v", announcement.Detail)
 	}
 }
+
+func TestUserManage_AddClass(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.AddClassReq{
+		Class: &protocol.Class{
+			Name:         "测试班级007",
+			Introduction: "测试班级007的简单介绍",
+			IsCheck:      false,
+			Announcements: []*protocol.Announcement{
+				&protocol.Announcement{
+					Detail: "测试班级007的公告",
+				},
+			},
+		},
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := managerModule.AddClass(r)
+	resp := data.(*protocol.AddClassResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Logf("%+v", resp.IsSuccess)
+}
+
+func TestUserManage_UpdateClass(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.EditClassReq{
+		Class: &protocol.Class{
+			Id:   12,
+			Name: "测试班级007(编辑时候被修改啦asdfasdfasdf)",
+			Announcements: []*protocol.Announcement{
+				&protocol.Announcement{
+					Detail: "测试班级007的公告(编辑时候产生asdfasdfasd)",
+				},
+			},
+		},
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := managerModule.EditClass(r)
+	resp := data.(*protocol.EditClassResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Logf("%+v", resp.IsSuccess)
+}

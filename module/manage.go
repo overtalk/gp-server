@@ -23,4 +23,6 @@ type BackStageManage interface {
 	// class manage
 	GetClasses(r *http.Request) proto.Message
 	GetClassByID(r *http.Request) proto.Message
+	AddClass(r *http.Request) proto.Message
+	EditClass(r *http.Request) proto.Message
 }

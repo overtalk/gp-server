@@ -51,8 +51,8 @@ func (c *IntactClass) TurnMinProto() *protocol.Class {
 // TurnProtoToIntactClass : turn protobuf to IntactClass
 func TurnProtoToIntactClass(p *protocol.Class) *IntactClass {
 	c := &model.Class{
-		CreateTime:   p.CreateTime,
 		Id:           p.Id,
+		CreateTime:   time.Now().Unix(),
 		Introduction: p.Introduction,
 		Name:         p.Name,
 	}
