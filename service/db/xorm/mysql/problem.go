@@ -91,7 +91,7 @@ func (m *MysqlDriver) UpdateProblem(problem *model_utils.IntactProblem) error {
 	defer session.Close()
 
 	err := session.Begin()
-	_, err = session.Where("id = ?", problem.Detail.Id).Update(problem.Detail)
+	_, err = session.Id(problem.Detail.Id).Update(problem.Detail)
 	if err != nil {
 		session.Rollback()
 		return err
