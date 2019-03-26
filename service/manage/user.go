@@ -30,8 +30,9 @@ func (m *BackStageManage) GetUsers(r *http.Request) proto.Message {
 	role := req.Role
 	if req.GetAll {
 		users, err = m.db.GetUsers(req.PageNum, req.PageIndex)
+	} else {
+		users, err = m.db.GetUsersByRole(req.PageNum, req.PageIndex, int64(role))
 	}
-	users, err = m.db.GetUsersByRole(req.PageNum, req.PageIndex, int64(role))
 	if err != nil {
 		logger.Sugar.Errorf("failed to get users : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
