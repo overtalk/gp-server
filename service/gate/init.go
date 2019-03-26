@@ -43,7 +43,7 @@ func (s *Service) Start() {
 	logger.Sugar.Debugf("all router:")
 	s.routeMap.Range(func(k, v interface{}) bool {
 		handler := v.(module.Router)
-		logger.Sugar.Debugf("[%s]----[%v]----[%v]", handler.Method, k, handler.Handler)
+		logger.Sugar.Debugf("[%s]----[%v]", handler.Method, k)
 		return true
 	})
 
