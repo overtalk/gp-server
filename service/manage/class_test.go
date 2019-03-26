@@ -39,3 +39,33 @@ func TestUserManage_GetClasses(t *testing.T) {
 		t.Logf("%+v", class)
 	}
 }
+
+func TestUserManage_GetClassByID(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetClassByIDReq{
+		Id: 1,
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := managerModule.GetClassByID(r)
+	resp := data.(*protocol.GetClassByIDResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Logf("%+v", resp.Class.Name)
+	for _, announcement := range resp.Class.Announcements {
+		t.Logf("%+v", announcement.Detail)
+	}
+}
