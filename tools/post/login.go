@@ -11,6 +11,10 @@ import (
 	"github.com/qinhan-shu/gp-server/protocol"
 )
 
+var (
+	serverAddr = "http://127.0.0.1:8080"
+)
+
 func main() {
 	token := login()
 	logout(token)
@@ -18,12 +22,12 @@ func main() {
 
 func login() string {
 	var (
-		postAddr = "http://127.0.0.1:9999/login"
+		postAddr = serverAddr + "/login"
 	)
 
 	req := &protocol.LoginReq{
-		Account:  "jack0",
-		Password: "jack0",
+		Account:  "tom0",
+		Password: "tom0",
 	}
 	resp := &protocol.LoginResp{}
 
@@ -62,7 +66,7 @@ func login() string {
 
 func logout(token string) {
 	var (
-		postAddr = "http://127.0.0.1:9999/logout"
+		postAddr = serverAddr + "/logout"
 	)
 
 	client := &http.Client{}
