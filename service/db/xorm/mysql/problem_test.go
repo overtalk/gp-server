@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	model_utils "github.com/qinhan-shu/gp-server/model"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -125,7 +125,7 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 			Out: "out 2",
 		},
 	}
-	if err := mysqlDriver.AddProblem(&model_utils.IntactProblem{
+	if err := mysqlDriver.AddProblem(&transform.IntactProblem{
 		Detail:          problem,
 		InAndOutExample: testData,
 		Tags:            tags,
@@ -151,7 +151,7 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 		return
 	}
 
-	change := &model_utils.IntactProblem{
+	change := &transform.IntactProblem{
 		Detail: &model.Problem{
 			Id:    problemID,
 			Title: originProblem.Detail.Title + "000",

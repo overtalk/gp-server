@@ -7,9 +7,8 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
-	model_utils "github.com/qinhan-shu/gp-server/model"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
-	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
 // GetProblems : get problems
@@ -40,7 +39,7 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 		return resp
 	}
 
-	var problems []*model_utils.IntactProblem
+	var problems []*transform.IntactProblem
 	if req.GetAll {
 		problems, err = m.db.GetProblems(req.PageNum, req.PageIndex)
 	} else {
@@ -54,7 +53,7 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 	}
 
 	for _, problem := range problems {
-		resp.Problems = append(resp.Problems, transform.ProblemToMinProto(problem))
+		resp.Problems = append(resp.Problems, problem.TurnMinProto())
 	}
 
 	// get all number
@@ -108,7 +107,7 @@ func (m *BackStageManage) GetProblemByID(r *http.Request) proto.Message {
 		return resp
 	}
 
-	resp.Problem = transform.ProblemToProto(problem)
+	resp.Problem = problem.TurnProto()
 	return resp
 }
 

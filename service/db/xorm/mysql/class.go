@@ -3,7 +3,7 @@ package db
 import (
 	"github.com/go-xorm/core"
 
-	model_utils "github.com/qinhan-shu/gp-server/model"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 )
@@ -14,7 +14,7 @@ func (m *MysqlDriver) GetClassNum() (int64, error) {
 }
 
 // GetClasses : get classes by page num and page index
-func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64) ([]*model_utils.IntactClass, error) {
+func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64) ([]*transform.IntactClass, error) {
 	classes := make([]*model.Class, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
@@ -22,13 +22,13 @@ func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64) ([]*model_utils.Intac
 		return nil, err
 	}
 
-	var intactClasses []*model_utils.IntactClass
+	var intactClasses []*transform.IntactClass
 	for _, class := range classes {
 		announcements, err := m.getAnnouncementByClassID(class.Id)
 		if err != nil {
 			return nil, err
 		}
-		intactClasses = append(intactClasses, &model_utils.IntactClass{
+		intactClasses = append(intactClasses, &transform.IntactClass{
 			Class:         class,
 			Announcements: announcements,
 		})
@@ -38,7 +38,7 @@ func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64) ([]*model_utils.Intac
 }
 
 // AddClass : add a new class
-func (m *MysqlDriver) AddClass(intactClass *model_utils.IntactClass) error {
+func (m *MysqlDriver) AddClass(intactClass *transform.IntactClass) error {
 	session := m.conn.NewSession()
 	defer session.Close()
 
@@ -62,7 +62,7 @@ func (m *MysqlDriver) AddClass(intactClass *model_utils.IntactClass) error {
 }
 
 // GetClassByID : get detail of class
-func (m *MysqlDriver) GetClassByID(id int64) (*model_utils.IntactClass, error) {
+func (m *MysqlDriver) GetClassByID(id int64) (*transform.IntactClass, error) {
 	class := new(model.Class)
 	ok, err := m.conn.Id(id).Get(class)
 	if err != nil {
@@ -76,14 +76,14 @@ func (m *MysqlDriver) GetClassByID(id int64) (*model_utils.IntactClass, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &model_utils.IntactClass{
+	return &transform.IntactClass{
 		Class:         class,
 		Announcements: announcements,
 	}, nil
 }
 
 // UpdateClass : update class
-func (m *MysqlDriver) UpdateClass(intactClass *model_utils.IntactClass) error {
+func (m *MysqlDriver) UpdateClass(intactClass *transform.IntactClass) error {
 	session := m.conn.NewSession()
 	defer session.Close()
 

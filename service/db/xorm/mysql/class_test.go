@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	model_utils "github.com/qinhan-shu/gp-server/model"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -53,7 +53,7 @@ func TestMysqlDriver_AddClass(t *testing.T) {
 		},
 	}
 
-	if err := mysqlDriver.AddClass(&model_utils.IntactClass{
+	if err := mysqlDriver.AddClass(&transform.IntactClass{
 		Class:         class,
 		Announcements: announcements,
 	}); err != nil {
@@ -119,7 +119,7 @@ func TestMysqlDriver_UpdateClass(t *testing.T) {
 		return
 	}
 
-	change := &model_utils.IntactClass{
+	change := &transform.IntactClass{
 		Class: &model.Class{
 			Id:   classID,
 			Name: originClass.Class.Name + "000",

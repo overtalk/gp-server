@@ -7,7 +7,6 @@ import (
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/protocol"
-	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
 // GetClasses : get all classes
@@ -31,7 +30,7 @@ func (m *BackStageManage) GetClasses(r *http.Request) proto.Message {
 	}
 
 	for _, class := range classes {
-		resp.Classes = append(resp.Classes, transform.TurnIntactClassToMinProto(class))
+		resp.Classes = append(resp.Classes, class.TurnMinProto())
 	}
 
 	// get all number

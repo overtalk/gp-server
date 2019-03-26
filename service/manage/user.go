@@ -9,7 +9,7 @@ import (
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
-	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
+	"github.com/qinhan-shu/gp-server/model/transform"
 )
 
 // GetUsers : get users

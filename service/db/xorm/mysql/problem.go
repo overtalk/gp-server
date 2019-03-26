@@ -1,7 +1,7 @@
 package db
 
 import (
-	model_utils "github.com/qinhan-shu/gp-server/model"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -11,7 +11,7 @@ func (m *MysqlDriver) GetProblemsNum() (int64, error) {
 }
 
 // GetProblems : get problems
-func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*model_utils.IntactProblem, error) {
+func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*transform.IntactProblem, error) {
 	problems := make([]*model.Problem, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
@@ -19,7 +19,7 @@ func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*model_utils.Inta
 		return nil, err
 	}
 
-	var intactProblems []*model_utils.IntactProblem
+	var intactProblems []*transform.IntactProblem
 	for _, problem := range problems {
 		intactProblem, err := m.GetProblemByProblem(problem)
 		if err != nil {
@@ -32,7 +32,7 @@ func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*model_utils.Inta
 }
 
 // GetProblemsByTagID : get problem by tag id
-func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*model_utils.IntactProblem, error) {
+func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*transform.IntactProblem, error) {
 	problemTags := make([]*model.ProblemTag, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
@@ -40,7 +40,7 @@ func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*
 		return nil, err
 	}
 
-	var intactProblems []*model_utils.IntactProblem
+	var intactProblems []*transform.IntactProblem
 	for _, tag := range problemTags {
 		intactProblem, err := m.GetProblemByID(tag.ProblemId)
 		if err != nil {
@@ -53,7 +53,7 @@ func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*
 }
 
 // AddProblem : add problem to db
-func (m *MysqlDriver) AddProblem(problem *model_utils.IntactProblem) error {
+func (m *MysqlDriver) AddProblem(problem *transform.IntactProblem) error {
 	session := m.conn.NewSession()
 	defer session.Close()
 
@@ -86,7 +86,7 @@ func (m *MysqlDriver) AddProblem(problem *model_utils.IntactProblem) error {
 }
 
 // UpdateProblem : update problem
-func (m *MysqlDriver) UpdateProblem(problem *model_utils.IntactProblem) error {
+func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 	session := m.conn.NewSession()
 	defer session.Close()
 
@@ -111,7 +111,7 @@ func (m *MysqlDriver) UpdateProblem(problem *model_utils.IntactProblem) error {
 }
 
 // GetProblemByID : get problem by id
-func (m *MysqlDriver) GetProblemByID(id int64) (*model_utils.IntactProblem, error) {
+func (m *MysqlDriver) GetProblemByID(id int64) (*transform.IntactProblem, error) {
 	problem := new(model.Problem)
 	ok, err := m.conn.Id(id).Get(problem)
 	if err != nil {
@@ -129,7 +129,7 @@ func (m *MysqlDriver) GetProblemByID(id int64) (*model_utils.IntactProblem, erro
 	if err != nil {
 		return nil, err
 	}
-	return &model_utils.IntactProblem{
+	return &transform.IntactProblem{
 		Detail:          problem,
 		InAndOutExample: testData,
 		Tags:            tags,
@@ -137,7 +137,7 @@ func (m *MysqlDriver) GetProblemByID(id int64) (*model_utils.IntactProblem, erro
 }
 
 // GetProblemByProblem : get problem by problem
-func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*model_utils.IntactProblem, error) {
+func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*transform.IntactProblem, error) {
 	tags, err := m.getTagsByProblemID(problem.Id)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*model_utils.
 	if err != nil {
 		return nil, err
 	}
-	return &model_utils.IntactProblem{
+	return &transform.IntactProblem{
 		Detail:          problem,
 		InAndOutExample: testData,
 		Tags:            tags,

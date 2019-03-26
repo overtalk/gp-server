@@ -1,7 +1,7 @@
 package module
 
 import (
-	model_utils "github.com/qinhan-shu/gp-server/model"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -21,17 +21,17 @@ type DB interface {
 
 	// problem manage
 	GetProblemsNum() (int64, error)
-	GetProblems(pageNum, pageIndex int64) ([]*model_utils.IntactProblem, error)
-	GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*model_utils.IntactProblem, error)
-	AddProblem(problem *model_utils.IntactProblem) error
-	GetProblemByID(id int64) (*model_utils.IntactProblem, error)
-	UpdateProblem(problem *model_utils.IntactProblem) error
+	GetProblems(pageNum, pageIndex int64) ([]*transform.IntactProblem, error)
+	GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*transform.IntactProblem, error)
+	AddProblem(problem *transform.IntactProblem) error
+	GetProblemByID(id int64) (*transform.IntactProblem, error)
+	UpdateProblem(problem *transform.IntactProblem) error
 
 	// class manage
-	GetClassNum() (int64, error)                                             // 获得班级数量
-	GetClasses(pageNum, pageIndex int64) ([]*model_utils.IntactClass, error) // 获取所有班级
-	AddClass(intactClass *model_utils.IntactClass) error                     // 新增班级
-	GetClassByID(id int64) (*model_utils.IntactClass, error)                 // 获取班级具体信息
-	UpdateClass(intactClass *model_utils.IntactClass) error                  // 修改班级信息
-	MemberManage(manageType, classID, memberID int64) error                  // 班级成员管理
+	GetClassNum() (int64, error)                                           // 获得班级数量
+	GetClasses(pageNum, pageIndex int64) ([]*transform.IntactClass, error) // 获取所有班级
+	AddClass(intactClass *transform.IntactClass) error                     // 新增班级
+	GetClassByID(id int64) (*transform.IntactClass, error)                 // 获取班级具体信息
+	UpdateClass(intactClass *transform.IntactClass) error                  // 修改班级信息
+	MemberManage(manageType, classID, memberID int64) error                // 班级成员管理
 }

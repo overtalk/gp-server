@@ -1,13 +1,19 @@
 package transform
 
 import (
-	model_utils "github.com/qinhan-shu/gp-server/model"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 )
 
-// ProblemToProto : turn Problem to protobuf
-func ProblemToProto(p *model_utils.IntactProblem) *protocol.Problem {
+// IntactProblem : intact problem
+type IntactProblem struct {
+	Detail          *model.Problem
+	InAndOutExample []*model.TestData
+	Tags            []*model.ProblemTag
+}
+
+// TurnProto : turn Problem to protobuf
+func (p *IntactProblem) TurnProto() *protocol.Problem {
 	problemProtobuf := &protocol.Problem{
 		Id:             p.Detail.Id,
 		Title:          p.Detail.Title,
@@ -40,8 +46,8 @@ func ProblemToProto(p *model_utils.IntactProblem) *protocol.Problem {
 	return problemProtobuf
 }
 
-// ProblemToMinProto : turn to protobuf with certain fields
-func ProblemToMinProto(p *model_utils.IntactProblem) *protocol.Problem {
+// TurnMinProto : turn to protobuf with certain fields
+func (p *IntactProblem) TurnMinProto() *protocol.Problem {
 	return &protocol.Problem{
 		Id:         p.Detail.Id,
 		Title:      p.Detail.Title,
@@ -57,7 +63,7 @@ func IsInited(p *model.Problem) bool {
 }
 
 // ProtoToProblem : turn protobuf to problem
-func ProtoToProblem(p *protocol.Problem) *model_utils.IntactProblem {
+func ProtoToProblem(p *protocol.Problem) *IntactProblem {
 	problem := &model.Problem{
 		Id:             p.Id,
 		Title:          p.Title,
@@ -86,7 +92,7 @@ func ProtoToProblem(p *protocol.Problem) *model_utils.IntactProblem {
 			TagId:     int(tag),
 		})
 	}
-	return &model_utils.IntactProblem{
+	return &IntactProblem{
 		Detail:          problem,
 		InAndOutExample: inAndOutExample,
 		Tags:            tags,

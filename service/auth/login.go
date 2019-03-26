@@ -6,9 +6,9 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
-	"github.com/qinhan-shu/gp-server/utils/transform/xorm"
 )
 
 // Login : authentication, and get token
