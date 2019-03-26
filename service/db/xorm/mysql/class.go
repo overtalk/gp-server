@@ -119,10 +119,12 @@ func (m *MysqlDriver) MemberManage(manageType, classID, memberID int64) error {
 	case int64(protocol.MemberManageReq_SET_ADMINISTRATOR):
 		affectd, err = m.conn.Id(core.PK{classID, memberID}).Update(&model.UserClass{
 			IsAdministrator: 1,
+			IsChecked:       1,
 		})
 	case int64(protocol.MemberManageReq_CANCEL_ADMINISTRATOR):
 		affectd, err = m.conn.Id(core.PK{classID, memberID}).Update(&model.UserClass{
 			IsAdministrator: 0,
+			IsChecked:       1,
 		})
 	}
 	if err != nil {

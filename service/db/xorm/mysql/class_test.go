@@ -174,7 +174,7 @@ func TestMysqlDriver_MemberManage(t *testing.T) {
 
 	var manageType int64 = 1
 	var classID int64 = 1
-	var memberID int64 = 2
+	var memberID int64 = 3
 	if err := mysqlDriver.MemberManage(manageType, classID, memberID); err != nil {
 		t.Error(err)
 		return
