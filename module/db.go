@@ -12,6 +12,7 @@ type DB interface {
 	GetUserByID(id int64) (*model.User, error)
 
 	// user manage
+	GetUsersNum() (int64, error)
 	GetUsers(pageNum, pageIndex int64) ([]*model.User, error)
 	GetUsersByRole(pageNum, pageIndex, role int64) ([]*model.User, error)
 	AddUser(user *model.User) error
@@ -19,6 +20,7 @@ type DB interface {
 	DelUser(userID int64) error
 
 	// problem manage
+	GetProblemsNum() (int64, error)
 	GetProblems(pageNum, pageIndex int64) ([]*model_utils.IntactProblem, error)
 	GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*model_utils.IntactProblem, error)
 	AddProblem(problem *model_utils.IntactProblem) error

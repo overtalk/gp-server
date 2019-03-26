@@ -9,6 +9,21 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+func TestMysqlDriver_GetProblemsNum(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	num, err := mysqlDriver.GetProblemsNum()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("the num of problems : %d", num)
+}
 func TestMysqlDriver_GetProblems(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {

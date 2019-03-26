@@ -4,6 +4,11 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+// GetUsersNum : get the num of users
+func (m *MysqlDriver) GetUsersNum() (int64, error) {
+	return m.conn.Count(&model.User{})
+}
+
 // GetUserByID : get uer model by user id
 func (m *MysqlDriver) GetUserByID(id int64) (*model.User, error) {
 	user := new(model.User)

@@ -10,6 +10,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestMysqlDriver_GetUsersNum(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	num, err := mysqlDriver.GetUsersNum()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("the num of users : %d", num)
+}
 func TestMysqlDriver_GetUserByID(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {

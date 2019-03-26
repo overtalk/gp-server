@@ -5,6 +5,11 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+// GetProblemsNum : get the num of problems
+func (m *MysqlDriver) GetProblemsNum() (int64, error) {
+	return m.conn.Count(&model.Problem{})
+}
+
 // GetProblems : get problems
 func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*model_utils.IntactProblem, error) {
 	problems := make([]*model.Problem, 0)
