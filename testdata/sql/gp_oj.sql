@@ -2,6 +2,7 @@ DROP database IF EXISTS gp_oj;
 CREATE DATABASE IF NOT EXISTS gp_oj;
 USE gp_oj;
 
+-- 用户表
 CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(64) NOT NULL auto_increment,
   `account` varchar(50) NOT NULL UNIQUE,  -- 用户登陆的账号密码
@@ -20,17 +21,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `announcement` (
-  `id` bigint(64) NOT NULL auto_increment,
-  `publisher` bigint(64) NOT NULL,  -- 发布人
-  `detail` text NOT NULL,
-  
-  `create_time` bigint(64) NOT NULL,        -- 创建时间 ： 时间戳
-  `disable_time` bigint(64) NOT NULL,       -- 失效时间 ： 时间戳
-
-	PRIMARY KEY(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+-- 比赛表
 CREATE TABLE IF NOT EXISTS `match` (
   `id` bigint(64) NOT NULL auto_increment,
   `paper_id` bigint(64) NOT NULL,  -- 试卷id
@@ -42,16 +33,35 @@ CREATE TABLE IF NOT EXISTS `match` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 班级表
 CREATE TABLE IF NOT EXISTS `class` (
   `id` bigint(64) NOT NULL auto_increment,
   `tutor` bigint(64) NOT NULL,  -- 导师id
 
+  `name` text NOT NULL,   -- 班级名称
+  `introduction` text,    -- 班级简介
+  `number` int(11) NOT NULL DEFAULT 0,
+  `is_check`  boolean NOT NULL DEFAULT false,  -- 加入班级设置：false（无需审核，运行任何人进入），true（需要导师审核）
   `create_time`  bigint(64) NOT NULL,  -- 创建班级时间 ： 时间戳
-  `announcement` text NOT NULL,   -- 班级公告
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 全局公告表
+CREATE TABLE IF NOT EXISTS `announcement` (
+  `id` bigint(64) NOT NULL auto_increment,
+  `publisher` bigint(64) NOT NULL,  -- 发布人
+  `detail` text NOT NULL,
+  `class_id` bigint(64),          -- 如果是班级公告，则填写班级id
+  
+  `create_time` bigint(64) NOT NULL,        -- 创建时间 ： 时间戳
+  `disable_time` bigint(64) NOT NULL,       -- 失效时间 ： 时间戳
+
+	PRIMARY KEY(`id`),
+  foreign key(`class_id`) references `class`(`id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 题目表
 CREATE TABLE IF NOT EXISTS `problem` (
   `id` bigint(64) NOT NULL auto_increment,
   `title` text NOT NULL,
@@ -79,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `problem` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 试卷表
 CREATE TABLE IF NOT EXISTS `paper` (
   `id` bigint(64) NOT NULL auto_increment,
 
@@ -91,6 +102,14 @@ CREATE TABLE IF NOT EXISTS `paper` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- tag 标签表
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS `user_match` (
   `user_id` bigint(64) NOT NULL,
   `match_id` bigint(64) NOT NULL,
@@ -98,16 +117,21 @@ CREATE TABLE IF NOT EXISTS `user_match` (
   `result` tinyint(4) NOT NULL,  
   `rank` smallint(4) NOT NULL,  
   
-	PRIMARY KEY(`user_id`, `match_id`)
+	PRIMARY KEY(`user_id`, `match_id`),
+  foreign key(`user_id`) references `user`(`id`),
+  foreign key(`match_id`) references `match`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `user_class` (
   `user_id` bigint(64) NOT NULL,
   `class_id` bigint(64) NOT NULL,
 
-  `announcement` blob DEFAULT NULL,  
+  `is_checked` boolean NOT NULL DEFAULT false,          -- 是否被管理员审核通过
+  `is_administrator` boolean NOT NULL DEFAULT false,    -- 是否为管理员
   
-	PRIMARY KEY(`user_id`, `class_id`)
+	PRIMARY KEY(`user_id`, `class_id`),
+  foreign key(`user_id`) references `user`(`id`),
+  foreign key(`class_id`) references `class`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `user_problem` (
@@ -123,7 +147,9 @@ CREATE TABLE IF NOT EXISTS `user_problem` (
 
   `code` text NOT NULL,  -- 提交的代码
   
-	PRIMARY KEY(`id`)
+	PRIMARY KEY(`id`),
+  foreign key(`user_id`) references `user`(`id`),
+  foreign key(`problem_id`) references `problem`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 输入输出样例表
@@ -134,15 +160,7 @@ CREATE TABLE IF NOT EXISTS `test_data` (
   `out` text,
   
 	PRIMARY KEY(`id`),
-  foreign key(`problem_id`) references problem(`id`)  
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- tag 标签表
-CREATE TABLE IF NOT EXISTS `tag` (
-  `id` int(11) NOT NULL auto_increment,
-  `detail` varchar(100) NOT NULL,
-  
-	PRIMARY KEY(`id`)
+  foreign key(`problem_id`) references `problem`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- problem_tag 题目标签对应表
@@ -152,6 +170,6 @@ CREATE TABLE IF NOT EXISTS `problem_tag` (
   `tag_id` int(11) NOT NULL,
 
 	PRIMARY KEY(`id`),
-  foreign key(`problem_id`) references problem(`id`),
-  foreign key(`tag_id`) references tag(`id`)  
+  foreign key(`problem_id`) references `problem`(`id`),
+  foreign key(`tag_id`) references `tag`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
