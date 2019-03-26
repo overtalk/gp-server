@@ -44,6 +44,17 @@ func (m *BackStageManage) GetUsers(r *http.Request) proto.Message {
 		resp.Users = append(resp.Users, transform.UserToProto(user))
 	}
 
+	// get all number
+	usersNum, err := m.db.GetUsersNum()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get the number of users : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get the number of users"
+		return resp
+	}
+	resp.Total = usersNum
+	resp.PageIndex = req.PageIndex
+	resp.PageNum = req.PageNum
 	return resp
 }
 

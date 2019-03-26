@@ -55,6 +55,19 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 	for _, problem := range problems {
 		resp.Problems = append(resp.Problems, transform.ProblemToMinProto(problem))
 	}
+
+	// get all number
+	problemsNum, err := m.db.GetProblemsNum()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get the number of problems : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get the number of problems"
+		return resp
+	}
+	resp.Total = problemsNum
+	resp.PageIndex = req.PageIndex
+	resp.PageNum = req.PageNum
+
 	return resp
 }
 
