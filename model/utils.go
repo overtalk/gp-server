@@ -15,4 +15,6 @@ type IntactProblem struct {
 type IntactClass struct {
 	Class         *model.Class
 	Announcements []*model.Announcement
+	TutorName     string
+	Publisher     []string
 }

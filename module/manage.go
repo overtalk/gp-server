@@ -19,4 +19,7 @@ type BackStageManage interface {
 	GetProblemByID(r *http.Request) proto.Message
 	AddProblem(r *http.Request) proto.Message
 	EditProblem(r *http.Request) proto.Message
+
+	// class manage
+	GetClasses(r *http.Request) proto.Message
 }
