@@ -15,8 +15,8 @@ type BackStageManage struct {
 func NewBackStageManager(dataStorage *module.DataStorage) module.BackStageManage {
 	return &BackStageManage{
 		// judgeFilePath: dataStorage.JudgeFilePath,
-		db:            dataStorage.DB,
-		cache:         dataStorage.Cache,
+		db:    dataStorage.DB,
+		cache: dataStorage.Cache,
 	}
 }
 
@@ -33,4 +33,9 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	gate.RegisterRoute("/getProblemByID", "POST", module.GetProblemByID)
 	gate.RegisterRoute("/addProblem", "POST", module.AddProblem)
 	gate.RegisterRoute("/editProblem", "POST", module.EditProblem)
+	// class manage
+	gate.RegisterRoute("/getClasses", "POST", module.GetClasses)
+	gate.RegisterRoute("/getClassByID", "POST", module.GetClassByID)
+	gate.RegisterRoute("/addClass", "POST", module.AddClass)
+	gate.RegisterRoute("/editClass", "POST", module.EditClass)
 }
