@@ -25,4 +25,5 @@ type BackStageManage interface {
 	GetClassByID(r *http.Request) proto.Message
 	AddClass(r *http.Request) proto.Message
 	EditClass(r *http.Request) proto.Message
+	MemberManage(r *http.Request) proto.Message
 }

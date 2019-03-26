@@ -140,3 +140,32 @@ func TestUserManage_UpdateClass(t *testing.T) {
 
 	t.Logf("%+v", resp.IsSuccess)
 }
+
+func TestUserManage_MemberManage(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	managerModule := manage.NewBackStageManager(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.MemberManageReq{
+		ManageType: protocol.MemberManageReq_SET_ADMINISTRATOR,
+		ClassId:    1,
+		MemberId:   2,
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := managerModule.MemberManage(r)
+	resp := data.(*protocol.MemberManageResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Logf("%+v", resp.IsSuccess)
+}

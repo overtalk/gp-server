@@ -146,3 +146,26 @@ func (m *BackStageManage) EditClass(r *http.Request) proto.Message {
 	resp.IsSuccess = true
 	return resp
 }
+
+// MemberManage : member manage
+func (m *BackStageManage) MemberManage(r *http.Request) proto.Message {
+	req := &protocol.MemberManageReq{}
+	resp := &protocol.MemberManageResp{Status: &protocol.Status{}}
+
+	_, status := m.checkArgsandAuth(r, req)
+	if status != nil {
+		logger.Sugar.Error(status.Message)
+		resp.Status = status
+		return resp
+	}
+
+	if err := m.db.MemberManage(int64(req.ManageType), req.ClassId, req.MemberId); err != nil {
+		logger.Sugar.Errorf("failed to edit the member of class : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = fmt.Sprintf("failed to edit the member of class")
+		return resp
+	}
+
+	resp.IsSuccess = true
+	return resp
+}
