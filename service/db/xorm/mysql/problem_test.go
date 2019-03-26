@@ -144,7 +144,7 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 		return
 	}
 
-	var problemID int64 = 1
+	var problemID int64 = 12
 	originProblem, err := mysqlDriver.GetProblemByID(problemID)
 	if err != nil {
 		t.Error(err)

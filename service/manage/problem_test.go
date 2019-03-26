@@ -19,7 +19,12 @@ func TestUserManage_GetProblems(t *testing.T) {
 	}
 	managerModule := manage.NewBackStageManager(dataStorage)
 
-	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetProblemsReq{})
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetProblemsReq{
+		GetAll:    false,
+		Tag:       3,
+		PageIndex: 1,
+		PageNum:   5,
+	})
 	if err != nil {
 		t.Errorf("failed to mock http request : %v", err)
 		return
@@ -61,7 +66,8 @@ func TestUserManage_GetProblemByID(t *testing.T) {
 
 	t.Logf("%v", resp.Problem)
 	t.Logf("%v", resp.Problem.InOutExamples)
-	t.Logf("%v", resp.Problem.JudgeLimit)
+	t.Logf("%v", resp.Problem.JudgeLimitMem)
+	t.Logf("%v", resp.Problem.JudgeLimitTime)
 	t.Logf("%v", resp.Problem.Tags)
 }
 
@@ -76,11 +82,15 @@ func TestUserManage_AddProblem(t *testing.T) {
 
 	req := &protocol.AddProblemReq{
 		Problem: &protocol.Problem{
-			Title:       "这是一个测试题目(求和)",
-			Description: "题目描述",
-			In:          "输入描述",
-			Out:         "输出描述",
-			Hint:        "没有提示",
+			Title:          "这是一个测试题目(求和)",
+			Description:    "题目描述",
+			In:             "输入描述",
+			Out:            "输出描述",
+			Hint:           "没有提示",
+			JudgeLimitMem:  5,
+			JudgeLimitTime: 3,
+			Tags:           []int64{1, 3},
+			Difficluty:     protocol.ProblemDifficluty_HARD,
 			InOutExamples: []*protocol.ProblemExample{
 				&protocol.ProblemExample{
 					Input:  "1 1",
@@ -91,14 +101,6 @@ func TestUserManage_AddProblem(t *testing.T) {
 					Output: "4",
 				},
 			},
-			JudgeLimit: &protocol.ProblemJudgeLimit{
-				Time: "62s",
-				Mem:  "7m",
-			},
-			Tags:         []string{"求和", "数组", "树"},
-			Difficluty:   protocol.ProblemDifficluty_HARD,
-			JudgeInFile:  []byte("JudgeInFile test file"),
-			JudgeOutFile: []byte("JudgeOutFile test file"),
 		},
 	}
 	r, err := utils.MockHTTPReq("POST", "1", req)
