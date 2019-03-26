@@ -20,8 +20,10 @@ func TestUserManage_GetUsers(t *testing.T) {
 	managerModule := manage.NewBackStageManager(dataStorage)
 
 	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetUsersReq{
-		GetAll: false,
-		Role:   protocol.Role_TEACHER,
+		GetAll:    false,
+		Role:      protocol.Role_TEACHER,
+		PageIndex: 1,
+		PageNum:   2,
 	})
 	if err != nil {
 		t.Errorf("failed to mock http request : %v", err)
