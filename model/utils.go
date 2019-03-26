@@ -10,3 +10,9 @@ type IntactProblem struct {
 	InAndOutExample []*model.TestData
 	Tags            []*model.ProblemTag
 }
+
+// IntactClass : intact class
+type IntactClass struct {
+	Class         *model.Class
+	Announcements []*model.Announcement
+}

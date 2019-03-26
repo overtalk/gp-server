@@ -27,6 +27,11 @@ type DB interface {
 	GetProblemByID(id int64) (*model_utils.IntactProblem, error)
 	UpdateProblem(problem *model_utils.IntactProblem) error
 
-	// tags
-
+	// class manage
+	GetClassNum() (int64, error)                                             // 获得班级数量
+	GetClasses(pageNum, pageIndex int64) ([]*model_utils.IntactClass, error) // 获取所有班级
+	AddClass(intactClass *model_utils.IntactClass) error                     // 新增班级
+	GetClassByID(id int64) (*model_utils.IntactClass, error)                 // 获取班级具体信息
+	UpdateClass(intactClass *model_utils.IntactClass) error                  // 修改班级信息
+	MemberManage(manageType, classID, memberID int64) error                  // 班级成员管理
 }
