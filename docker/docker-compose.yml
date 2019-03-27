@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    image: gp-server-master
+    ports:
+      - 8080:8080
+    environment:
+     GITHUB_URL: https://api.github.com/repos/qinhan-shu/gp-config/contents
+    restart: always
