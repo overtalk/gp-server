@@ -3,8 +3,9 @@ package serializer_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/qinhan-shu/gp-server/utils/serializer"
-	"github.com/stretchr/testify/require"
 )
 
 type message struct {
@@ -27,5 +28,8 @@ func Test_Serialize(t *testing.T) {
 		t.Errorf("failed to decode: %v", err)
 		return
 	}
-	require.Equal(t, m1, m2)
+	if !assert.Equal(t, m1, m2) {
+		t.Errorf("m1[%v] != m2[%v]", m1, m2)
+		return
+	}
 }
