@@ -2,8 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -15,6 +17,11 @@ import (
 )
 
 var (
+	tag    string
+	commit string
+	branch string
+
+	version  = flag.Bool("version", false, "show version") // show version
 	port     = flag.String("addr", ":8080", "listen address")
 	certFile = flag.String("certFile", "", "ssl certficate filename")
 	keyFile  = flag.String("keyFile", "", "ssl private key filename")
@@ -23,6 +30,11 @@ var (
 
 func main() {
 	flag.Parse()
+
+	if *version {
+		fmt.Println(formatFullVersion())
+		return
+	}
 
 	// init logger
 	logger.InitLogger(*logLevel)
@@ -57,4 +69,27 @@ func registerModule(gate module.Gate) {
 
 	auth.Register(gate, dataStorage)
 	manage.Register(gate, dataStorage)
+}
+
+func formatFullVersion() string {
+	var parts = []string{"gp_server"}
+
+	if tag != "" {
+		parts = append(parts, tag)
+	} else {
+		parts = append(parts, "(tag: unknown)")
+	}
+
+	if branch != "" || commit != "" {
+		if branch == "" {
+			branch = "unknown_branch"
+		}
+		if commit == "" {
+			commit = "unknown_commit"
+		}
+	}
+	git := fmt.Sprintf("(git: %s %s)", branch, commit)
+	parts = append(parts, git)
+
+	return strings.Join(parts, "  ")
 }
