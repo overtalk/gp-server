@@ -15,15 +15,7 @@ RUN cp ./build/gp-server /usr/local/bin/
 # build php container
 FROM shiyunjin/docker-supervisor:latest
 
-ENV GITHUB_USER="" \
-    GITHUB_KEY="" \
-    GITHUB_URL="" 
-
-RUN apk update \
-        && apk upgrade \
-        && apk add --no-cache \
-        ca-certificates \
-        && update-ca-certificates 2>/dev/null || true
+ENV GITHUB_URL=""
         
 # Put other config and shell files into place.
 COPY docker/web/supervisord.conf /etc/supervisor/supervisord.conf
