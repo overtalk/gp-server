@@ -1,11 +1,13 @@
 package source
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
@@ -29,7 +31,12 @@ func NewGithub() *Github {
 // Fetch is to get details from github
 func (g *Github) fetch(fileName string) ([]byte, error) {
 	fileURL := fmt.Sprintf("%s/%s", g.repoURL, fileName)
-	client := new(http.Client)
+	client := &http.Client{
+		Timeout: 15 * time.Second,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+	}
 	req, err := http.NewRequest(http.MethodGet, fileURL, nil)
 	if err != nil {
 		logger.Sugar.Errorf("failed to fetch %s: %v", fileName, err)
