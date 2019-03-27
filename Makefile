@@ -25,7 +25,7 @@ deps:
 
 .PHONY: server
 server:
-	CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o build/gp_server ./server/web/server.go
+	GO15VENDOREXPERIMENT=1 CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o build/gp_server ./server/web/server.go
 
 .PHONY: install
 install: server
