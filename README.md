@@ -1,12 +1,31 @@
-# 服务端模块定义
+# GP Server Part
 
-## 模块说明（package module）
+## Module（./module）
 
-- 网关（gate）
+### Basic Module
+- Gateway（gate.go）
+- Configuration (config.go)
+- Database（db.go）
+- Distributed Shared Cache（cache.go）
 
-- 后台配置数据源 (config)
+### Business Logic Module
+- User Authentication (auth.go)
+- Administrator Manage (manage.go)
 
-- 服务数据源（db）
 
-- 分布式共享缓存（cache）
+## Module Implementation（./service）
+
+### Gateway（package gate）
+- stateless
+- TLS available
+- all services are registered by each module
+
+### Configuration (package config)
+- configuration source separation
+
+### Database（package db）
+- xorm frame + mysql
+
+### Distributed shared cache（package cache）
+- redis
 
