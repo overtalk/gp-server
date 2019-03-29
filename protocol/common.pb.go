@@ -598,7 +598,7 @@ func (m *Class) GetAnnouncements() []*Announcement {
 	return nil
 }
 
-// RankItem : 排行榜信息
+// RankItem : 排名item
 type RankItem struct {
 	Ranking              int64    `protobuf:"varint,1,opt,name=ranking,proto3" json:"ranking,omitempty"`
 	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
