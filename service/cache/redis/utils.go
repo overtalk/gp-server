@@ -9,9 +9,6 @@ import (
 	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
-const rankRedisKey = "rank"
-const maxRanksNum = 200
-
 // GetToken is to get token key
 func GetToken(userID int64) string {
 	// in test mode, token = userID

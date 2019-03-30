@@ -9,6 +9,7 @@ import (
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 // GetProblems : get problems
@@ -16,7 +17,7 @@ func (m *BackStageManage) GetProblems(r *http.Request) proto.Message {
 	req := &protocol.GetProblemsReq{}
 	resp := &protocol.GetProblemsResp{Status: &protocol.Status{}}
 	// get token and data
-	data, token, err := getReqAndToken(r)
+	data, token, err := utils.GetReqAndToken(r)
 	if err != nil {
 		logger.Sugar.Error(err)
 		resp.Status.Code = protocol.Code_DATA_LOSE
@@ -76,7 +77,7 @@ func (m *BackStageManage) GetProblemByID(r *http.Request) proto.Message {
 	req := &protocol.GetProblemByIDReq{}
 	resp := &protocol.GetProblemByIDResp{Status: &protocol.Status{}}
 	// get token and data
-	data, token, err := getReqAndToken(r)
+	data, token, err := utils.GetReqAndToken(r)
 	if err != nil {
 		logger.Sugar.Error(err)
 		resp.Status.Code = protocol.Code_DATA_LOSE

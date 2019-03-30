@@ -12,6 +12,7 @@ type Cache interface {
 
 	// rank
 	SetRank(*RankItem) error
-	GetRank() ([]RankItem, error)
-	DelRank(deleteNum int64) (int64, error)
+	GetRank() ([]*RankItem, error)
+	CleanRank() (int64, error)
+	DelRank()
 }

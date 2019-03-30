@@ -9,6 +9,7 @@ import (
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 // GetClasses : get all classes
@@ -17,7 +18,7 @@ func (m *BackStageManage) GetClasses(r *http.Request) proto.Message {
 	resp := &protocol.GetClassesResp{Status: &protocol.Status{}}
 
 	// get token and data
-	data, token, err := getReqAndToken(r)
+	data, token, err := utils.GetReqAndToken(r)
 	if err != nil {
 		logger.Sugar.Error(err)
 		resp.Status.Code = protocol.Code_DATA_LOSE

@@ -1,7 +1,6 @@
 package manage
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/bwmarrin/snowflake"
@@ -13,7 +12,7 @@ import (
 )
 
 func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) (*model.User, *protocol.Status) {
-	data, token, err := getReqAndToken(r)
+	data, token, err := utils.GetReqAndToken(r)
 	if err != nil {
 		return nil, &protocol.Status{
 			Code:    protocol.Code_DATA_LOSE,
@@ -52,21 +51,6 @@ func (m *BackStageManage) checkArgsandAuth(r *http.Request, req proto.Message) (
 		}
 	}
 	return user, nil
-}
-
-// getReqAndToken : get token and protobuf data
-func getReqAndToken(c *http.Request) ([]byte, string, error) {
-	// get data
-	data, err := utils.GetRequestBody(c)
-	if err != nil {
-		return nil, "", fmt.Errorf("missing request data")
-	}
-	// get token
-	token, err := utils.GetToken(c)
-	if err != nil {
-		return nil, "", fmt.Errorf("missing token")
-	}
-	return data, token, nil
 }
 
 func getJudgeFileRelativePath(str string) string {

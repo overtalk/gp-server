@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -47,4 +48,19 @@ func MockHTTPReq(method, token string, req proto.Message) (*http.Request, error)
 	})
 
 	return r, nil
+}
+
+// GetReqAndToken : get token and protobuf data
+func GetReqAndToken(c *http.Request) ([]byte, string, error) {
+	// get data
+	data, err := GetRequestBody(c)
+	if err != nil {
+		return nil, "", fmt.Errorf("missing request data")
+	}
+	// get token
+	token, err := GetToken(c)
+	if err != nil {
+		return nil, "", fmt.Errorf("missing token")
+	}
+	return data, token, nil
 }

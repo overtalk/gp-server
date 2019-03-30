@@ -14,7 +14,7 @@ func (r *RedisCache) SetRank(item *module.RankItem) error {
 		logger.Sugar.Errorf("failed to ping redis: %v", err)
 		return err
 	}
-	_, err := r.client.ZAdd(rankRedisKey,
+	_, err := r.client.ZAdd(module.RankRedisKey,
 		redis.Z{Score: float64(item.PassNum), Member: item.UserID}).Result()
 	if err != nil {
 		logger.Sugar.Errorf("failed to SetRank of user %s: %v", item.UserID, err)
@@ -23,20 +23,20 @@ func (r *RedisCache) SetRank(item *module.RankItem) error {
 }
 
 // GetRank get the rank
-func (r *RedisCache) GetRank() ([]module.RankItem, error) {
+func (r *RedisCache) GetRank() ([]*module.RankItem, error) {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("failed to ping redis: %v", err)
 		return nil, err
 	}
 
-	results, err := r.client.ZRevRangeWithScores(rankRedisKey, 0, 99).Result()
+	results, err := r.client.ZRevRangeWithScores(module.RankRedisKey, 0, 99).Result()
 	if err != nil {
 		logger.Sugar.Errorf("failed to GetRank: %v", err)
 		return nil, err
 	}
-	items := make([]module.RankItem, 0, len(results))
+	items := make([]*module.RankItem, 0, len(results))
 	for _, v := range results {
-		items = append(items, module.RankItem{
+		items = append(items, &module.RankItem{
 			UserID:  parse.Int(v.Member),
 			PassNum: int64(v.Score),
 		})
@@ -44,23 +44,26 @@ func (r *RedisCache) GetRank() ([]module.RankItem, error) {
 	return items, nil
 }
 
-// DelRank delete some rank datas
-func (r *RedisCache) DelRank(deleteNum int64) (int64, error) {
+// CleanRank clean some rank datas
+func (r *RedisCache) CleanRank() (int64, error) {
 	if _, err := r.client.Ping().Result(); err != nil {
 		logger.Sugar.Errorf("failed to ping redis: %v", err)
 		return 0, err
 	}
-	num, err := r.client.ZCard(rankRedisKey).Result()
+	num, err := r.client.ZCard(module.RankRedisKey).Result()
 	if err != nil {
 		logger.Sugar.Errorf("failed to ZCard redis: %v", err)
 		return 0, err
 	}
-	availDeleteNum := num - maxRanksNum
+	availDeleteNum := num - module.MaxRanksNum
 	if availDeleteNum <= 0 {
 		return 0, nil
 	}
-	if deleteNum > availDeleteNum {
-		deleteNum = availDeleteNum
-	}
-	return r.client.ZRemRangeByRank(rankRedisKey, 0, deleteNum-1).Result()
+
+	return r.client.ZRemRangeByRank(module.RankRedisKey, 0, availDeleteNum-1).Result()
+}
+
+// DelRank : del rank
+func (r *RedisCache) DelRank() {
+	r.client.Del(module.RankRedisKey)
 }
