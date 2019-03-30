@@ -6,7 +6,7 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 )
 
-func TestRedisCache_SetPveStarRank(t *testing.T) {
+func TestRedisCache_SetRank(t *testing.T) {
 	redisCache := getRedisCache(t)
 
 	if err := redisCache.SetRank(&module.RankItem{

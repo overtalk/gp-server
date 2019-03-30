@@ -38,7 +38,7 @@ func (r *RedisCache) GetRank() ([]module.RankItem, error) {
 	for _, v := range results {
 		items = append(items, module.RankItem{
 			UserID:  parse.Int(v.Member),
-			PassNum: uint32(v.Score),
+			PassNum: int64(v.Score),
 		})
 	}
 	return items, nil
