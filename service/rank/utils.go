@@ -16,7 +16,7 @@ func (k *Rank) turnRankItemsToProtobuf(items []*module.RankItem) []*protocol.Ran
 		}
 		rankItems = append(rankItems, &protocol.RankItem{
 			Ranking:   int64(index) + 1,
-			UserID:    item.UserID,
+			UserId:    item.UserID,
 			PassNum:   item.PassNum,
 			Name:      name,
 			SubmitNum: submitNum,
