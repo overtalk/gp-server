@@ -21,3 +21,20 @@ func TestMysqlDriver_GetRank(t *testing.T) {
 		t.Log(item)
 	}
 }
+
+func TestMysqlDriver_GetNameAndSubmitNumByID(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var userID int64 = 1
+	name, total, err := mysqlDriver.GetNameAndSubmitNumByID(userID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log(name, total)
+}

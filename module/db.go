@@ -36,5 +36,6 @@ type DB interface {
 	MemberManage(manageType, classID, memberID int64) error                // 班级成员管理
 
 	// rank
-	GetRank(num int) ([]*RankItem, error) // 从数据库中读取排名
+	GetRank(num int) ([]*RankItem, error)                        // 从数据库中读取排名
+	GetNameAndSubmitNumByID(userID int64) (string, int64, error) // 查询用户姓名以及提交总数
 }
