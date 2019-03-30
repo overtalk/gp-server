@@ -14,6 +14,7 @@ import (
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/gate"
 	"github.com/qinhan-shu/gp-server/service/manage"
+	"github.com/qinhan-shu/gp-server/service/rank"
 )
 
 var (
@@ -60,17 +61,6 @@ func main() {
 	gateService.Start()
 }
 
-func registerModule(gate module.Gate) {
-	c := config.NewConfig()
-	dataStorage, err := c.GetDataStorage()
-	if err != nil {
-		logger.Sugar.Fatalf("failed to get data storage : %v", err)
-	}
-
-	auth.Register(gate, dataStorage)
-	manage.Register(gate, dataStorage)
-}
-
 func formatFullVersion() string {
 	var parts = []string{"gp_server"}
 
@@ -92,4 +82,16 @@ func formatFullVersion() string {
 	parts = append(parts, git)
 
 	return strings.Join(parts, "  ")
+}
+
+func registerModule(gate module.Gate) {
+	c := config.NewConfig()
+	dataStorage, err := c.GetDataStorage()
+	if err != nil {
+		logger.Sugar.Fatalf("failed to get data storage : %v", err)
+	}
+
+	auth.Register(gate, dataStorage)
+	manage.Register(gate, dataStorage)
+	rank.Register(gate, dataStorage)
 }
