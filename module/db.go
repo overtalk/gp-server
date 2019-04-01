@@ -38,4 +38,8 @@ type DB interface {
 	// rank
 	GetRank(num int) ([]*RankItem, error)                        // 从数据库中读取排名
 	GetNameAndSubmitNumByID(userID int64) (string, int64, error) // 查询用户姓名以及提交总数
+
+	// announcement
+	GetGlobalAnnouncements() ([]*transform.AnnouncementWithName, error)                 // 获得全局公告
+	GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error) // 获得班级公告
 }

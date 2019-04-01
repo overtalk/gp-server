@@ -24,7 +24,7 @@ func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64) ([]*transform.IntactC
 
 	var intactClasses []*transform.IntactClass
 	for _, class := range classes {
-		announcements, err := m.getAnnouncementByClassID(class.Id)
+		announcements, err := m.GetAnnouncementsByClassID(class.Id)
 		if err != nil {
 			return nil, err
 		}
@@ -72,7 +72,7 @@ func (m *MysqlDriver) GetClassByID(id int64) (*transform.IntactClass, error) {
 		return nil, ErrNoRowsFound
 	}
 
-	announcements, err := m.getAnnouncementByClassID(class.Id)
+	announcements, err := m.GetAnnouncementsByClassID(class.Id)
 	if err != nil {
 		return nil, err
 	}

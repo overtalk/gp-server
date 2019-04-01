@@ -10,9 +10,8 @@ import (
 // IntactClass : intact class
 type IntactClass struct {
 	Class         *model.Class
-	Announcements []*model.Announcement
+	Announcements []*AnnouncementWithName
 	TutorName     string
-	Publisher     []string
 }
 
 // TurnProto : turn intactProblem to protobuf
@@ -28,9 +27,11 @@ func (c *IntactClass) TurnProto() *protocol.Class {
 	}
 	for _, announcement := range c.Announcements {
 		protobufClass.Announcements = append(protobufClass.Announcements, &protocol.Announcement{
-			Publisher:  c.TutorName,
-			Detail:     announcement.Detail,
-			CreateTime: announcement.CreateTime,
+			Publisher:      c.TutorName,
+			Title:          announcement.Titile,
+			Detail:         announcement.Detail,
+			CreateTime:     announcement.CreateTime,
+			LastUpdateTime: announcement.LastUpdateTime,
 		})
 	}
 	return protobufClass
@@ -62,12 +63,15 @@ func TurnProtoToIntactClass(p *protocol.Class) *IntactClass {
 	c.IsCheck = 0
 
 	// set problem test data
-	var announcements []*model.Announcement
+	var announcements []*AnnouncementWithName
 	for _, announcement := range p.Announcements {
-		announcements = append(announcements, &model.Announcement{
+		a := model.Announcement{
 			ClassId:    p.Id,
 			Detail:     announcement.Detail,
 			CreateTime: time.Now().Unix(),
+		}
+		announcements = append(announcements, &AnnouncementWithName{
+			Announcement: a,
 		})
 	}
 

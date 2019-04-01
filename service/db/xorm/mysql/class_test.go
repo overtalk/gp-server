@@ -40,16 +40,20 @@ func TestMysqlDriver_AddClass(t *testing.T) {
 		Name:         "测试班级",
 		Tutor:        1,
 	}
-	announcements := []*model.Announcement{
-		&model.Announcement{
-			CreateTime: time.Now().Unix(),
-			Detail:     "大家进入班级请改名",
-			Publisher:  1,
+	announcements := []*transform.AnnouncementWithName{
+		&transform.AnnouncementWithName{
+			Announcement: model.Announcement{
+				CreateTime: time.Now().Unix(),
+				Detail:     "大家进入班级请改名",
+				Publisher:  1,
+			},
 		},
-		&model.Announcement{
-			CreateTime: time.Now().Unix(),
-			Detail:     "大家进入班级请改名111",
-			Publisher:  1,
+		&transform.AnnouncementWithName{
+			Announcement: model.Announcement{
+				CreateTime: time.Now().Unix(),
+				Detail:     "大家进入班级请改名111",
+				Publisher:  1,
+			},
 		},
 	}
 
@@ -124,11 +128,20 @@ func TestMysqlDriver_UpdateClass(t *testing.T) {
 			Id:   classID,
 			Name: originClass.Class.Name + "000",
 		},
-		Announcements: []*model.Announcement{
-			&model.Announcement{
-				CreateTime: time.Now().Unix(),
-				Detail:     "这个公告是在测试中增加的",
-				Publisher:  1,
+		Announcements: []*transform.AnnouncementWithName{
+			&transform.AnnouncementWithName{
+				Announcement: model.Announcement{
+					CreateTime: time.Now().Unix(),
+					Detail:     "大家进入班级请改名",
+					Publisher:  1,
+				},
+			},
+			&transform.AnnouncementWithName{
+				Announcement: model.Announcement{
+					CreateTime: time.Now().Unix(),
+					Detail:     "这个公告是在测试中增加的",
+					Publisher:  1,
+				},
 			},
 		},
 	}
