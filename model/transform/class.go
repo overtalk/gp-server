@@ -28,7 +28,7 @@ func (c *IntactClass) TurnProto() *protocol.Class {
 	for _, announcement := range c.Announcements {
 		protobufClass.Announcements = append(protobufClass.Announcements, &protocol.Announcement{
 			Publisher:      c.TutorName,
-			Title:          announcement.Titile,
+			Title:          announcement.Title,
 			Detail:         announcement.Detail,
 			CreateTime:     announcement.CreateTime,
 			LastUpdateTime: announcement.LastUpdateTime,

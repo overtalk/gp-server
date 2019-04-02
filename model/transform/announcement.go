@@ -19,7 +19,7 @@ func (AnnouncementWithName) TableName() string {
 func AnnouncementToProto(u *AnnouncementWithName) *protocol.Announcement {
 	return &protocol.Announcement{
 		Publisher:      u.Name,
-		Title:          u.Titile,
+		Title:          u.Title,
 		Detail:         u.Detail,
 		CreateTime:     u.CreateTime,
 		LastUpdateTime: u.LastUpdateTime,
@@ -29,7 +29,7 @@ func AnnouncementToProto(u *AnnouncementWithName) *protocol.Announcement {
 // ProtoToAnnouncement : turn protobuf to announcement
 func ProtoToAnnouncement(a *protocol.Announcement) *model.Announcement {
 	return &model.Announcement{
-		Titile: a.Title,
+		Title:  a.Title,
 		Detail: a.Detail,
 	}
 }

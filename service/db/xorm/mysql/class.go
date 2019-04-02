@@ -49,10 +49,12 @@ func (m *MysqlDriver) AddClass(intactClass *transform.IntactClass) error {
 		return err
 	}
 	// set class id
+	var announcements []*model.Announcement
 	for _, announcement := range intactClass.Announcements {
 		announcement.ClassId = intactClass.Class.Id
+		announcements = append(announcements, &announcement.Announcement)
 	}
-	_, err = session.Insert(intactClass.Announcements)
+	_, err = session.Insert(announcements)
 	if err != nil {
 		session.Rollback()
 		return err
