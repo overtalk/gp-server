@@ -8,6 +8,7 @@ import (
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 // NewMatch : new a match
@@ -53,7 +54,55 @@ func (m *Match) NewMatch(r *http.Request) proto.Message {
 
 // GetMatches : get all matches
 func (m *Match) GetMatches(r *http.Request) proto.Message {
-	return nil
+	req := &protocol.GetMatchesReq{}
+	resp := &protocol.GetMatchesResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = m.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	matches, err := m.db.GetMatches(req.PageNum, req.PageIndex)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all matches : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all matches"
+		return resp
+	}
+	total, err := m.db.GetMatchesNum()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all the num of matches : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all the num of matches"
+		return resp
+	}
+
+	for _, match := range matches {
+		resp.Matches = append(resp.Matches, transform.MatchToProto(match))
+	}
+
+	resp.Total = total
+	resp.PageIndex = req.PageIndex
+	resp.PageNum = req.PageNum
+	return resp
 }
 
 // GetMatchByID : get match by id

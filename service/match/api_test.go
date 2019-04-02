@@ -46,3 +46,36 @@ func TestUserManage_NewMatch(t *testing.T) {
 		return
 	}
 }
+
+func TestUserManage_GetMatches(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	module := match.NewMatch(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetMatchesReq{
+		PageIndex: 1,
+		PageNum:   3,
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := module.GetMatches(r)
+	resp := data.(*protocol.GetMatchesResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Logf("index = %d", resp.PageIndex)
+	t.Logf("num = %d", resp.PageNum)
+	t.Logf("total = %d", resp.Total)
+	for _, match := range resp.Matches {
+		t.Log(match)
+	}
+}
