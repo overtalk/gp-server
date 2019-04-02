@@ -51,4 +51,5 @@ func TestMysqlDriver_AddTestData(t *testing.T) {
 	TestAddSomeProblems(t)
 	TestAddSomeUserProblem(t)
 	TestAddSomeClasses(t)
+	TestAddSomeMatches(t)
 }

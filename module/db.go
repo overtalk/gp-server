@@ -46,5 +46,7 @@ type DB interface {
 	GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error)         // 获得班级公告
 
 	// match
-	AddMatch(paper *transform.Paper, match *model.Match) error // 构造新比赛
+	GetMatchesNum() (int64, error)                               // 比赛数量
+	AddMatch(paper *transform.Paper, match *model.Match) error   // 构造新比赛
+	GetMatches(pageNum, pageIndex int64) ([]*model.Match, error) // 获得所有比赛信息
 }
