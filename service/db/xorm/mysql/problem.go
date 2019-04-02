@@ -134,3 +134,13 @@ func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*transform.In
 		InAndOutExample: testData,
 	}, nil
 }
+
+// GetAllProblems : get all
+func (m *MysqlDriver) GetAllProblems() ([]*model.Problem, error) {
+	problems := make([]*model.Problem, 0)
+	if err := m.conn.Cols("id", "tags", "submit_time", "ac").
+		Find(&problems); err != nil {
+		return nil, err
+	}
+	return problems, nil
+}

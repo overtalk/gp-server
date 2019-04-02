@@ -26,6 +26,7 @@ type DB interface {
 	AddProblem(problem *transform.IntactProblem) error
 	GetProblemByID(id int64) (*transform.IntactProblem, error)
 	UpdateProblem(problem *transform.IntactProblem) error
+	GetAllProblems() ([]*model.Problem, error) // 这个是用于智能组卷的接口，只需要获取部分信息（id，tags,通过率即可）
 
 	// class manage
 	GetClassNum() (int64, error)                                           // 获得班级数量

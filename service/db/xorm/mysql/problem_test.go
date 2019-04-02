@@ -177,6 +177,23 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 	}
 }
 
+func TestMysqlDriver_GetAllProblems(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	problems, err := mysqlDriver.GetAllProblems()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	for _, problem := range problems {
+		t.Log(problem)
+	}
+}
+
 func TestAddSomeProblems(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
