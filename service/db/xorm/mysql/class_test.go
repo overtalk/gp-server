@@ -43,16 +43,20 @@ func TestMysqlDriver_AddClass(t *testing.T) {
 	announcements := []*transform.AnnouncementWithName{
 		&transform.AnnouncementWithName{
 			Announcement: model.Announcement{
-				CreateTime: time.Now().Unix(),
-				Detail:     "大家进入班级请改名",
-				Publisher:  1,
+				CreateTime:     time.Now().Unix(),
+				LastUpdateTime: time.Now().Unix(),
+				Title:          "公告1011",
+				Detail:         "大家进入班级请改名",
+				Publisher:      1,
 			},
 		},
 		&transform.AnnouncementWithName{
 			Announcement: model.Announcement{
-				CreateTime: time.Now().Unix(),
-				Detail:     "大家进入班级请改名111",
-				Publisher:  1,
+				CreateTime:     time.Now().Unix(),
+				LastUpdateTime: time.Now().Unix(),
+				Title:          "公告1012",
+				Detail:         "大家进入班级请改名111",
+				Publisher:      1,
 			},
 		},
 	}
@@ -195,8 +199,49 @@ func TestMysqlDriver_MemberManage(t *testing.T) {
 }
 
 func TestAddSomeClasses(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	num := 10
 	for i := 0; i < num; i++ {
-		TestMysqlDriver_AddClass(t)
+		class := &model.Class{
+			CreateTime:   time.Now().Unix(),
+			Introduction: "这个一个测试的班级",
+			IsCheck:      0,
+			Name:         "测试班级",
+			Tutor:        1,
+		}
+		announcements := []*transform.AnnouncementWithName{
+			&transform.AnnouncementWithName{
+				Announcement: model.Announcement{
+					CreateTime:     time.Now().Unix(),
+					LastUpdateTime: time.Now().Unix(),
+					Title:          "公告1011",
+					Detail:         "大家进入班级请改名",
+					Publisher:      1,
+				},
+			},
+			&transform.AnnouncementWithName{
+				Announcement: model.Announcement{
+					CreateTime:     time.Now().Unix(),
+					LastUpdateTime: time.Now().Unix(),
+					Title:          "公告101",
+					Detail:         "大家进入班级请改名111",
+					Publisher:      1,
+				},
+			},
+		}
+
+		if err := mysqlDriver.AddClass(&transform.IntactClass{
+			Class:         class,
+			Announcements: announcements,
+		}); err != nil {
+			t.Error(err)
+			return
+		}
+
+		t.Logf("%+v\n", class)
 	}
 }

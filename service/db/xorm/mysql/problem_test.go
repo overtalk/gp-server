@@ -186,8 +186,50 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 }
 
 func TestAddSomeProblems(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	num := 10
 	for i := 0; i < num; i++ {
-		TestMysqlDriver_AddProblem(t)
+		problem := &model.Problem{
+			Title:          "求和问题",
+			Description:    "求两个数的和",
+			InDescription:  "输入两个int型数",
+			OutDescription: "输出两个数的和",
+			Hint:           "无提示",
+			JudgeLimitTime: 10,
+			JudgeLimitMem:  10,
+			Difficulty:     1,
+		}
+		tags := []*model.ProblemTag{
+			&model.ProblemTag{
+				TagId: 1,
+			},
+			&model.ProblemTag{
+				TagId: 2,
+			},
+		}
+		testData := []*model.TestData{
+			&model.TestData{
+				In:  "in 1",
+				Out: "out 1",
+			},
+			&model.TestData{
+				In:  "in 2",
+				Out: "out 2",
+			},
+		}
+		if err := mysqlDriver.AddProblem(&transform.IntactProblem{
+			Detail:          problem,
+			InAndOutExample: testData,
+			Tags:            tags,
+		}); err != nil {
+			t.Error(err)
+			return
+		}
+
+		t.Logf("%+v\n", problem)
 	}
 }
