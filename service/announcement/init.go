@@ -6,13 +6,15 @@ import (
 
 // Announcement : implementation of auth announcement
 type Announcement struct {
-	db module.DB
+	cache module.Cache
+	db    module.DB
 }
 
 // NewAnnouncement : constructor for module Announcement
 func NewAnnouncement(dataStorage *module.DataStorage) module.Announcement {
 	return &Announcement{
-		db: dataStorage.DB,
+		cache: dataStorage.Cache,
+		db:    dataStorage.DB,
 	}
 }
 
@@ -20,5 +22,8 @@ func NewAnnouncement(dataStorage *module.DataStorage) module.Announcement {
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	module := NewAnnouncement(dataStorage)
 	gate.RegisterRoute("/getAnnouncements", "POST", module.GetAnnouncements)
-	gate.RegisterRoute("/announcementDetail", "GET", module.GetDetail)
+	gate.RegisterRoute("/announcementDetail", "POST", module.GetDetail)
+	gate.RegisterRoute("/addAnnouncement", "POST", module.AddAnnouncement)
+	gate.RegisterRoute("/editAnnouncement", "POST", module.EditAnnouncement)
+	gate.RegisterRoute("/delAnnouncement", "POST", module.DelAnnouncement)
 }
