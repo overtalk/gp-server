@@ -79,3 +79,87 @@ func TestUserManage_GetMatches(t *testing.T) {
 		t.Log(match)
 	}
 }
+
+func TestUserManage_GetMatchByID(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	module := match.NewMatch(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetMatchByIDReq{
+		Id: 1,
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := module.GetMatchByID(r)
+	resp := data.(*protocol.GetMatchByIDResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Log(resp.Match)
+}
+
+func TestUserManage_GetPaperByID(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	module := match.NewMatch(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetPaperByIDReq{
+		Id: 1,
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := module.GetPaperByID(r)
+	resp := data.(*protocol.GetPaperByIDResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+
+	t.Log(resp.Paper.KnowledgePoints)
+	t.Log("题目数量", len(resp.Paper.Problems))
+	t.Log(resp.Paper.Problems)
+}
+
+func TestUserManage_EditMatch(t *testing.T) {
+	mode.SetMode(mode.TestMode)
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	module := match.NewMatch(dataStorage)
+
+	r, err := utils.MockHTTPReq("POST", "1", &protocol.EditMatchReq{
+		Match: &protocol.Match{
+			Id:   1,
+			Name: "asdfdsfgsdfgs",
+		},
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+
+	data := module.EditMatch(r)
+	resp := data.(*protocol.EditMatchResp)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("resp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+}

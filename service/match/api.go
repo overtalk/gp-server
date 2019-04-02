@@ -215,7 +215,7 @@ func (m *Match) EditMatch(r *http.Request) proto.Message {
 
 	if err := m.db.EditMatch(transform.ProtoToMatch(req.Match)); err != nil {
 		logger.Sugar.Errorf("failed to get token : %v", err)
-		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Code = protocol.Code_INTERNAL
 		resp.Status.Message = "invalid token"
 		return resp
 	}

@@ -14,6 +14,7 @@ func ProtoToMatch(match *protocol.Match) *model.Match {
 		isPublic = 1
 	}
 	return &model.Match{
+		Id:           match.Id,
 		Duration:     int(match.Duration),
 		Introduction: match.Intriduction,
 		IsPublic:     isPublic,
