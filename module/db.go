@@ -40,6 +40,7 @@ type DB interface {
 	GetNameAndSubmitNumByID(userID int64) (string, int64, error) // 查询用户姓名以及提交总数
 
 	// announcement
-	GetGlobalAnnouncements() ([]*transform.AnnouncementWithName, error)                 // 获得全局公告
-	GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error) // 获得班级公告
+	GetGlobalAnnouncementsNum() (int64, error)                                                  // 获得全局公告数量
+	GetGlobalAnnouncements(pageNum, pageIndex int64) ([]*transform.AnnouncementWithName, error) // 获得全局公告
+	GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error)         // 获得班级公告
 }
