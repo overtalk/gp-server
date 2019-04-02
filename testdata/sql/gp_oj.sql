@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `paper` (
   `id` bigint(64) NOT NULL auto_increment,
 
   `difficulty` tinyint(4) NOT NULL,  
+  `problem_num` tinyint(4) NOT NULL,    -- 题目数量
   `knowledge_point` text NOT NULL,  -- 考察的知识点，由出题人自己填写/由程序自动生成
   -- 其他组卷所需要填写的限制也需要记录
 
