@@ -96,7 +96,7 @@ func (m *Match) GetMatches(r *http.Request) proto.Message {
 	}
 
 	for _, match := range matches {
-		resp.Matches = append(resp.Matches, transform.MatchToProto(match))
+		resp.Matches = append(resp.Matches, transform.MatchToMinProto(match))
 	}
 
 	resp.Total = total
@@ -107,15 +107,119 @@ func (m *Match) GetMatches(r *http.Request) proto.Message {
 
 // GetMatchByID : get match by id
 func (m *Match) GetMatchByID(r *http.Request) proto.Message {
-	return nil
+	req := &protocol.GetMatchByIDReq{}
+	resp := &protocol.GetMatchByIDResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = m.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	match, err := m.db.GetMatchByID(req.Id)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all the num of matches : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all the num of matches"
+		return resp
+	}
+
+	resp.Match = transform.MatchToProto(match)
+	return resp
 }
 
-// GetMatchPaper : get the paper info
-func (m *Match) GetMatchPaper(r *http.Request) proto.Message {
-	return nil
+// GetPaperByID : get the paper info
+func (m *Match) GetPaperByID(r *http.Request) proto.Message {
+	req := &protocol.GetPaperByIDReq{}
+	resp := &protocol.GetPaperByIDResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = m.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	paper, err := m.db.GetPaperByID(req.Id)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all the num of matches : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all the num of matches"
+		return resp
+	}
+
+	resp.Paper = paper.ToProto()
+	return resp
 }
 
 // EditMatch : edit match
 func (m *Match) EditMatch(r *http.Request) proto.Message {
-	return nil
+	req := &protocol.EditMatchReq{}
+	resp := &protocol.EditMatchResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = m.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	if err := m.db.EditMatch(transform.ProtoToMatch(req.Match)); err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	resp.IsOk = true
+	return resp
 }

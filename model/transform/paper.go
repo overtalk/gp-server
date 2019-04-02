@@ -1,6 +1,8 @@
 package transform
 
 import (
+	"encoding/json"
+
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 )
@@ -20,4 +22,25 @@ func ProtoToPaper(p *protocol.Paper) *Paper {
 	return &Paper{
 		Paper: paper,
 	}
+}
+
+// ToProto : turn paper to proto
+func (p *Paper) ToProto() *protocol.Paper {
+	tags := make([]int64, 0)
+	json.Unmarshal([]byte(p.KnowledgePoint), &tags)
+
+	paper := &protocol.Paper{
+		Id:              p.Id,
+		Difficulty:      int64(p.Difficulty),
+		ProblemNum:      int64(p.ProblemNum),
+		KnowledgePoints: tags,
+	}
+
+	for _, problem := range p.P {
+		paper.Problems = append(paper.Problems, &protocol.Problem{
+			Id: problem.ProblemId,
+		})
+	}
+
+	return paper
 }
