@@ -98,8 +98,6 @@ CREATE TABLE IF NOT EXISTS `paper` (
   `knowledge_point` text NOT NULL,  -- 考察的知识点，由出题人自己填写/由程序自动生成
   -- 其他组卷所需要填写的限制也需要记录
 
-  `problems` text NOT NULL,         -- 题目id
-
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -173,4 +171,15 @@ CREATE TABLE IF NOT EXISTS `problem_tag` (
 	PRIMARY KEY(`id`),
   foreign key(`problem_id`) references `problem`(`id`),
   foreign key(`tag_id`) references `tag`(`id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- paper_problem 试卷题目
+CREATE TABLE IF NOT EXISTS `paper_problem` (
+  `problem_id` bigint(64) NOT NULL, 
+  `paper_id` bigint(64) NOT NULL, 
+  `index` int(11) NOT NULL,
+
+	PRIMARY KEY(`problem_id`,`paper_id`,`index`),
+  foreign key(`problem_id`) references `problem`(`id`),
+  foreign key(`paper_id`) references `paper`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
