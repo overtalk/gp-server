@@ -1,6 +1,8 @@
 package db
 
 import (
+	"fmt"
+
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
@@ -33,22 +35,26 @@ func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*transform.Intact
 
 // GetProblemsByTagID : get problem by tag id
 func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*transform.IntactProblem, error) {
-	problemTags := make([]*model.ProblemTag, 0)
+	problems := make([]*model.Problem, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
-		Where("tag_id = ?", tag).Find(&problemTags); err != nil {
+		Where("tags like ? || tags like ? || tags like ? || tags like ?",
+			"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
+		Find(&problems); err != nil {
 		return nil, err
 	}
 
 	var intactProblems []*transform.IntactProblem
-	for _, tag := range problemTags {
-		intactProblem, err := m.GetProblemByID(tag.ProblemId)
+	for _, problem := range problems {
+		testData, err := m.getTestDataByProblemID(problem.Id)
 		if err != nil {
 			return nil, err
 		}
-		intactProblems = append(intactProblems, intactProblem)
+		intactProblems = append(intactProblems, &transform.IntactProblem{
+			Detail:          problem,
+			InAndOutExample: testData,
+		})
 	}
-
 	return intactProblems, nil
 }
 
@@ -68,15 +74,6 @@ func (m *MysqlDriver) AddProblem(problem *transform.IntactProblem) error {
 		example.ProblemId = problem.Detail.Id
 	}
 	_, err = session.Insert(problem.InAndOutExample)
-	if err != nil {
-		session.Rollback()
-		return err
-	}
-	// set problem id
-	for _, tag := range problem.Tags {
-		tag.ProblemId = problem.Detail.Id
-	}
-	_, err = session.Insert(problem.Tags)
 	if err != nil {
 		session.Rollback()
 		return err
@@ -101,11 +98,6 @@ func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 		session.Rollback()
 		return err
 	}
-	_, err = session.Insert(problem.Tags)
-	if err != nil {
-		session.Rollback()
-		return err
-	}
 
 	return session.Commit()
 }
@@ -121,10 +113,6 @@ func (m *MysqlDriver) GetProblemByID(id int64) (*transform.IntactProblem, error)
 		return nil, ErrNoRowsFound
 	}
 
-	tags, err := m.getTagsByProblemID(problem.Id)
-	if err != nil {
-		return nil, err
-	}
 	testData, err := m.getTestDataByProblemID(problem.Id)
 	if err != nil {
 		return nil, err
@@ -132,16 +120,11 @@ func (m *MysqlDriver) GetProblemByID(id int64) (*transform.IntactProblem, error)
 	return &transform.IntactProblem{
 		Detail:          problem,
 		InAndOutExample: testData,
-		Tags:            tags,
 	}, nil
 }
 
 // GetProblemByProblem : get problem by problem
 func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*transform.IntactProblem, error) {
-	tags, err := m.getTagsByProblemID(problem.Id)
-	if err != nil {
-		return nil, err
-	}
 	testData, err := m.getTestDataByProblemID(problem.Id)
 	if err != nil {
 		return nil, err
@@ -149,6 +132,5 @@ func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*transform.In
 	return &transform.IntactProblem{
 		Detail:          problem,
 		InAndOutExample: testData,
-		Tags:            tags,
 	}, nil
 }

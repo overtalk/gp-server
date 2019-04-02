@@ -1,6 +1,7 @@
 package db_test
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -43,7 +44,6 @@ func TestMysqlDriver_GetProblems(t *testing.T) {
 	for _, problem := range problems {
 		t.Logf("%+v\n", problem.Detail)
 		t.Logf("%+v\n", problem.InAndOutExample)
-		t.Logf("%+v\n", problem.Tags)
 	}
 }
 
@@ -54,9 +54,9 @@ func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
 		return
 	}
 
-	var tagID = 1
+	var tagID = 2
 	var pageIndex int64 = 1
-	var pageNum int64 = 3
+	var pageNum int64 = 1000
 	problems, err := mysqlDriver.GetProblemsByTagID(pageNum, pageIndex, tagID)
 	if err != nil {
 		t.Error(err)
@@ -65,9 +65,9 @@ func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
 
 	t.Log(len(problems))
 	for _, problem := range problems {
-		t.Logf("%+v\n", problem.Detail)
+		t.Logf("%+v\n", problem.Detail.Id)
+		t.Logf("%+v\n", problem.Detail.Tags)
 		t.Logf("%+v\n", problem.InAndOutExample)
-		t.Logf("%+v\n", problem.Tags)
 	}
 }
 
@@ -78,7 +78,7 @@ func TestMysqlDriver_GetProblemByID(t *testing.T) {
 		return
 	}
 
-	var id int64 = 1
+	var id int64 = 2
 	problem, err := mysqlDriver.GetProblemByID(id)
 	if err != nil {
 		t.Error(err)
@@ -87,7 +87,6 @@ func TestMysqlDriver_GetProblemByID(t *testing.T) {
 
 	t.Logf("%+v\n", problem.Detail)
 	t.Logf("%+v\n", problem.InAndOutExample)
-	t.Logf("%+v\n", problem.Tags)
 }
 
 func TestMysqlDriver_AddProblem(t *testing.T) {
@@ -97,6 +96,7 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 		return
 	}
 
+	data, _ := json.Marshal([]int64{1, 2, 3})
 	problem := &model.Problem{
 		Title:          "求和问题",
 		Description:    "求两个数的和",
@@ -106,14 +106,7 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 		JudgeLimitTime: 10,
 		JudgeLimitMem:  10,
 		Difficulty:     1,
-	}
-	tags := []*model.ProblemTag{
-		&model.ProblemTag{
-			TagId: 1,
-		},
-		&model.ProblemTag{
-			TagId: 2,
-		},
+		Tags:           string(data),
 	}
 	testData := []*model.TestData{
 		&model.TestData{
@@ -128,7 +121,6 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 	if err := mysqlDriver.AddProblem(&transform.IntactProblem{
 		Detail:          problem,
 		InAndOutExample: testData,
-		Tags:            tags,
 	}); err != nil {
 		t.Error(err)
 		return
@@ -192,6 +184,7 @@ func TestAddSomeProblems(t *testing.T) {
 		return
 	}
 	num := 10
+	data, _ := json.Marshal([]int64{1, 2, 3})
 	for i := 0; i < num; i++ {
 		problem := &model.Problem{
 			Title:          "求和问题",
@@ -202,14 +195,7 @@ func TestAddSomeProblems(t *testing.T) {
 			JudgeLimitTime: 10,
 			JudgeLimitMem:  10,
 			Difficulty:     1,
-		}
-		tags := []*model.ProblemTag{
-			&model.ProblemTag{
-				TagId: 1,
-			},
-			&model.ProblemTag{
-				TagId: 2,
-			},
+			Tags:           string(data),
 		}
 		testData := []*model.TestData{
 			&model.TestData{
@@ -224,7 +210,6 @@ func TestAddSomeProblems(t *testing.T) {
 		if err := mysqlDriver.AddProblem(&transform.IntactProblem{
 			Detail:          problem,
 			InAndOutExample: testData,
-			Tags:            tags,
 		}); err != nil {
 			t.Error(err)
 			return

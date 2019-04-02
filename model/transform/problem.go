@@ -1,6 +1,8 @@
 package transform
 
 import (
+	"encoding/json"
+
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 )
@@ -9,7 +11,6 @@ import (
 type IntactProblem struct {
 	Detail          *model.Problem
 	InAndOutExample []*model.TestData
-	Tags            []*model.ProblemTag
 }
 
 // TurnProto : turn Problem to protobuf
@@ -38,11 +39,10 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 	problemProtobuf.InOutExamples = example
 
 	// set tags
-	var tags []int64
-	for _, tag := range p.Tags {
-		tags = append(tags, int64(tag.TagId))
-	}
-	problemProtobuf.Tags = tags
+	tags := new([]int64)
+	json.Unmarshal([]byte(p.Detail.Tags), tags)
+
+	problemProtobuf.Tags = *tags
 	return problemProtobuf
 }
 
@@ -85,16 +85,11 @@ func ProtoToProblem(p *protocol.Problem) *IntactProblem {
 		})
 	}
 	// set tags
-	var tags []*model.ProblemTag
-	for _, tag := range p.Tags {
-		tags = append(tags, &model.ProblemTag{
-			ProblemId: p.Id,
-			TagId:     int(tag),
-		})
-	}
+	tags, _ := json.Marshal(p.Tags)
+	problem.Tags = string(tags)
+
 	return &IntactProblem{
 		Detail:          problem,
 		InAndOutExample: inAndOutExample,
-		Tags:            tags,
 	}
 }
