@@ -51,11 +51,12 @@ CREATE TABLE IF NOT EXISTS `class` (
 CREATE TABLE IF NOT EXISTS `announcement` (
   `id` bigint(64) NOT NULL auto_increment,
   `publisher` bigint(64) NOT NULL,  -- 发布人
+  `title` text NOT NULL,
   `detail` text NOT NULL,
   `class_id` bigint(64),          -- 如果是班级公告，则填写班级id
   
   `create_time` bigint(64) NOT NULL,        -- 创建时间 ： 时间戳
-  `disable_time` bigint(64) NOT NULL,       -- 失效时间 ： 时间戳
+  `last_update_time` bigint(64) NOT NULL,   -- 上次更新时间 ： 时间戳
 
 	PRIMARY KEY(`id`),
   foreign key(`class_id`) references `class`(`id`)  
