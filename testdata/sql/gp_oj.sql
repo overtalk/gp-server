@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `hint` text,         -- 题目提示（可为空）
   `judge_limit_time` int(11) NOT NULL,    -- 时间限制
   `judge_limit_mem` int(11) NOT NULL,     -- 内存限制
+  `tags` text NOT NULL,                   -- tags
 
   `difficulty` tinyint(4) NOT NULL DEFAULT 0,
   `last_used`  bigint(64) NOT NULL DEFAULT 0,  -- 上次使用时间
@@ -98,7 +99,8 @@ CREATE TABLE IF NOT EXISTS `paper` (
 
   `difficulty` tinyint(4) NOT NULL,  
   `problem_num` tinyint(4) NOT NULL,    -- 题目数量
-  `knowledge_point` text NOT NULL,  -- 考察的知识点，由出题人自己填写/由程序自动生成
+  `knowledge_point` text NOT NULL,      -- 考察的知识点，由出题人自己填写/由程序自动生成
+  `tags` text NOT NULL,                 -- tags
   -- 其他组卷所需要填写的限制也需要记录
 
 	PRIMARY KEY(`id`)
@@ -163,17 +165,6 @@ CREATE TABLE IF NOT EXISTS `test_data` (
   
 	PRIMARY KEY(`id`),
   foreign key(`problem_id`) references `problem`(`id`)  
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- problem_tag 题目标签对应表
-CREATE TABLE IF NOT EXISTS `problem_tag` (
-  `id` bigint(64) NOT NULL auto_increment,
-  `problem_id` bigint(64) NOT NULL, 
-  `tag_id` int(11) NOT NULL,
-
-	PRIMARY KEY(`id`),
-  foreign key(`problem_id`) references `problem`(`id`),
-  foreign key(`tag_id`) references `tag`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- paper_problem 试卷题目

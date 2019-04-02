@@ -16,6 +16,7 @@ type Problem struct {
 	OutDescription string `xorm:"not null TEXT"`
 	Pe             int    `xorm:"not null default 0 INT(64)"`
 	SubmitTime     int    `xorm:"not null default 0 INT(64)"`
+	Tags           string `xorm:"not null TEXT"`
 	Title          string `xorm:"not null TEXT"`
 	Tle            int    `xorm:"not null default 0 INT(64)"`
 	UsedTime       int    `xorm:"not null default 0 INT(64)"`
