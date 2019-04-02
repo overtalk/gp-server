@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS `match` (
   `paper_id` bigint(64) NOT NULL,  -- 试卷id
   `is_public` boolean NOT NULL DEFAULT 1, -- 比赛默认是公开的，所有人都可以参加
 
+  `title` text NOT NULL,
+  `introduction` text,
   `start_time` bigint(64) NOT NULL,  -- 开始比赛时间 ： 时间戳
   `duration` int(20) NOT NULL, -- 比赛时长， 默认单位是秒
 
