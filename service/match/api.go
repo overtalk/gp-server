@@ -24,9 +24,22 @@ func (m *Match) NewMatch(r *http.Request) proto.Message {
 
 	paper := transform.ProtoToPaper(req.Paper)
 	match := transform.ProtoToMatch(req.Match)
+	problems, err := m.db.GetAllProblems()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all problems for intelligent compose : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all problems for intelligent compose"
+		return resp
+	}
 
-	// TODO: create paper
-	m.newPaper(paper)
+	paperProblems, err := m.IntelligentCompose(problems, req.Paper)
+	if err != nil {
+		logger.Sugar.Errorf("failed to intelligent compose : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to intelligent compose"
+		return resp
+	}
+	paper.P = paperProblems
 
 	if err := m.db.AddMatch(paper, match); err != nil {
 		logger.Sugar.Errorf("failed to new paper : %v", err)
