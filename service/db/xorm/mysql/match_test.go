@@ -124,7 +124,7 @@ func TestMysqlDriver_GetPaperByID(t *testing.T) {
 
 	t.Log(paper.Paper)
 	for _, problem := range paper.P {
-		t.Log(problem)
+		t.Log(problem.Index, problem)
 	}
 }
 

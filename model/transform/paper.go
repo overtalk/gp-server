@@ -9,8 +9,9 @@ import (
 
 // Paper : paper and it's problems
 type Paper struct {
-	model.Paper `xorm:"extends"`
-	P           []*model.PaperProblem
+	model.Paper    `xorm:"extends"`
+	P              []*model.PaperProblem
+	ProblemsDetail []*IntactProblem
 }
 
 // ProtoToPaper : turn protobuf to Paper
@@ -36,10 +37,8 @@ func (p *Paper) ToProto() *protocol.Paper {
 		KnowledgePoints: tags,
 	}
 
-	for _, problem := range p.P {
-		paper.Problems = append(paper.Problems, &protocol.Problem{
-			Id: problem.ProblemId,
-		})
+	for _, problem := range p.ProblemsDetail {
+		paper.Problems = append(paper.Problems, problem.TurnMinProto())
 	}
 
 	return paper

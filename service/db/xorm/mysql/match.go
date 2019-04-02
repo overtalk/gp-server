@@ -79,13 +79,25 @@ func (m *MysqlDriver) GetPaperByID(id int64) (*transform.Paper, error) {
 	}
 
 	paperProblems := make([]*model.PaperProblem, 0)
-	if err := m.conn.Where("paper_id = ?", id).Find(&paperProblems); err != nil {
+	if err := m.conn.Where("paper_id = ?", id).
+		Asc("index").
+		Find(&paperProblems); err != nil {
 		return nil, err
 	}
 
+	problems := make([]*transform.IntactProblem, 0)
+	for _, paperProblem := range paperProblems {
+		problem, err := m.GetProblemByID(paperProblem.ProblemId)
+		if err != nil {
+			return nil, err
+		}
+		problems = append(problems, problem)
+	}
+
 	return &transform.Paper{
-		Paper: *paper,
-		P:     paperProblems,
+		Paper:          *paper,
+		P:              paperProblems,
+		ProblemsDetail: problems,
 	}, nil
 }
 
