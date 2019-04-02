@@ -49,7 +49,7 @@ func (p *Problem) GetProblems(r *http.Request) proto.Message {
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all problems : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
-		resp.Status.Message = "ailed to get problems list"
+		resp.Status.Message = "failed to get problems list"
 		return resp
 	}
 

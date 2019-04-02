@@ -43,14 +43,14 @@ func (a *Announcement) GetAnnouncements(r *http.Request) proto.Message {
 	if err != nil {
 		logger.Sugar.Errorf("failed to get global announcements : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
-		resp.Status.Message = "ailed to get global announcements"
+		resp.Status.Message = "failed to get global announcements"
 		return resp
 	}
 	total, err := a.db.GetGlobalAnnouncementsNum()
 	if err != nil {
 		logger.Sugar.Errorf("failed to get the num of global announcements : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
-		resp.Status.Message = "ailed to get the num of global announcements"
+		resp.Status.Message = "failed to get the num of global announcements"
 		return resp
 	}
 
