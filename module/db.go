@@ -43,4 +43,7 @@ type DB interface {
 	GetGlobalAnnouncementsNum() (int64, error)                                                  // 获得全局公告数量
 	GetGlobalAnnouncements(pageNum, pageIndex int64) ([]*transform.AnnouncementWithName, error) // 获得全局公告
 	GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error)         // 获得班级公告
+
+	// match
+	AddPaper(paper *transform.Paper) error // 构造新试卷
 }

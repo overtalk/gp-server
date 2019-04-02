@@ -44,3 +44,11 @@ func getMysqlDriver() (*db.MysqlDriver, error) {
 
 	return db.NewMysqlDriver(c)
 }
+
+func TestMysqlDriver_AddTestData(t *testing.T) {
+	TestAddSomeTags(t)
+	TestAddSomeUsers(t)
+	TestAddSomeProblems(t)
+	TestAddSomeUserProblem(t)
+	TestAddSomeClasses(t)
+}
