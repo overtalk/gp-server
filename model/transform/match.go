@@ -36,5 +36,6 @@ func MatchToProto(u *model.Match) *protocol.Match {
 		Name:         u.Title,
 		Intriduction: u.Introduction,
 		IsOver:       isOver,
+		PaperId:      u.PaperId,
 	}
 }

@@ -5,9 +5,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/utils"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMysqlDriver_GetUsersNum(t *testing.T) {

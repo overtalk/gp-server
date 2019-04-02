@@ -52,3 +52,51 @@ func (m *MysqlDriver) GetMatches(pageNum, pageIndex int64) ([]*model.Match, erro
 
 	return matches, nil
 }
+
+// GetMatchByID : get match by id
+func (m *MysqlDriver) GetMatchByID(id int64) (*model.Match, error) {
+	match := new(model.Match)
+	ok, err := m.conn.Id(id).Get(match)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoRowsFound
+	}
+
+	return match, nil
+}
+
+// GetPaperByID : get paper info
+func (m *MysqlDriver) GetPaperByID(id int64) (*transform.Paper, error) {
+	paper := new(model.Paper)
+	ok, err := m.conn.Id(id).Get(paper)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoRowsFound
+	}
+
+	paperProblems := make([]*model.PaperProblem, 0)
+	if err := m.conn.Where("paper_id = ?", id).Find(&paperProblems); err != nil {
+		return nil, err
+	}
+
+	return &transform.Paper{
+		Paper: *paper,
+		P:     paperProblems,
+	}, nil
+}
+
+// EditMatch : edit match info
+func (m *MysqlDriver) EditMatch(match *model.Match) error {
+	affected, err := m.conn.Id(match.Id).Update(match)
+	if err != nil {
+		return err
+	}
+	if affected == 0 {
+		return ErrNoRowsAffected
+	}
+	return nil
+}
