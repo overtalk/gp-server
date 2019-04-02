@@ -16,5 +16,5 @@ type Match interface {
 	GetMatches(r *http.Request) proto.Message
 	GetMatchByID(r *http.Request) proto.Message
 	GetMatchPaper(r *http.Request) proto.Message
-	EditMatchPaper(r *http.Request) proto.Message
+	EditMatch(r *http.Request) proto.Message
 }

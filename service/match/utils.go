@@ -5,7 +5,6 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
@@ -51,16 +50,4 @@ func (m *Match) checkArgsandAuth(r *http.Request, req proto.Message) (*model.Use
 		}
 	}
 	return user, nil
-}
-
-func (m *Match) newPaper(paper *transform.Paper) {
-	p := make([]*model.PaperProblem, 0)
-	p = append(p, &model.PaperProblem{
-		Index:     1,
-		ProblemId: 1,
-	})
-	p = append(p, &model.PaperProblem{
-		Index:     2,
-		ProblemId: 1,
-	})
 }
