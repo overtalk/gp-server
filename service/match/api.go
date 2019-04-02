@@ -50,3 +50,23 @@ func (m *Match) NewMatch(r *http.Request) proto.Message {
 	resp.Result = true
 	return resp
 }
+
+// GetMatches : get all matches
+func (m *Match) GetMatches(r *http.Request) proto.Message {
+	return nil
+}
+
+// GetMatchByID : get match by id
+func (m *Match) GetMatchByID(r *http.Request) proto.Message {
+	return nil
+}
+
+// GetMatchPaper : get the paper info
+func (m *Match) GetMatchPaper(r *http.Request) proto.Message {
+	return nil
+}
+
+// EditMatch : edit match
+func (m *Match) EditMatch(r *http.Request) proto.Message {
+	return nil
+}

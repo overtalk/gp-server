@@ -13,4 +13,8 @@ import (
 type Match interface {
 	IntelligentCompose(problems []*model.Problem, paper *protocol.Paper) ([]*model.PaperProblem, error)
 	NewMatch(r *http.Request) proto.Message
+	GetMatches(r *http.Request) proto.Message
+	GetMatchByID(r *http.Request) proto.Message
+	GetMatchPaper(r *http.Request) proto.Message
+	EditMatchPaper(r *http.Request) proto.Message
 }
