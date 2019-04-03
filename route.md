@@ -42,9 +42,28 @@
 | 编辑班级 | /editClass | POST | class_manage.proto --> EditClassReq & EditClassResp |
 | 班级成员管理 | /memberManage | POST | class_manage.proto --> MemberManageReq & MemberManageResp |
 
+### 公告管理 
+
+| 功能描述 | 路由 | HTTP方法 |  protobuf |  
+| ----- | ---- | ----- | ----- |
+| 获得全局公告 | /getAnnouncements  | POST | announcement.proto --> AnnouncementsReq & AnnouncementsResp |
+| 获得公告具体信息 | /announcementDetail | POST | announcement.proto --> AnnouncementDetailReq & AnnouncementDetailResp |
+| 新增公告 | /addAnnouncement | POST | announcement.proto --> AddAnnouncementReq & AddAnnouncementResp |
+| 编辑公告 | /editAnnouncement | POST | announcement.proto --> EditAnnouncementReq & EditAnnouncementResp |
+| 删除公告 | /delAnnouncement | POST | announcement.proto --> DelAnnouncementReq & DelAnnouncementResp |
+
+### 比赛管理 
+
+| 功能描述 | 路由 | HTTP方法 |  protobuf |  
+| ----- | ---- | ----- | ----- |
+| 新建比赛(自动组卷) | /newMatch  | POST | match.proto --> NewMatchReq & NewMatchResp |
+| 获得所有比赛信息 | /getMatches | POST | match.proto --> GetMatchesReq & GetMatchesResp |
+| 获得比赛具体信息 | /getMatchByID | POST | match.proto --> GetPaperByIDReq & GetPaperByIDResp |
+| 获取比赛试卷 | /getPaperByID | POST | match.proto --> GetPaperByIDReq & GetPaperByIDResp |
+| 编辑比赛 | /editMatch | POST | match.proto --> EditMatchReq & EditMatchResp |
+
 
 ## 排行榜模块
-
 
 | 功能描述 | 路由 | HTTP方法 | protobuf |
 | ----- | ---- | ----- | ---- |
