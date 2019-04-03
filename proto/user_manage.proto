@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package protocol;
+
+import "proto/common.proto";
+import "proto/status.proto";
+
+option go_package = "go;protocol";
+
+// 批量获取用户信息
+message GetUsersReq
+{
+    Role role = 1;
+    bool get_all = 2;
+    int64 page_index = 3;
+    int64 page_num = 4;
+}
+message GetUsersResp
+{
+    Status status = 1;
+    repeated UserInfo users = 2;
+    int64 page_index = 3;
+    int64 page_num = 4;
+    int64 total = 5;
+}
+
+// 批量增加用户
+message AddUsersReq
+{
+    repeated UserInfo users = 1;
+}
+message AddUsersResp
+{
+    Status status = 1;
+    repeated UserInfo succeed = 2;
+    repeated UserInfo fail = 3;
+}
+
+// 批量修改用户
+message UpdateUsersReq
+{
+    repeated UserInfo users = 1;  // 只需要填充id以及改变的field
+}
+message UpdateUsersResp
+{
+    Status status = 1;
+    repeated UserInfo succeed = 2;
+    repeated UserInfo fail = 3;
+}
+
+// 批量删除用户
+message DelUsersReq
+{
+    repeated int64 users_id = 1; 
+}
+message DelUsersResp
+{
+    Status status = 1;
+    repeated int64 succeed = 2;
+    repeated int64 fail = 3;
+}

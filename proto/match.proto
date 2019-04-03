@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package protocol;
+
+import "proto/common.proto";
+import "proto/status.proto";
+
+option go_package = "go;protocol";
+
+// 创建比赛
+message NewMatchReq
+{
+    Paper paper = 1;
+    Match match = 2;
+}
+message NewMatchResp
+{
+    Status status = 1;
+    bool result = 2;
+}
+
+// 拿到所有的比赛
+message GetMatchesReq
+{
+    int64 page_index = 1;
+    int64 page_num = 2;
+}
+message GetMatchesResp
+{
+    Status status = 1;
+    int64 page_index = 2;
+    int64 page_num = 3;
+    int64 total = 4;
+    repeated Match matches = 5;
+}
+
+// 拿到所有的比赛
+message GetMatchByIDReq
+{
+    int64 id = 1;
+}
+message GetMatchByIDResp
+{
+    Status status = 1;
+    Match match = 5;
+}
+
+// 获取比赛试卷
+message GetPaperByIDReq
+{
+    int64 id = 1;
+}
+message GetPaperByIDResp
+{
+    Status status = 1;
+    Paper paper = 2;
+}
+
+// 编辑比赛题目
+message EditMatchReq
+{
+    Match match = 1;
+}
+message EditMatchResp
+{
+    Status status = 1;
+    bool is_ok = 2;
+}

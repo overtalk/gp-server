@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "go;protocol";
+
+message Status 
+{
+    Code code = 1;
+    string message = 2;
+}
+
+enum Code
+{
+    OK = 0;                 // ok     
+    INTERNAL = 1;           // 服务端内部错误
+    DATA_LOSE = 2;          // 数据序列化错误
+    NO_TOKEN = 3;           // 没有token
+    UNAUTHORIZATED = 4;     // token错误
+    PERMISSION_DENIED = 5;  // 没有权限
+}

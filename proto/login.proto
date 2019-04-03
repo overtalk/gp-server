@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package protocol;
+
+import "proto/common.proto";
+import "proto/status.proto";
+
+option go_package = "go;protocol";
+
+// 登陆 (post)
+message LoginReq
+{
+    string account = 2;
+    string password = 3;
+}
+message LoginResp
+{
+    Status status = 1;
+    string token = 2;
+    UserInfo user = 3;  // 用户信息
+    repeated SubmitRecord submit_records = 4;  // submit记录 （ TODO: 可以考虑提到新的协议中）
+}
+
+message LogoutResp
+{
+    Status status = 1;
+}

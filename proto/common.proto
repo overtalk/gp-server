@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "go;protocol";
+
+// Role : 用户角色（学生/老师...）
+enum Role
+{
+    STUDENT = 0;
+    TEACHER = 1;
+    MANAGER = 2;
+}
+
+// ProblemDifficluty : 题目难度
+enum ProblemDifficluty
+{
+    EASY = 0;
+    MEDIUM = 1;
+    HARD = 2;
+}
+
+// UserInfo : 用户基本信息
+message UserInfo 
+{
+    int64 id = 1;
+    Role role = 4;
+    string name = 5;
+    bool sex = 6;
+    string phone = 7;
+    string email = 8;    
+    string school = 9;       
+    int64 last_login = 10;
+    int64 create = 11;
+
+    string account = 2;   // 这两个字段只有在用户管理中的新增用户才会用到, 客户端向服务端发送数据是填充
+    string password = 3;
+}
+
+// ProblemExample : 题目输入输出样例
+message ProblemExample
+{
+    string input = 1;
+    string output = 2;
+}
+
+
+// Problem : 题目
+message Problem
+{
+    int64 id = 1;                                   // 题目id
+    string title = 2;                               // 题目标题
+    string description = 3;                         // 题目描述
+    string in = 4;                                  // 输入
+    string out = 5;                                 // 输出
+    string hint = 6;                                // 题目提示
+    repeated ProblemExample in_out_examples = 7;    // 输入输出样例
+    int64 judge_limit_time = 8;                     // 判题时间限制 
+    int64 judge_limit_mem = 9;                      // 判题内存限制   
+    repeated int64 tags = 10;                        // 题目标签
+    ProblemDifficluty difficluty = 11;              // 难度
+    int64 submit_time = 12;                         // 提交次数
+    int64 accept_time = 13;                         // 通过次数
+}
+
+// SubmitRecord : 提交情况
+message SubmitRecord
+{
+    Problem problem = 1;        // 题目
+    int64 submit_time = 2;      // 提交时间戳
+    bool is_pass = 3;           // 是否通过
+}
+
+// Announcement : 公告，包括班级公告和全局公告
+message Announcement
+{
+    int64 id = 1;
+    string publisher = 2;       // 发布人的姓名
+    string title = 3;           // 公告标题
+    string detail = 4;
+    int64 create_time = 5;
+    int64 last_update_time = 6;
+}
+
+// Class : 班级信息
+message Class
+{
+    int64 id = 1;                               // 班级id
+    string tutor = 2;                           // 导师的姓名
+    string name = 3;                            // 班级名称
+    string introduction = 4;                    // 班级简介
+    int64 number = 5;                           // 班级人数
+    bool is_check = 6;                          // 加入班级设置：false（无需审核，运行任何人进入），true（需要导师审核）
+    int64 create_time = 7;                      // 班级创建时间
+    repeated Announcement announcements = 8;    // 班级公告
+}
+
+// RankItem : 排名item
+message RankItem
+{
+    int64 ranking = 1;      // 排名
+    int64 user_id = 2;       // 用户id
+    string name = 3;        // 用户姓名
+    int64 pass_num = 4;     // 通过题目数量
+    int64 submit_num = 5;   // 提交次数
+}
+
+// Paper : 试卷
+message Paper
+{
+    int64 id = 1;
+    repeated Problem problems = 2;  // 题目
+    // 组卷的参数
+    int64 difficulty = 3;
+    int64 problem_num = 4;
+    repeated int64 knowledge_points = 5;
+}
+
+// Match : 比赛
+message Match
+{
+    int64 id = 1;
+    bool is_public = 2;         // 是否是公开比赛
+    int64 start_time = 3;       // 开始时间
+    int64 duration = 4;         // 时间长度
+    bool is_over = 5;           // 是否结束
+    string name = 6;            // 比赛名称
+    string intriduction = 7;    // 比赛简介
+    int64 paper_id = 8;         // 试卷id
+}

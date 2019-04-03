@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package protocol;
+
+import "proto/common.proto";
+import "proto/status.proto";
+
+option go_package = "go;protocol";
+
+// 获取全部题目信息（只下发 id & title & difficulty & pass_rate）
+message GetProblemsReq
+{
+
+    int64 tag = 1;
+    bool get_all = 2;
+    int64 page_index = 3;
+    int64 page_num = 4;
+}
+message GetProblemsResp
+{
+    Status status = 1;
+    repeated Problem problems = 2;
+    int64 page_index = 3;
+    int64 page_num = 4;
+    int64 total = 5;
+}
+
+// 根据ID获得题目具体信息
+message GetProblemByIDReq
+{
+    int64 id = 1;
+}
+message GetProblemByIDResp
+{
+    Status status = 1;
+    Problem problem = 2;
+}
+
+// 新增题目
+message AddProblemReq
+{
+    Problem problem = 1;
+}
+message AddProblemResp
+{
+    Status status = 1;
+    bool is_success = 2;
+}
+
+// 编辑题目
+message EditProblemReq
+{
+    Problem problem = 1;    // 需要id
+}
+message EditProblemResp
+{
+    Status status = 1;
+    bool is_success = 2;
+}
+
