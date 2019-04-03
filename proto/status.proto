@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package protocol;
 
-option go_package = "go;protocol";
+option go_package = "protocol;protocol";
 
 message Status 
 {

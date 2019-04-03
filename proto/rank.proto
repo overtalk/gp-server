@@ -5,7 +5,7 @@ package protocol;
 import "proto/common.proto";
 import "proto/status.proto";
 
-option go_package = "go;protocol";
+option go_package = "protocol;protocol";
 
 message RankListReq
 {
