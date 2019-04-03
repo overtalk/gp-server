@@ -111,13 +111,13 @@ func TestMysqlDriver_AddUser(t *testing.T) {
 	}
 
 	user := &model.User{
-		Account:   "test1",
-		Password:  utils.MD5("test1"),
+		Account:   "lyx",
+		Password:  utils.MD5("lyx"),
 		Role:      0,
-		Name:      "test",
+		Name:      "李亿璇",
 		Sex:       0,
-		Email:     "test",
-		Phone:     "909",
+		Email:     "xxx@xxx.com",
+		Phone:     "xxxxxxxxxx",
 		School:    "shu",
 		Create:    (time.Now().Unix()),
 		LastLogin: (time.Now().Unix()),
