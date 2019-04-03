@@ -44,6 +44,10 @@ type DB interface {
 	GetGlobalAnnouncementsNum() (int64, error)                                                  // 获得全局公告数量
 	GetGlobalAnnouncements(pageNum, pageIndex int64) ([]*transform.AnnouncementWithName, error) // 获得全局公告
 	GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error)         // 获得班级公告
+	GetAnnouncementDetail(id int64) (*transform.AnnouncementWithName, error)                    // 获得公告具体信息
+	AddAnnouncement(Announcement *model.Announcement) error                                     // 新增全局公告
+	EditAnnouncement(Announcement *model.Announcement) error                                    // 修改全局公告
+	DelAnnouncement(id int64) error                                                             // 删除全局公告
 
 	// match
 	GetMatchesNum() (int64, error)                               // 比赛数量

@@ -24,7 +24,6 @@ func (m *MysqlDriver) GetGlobalAnnouncements(pageNum, pageIndex int64) ([]*trans
 }
 
 // GetAnnouncementsByClassID : get all announcements of a certain class
-// if pageNum == 0, return all
 func (m *MysqlDriver) GetAnnouncementsByClassID(classID int64) ([]*transform.AnnouncementWithName, error) {
 	announcements := make([]*transform.AnnouncementWithName, 0)
 	if err := m.conn.
@@ -34,4 +33,64 @@ func (m *MysqlDriver) GetAnnouncementsByClassID(classID int64) ([]*transform.Ann
 		return nil, err
 	}
 	return announcements, nil
+}
+
+// GetAnnouncementDetail : get the detail of global Announcement
+func (m *MysqlDriver) GetAnnouncementDetail(id int64) (*transform.AnnouncementWithName, error) {
+	announcement := new(transform.AnnouncementWithName)
+	ok, err := m.conn.
+		Id(id).
+		Join("INNER", "user", "user.id = announcement.publisher").
+		Get(announcement)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoRowsFound
+	}
+	return announcement, nil
+}
+
+// AddAnnouncement : add announcement
+func (m *MysqlDriver) AddAnnouncement(announcement *model.Announcement) error {
+	var (
+		err      error
+		affected int64
+	)
+	if announcement.ClassId == 0 {
+		affected, err = m.conn.Omit("class_id").Insert(announcement)
+	} else {
+		affected, err = m.conn.Insert(announcement)
+	}
+	if err != nil {
+		return err
+	}
+	if affected == 0 {
+		return ErrNoRowsAffected
+	}
+	return nil
+}
+
+// EditAnnouncement : edit announcement
+func (m *MysqlDriver) EditAnnouncement(announcement *model.Announcement) error {
+	affected, err := m.conn.Id(announcement.Id).Update(announcement)
+	if err != nil {
+		return err
+	}
+	if affected == 0 {
+		return ErrNoRowsAffected
+	}
+	return nil
+}
+
+// DelAnnouncement : del announcement
+func (m *MysqlDriver) DelAnnouncement(id int64) error {
+	affected, err := m.conn.Id(id).Delete(&model.Announcement{})
+	if err != nil {
+		return err
+	}
+	if affected == 0 {
+		return ErrNoRowsAffected
+	}
+	return nil
 }
