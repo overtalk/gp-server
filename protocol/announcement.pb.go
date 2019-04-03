@@ -228,9 +228,10 @@ func (m *AnnouncementDetailResp) GetAnnouncement() *Announcement {
 
 // 增加新公告
 type AddAnnouncementReq struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Announcement         *Announcement `protobuf:"bytes,1,opt,name=announcement,proto3" json:"announcement,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
 func (m *AddAnnouncementReq) Reset()         { *m = AddAnnouncementReq{} }
@@ -258,7 +259,16 @@ func (m *AddAnnouncementReq) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_AddAnnouncementReq proto.InternalMessageInfo
 
+func (m *AddAnnouncementReq) GetAnnouncement() *Announcement {
+	if m != nil {
+		return m.Announcement
+	}
+	return nil
+}
+
 type AddAnnouncementResp struct {
+	Status               *Status  `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	IsSuccess            bool     `protobuf:"varint,2,opt,name=is_success,json=isSuccess,proto3" json:"is_success,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -289,6 +299,194 @@ func (m *AddAnnouncementResp) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_AddAnnouncementResp proto.InternalMessageInfo
 
+func (m *AddAnnouncementResp) GetStatus() *Status {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *AddAnnouncementResp) GetIsSuccess() bool {
+	if m != nil {
+		return m.IsSuccess
+	}
+	return false
+}
+
+// 修改公告
+type EditAnnouncementReq struct {
+	Announcement         *Announcement `protobuf:"bytes,1,opt,name=announcement,proto3" json:"announcement,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *EditAnnouncementReq) Reset()         { *m = EditAnnouncementReq{} }
+func (m *EditAnnouncementReq) String() string { return proto.CompactTextString(m) }
+func (*EditAnnouncementReq) ProtoMessage()    {}
+func (*EditAnnouncementReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ce84847563ec99c2, []int{6}
+}
+
+func (m *EditAnnouncementReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EditAnnouncementReq.Unmarshal(m, b)
+}
+func (m *EditAnnouncementReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EditAnnouncementReq.Marshal(b, m, deterministic)
+}
+func (m *EditAnnouncementReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EditAnnouncementReq.Merge(m, src)
+}
+func (m *EditAnnouncementReq) XXX_Size() int {
+	return xxx_messageInfo_EditAnnouncementReq.Size(m)
+}
+func (m *EditAnnouncementReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_EditAnnouncementReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EditAnnouncementReq proto.InternalMessageInfo
+
+func (m *EditAnnouncementReq) GetAnnouncement() *Announcement {
+	if m != nil {
+		return m.Announcement
+	}
+	return nil
+}
+
+type EditAnnouncementResp struct {
+	Status               *Status  `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	IsSuccess            bool     `protobuf:"varint,2,opt,name=is_success,json=isSuccess,proto3" json:"is_success,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EditAnnouncementResp) Reset()         { *m = EditAnnouncementResp{} }
+func (m *EditAnnouncementResp) String() string { return proto.CompactTextString(m) }
+func (*EditAnnouncementResp) ProtoMessage()    {}
+func (*EditAnnouncementResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ce84847563ec99c2, []int{7}
+}
+
+func (m *EditAnnouncementResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EditAnnouncementResp.Unmarshal(m, b)
+}
+func (m *EditAnnouncementResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EditAnnouncementResp.Marshal(b, m, deterministic)
+}
+func (m *EditAnnouncementResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EditAnnouncementResp.Merge(m, src)
+}
+func (m *EditAnnouncementResp) XXX_Size() int {
+	return xxx_messageInfo_EditAnnouncementResp.Size(m)
+}
+func (m *EditAnnouncementResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_EditAnnouncementResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EditAnnouncementResp proto.InternalMessageInfo
+
+func (m *EditAnnouncementResp) GetStatus() *Status {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *EditAnnouncementResp) GetIsSuccess() bool {
+	if m != nil {
+		return m.IsSuccess
+	}
+	return false
+}
+
+// 删除公告
+type DelAnnouncementReq struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DelAnnouncementReq) Reset()         { *m = DelAnnouncementReq{} }
+func (m *DelAnnouncementReq) String() string { return proto.CompactTextString(m) }
+func (*DelAnnouncementReq) ProtoMessage()    {}
+func (*DelAnnouncementReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ce84847563ec99c2, []int{8}
+}
+
+func (m *DelAnnouncementReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DelAnnouncementReq.Unmarshal(m, b)
+}
+func (m *DelAnnouncementReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DelAnnouncementReq.Marshal(b, m, deterministic)
+}
+func (m *DelAnnouncementReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DelAnnouncementReq.Merge(m, src)
+}
+func (m *DelAnnouncementReq) XXX_Size() int {
+	return xxx_messageInfo_DelAnnouncementReq.Size(m)
+}
+func (m *DelAnnouncementReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_DelAnnouncementReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DelAnnouncementReq proto.InternalMessageInfo
+
+func (m *DelAnnouncementReq) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+type DelAnnouncementResp struct {
+	Status               *Status  `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	IsSuccess            bool     `protobuf:"varint,2,opt,name=is_success,json=isSuccess,proto3" json:"is_success,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DelAnnouncementResp) Reset()         { *m = DelAnnouncementResp{} }
+func (m *DelAnnouncementResp) String() string { return proto.CompactTextString(m) }
+func (*DelAnnouncementResp) ProtoMessage()    {}
+func (*DelAnnouncementResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ce84847563ec99c2, []int{9}
+}
+
+func (m *DelAnnouncementResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DelAnnouncementResp.Unmarshal(m, b)
+}
+func (m *DelAnnouncementResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DelAnnouncementResp.Marshal(b, m, deterministic)
+}
+func (m *DelAnnouncementResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DelAnnouncementResp.Merge(m, src)
+}
+func (m *DelAnnouncementResp) XXX_Size() int {
+	return xxx_messageInfo_DelAnnouncementResp.Size(m)
+}
+func (m *DelAnnouncementResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_DelAnnouncementResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DelAnnouncementResp proto.InternalMessageInfo
+
+func (m *DelAnnouncementResp) GetStatus() *Status {
+	if m != nil {
+		return m.Status
+	}
+	return nil
+}
+
+func (m *DelAnnouncementResp) GetIsSuccess() bool {
+	if m != nil {
+		return m.IsSuccess
+	}
+	return false
+}
+
 func init() {
 	proto.RegisterType((*AnnouncementsReq)(nil), "protocol.AnnouncementsReq")
 	proto.RegisterType((*AnnouncementsResp)(nil), "protocol.AnnouncementsResp")
@@ -296,28 +494,36 @@ func init() {
 	proto.RegisterType((*AnnouncementDetailResp)(nil), "protocol.AnnouncementDetailResp")
 	proto.RegisterType((*AddAnnouncementReq)(nil), "protocol.AddAnnouncementReq")
 	proto.RegisterType((*AddAnnouncementResp)(nil), "protocol.AddAnnouncementResp")
+	proto.RegisterType((*EditAnnouncementReq)(nil), "protocol.EditAnnouncementReq")
+	proto.RegisterType((*EditAnnouncementResp)(nil), "protocol.EditAnnouncementResp")
+	proto.RegisterType((*DelAnnouncementReq)(nil), "protocol.DelAnnouncementReq")
+	proto.RegisterType((*DelAnnouncementResp)(nil), "protocol.DelAnnouncementResp")
 }
 
 func init() { proto.RegisterFile("proto/announcement.proto", fileDescriptor_ce84847563ec99c2) }
 
 var fileDescriptor_ce84847563ec99c2 = []byte{
-	// 287 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x90, 0x4f, 0x4b, 0xc3, 0x30,
-	0x18, 0xc6, 0x69, 0xeb, 0xe6, 0x7c, 0xeb, 0x64, 0xc6, 0x6d, 0x44, 0x41, 0x18, 0xb9, 0xd8, 0x53,
-	0x85, 0x79, 0x53, 0x2f, 0x13, 0x2f, 0x82, 0x78, 0xa8, 0x37, 0x2f, 0x12, 0x9b, 0x30, 0x0a, 0x4d,
-	0xd2, 0x99, 0x14, 0x3c, 0xf9, 0x05, 0xfd, 0x52, 0xd2, 0x64, 0xc5, 0xb4, 0xfe, 0x01, 0x4f, 0x6d,
-	0x7e, 0xef, 0x93, 0x27, 0xcf, 0xf3, 0x02, 0xae, 0x5e, 0x95, 0x51, 0xe7, 0x54, 0x4a, 0x55, 0xcb,
-	0x9c, 0x0b, 0x2e, 0x4d, 0x6a, 0x11, 0x1a, 0xd9, 0x4f, 0xae, 0xca, 0x13, 0xe4, 0x34, 0xb9, 0x12,
-	0x42, 0x49, 0x37, 0x6d, 0x99, 0x36, 0xd4, 0xd4, 0xda, 0x31, 0x72, 0x0f, 0x93, 0x95, 0xe7, 0xa3,
-	0x33, 0xbe, 0x41, 0xa7, 0x00, 0x15, 0x5d, 0xf3, 0xe7, 0x42, 0x32, 0xfe, 0x86, 0x83, 0x45, 0x90,
-	0x44, 0xd9, 0x5e, 0x43, 0xee, 0x1a, 0x80, 0x8e, 0x61, 0x64, 0xc7, 0xb2, 0x16, 0x38, 0xb4, 0xc3,
-	0xdd, 0xe6, 0xfc, 0x50, 0x0b, 0xf2, 0x11, 0xc0, 0x61, 0xcf, 0x4e, 0x57, 0x28, 0x81, 0xa1, 0x7b,
-	0xd3, 0x7a, 0xc5, 0xcb, 0x49, 0xda, 0xc6, 0x4c, 0x1f, 0x2d, 0xcf, 0xb6, 0x73, 0x74, 0x0d, 0x63,
-	0xbf, 0x95, 0xc6, 0xe1, 0x22, 0x4a, 0xe2, 0xe5, 0xfc, 0xeb, 0x82, 0xef, 0x9e, 0x75, 0xc5, 0xbd,
-	0xdc, 0xd1, 0x5f, 0xb9, 0x77, 0x3a, 0xb9, 0xd1, 0x14, 0x06, 0x46, 0x19, 0x5a, 0xe2, 0x81, 0xe5,
-	0xee, 0x40, 0xce, 0x60, 0xe6, 0x3f, 0x77, 0xcb, 0x0d, 0x2d, 0xca, 0x66, 0x41, 0x07, 0x10, 0x16,
-	0x6c, 0xbb, 0x98, 0xb0, 0x60, 0xe4, 0x1d, 0xe6, 0x3f, 0x09, 0xff, 0x55, 0xfd, 0x12, 0xf6, 0xfd,
-	0x36, 0x76, 0xb3, 0xbf, 0x37, 0xef, 0x68, 0xc9, 0x14, 0xd0, 0x8a, 0xb1, 0x8e, 0x80, 0x6f, 0xc8,
-	0x0c, 0x8e, 0xbe, 0x51, 0x5d, 0xdd, 0x8c, 0x9f, 0xe2, 0xb5, 0xba, 0x6a, 0x6d, 0x5f, 0x86, 0xf6,
-	0xef, 0xe2, 0x33, 0x00, 0x00, 0xff, 0xff, 0x1f, 0x81, 0x5d, 0xea, 0x55, 0x02, 0x00, 0x00,
+	// 346 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x52, 0xcf, 0x4b, 0xfb, 0x30,
+	0x1c, 0xa5, 0xdd, 0x77, 0xfb, 0x6e, 0x9f, 0x39, 0x99, 0xd9, 0x1c, 0x55, 0x18, 0x8c, 0x20, 0xb8,
+	0xd3, 0x84, 0x79, 0x53, 0x2f, 0x93, 0x79, 0x10, 0x44, 0xb4, 0xbb, 0x79, 0xd8, 0xa8, 0x4d, 0x18,
+	0x81, 0x36, 0xe9, 0x4c, 0x0a, 0x9e, 0xfc, 0x07, 0xfd, 0xa7, 0xa4, 0xc9, 0x8a, 0xfd, 0xa1, 0x42,
+	0xa1, 0xa7, 0x36, 0xef, 0xbd, 0xbc, 0xcf, 0x7b, 0x1f, 0x02, 0x4e, 0xf4, 0x26, 0x94, 0xb8, 0xf0,
+	0x38, 0x17, 0x31, 0xf7, 0x69, 0x48, 0xb9, 0x9a, 0x69, 0x08, 0xb5, 0xf5, 0xc7, 0x17, 0xc1, 0x29,
+	0x32, 0x1a, 0x5f, 0x84, 0xa1, 0xe0, 0x86, 0x4d, 0x31, 0xa9, 0x3c, 0x15, 0x4b, 0x83, 0xe1, 0x07,
+	0xe8, 0x2f, 0x32, 0x3e, 0xd2, 0xa5, 0x3b, 0x34, 0x06, 0x88, 0xbc, 0x2d, 0xdd, 0x30, 0x4e, 0xe8,
+	0xbb, 0x63, 0x4d, 0xac, 0x69, 0xc3, 0xed, 0x24, 0xc8, 0x7d, 0x02, 0xa0, 0x13, 0x68, 0x6b, 0x9a,
+	0xc7, 0xa1, 0x63, 0x6b, 0xf2, 0x7f, 0x72, 0x7e, 0x8c, 0x43, 0xfc, 0x69, 0xc1, 0x51, 0xc1, 0x4e,
+	0x46, 0x68, 0x0a, 0x2d, 0x33, 0x53, 0x7b, 0x75, 0xe7, 0xfd, 0x59, 0x1a, 0x73, 0xb6, 0xd2, 0xb8,
+	0xbb, 0xe7, 0xd1, 0x0d, 0xf4, 0xb2, 0xad, 0xa4, 0x63, 0x4f, 0x1a, 0xd3, 0xee, 0x7c, 0xf4, 0x7d,
+	0x21, 0xeb, 0xee, 0xe6, 0xc5, 0x85, 0xdc, 0x8d, 0xbf, 0x72, 0xff, 0xcb, 0xe5, 0x46, 0x43, 0x68,
+	0x2a, 0xa1, 0xbc, 0xc0, 0x69, 0x6a, 0xdc, 0x1c, 0xf0, 0x39, 0x1c, 0x67, 0xc7, 0x2d, 0xa9, 0xf2,
+	0x58, 0x90, 0x2c, 0xe8, 0x10, 0x6c, 0x46, 0xf6, 0x8b, 0xb1, 0x19, 0xc1, 0x1f, 0x30, 0xfa, 0x49,
+	0x58, 0xa9, 0xfa, 0x15, 0x1c, 0x64, 0xdb, 0xe8, 0xcd, 0xfe, 0xde, 0x3c, 0xa7, 0xc5, 0x4f, 0x80,
+	0x16, 0x84, 0xe4, 0x04, 0x74, 0x57, 0x72, 0xb4, 0x2a, 0x38, 0xae, 0x61, 0x50, 0x72, 0xac, 0x54,
+	0x67, 0x0c, 0xc0, 0xe4, 0x46, 0xc6, 0xbe, 0x4f, 0xa5, 0xd4, 0x65, 0xda, 0x6e, 0x87, 0xc9, 0x95,
+	0x01, 0xf0, 0x33, 0x0c, 0xee, 0x08, 0x53, 0x75, 0x46, 0xde, 0xc0, 0xb0, 0x6c, 0x59, 0x67, 0xe6,
+	0x33, 0x40, 0x4b, 0x1a, 0x14, 0x23, 0x17, 0xdf, 0xc2, 0x1a, 0x06, 0x25, 0x55, 0x8d, 0x29, 0x6e,
+	0x7b, 0x2f, 0xdd, 0xad, 0xb8, 0x4e, 0x2f, 0xbf, 0xb6, 0xf4, 0xdf, 0xe5, 0x57, 0x00, 0x00, 0x00,
+	0xff, 0xff, 0x7c, 0x99, 0xc7, 0xf4, 0x14, 0x04, 0x00, 0x00,
 }
