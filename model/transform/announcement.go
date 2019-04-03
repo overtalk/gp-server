@@ -29,6 +29,7 @@ func AnnouncementToProto(u *AnnouncementWithName) *protocol.Announcement {
 // ProtoToAnnouncement : turn protobuf to announcement
 func ProtoToAnnouncement(a *protocol.Announcement) *model.Announcement {
 	return &model.Announcement{
+		Id:     a.Id,
 		Title:  a.Title,
 		Detail: a.Detail,
 	}
