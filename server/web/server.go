@@ -10,10 +10,12 @@ import (
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
+	"github.com/qinhan-shu/gp-server/service/announcement"
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/class"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/gate"
+	"github.com/qinhan-shu/gp-server/service/match"
 	"github.com/qinhan-shu/gp-server/service/problem"
 	"github.com/qinhan-shu/gp-server/service/rank"
 	"github.com/qinhan-shu/gp-server/service/user"
@@ -98,4 +100,6 @@ func registerModule(gate module.Gate) {
 	class.Register(gate, dataStorage)
 	user.Register(gate, dataStorage)
 	rank.Register(gate, dataStorage)
+	announcement.Register(gate, dataStorage)
+	match.Register(gate, dataStorage)
 }

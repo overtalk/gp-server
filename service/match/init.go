@@ -22,4 +22,8 @@ func NewMatch(dataStorage *module.DataStorage) module.Match {
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	module := NewMatch(dataStorage)
 	gate.RegisterRoute("/newMatch", "POST", module.NewMatch)
+	gate.RegisterRoute("/editMatch", "POST", module.EditMatch)
+	gate.RegisterRoute("/getMatchByID", "POST", module.GetMatchByID)
+	gate.RegisterRoute("/getPaperByID", "POST", module.GetPaperByID)
+	gate.RegisterRoute("/getMatches", "POST", module.GetMatches)
 }
