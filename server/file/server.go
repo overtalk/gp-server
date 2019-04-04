@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/rand"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -11,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/utils/zip"
 )
 
 var (
@@ -80,9 +80,8 @@ func uploadFileHandler() http.HandlerFunc {
 			renderError(w, "INVALID_FILE_TYPE", http.StatusBadRequest)
 			return
 		}
-		fileName := randToken(12)
 
-		newPath := filepath.Join(*uploadPath, fileName+header.Filename)
+		newPath := filepath.Join(*uploadPath, header.Filename)
 
 		// write file
 		newFile, err := os.Create(newPath)
@@ -95,6 +94,10 @@ func uploadFileHandler() http.HandlerFunc {
 			renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
 			return
 		}
+
+		if err := zip.Unzip(*uploadPath+"/"+header.Filename, *uploadPath); err != nil {
+			logger.Sugar.Error(err)
+		}
 		w.Write([]byte("SUCCESS"))
 	})
 }
@@ -102,12 +105,6 @@ func uploadFileHandler() http.HandlerFunc {
 func renderError(w http.ResponseWriter, message string, statusCode int) {
 	w.WriteHeader(http.StatusBadRequest)
 	w.Write([]byte(message))
-}
-
-func randToken(len int) string {
-	b := make([]byte, len)
-	rand.Read(b)
-	return fmt.Sprintf("%x", b)
 }
 
 func formatFullVersion() string {
