@@ -2,40 +2,61 @@ package zip
 
 import (
 	"archive/zip"
-	"fmt"
+	"bytes"
 	"io"
 	"os"
-
-	"github.com/qinhan-shu/gp-server/logger"
+	"path/filepath"
 )
 
-// UnZip : decode zip
-func UnZip(fileName string, path string) error {
-	r, err := zip.OpenReader(path + fileName)
+func isZip(zipPath string) bool {
+	f, err := os.Open(zipPath)
+	if err != nil {
+		return false
+	}
+	defer f.Close()
+
+	buf := make([]byte, 4)
+	if n, err := f.Read(buf); err != nil || n < 4 {
+		return false
+	}
+
+	return bytes.Equal(buf, []byte("PK\x03\x04"))
+}
+
+// Unzip : decode zip
+func Unzip(archive, target string) error {
+	reader, err := zip.OpenReader(archive)
 	if err != nil {
 		return err
 	}
 
-	for _, k := range r.Reader.File {
-		if k.FileInfo().IsDir() {
-			return fmt.Errorf("find dic in zip")
-		}
+	if err := os.MkdirAll(target, 0755); err != nil {
+		return err
+	}
 
-		r, err := k.Open()
-		if err != nil {
-			logger.Sugar.Debug(err)
+	for _, file := range reader.File {
+		path := filepath.Join(target, file.Name)
+		if file.FileInfo().IsDir() {
+			os.MkdirAll(path, file.Mode())
 			continue
 		}
 
-		logger.Sugar.Debugf("unzip : %s", k.Name)
-		defer r.Close()
-		NewFile, err := os.Create(path + k.Name)
+		fileReader, err := file.Open()
 		if err != nil {
-			logger.Sugar.Info(err)
 			return err
 		}
-		io.Copy(NewFile, r)
-		NewFile.Close()
+		defer fileReader.Close()
+
+		targetFile, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
+		if err != nil {
+			return err
+		}
+		defer targetFile.Close()
+
+		if _, err := io.Copy(targetFile, fileReader); err != nil {
+			return err
+		}
 	}
+
 	return nil
 }
