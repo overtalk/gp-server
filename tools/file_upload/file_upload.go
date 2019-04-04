@@ -10,13 +10,15 @@ import (
 	"os"
 )
 
+var fileName = "1.zip"
+
 func main() {
 	// 上传文件POST
 	// 下面构造一个文件buf作为POST的BODY
-	filePath := "/Users/qinhan/go/src/github.com/qinhan-shu/gp-server/1.txt"
+	filePath := "/Users/qinhan/go/src/github.com/qinhan-shu/gp-server/" + fileName
 	buf := new(bytes.Buffer)
 	w := multipart.NewWriter(buf)
-	fw, _ := w.CreateFormFile("uploadFile", "1.txt") //这里的uploadFile必须和服务器端的FormFile-name一致
+	fw, _ := w.CreateFormFile("uploadFile", fileName) //这里的uploadFile必须和服务器端的FormFile-name一致
 	fd, _ := os.Open(filePath)
 	defer fd.Close()
 	io.Copy(fw, fd)
