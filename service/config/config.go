@@ -130,3 +130,44 @@ func (c *Config) GetDataStorage() (*module.DataStorage, error) {
 		Cache: redisCache,
 	}, nil
 }
+
+// GetTestDB : get test db
+func (c *Config) GetTestDB() (module.DB, error) {
+	keys := []string{
+		"MYSQL_ADDR",
+		"MYSQL_USER",
+		"MYSQL_PASS",
+		"MYSQL_DBNAME",
+		"MYSQL_OPEN_CONNS_NUM",
+		"MYSQL_IDLE_CONNS_NUM",
+	}
+	values := make(map[string]string)
+
+	for _, key := range keys {
+		value, err := c.GetConfigByName(key)
+		if err != nil {
+			return nil, err
+		}
+		values[key] = value
+	}
+
+	openConnsNum, err := parse.IntWithError(values["MYSQL_OPEN_CONNS_NUM"])
+	if err != nil {
+		return nil, err
+	}
+
+	idleConnsNum, err := parse.IntWithError(values["MYSQL_IDLE_CONNS_NUM"])
+	if err != nil {
+		return nil, err
+	}
+
+	mysqlConfig := &db.MysqlConfig{
+		Addr:            values["MYSQL_ADDR"],
+		Username:        values["MYSQL_USER"],
+		Password:        values["MYSQL_PASS"],
+		DBName:          values["MYSQL_DBNAME"],
+		MaxOpenConnsNum: int(openConnsNum),
+		MaxIdleConnsNum: int(idleConnsNum),
+	}
+	return db.NewMysqlDriver(mysqlConfig)
+}

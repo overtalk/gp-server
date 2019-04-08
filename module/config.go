@@ -23,4 +23,5 @@ type Config interface {
 	ReloadConfig() error
 	GetConfigByName(configName string) (string, error)
 	GetDataStorage() (*DataStorage, error)
+	GetTestDB() (DB, error)
 }

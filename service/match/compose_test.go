@@ -3,16 +3,20 @@ package match_test
 import (
 	"testing"
 
+	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/match"
 )
 
 func TestIntelligentCompose(t *testing.T) {
-	dataStorage, err := config.NewConfig().GetDataStorage()
+	db, err := config.NewConfig().GetTestDB()
 	if err != nil {
 		t.Error(err)
 		return
+	}
+	dataStorage := &module.DataStorage{
+		DB: db,
 	}
 	module := match.NewMatch(dataStorage)
 
