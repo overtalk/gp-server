@@ -16,6 +16,7 @@ var (
 
 // GetToken : get token from gin.Context
 func GetToken(r *http.Request) (string, error) {
+	return tokenArgName, nil
 	cookies := r.Cookies()
 	for _, cookie := range cookies {
 		if cookie.Name == tokenArgName {

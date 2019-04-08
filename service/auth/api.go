@@ -24,7 +24,7 @@ func (a *Auth) Login(r *http.Request) proto.Message {
 	}
 
 	if err := proto.Unmarshal(data, req); err != nil {
-		logger.Sugar.Errorf("failed to unmarshal data[%v] : %v", data, err)
+		logger.Sugar.Errorf("failed to unmarshal : %v", err)
 		resp.Status.Code = protocol.Code_DATA_LOSE
 		resp.Status.Message = "failed to unmarshal request body"
 		return resp
