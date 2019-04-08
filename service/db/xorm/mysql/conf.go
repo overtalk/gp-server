@@ -23,8 +23,6 @@ type MysqlConfig struct {
 }
 
 func (c *MysqlConfig) getDSN() string {
-	fmt.Printf("%s:%s@/%s?charset=utf8",
-		c.Username, c.Password, c.DBName)
 	return fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
 		c.Username, c.Password, c.Addr, c.DBName)
 }
