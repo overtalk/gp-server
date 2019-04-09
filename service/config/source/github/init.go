@@ -15,16 +15,32 @@ import (
 
 // Github describes github repo of gmdata
 type Github struct {
+	user    string
+	token   string
 	repoURL string
 }
 
 // NewGithub creates a new Github
 func NewGithub() *Github {
-	if os.Getenv("GITHUB_URL") == "" {
-		logger.Sugar.Fatal(`Environment "GITHUB_URL" must be set`)
+	require := []string{
+		"GITHUB_URL",
+		"GITHUB_USERNAME",
+		"GITHUB_TOKEN",
 	}
+
+	conf := make(map[string]string)
+	for _, key := range require {
+		value, isExist := os.LookupEnv(key)
+		if !isExist {
+			logger.Sugar.Fatalf(`Environment "%s" must be set`, key)
+		}
+		conf[key] = value
+	}
+
 	return &Github{
-		repoURL: os.Getenv("GITHUB_URL"),
+		user:    conf["GITHUB_USERNAME"],
+		token:   conf["GITHUB_TOKEN"],
+		repoURL: conf["GITHUB_URL"],
 	}
 }
 
@@ -43,6 +59,7 @@ func (g *Github) fetch(fileName string) ([]byte, error) {
 		return nil, err
 	}
 	req.Header.Add("Accept", "application/vnd.github.VERSION.raw")
+	req.SetBasicAuth(g.user, g.token)
 
 	resp, err := client.Do(req)
 	if err != nil {
