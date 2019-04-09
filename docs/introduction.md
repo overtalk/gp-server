@@ -53,6 +53,16 @@
   
   
 
+- [proto/judge.proto](#proto/judge.proto)
+    - [JudgeRequest](#protocol.JudgeRequest)
+    - [JudgeResponse](#protocol.JudgeResponse)
+  
+    - [JudgeResult](#protocol.JudgeResult)
+    - [Language](#protocol.Language)
+  
+  
+  
+
 - [proto/login.proto](#proto/login.proto)
     - [LoginReq](#protocol.LoginReq)
     - [LoginResp](#protocol.LoginResp)
@@ -710,6 +720,91 @@ Role : 用户角色（学生/老师...）
 | STUDENT | 0 |  |
 | TEACHER | 1 |  |
 | MANAGER | 2 |  |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="proto/judge.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/judge.proto
+
+
+
+<a name="protocol.JudgeRequest"></a>
+
+### JudgeRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  |  |
+| src | [string](#string) |  |  |
+| language | [Language](#protocol.Language) |  |  |
+
+
+
+
+
+
+<a name="protocol.JudgeResponse"></a>
+
+### JudgeResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| judge_result | [JudgeResult](#protocol.JudgeResult) |  |  |
+| cpu_time | [int64](#int64) |  | cpu time the process has used |
+| real_time | [int64](#int64) |  | actual running time of the process |
+| memory | [int64](#int64) |  | max vaule of memory used by the process |
+| signal | [int64](#int64) |  | signal number |
+| exit_code | [int64](#int64) |  | process&#39;s exit code |
+
+
+
+
+
+ 
+
+
+<a name="protocol.JudgeResult"></a>
+
+### JudgeResult
+判题目结果
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SUCCESS | 0 | this means the answer is accepted |
+| WRONG_ANSWER | -1 | this means the process exited normally, but the answer is wrong |
+| CPU_TIME_LIMIT_EXCEEDED | 1 |  |
+| REAL_TIME_LIMIT_EXCEEDED | 2 |  |
+| MEMORY_LIMIT_EXCEEDED | 3 |  |
+| RUNTIME_ERROR | 4 |  |
+| SYSTEM_ERROR | 5 |  |
+
+
+
+<a name="protocol.Language"></a>
+
+### Language
+判题语言
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| C | 0 |  |
+| C_PLUS | 1 |  |
+| PYTHON | 2 |  |
+| JAVA | 3 |  |
 
 
  
