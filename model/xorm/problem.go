@@ -3,6 +3,7 @@ package model
 type Problem struct {
 	Ac             int    `xorm:"not null default 0 INT(64)"`
 	Ce             int    `xorm:"not null default 0 INT(64)"`
+	Cognition      int    `xorm:"not null default 0 TINYINT(4)"`
 	Description    string `xorm:"not null TEXT"`
 	Difficulty     int    `xorm:"not null default 0 TINYINT(4)"`
 	Hint           string `xorm:"TEXT"`

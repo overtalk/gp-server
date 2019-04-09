@@ -76,7 +76,8 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `judge_limit_mem` int(11) NOT NULL,     -- 内存限制
   `tags` text NOT NULL,                   -- tags
 
-  `difficulty` tinyint(4) NOT NULL DEFAULT 0,
+  `cognition` tinyint(4) NOT NULL DEFAULT 0,   -- 认知程度
+  `difficulty` tinyint(4) NOT NULL DEFAULT 0,   -- 难度
   `last_used`  bigint(64) NOT NULL DEFAULT 0,  -- 上次使用时间
   `used_time` int(64) NOT NULL DEFAULT 0,   -- 使用次数
 
