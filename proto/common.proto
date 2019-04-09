@@ -111,10 +111,9 @@ message Paper
     int64 id = 1;
     repeated Problem problems = 2;  // 题目
     // 组卷的参数
-    int64 difficulty = 3;
-    int64 problem_num = 4;
-    repeated int64 knowledge_points = 5;
-    int64 cognition = 6;
+    map<int64,int64>  difficulty = 3;
+    map<int64,int64>  knowledge_points = 4;
+    map<int64,int64>  cognition = 5;
 }
 
 // Match : 比赛

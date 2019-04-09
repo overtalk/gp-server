@@ -41,6 +41,9 @@
     - [Class](#protocol.Class)
     - [Match](#protocol.Match)
     - [Paper](#protocol.Paper)
+    - [Paper.CognitionEntry](#protocol.Paper.CognitionEntry)
+    - [Paper.DifficultyEntry](#protocol.Paper.DifficultyEntry)
+    - [Paper.KnowledgePointsEntry](#protocol.Paper.KnowledgePointsEntry)
     - [Problem](#protocol.Problem)
     - [ProblemExample](#protocol.ProblemExample)
     - [RankItem](#protocol.RankItem)
@@ -583,10 +586,57 @@ Paper : 试卷
 | ----- | ---- | ----- | ----------- |
 | id | [int64](#int64) |  |  |
 | problems | [Problem](#protocol.Problem) | repeated | 题目 |
-| difficulty | [int64](#int64) |  | 组卷的参数 |
-| problem_num | [int64](#int64) |  |  |
-| knowledge_points | [int64](#int64) | repeated |  |
-| cognition | [int64](#int64) |  |  |
+| difficulty | [Paper.DifficultyEntry](#protocol.Paper.DifficultyEntry) | repeated | 组卷的参数 |
+| knowledge_points | [Paper.KnowledgePointsEntry](#protocol.Paper.KnowledgePointsEntry) | repeated |  |
+| cognition | [Paper.CognitionEntry](#protocol.Paper.CognitionEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.Paper.CognitionEntry"></a>
+
+### Paper.CognitionEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.Paper.DifficultyEntry"></a>
+
+### Paper.DifficultyEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.Paper.KnowledgePointsEntry"></a>
+
+### Paper.KnowledgePointsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [int64](#int64) |  |  |
 
 
 
