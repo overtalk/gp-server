@@ -3,6 +3,7 @@ package config
 import (
 	"flag"
 	"fmt"
+	"sync"
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
@@ -124,10 +125,15 @@ func (c *Config) GetDataStorage() (*module.DataStorage, error) {
 	// 	return nil, fmt.Errorf("path[%s] is not a dir", *judgeFileDir)
 	// }
 	// logger.Sugar.Debugf("judgeFileDir = %s", *judgeFileDir)
+	var configs sync.Map
+	for key, value := range c.configMap {
+		configs.Store(key, value)
+	}
 	return &module.DataStorage{
 		// JudgeFilePath: *judgeFileDir,
-		DB:    mysqlDB,
-		Cache: redisCache,
+		DB:      mysqlDB,
+		Cache:   redisCache,
+		Configs: configs,
 	}, nil
 }
 

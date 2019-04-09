@@ -209,8 +209,8 @@ func TestAddSomeProblems(t *testing.T) {
 			InDescription:  "输入两个int型数",
 			OutDescription: "输出两个数的和",
 			Hint:           "无提示",
-			JudgeLimitTime: 10,
-			JudgeLimitMem:  10,
+			JudgeLimitTime: 1000,
+			JudgeLimitMem:  134217728,
 			Difficulty:     1,
 			Tags:           string(data),
 		}
