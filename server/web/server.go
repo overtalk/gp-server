@@ -15,6 +15,7 @@ import (
 	"github.com/qinhan-shu/gp-server/service/class"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/gate"
+	"github.com/qinhan-shu/gp-server/service/judge"
 	"github.com/qinhan-shu/gp-server/service/match"
 	"github.com/qinhan-shu/gp-server/service/problem"
 	"github.com/qinhan-shu/gp-server/service/rank"
@@ -102,4 +103,5 @@ func registerModule(gate module.Gate) {
 	rank.Register(gate, dataStorage)
 	announcement.Register(gate, dataStorage)
 	match.Register(gate, dataStorage)
+	judge.Register(gate, dataStorage)
 }
