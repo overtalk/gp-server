@@ -25,10 +25,11 @@ func NewConfig() module.Config {
 	logger.Sugar.Info("get config from source (github)")
 	source, err = github.NewConfigSource()
 	if err != nil {
-		logger.Sugar.Info("failed to get config from source (github)")
+		logger.Sugar.Errorf("failed to get config from source (github) : %v", err)
 		logger.Sugar.Info("get config from source (local file)")
 		source, err = local.NewConfigSource()
 		if err != nil {
+			logger.Sugar.Errorf("failed to get config from source (local file) : %v", err)
 			logger.Sugar.Fatalf("failed to get config from source(github & local file)")
 		}
 	}
