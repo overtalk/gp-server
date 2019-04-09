@@ -1,0 +1,12 @@
+{
+    "ISSUCCEED":"YES",
+    "REDIS_ADDR":"",
+    "REDIS_PASS":"",
+    "REDIS_POOLSIZE":"",
+    "MYSQL_ADDR":"",
+    "MYSQL_USER":"",
+    "MYSQL_PASS":"",
+    "MYSQL_DBNAME":"",
+    "MYSQL_OPEN_CONNS_NUM":"100",
+    "MYSQL_IDLE_CONNS_NUM":"100"
+}
