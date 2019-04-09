@@ -1,10 +1,11 @@
 package local
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 
-	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
 )
 
 // File : local file config
@@ -13,13 +14,13 @@ type File struct {
 }
 
 // NewConfigSource : create config source
-func NewConfigSource() *File {
+func NewConfigSource() (module.ConfigSource, error) {
 	if os.Getenv("CONFIG_FILE_PATH") == "" {
-		logger.Sugar.Fatal(`Environment "CONFIG_FILE_PATH" must be set`)
+		return nil, fmt.Errorf(`Environment "CONFIG_FILE_PATH" must be set`)
 	}
 	return &File{
 		path: os.Getenv("CONFIG_FILE_PATH"),
-	}
+	}, nil
 }
 
 // Fetch is to get details from github

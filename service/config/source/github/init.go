@@ -20,8 +20,8 @@ type Github struct {
 	repoURL string
 }
 
-// NewGithub creates a new Github
-func NewGithub() *Github {
+// NewConfigSource : create config source
+func NewConfigSource() (module.ConfigSource, error) {
 	require := []string{
 		"GITHUB_URL",
 		"GITHUB_USERNAME",
@@ -32,7 +32,7 @@ func NewGithub() *Github {
 	for _, key := range require {
 		value, isExist := os.LookupEnv(key)
 		if !isExist {
-			logger.Sugar.Fatalf(`Environment "%s" must be set`, key)
+			return nil, fmt.Errorf(`Environment "%s" must be set`, key)
 		}
 		conf[key] = value
 	}
@@ -41,7 +41,7 @@ func NewGithub() *Github {
 		user:    conf["GITHUB_USERNAME"],
 		token:   conf["GITHUB_TOKEN"],
 		repoURL: conf["GITHUB_URL"],
-	}
+	}, nil
 }
 
 // Fetch is to get details from github

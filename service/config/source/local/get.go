@@ -14,7 +14,7 @@ func (f *File) GetConfig() (module.ConfigMap, error) {
 
 	data, err := f.fetch(fileName)
 	if err != nil {
-		logger.Sugar.Errorf("failed to get %s from gm scorce (local file version) : %v", fileName, err)
+		logger.Sugar.Errorf("failed to get %s from config scorce (local file version) : %v", fileName, err)
 		return nil, err
 	}
 
@@ -26,9 +26,7 @@ func (f *File) GetConfig() (module.ConfigMap, error) {
 	}
 
 	if _, ok := config["ISSUCCEED"]; !ok {
-		return nil, ErrGetConfFail{
-			info: fmt.Sprintf("%v", config),
-		}
+		return nil, fmt.Errorf("failed to get config from config scorce (local file version), error message [ %v ]", config)
 	}
 
 	return config, nil
