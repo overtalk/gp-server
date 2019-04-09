@@ -1,3 +1,5 @@
 .vscode
 build/
-*.sh
+web.sh
+xorm_gen.sh
+file.sh
