@@ -6,24 +6,33 @@ import "proto/status.proto";
 
 option go_package = "protocol;protocol";
 
-// 判题目结果
-enum JudgeResult{
-    SUCCESS = 0;    // this means the answer is accepted
-    WRONG_ANSWER = -1;  // this means the process exited normally, but the answer is wrong
-    CPU_TIME_LIMIT_EXCEEDED = 1;
-    REAL_TIME_LIMIT_EXCEEDED = 2;
-    MEMORY_LIMIT_EXCEEDED = 3;
-    RUNTIME_ERROR = 4;
-    SYSTEM_ERROR = 5;
-}
-
 // 判题语言
 enum Language
 {
     C = 0;
     C_PLUS = 1;
-    PYTHON = 2;
-    JAVA = 3;
+    JAVA = 2;
+    PYTHON2 = 3;
+    PYTHON3 = 4;
+}
+
+message JudgeResult{
+    // 判题目结果
+    enum Result{
+        SUCCESS = 0;    // this means the answer is accepted
+        WRONG_ANSWER = -1;  // this means the process exited normally, but the answer is wrong
+        CPU_TIME_LIMIT_EXCEEDED = 1;
+        REAL_TIME_LIMIT_EXCEEDED = 2;
+        MEMORY_LIMIT_EXCEEDED = 3;
+        RUNTIME_ERROR = 4;
+        SYSTEM_ERROR = 5;
+    }
+    Result judge_result = 2;
+    int64 cpu_time = 3;     // cpu time the process has used
+    int64 real_time = 4;    // actual running time of the process
+    int64 memory = 5;       // max vaule of memory used by the process
+    int64 signal = 6;       // signal number
+    int64 exit_code = 7;    // process's exit code
 }
 
 message JudgeRequest
@@ -36,10 +45,5 @@ message JudgeRequest
 message JudgeResponse
 {
     Status status = 1;
-    JudgeResult judge_result = 2;
-    int64 cpu_time = 3;     // cpu time the process has used
-    int64 real_time = 4;    // actual running time of the process
-    int64 memory = 5;       // max vaule of memory used by the process
-    int64 signal = 6;       // signal number
-    int64 exit_code = 7;    // process's exit code
+    repeated JudgeResult results = 2;
 }

@@ -56,8 +56,9 @@
 - [proto/judge.proto](#proto/judge.proto)
     - [JudgeRequest](#protocol.JudgeRequest)
     - [JudgeResponse](#protocol.JudgeResponse)
-  
     - [JudgeResult](#protocol.JudgeResult)
+  
+    - [JudgeResult.Result](#protocol.JudgeResult.Result)
     - [Language](#protocol.Language)
   
   
@@ -763,7 +764,22 @@ Role : 用户角色（学生/老师...）
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
-| judge_result | [JudgeResult](#protocol.JudgeResult) |  |  |
+| results | [JudgeResult](#protocol.JudgeResult) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.JudgeResult"></a>
+
+### JudgeResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| judge_result | [JudgeResult.Result](#protocol.JudgeResult.Result) |  |  |
 | cpu_time | [int64](#int64) |  | cpu time the process has used |
 | real_time | [int64](#int64) |  | actual running time of the process |
 | memory | [int64](#int64) |  | max vaule of memory used by the process |
@@ -777,9 +793,9 @@ Role : 用户角色（学生/老师...）
  
 
 
-<a name="protocol.JudgeResult"></a>
+<a name="protocol.JudgeResult.Result"></a>
 
-### JudgeResult
+### JudgeResult.Result
 判题目结果
 
 | Name | Number | Description |
@@ -803,8 +819,9 @@ Role : 用户角色（学生/老师...）
 | ---- | ------ | ----------- |
 | C | 0 |  |
 | C_PLUS | 1 |  |
-| PYTHON | 2 |  |
-| JAVA | 3 |  |
+| JAVA | 2 |  |
+| PYTHON2 | 3 |  |
+| PYTHON3 | 4 |  |
 
 
  
