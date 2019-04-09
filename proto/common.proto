@@ -114,6 +114,7 @@ message Paper
     int64 difficulty = 3;
     int64 problem_num = 4;
     repeated int64 knowledge_points = 5;
+    int64 cognition = 6;
 }
 
 // Match : 比赛

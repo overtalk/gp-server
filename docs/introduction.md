@@ -586,6 +586,7 @@ Paper : 试卷
 | difficulty | [int64](#int64) |  | 组卷的参数 |
 | problem_num | [int64](#int64) |  |  |
 | knowledge_points | [int64](#int64) | repeated |  |
+| cognition | [int64](#int64) |  |  |
 
 
 
