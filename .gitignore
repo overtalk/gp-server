@@ -1,5 +1,6 @@
 .vscode
 build/
+config/
 web.sh
 xorm_gen.sh
 file.sh
