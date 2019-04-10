@@ -21,7 +21,8 @@ endif
 
 .PHONY: deps
 deps:
-	go get ./...
+	go get -u -v github.com/kardianos/govendor
+	govendor add +external
 
 .PHONY: server
 server:
