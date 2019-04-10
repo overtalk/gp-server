@@ -1,12 +1,13 @@
 {
     "ISSUCCEED":"YES",
-    "REDIS_ADDR":"",
-    "REDIS_PASS":"",
-    "REDIS_POOLSIZE":"",
-    "MYSQL_ADDR":"",
-    "MYSQL_USER":"",
-    "MYSQL_PASS":"",
-    "MYSQL_DBNAME":"",
+    "REDIS_ADDR":"127.0.0.1:6379",
+    "REDIS_PASS":"12345678",
+    "REDIS_POOLSIZE":"10",
+    "MYSQL_ADDR":"127.0.0.1",
+    "MYSQL_USER":"root",
+    "MYSQL_PASS":"12345678",
+    "MYSQL_DBNAME":"gp_oj",
     "MYSQL_OPEN_CONNS_NUM":"100",
-    "MYSQL_IDLE_CONNS_NUM":"100"
+    "MYSQL_IDLE_CONNS_NUM":"100",
+    "JUDGE_SERVER":"127.0.0.1:12358+shu"
 }
