@@ -1,12 +1,44 @@
 version: '3'
 services:
-  web:
-    build:
-        context : ./
-        dockerfile : ./docker/web/Dockerfile
-    ports:
-        - 8080:8080
-    environment:
-        GITHUB_USERNAME: ${USERNAME}
-        GITHUB_TOKEN: ${TOKEN}
-        GITHUB_URL: ${URL}
+    redis:
+        image: redis 
+        container_name: gp-redis
+        command: redis-server --requirepass 12345678
+        # restart: always
+        ports:
+            - 6370:6379 
+
+    mysql:
+        image: mysql
+        container_name: gp-mysql
+        ports:
+            - "6606:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: 12345678
+        # restart: always
+        volumes:
+            - "./mysql:/var/lib/mysql"
+            - "./config/my.cnf:/etc/my.cnf"
+            - "./config:/docker-entrypoint-initdb.d/"
+            
+    web:
+        build:
+            context : ./
+            dockerfile : ./docker/web/Dockerfile
+        container_name: gp-web
+        ports:
+            - 8080:8080
+        environment:
+            REDIS_ADDR: gp-redis:6379  
+            REDIS_PASS: 12345678
+            REDIS_POOLSIZE: 10
+            MYSQL_ADDR: gp-mysql:3306
+            MYSQL_USER: root
+            MYSQL_PASS: 12345678
+            MYSQL_DBNAME: gp_oj
+            MYSQL_OPEN_CONNS_NUM: 100
+            MYSQL_IDLE_CONNS_NUM: 100
+            JUDGE_SERVER: 127.0.0.1:12358+shu
+        depends_on:
+            - "redis"
+            - "mysql"
