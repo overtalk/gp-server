@@ -1,4 +1,4 @@
-package local_test
+package source_test
 
 import (
 	"testing"
@@ -7,7 +7,11 @@ import (
 )
 
 func TestGetConfig(t *testing.T) {
-	gmSource := local.NewConfigSource()
+	gmSource, err := source.NewConfigSource()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 
 	config, err := gmSource.GetConfig()
 	if err != nil {

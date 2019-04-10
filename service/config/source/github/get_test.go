@@ -7,7 +7,11 @@ import (
 )
 
 func TestGetConfig(t *testing.T) {
-	gmSource := source.NewGithub()
+	gmSource, err := source.NewConfigSource()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 
 	config, err := gmSource.GetConfig()
 	if err != nil {
