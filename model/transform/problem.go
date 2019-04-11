@@ -11,6 +11,7 @@ import (
 type IntactProblem struct {
 	Detail          *model.Problem
 	InAndOutExample []*model.TestData
+	Publisher       string
 }
 
 // TurnProto : turn Problem to protobuf
@@ -28,6 +29,8 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 		AcceptTime:     int64(p.Detail.Ac),
 		JudgeLimitMem:  int64(p.Detail.JudgeLimitMem),
 		JudgeLimitTime: int64(p.Detail.JudgeLimitTime),
+		Publisher:      p.Publisher,
+		CreateTime:     p.Detail.CreateTime,
 	}
 	// set in and out example
 	var example []*protocol.ProblemExample
@@ -56,6 +59,8 @@ func (p *IntactProblem) TurnMinProto() *protocol.Problem {
 		Cognition:  int64(p.Detail.Cognition),
 		SubmitTime: int64(p.Detail.SubmitTime),
 		AcceptTime: int64(p.Detail.Ac),
+		Publisher:  p.Publisher,
+		CreateTime: p.Detail.CreateTime,
 	}
 }
 

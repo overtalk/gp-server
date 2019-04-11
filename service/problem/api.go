@@ -3,6 +3,7 @@ package problem
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/golang/protobuf/proto"
 
@@ -117,7 +118,7 @@ func (p *Problem) AddProblem(r *http.Request) proto.Message {
 	req := &protocol.AddProblemReq{}
 	resp := &protocol.AddProblemResp{Status: &protocol.Status{}}
 
-	_, status := p.checkArgsandAuth(r, req)
+	user, status := p.checkArgsandAuth(r, req)
 	if status != nil {
 		logger.Sugar.Error(status.Message)
 		resp.Status = status
@@ -137,6 +138,8 @@ func (p *Problem) AddProblem(r *http.Request) proto.Message {
 	// }
 
 	// p.JudgeFile = relativePath
+	pro.Detail.CreateTime = time.Now().Unix()
+	pro.Detail.Publisher = user.Id
 	if err := p.db.AddProblem(pro); err != nil {
 		resp.IsSuccess = false
 	} else {
