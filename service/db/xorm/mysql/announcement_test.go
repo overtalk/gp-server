@@ -1,6 +1,7 @@
 package db_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -175,4 +176,29 @@ func TestMysqlDriver_DelAnnouncement(t *testing.T) {
 		t.Error("failed to delete announcement")
 		return
 	}
+}
+
+func TestAddSomeGlobalAnnouncement(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	for i := 0; i < 10; i++ {
+		announcement := &model.Announcement{
+			Title:          "测试全局公告" + fmt.Sprintf("%d", i),
+			Detail:         "测试全局公告" + fmt.Sprintf("%d的内容", i),
+			Publisher:      1,
+			LastUpdateTime: time.Now().Unix(),
+			CreateTime:     time.Now().Unix(),
+		}
+		if err := mysqlDriver.AddAnnouncement(announcement); err != nil {
+			t.Error(err)
+			return
+		}
+
+		t.Logf("%+v\n", announcement)
+	}
+
 }
