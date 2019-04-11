@@ -2,6 +2,30 @@ DROP database IF EXISTS gp_oj;
 CREATE DATABASE IF NOT EXISTS gp_oj;
 USE gp_oj;
 
+-- tag 标签表
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- difficulty 题目难度分级表
+CREATE TABLE IF NOT EXISTS `difficulty` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- cognition 题目认知程度分级表
+CREATE TABLE IF NOT EXISTS `cognition` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- 用户表
 CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(64) NOT NULL auto_increment,
@@ -76,8 +100,8 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `judge_limit_mem` int(11) NOT NULL,     -- 内存限制
   `tags` text NOT NULL,                   -- tags
 
-  `cognition` tinyint(4) NOT NULL DEFAULT 0,   -- 认知程度
-  `difficulty` tinyint(4) NOT NULL DEFAULT 0,   -- 难度
+  `cognition` int(11) NOT NULL DEFAULT 1,   -- 认知程度
+  `difficulty` int(11) NOT NULL DEFAULT 1,   -- 难度
   `last_used`  bigint(64) NOT NULL DEFAULT 0,  -- 上次使用时间
   `used_time` int(64) NOT NULL DEFAULT 0,   -- 使用次数
 
@@ -91,7 +115,9 @@ CREATE TABLE IF NOT EXISTS `problem` (
 
   `judge_file` varchar(100) NOT NULL,         -- 判题目文件的路径
 
-	PRIMARY KEY(`id`)
+	PRIMARY KEY(`id`),
+  foreign key(`difficulty`) references `difficulty`(`id`),
+  foreign key(`cognition`) references `cognition`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 试卷表
@@ -102,14 +128,6 @@ CREATE TABLE IF NOT EXISTS `paper` (
   `tags`  text NOT NULL,    
   `cognition` text NOT NULL,                 -- tags
 
-	PRIMARY KEY(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- tag 标签表
-CREATE TABLE IF NOT EXISTS `tag` (
-  `id` int(11) NOT NULL auto_increment,
-  `detail` varchar(100) NOT NULL,
-  
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
