@@ -3,6 +3,7 @@ package db_test
 import (
 	"encoding/json"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -214,6 +215,9 @@ func TestAddSomeProblems(t *testing.T) {
 			Difficulty:     1,
 			Cognition:      1,
 			Tags:           string(data),
+			LastUsed:       time.Now().Unix(),
+			CreateTime:     time.Now().Unix(),
+			Publisher:      1,
 		}
 		testData := []*model.TestData{
 			&model.TestData{

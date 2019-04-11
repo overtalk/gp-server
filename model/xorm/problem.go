@@ -12,6 +12,8 @@ type Problem struct {
 	Tags           string `xorm:"not null TEXT"`
 	Cognition      int    `xorm:"not null default 1 index INT(11)"`
 	Difficulty     int    `xorm:"not null default 1 index INT(11)"`
+	CreateTime     int64  `xorm:"not null default 0 BIGINT(64)"`
+	Publisher      int64  `xorm:"not null index BIGINT(64)"`
 	LastUsed       int64  `xorm:"not null default 0 BIGINT(64)"`
 	UsedTime       int    `xorm:"not null default 0 INT(64)"`
 	SubmitTime     int    `xorm:"not null default 0 INT(64)"`

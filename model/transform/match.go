@@ -15,7 +15,7 @@ func ProtoToMatch(match *protocol.Match) *model.Match {
 	}
 	return &model.Match{
 		Id:           match.Id,
-		Duration:     int(match.Duration),
+		EndTime:      match.EndTime,
 		Introduction: match.Introduction,
 		IsPublic:     isPublic,
 		StartTime:    match.StartTime,
@@ -26,7 +26,7 @@ func ProtoToMatch(match *protocol.Match) *model.Match {
 // MatchToMinProto : turn modle Match to min proto
 func MatchToMinProto(u *model.Match) *protocol.Match {
 	isOver := false
-	if u.StartTime+int64(u.Duration) < time.Now().Unix() {
+	if u.EndTime < time.Now().Unix() {
 		isOver = true
 	}
 	return &protocol.Match{
@@ -42,14 +42,14 @@ func MatchToMinProto(u *model.Match) *protocol.Match {
 // MatchToProto : turn modle Match to proto
 func MatchToProto(u *model.Match) *protocol.Match {
 	isOver := false
-	if u.StartTime+int64(u.Duration) < time.Now().Unix() {
+	if u.EndTime < time.Now().Unix() {
 		isOver = true
 	}
 	return &protocol.Match{
 		Id:           u.Id,
 		IsPublic:     u.IsPublic == 1,
 		StartTime:    u.StartTime,
-		Duration:     int64(u.Duration),
+		EndTime:      u.EndTime,
 		Name:         u.Title,
 		Introduction: u.Introduction,
 		IsOver:       isOver,

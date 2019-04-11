@@ -574,7 +574,7 @@ Match : 比赛
 | id | [int64](#int64) |  |  |
 | is_public | [bool](#bool) |  | 是否是公开比赛 |
 | start_time | [int64](#int64) |  | 开始时间 |
-| duration | [int64](#int64) |  | 时间长度 |
+| end_time | [int64](#int64) |  | 结束长度 |
 | is_over | [bool](#bool) |  | 是否结束 |
 | name | [string](#string) |  | 比赛名称 |
 | introduction | [string](#string) |  | 比赛简介 |
@@ -674,6 +674,8 @@ Problem : 题目
 | cognition | [int64](#int64) |  | 认知程度 |
 | submit_time | [int64](#int64) |  | 提交次数 |
 | accept_time | [int64](#int64) |  | 通过次数 |
+| create_time | [int64](#int64) |  | 创建时间 |
+| publisher | [string](#string) |  | 发布人 |
 
 
 

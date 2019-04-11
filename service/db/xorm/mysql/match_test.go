@@ -68,7 +68,7 @@ func TestMysqlDriver_AddMatch(t *testing.T) {
 		Title:        "比赛001",
 		Introduction: "测试的比赛",
 		StartTime:    time.Now().Unix(),
-		Duration:     10000,
+		EndTime:      time.Now().Unix() + 10000,
 	}
 
 	if err := mysqlDriver.AddMatch(paper, match); err != nil {
@@ -219,7 +219,7 @@ func TestAddSomeMatches(t *testing.T) {
 			Title:        "比赛0" + fmt.Sprintf("%d", i),
 			Introduction: "测试的比赛",
 			StartTime:    time.Now().Unix(),
-			Duration:     10000,
+			EndTime:      time.Now().Unix() + 10000,
 		}
 
 		if err := mysqlDriver.AddMatch(paper, match); err != nil {

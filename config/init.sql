@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `match` (
   `title` text NOT NULL,
   `introduction` text,
   `start_time` bigint(64) NOT NULL,  -- 开始比赛时间 ： 时间戳
-  `duration` int(20) NOT NULL, -- 比赛时长， 默认单位是秒
+  `end_time` bigint(64) NOT NULL, -- 比赛时长， 默认单位是秒
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -102,6 +102,8 @@ CREATE TABLE IF NOT EXISTS `problem` (
 
   `cognition` int(11) NOT NULL DEFAULT 1,   -- 认知程度
   `difficulty` int(11) NOT NULL DEFAULT 1,   -- 难度
+  `create_time`  bigint(64) NOT NULL DEFAULT 0,  -- 创建时间
+  `publisher` bigint(64) NOT NULL,              -- 发布人
   `last_used`  bigint(64) NOT NULL DEFAULT 0,  -- 上次使用时间
   `used_time` int(64) NOT NULL DEFAULT 0,   -- 使用次数
 
@@ -116,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `judge_file` varchar(100) NOT NULL,         -- 判题目文件的路径
 
 	PRIMARY KEY(`id`),
+  foreign key(`publisher`) references `user`(`id`),
   foreign key(`difficulty`) references `difficulty`(`id`),
   foreign key(`cognition`) references `cognition`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

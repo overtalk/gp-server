@@ -50,10 +50,12 @@ message Problem
     int64 judge_limit_time = 8;                     // 判题时间限制 
     int64 judge_limit_mem = 9;                      // 判题内存限制   
     repeated int64 tags = 10;                       // 题目标签
-    int64 difficulty = 11;                            // 难度
-    int64 cognition = 12;                             // 认知程度
+    int64 difficulty = 11;                          // 难度
+    int64 cognition = 12;                           // 认知程度
     int64 submit_time = 13;                         // 提交次数
     int64 accept_time = 14;                         // 通过次数
+    int64 create_time = 15;                         // 创建时间
+    string publisher = 16;                          // 发布人
 }
 
 // SubmitRecord : 提交情况
@@ -115,7 +117,7 @@ message Match
     int64 id = 1;
     bool is_public = 2;         // 是否是公开比赛
     int64 start_time = 3;       // 开始时间
-    int64 duration = 4;         // 时间长度
+    int64 end_time = 4;         // 结束长度
     bool is_over = 5;           // 是否结束
     string name = 6;            // 比赛名称
     string introduction = 7;    // 比赛简介

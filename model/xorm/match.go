@@ -7,5 +7,5 @@ type Match struct {
 	Title        string `xorm:"not null TEXT"`
 	Introduction string `xorm:"TEXT"`
 	StartTime    int64  `xorm:"not null BIGINT(64)"`
-	Duration     int    `xorm:"not null INT(20)"`
+	EndTime      int64  `xorm:"not null BIGINT(64)"`
 }
