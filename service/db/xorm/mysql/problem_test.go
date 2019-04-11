@@ -212,6 +212,7 @@ func TestAddSomeProblems(t *testing.T) {
 			JudgeLimitTime: 1000,
 			JudgeLimitMem:  134217728,
 			Difficulty:     1,
+			Cognition:      1,
 			Tags:           string(data),
 		}
 		testData := []*model.TestData{
