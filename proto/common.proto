@@ -118,6 +118,6 @@ message Match
     int64 duration = 4;         // 时间长度
     bool is_over = 5;           // 是否结束
     string name = 6;            // 比赛名称
-    string intriduction = 7;    // 比赛简介
+    string introduction = 7;    // 比赛简介
     int64 paper_id = 8;         // 试卷id
 }

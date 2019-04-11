@@ -16,7 +16,7 @@ func ProtoToMatch(match *protocol.Match) *model.Match {
 	return &model.Match{
 		Id:           match.Id,
 		Duration:     int(match.Duration),
-		Introduction: match.Intriduction,
+		Introduction: match.Introduction,
 		IsPublic:     isPublic,
 		StartTime:    match.StartTime,
 		Title:        match.Name,
@@ -51,7 +51,7 @@ func MatchToProto(u *model.Match) *protocol.Match {
 		StartTime:    u.StartTime,
 		Duration:     int64(u.Duration),
 		Name:         u.Title,
-		Intriduction: u.Introduction,
+		Introduction: u.Introduction,
 		IsOver:       isOver,
 		PaperId:      u.PaperId,
 	}

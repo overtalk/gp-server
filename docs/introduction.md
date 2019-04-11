@@ -577,7 +577,7 @@ Match : 比赛
 | duration | [int64](#int64) |  | 时间长度 |
 | is_over | [bool](#bool) |  | 是否结束 |
 | name | [string](#string) |  | 比赛名称 |
-| intriduction | [string](#string) |  | 比赛简介 |
+| introduction | [string](#string) |  | 比赛简介 |
 | paper_id | [int64](#int64) |  | 试卷id |
 
 
