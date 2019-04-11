@@ -12,14 +12,6 @@ enum Role
     MANAGER = 2;
 }
 
-// ProblemDifficluty : 题目难度
-enum ProblemDifficluty
-{
-    EASY = 0;
-    MEDIUM = 1;
-    HARD = 2;
-}
-
 // UserInfo : 用户基本信息
 message UserInfo 
 {
@@ -57,10 +49,11 @@ message Problem
     repeated ProblemExample in_out_examples = 7;    // 输入输出样例
     int64 judge_limit_time = 8;                     // 判题时间限制 
     int64 judge_limit_mem = 9;                      // 判题内存限制   
-    repeated int64 tags = 10;                        // 题目标签
-    ProblemDifficluty difficluty = 11;              // 难度
-    int64 submit_time = 12;                         // 提交次数
-    int64 accept_time = 13;                         // 通过次数
+    repeated int64 tags = 10;                       // 题目标签
+    int64 difficluty = 11;                            // 难度
+    int64 cognition = 12;                             // 认知程度
+    int64 submit_time = 13;                         // 提交次数
+    int64 accept_time = 14;                         // 通过次数
 }
 
 // SubmitRecord : 提交情况

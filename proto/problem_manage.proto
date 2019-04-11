@@ -10,7 +10,6 @@ option go_package = "protocol;protocol";
 // 获取全部题目信息（只下发 id & title & difficulty & pass_rate）
 message GetProblemsReq
 {
-
     int64 tag = 1;
     bool get_all = 2;
     int64 page_index = 3;

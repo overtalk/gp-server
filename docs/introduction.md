@@ -50,7 +50,6 @@
     - [SubmitRecord](#protocol.SubmitRecord)
     - [UserInfo](#protocol.UserInfo)
   
-    - [ProblemDifficluty](#protocol.ProblemDifficluty)
     - [Role](#protocol.Role)
   
   
@@ -661,7 +660,8 @@ Problem : 题目
 | judge_limit_time | [int64](#int64) |  | 判题时间限制 |
 | judge_limit_mem | [int64](#int64) |  | 判题内存限制 |
 | tags | [int64](#int64) | repeated | 题目标签 |
-| difficluty | [ProblemDifficluty](#protocol.ProblemDifficluty) |  | 难度 |
+| difficluty | [int64](#int64) |  | 难度 |
+| cognition | [int64](#int64) |  | 认知程度 |
 | submit_time | [int64](#int64) |  | 提交次数 |
 | accept_time | [int64](#int64) |  | 通过次数 |
 
@@ -747,19 +747,6 @@ UserInfo : 用户基本信息
 
 
  
-
-
-<a name="protocol.ProblemDifficluty"></a>
-
-### ProblemDifficluty
-ProblemDifficluty : 题目难度
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| EASY | 0 |  |
-| MEDIUM | 1 |  |
-| HARD | 2 |  |
-
 
 
 <a name="protocol.Role"></a>
