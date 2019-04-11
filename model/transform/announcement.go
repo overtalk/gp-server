@@ -18,6 +18,7 @@ func (AnnouncementWithName) TableName() string {
 // AnnouncementToProto : turn announcement to protobuf
 func AnnouncementToProto(u *AnnouncementWithName) *protocol.Announcement {
 	return &protocol.Announcement{
+		Id:             u.Id,
 		Publisher:      u.Name,
 		Title:          u.Title,
 		Detail:         u.Detail,
