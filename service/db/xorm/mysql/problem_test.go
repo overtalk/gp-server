@@ -26,6 +26,7 @@ func TestMysqlDriver_GetProblemsNum(t *testing.T) {
 
 	t.Logf("the num of problems : %d", num)
 }
+
 func TestMysqlDriver_GetProblems(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
@@ -43,7 +44,8 @@ func TestMysqlDriver_GetProblems(t *testing.T) {
 
 	t.Log(len(problems))
 	for _, problem := range problems {
-		t.Logf("%+v\n", problem.Detail)
+		t.Logf("%+v\n", problem.Name)
+		t.Logf("%+v\n", problem.Problem)
 		t.Logf("%+v\n", problem.InAndOutExample)
 	}
 }
@@ -66,8 +68,9 @@ func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
 
 	t.Log(len(problems))
 	for _, problem := range problems {
-		t.Logf("%+v\n", problem.Detail.Id)
-		t.Logf("%+v\n", problem.Detail.Tags)
+		t.Logf("%+v\n", problem.Name)
+		t.Logf("%+v\n", problem.Id)
+		t.Logf("%+v\n", problem.Tags)
 		t.Logf("%+v\n", problem.InAndOutExample)
 	}
 }
@@ -86,7 +89,8 @@ func TestMysqlDriver_GetProblemByID(t *testing.T) {
 		return
 	}
 
-	t.Logf("%+v\n", problem.Detail)
+	t.Logf("%+v\n", problem.Name)
+	t.Logf("%+v\n", problem.Problem)
 	t.Logf("%+v\n", problem.InAndOutExample)
 }
 
@@ -98,7 +102,7 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 	}
 
 	data, _ := json.Marshal([]int64{1, 2, 3})
-	problem := &model.Problem{
+	problem := model.Problem{
 		Title:          "求和问题",
 		Description:    "求两个数的和",
 		InDescription:  "输入两个int型数",
@@ -108,6 +112,9 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 		JudgeLimitMem:  10,
 		Difficulty:     1,
 		Tags:           string(data),
+		Publisher:      1,
+		CreateTime:     time.Now().Unix(),
+		Cognition:      1,
 	}
 	testData := []*model.TestData{
 		&model.TestData{
@@ -120,7 +127,7 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 		},
 	}
 	if err := mysqlDriver.AddProblem(&transform.IntactProblem{
-		Detail:          problem,
+		Problem:         problem,
 		InAndOutExample: testData,
 	}); err != nil {
 		t.Error(err)
@@ -137,7 +144,7 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 		return
 	}
 
-	var problemID int64 = 12
+	var problemID int64 = 1
 	originProblem, err := mysqlDriver.GetProblemByID(problemID)
 	if err != nil {
 		t.Error(err)
@@ -145,9 +152,9 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 	}
 
 	change := &transform.IntactProblem{
-		Detail: &model.Problem{
+		Problem: model.Problem{
 			Id:    problemID,
-			Title: originProblem.Detail.Title + "000",
+			Title: originProblem.Title + "000",
 		},
 	}
 
@@ -162,17 +169,17 @@ func TestMysqlDriver_UpdateProblem(t *testing.T) {
 		return
 	}
 
-	if !assert.NotEqual(t, originProblem.Detail.Title, changedProblem.Detail.Title) {
+	if !assert.NotEqual(t, originProblem.Title, changedProblem.Title) {
 		t.Error("filed [Title] is not changed")
 		return
 	}
 
-	if !assert.Equal(t, changedProblem.Detail.Title, change.Detail.Title) {
+	if !assert.Equal(t, changedProblem.Title, change.Title) {
 		t.Error("filed [Title] is not changed to expected value")
 		return
 	}
 
-	if !assert.Equal(t, originProblem.Detail.Description, changedProblem.Detail.Description) {
+	if !assert.Equal(t, originProblem.Description, changedProblem.Description) {
 		t.Error("other filed [Description] is changed")
 		return
 	}
@@ -204,7 +211,7 @@ func TestAddSomeProblems(t *testing.T) {
 	num := 10
 	data, _ := json.Marshal([]int64{1, 2, 3})
 	for i := 0; i < num; i++ {
-		problem := &model.Problem{
+		problem := model.Problem{
 			Title:          "求和问题",
 			Description:    "求两个数的和",
 			InDescription:  "输入两个int型数",
@@ -230,7 +237,7 @@ func TestAddSomeProblems(t *testing.T) {
 			},
 		}
 		if err := mysqlDriver.AddProblem(&transform.IntactProblem{
-			Detail:          problem,
+			Problem:         problem,
 			InAndOutExample: testData,
 		}); err != nil {
 			t.Error(err)

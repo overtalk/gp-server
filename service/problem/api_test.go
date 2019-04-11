@@ -38,6 +38,7 @@ func TestUserManage_GetProblems(t *testing.T) {
 	}
 
 	for _, problem := range resp.Problems {
+		t.Logf("%+v", problem.Publisher)
 		t.Logf("%+v", problem)
 	}
 }
@@ -90,7 +91,7 @@ func TestUserManage_AddProblem(t *testing.T) {
 			JudgeLimitMem:  5,
 			JudgeLimitTime: 3,
 			Tags:           []int64{1, 3},
-			Difficluty:     protocol.ProblemDifficluty_HARD,
+			Difficulty:     1,
 			InOutExamples: []*protocol.ProblemExample{
 				&protocol.ProblemExample{
 					Input:  "1 1",

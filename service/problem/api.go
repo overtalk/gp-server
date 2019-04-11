@@ -138,8 +138,8 @@ func (p *Problem) AddProblem(r *http.Request) proto.Message {
 	// }
 
 	// p.JudgeFile = relativePath
-	pro.Detail.CreateTime = time.Now().Unix()
-	pro.Detail.Publisher = user.Id
+	pro.CreateTime = time.Now().Unix()
+	pro.Publisher = user.Id
 	if err := p.db.AddProblem(pro); err != nil {
 		resp.IsSuccess = false
 	} else {

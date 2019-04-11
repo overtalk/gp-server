@@ -14,48 +14,44 @@ func (m *MysqlDriver) GetProblemsNum() (int64, error) {
 
 // GetProblems : get problems
 func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*transform.IntactProblem, error) {
-	problems := make([]*model.Problem, 0)
+	problems := make([]*transform.IntactProblem, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Join("INNER", "user", "user.id = problem.publisher").
 		Find(&problems); err != nil {
 		return nil, err
 	}
 
-	var intactProblems []*transform.IntactProblem
 	for _, problem := range problems {
-		intactProblem, err := m.GetProblemByProblem(problem)
+		testData, err := m.getTestDataByProblemID(problem.Id)
 		if err != nil {
 			return nil, err
 		}
-		intactProblems = append(intactProblems, intactProblem)
+		problem.InAndOutExample = testData
 	}
-
-	return intactProblems, nil
+	return problems, nil
 }
 
 // GetProblemsByTagID : get problem by tag id
 func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*transform.IntactProblem, error) {
-	problems := make([]*model.Problem, 0)
+	problems := make([]*transform.IntactProblem, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Join("INNER", "user", "user.id = problem.publisher").
 		Where("tags like ? || tags like ? || tags like ? || tags like ?",
 			"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
 		Find(&problems); err != nil {
 		return nil, err
 	}
 
-	var intactProblems []*transform.IntactProblem
 	for _, problem := range problems {
 		testData, err := m.getTestDataByProblemID(problem.Id)
 		if err != nil {
 			return nil, err
 		}
-		intactProblems = append(intactProblems, &transform.IntactProblem{
-			Detail:          problem,
-			InAndOutExample: testData,
-		})
+		problem.InAndOutExample = testData
 	}
-	return intactProblems, nil
+	return problems, nil
 }
 
 // AddProblem : add problem to db
@@ -64,14 +60,14 @@ func (m *MysqlDriver) AddProblem(problem *transform.IntactProblem) error {
 	defer session.Close()
 
 	err := session.Begin()
-	_, err = session.Insert(problem.Detail)
+	_, err = session.Insert(&problem.Problem)
 	if err != nil {
 		session.Rollback()
 		return err
 	}
 	// set problem id
 	for _, example := range problem.InAndOutExample {
-		example.ProblemId = problem.Detail.Id
+		example.ProblemId = problem.Id
 	}
 	_, err = session.Insert(problem.InAndOutExample)
 	if err != nil {
@@ -88,7 +84,7 @@ func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 	defer session.Close()
 
 	err := session.Begin()
-	_, err = session.Id(problem.Detail.Id).Update(problem.Detail)
+	_, err = session.Id(problem.Id).Update(&problem.Problem)
 	if err != nil {
 		session.Rollback()
 		return err
@@ -104,8 +100,8 @@ func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 
 // GetProblemByID : get problem by id
 func (m *MysqlDriver) GetProblemByID(id int64) (*transform.IntactProblem, error) {
-	problem := new(model.Problem)
-	ok, err := m.conn.Id(id).Get(problem)
+	problem := new(transform.IntactProblem)
+	ok, err := m.conn.Id(id).Join("INNER", "user", "user.id = problem.publisher").Get(problem)
 	if err != nil {
 		return nil, err
 	}
@@ -117,23 +113,21 @@ func (m *MysqlDriver) GetProblemByID(id int64) (*transform.IntactProblem, error)
 	if err != nil {
 		return nil, err
 	}
-	return &transform.IntactProblem{
-		Detail:          problem,
-		InAndOutExample: testData,
-	}, nil
+	problem.InAndOutExample = testData
+	return problem, nil
 }
 
-// GetProblemByProblem : get problem by problem
-func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*transform.IntactProblem, error) {
-	testData, err := m.getTestDataByProblemID(problem.Id)
-	if err != nil {
-		return nil, err
-	}
-	return &transform.IntactProblem{
-		Detail:          problem,
-		InAndOutExample: testData,
-	}, nil
-}
+// // GetProblemByProblem : get problem by problem
+// func (m *MysqlDriver) GetProblemByProblem(problem *model.Problem) (*transform.IntactProblem, error) {
+// 	testData, err := m.getTestDataByProblemID(problem.Id)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &transform.IntactProblem{
+// 		Problem:         *problem,
+// 		InAndOutExample: testData,
+// 	}, nil
+// }
 
 // GetAllProblems : get all
 func (m *MysqlDriver) GetAllProblems() ([]*model.Problem, error) {

@@ -9,28 +9,32 @@ import (
 
 // IntactProblem : intact problem
 type IntactProblem struct {
-	Detail          *model.Problem
+	model.Problem   `xorm:"extends"`
 	InAndOutExample []*model.TestData
-	Publisher       string
+	Name            string
+}
+
+func (IntactProblem) TableName() string {
+	return "problem"
 }
 
 // TurnProto : turn Problem to protobuf
 func (p *IntactProblem) TurnProto() *protocol.Problem {
 	problemProtobuf := &protocol.Problem{
-		Id:             p.Detail.Id,
-		Title:          p.Detail.Title,
-		Description:    p.Detail.Description,
-		In:             p.Detail.InDescription,
-		Out:            p.Detail.OutDescription,
-		Hint:           p.Detail.Hint,
-		Difficulty:     int64(p.Detail.Difficulty),
-		Cognition:      int64(p.Detail.Cognition),
-		SubmitTime:     int64(p.Detail.SubmitTime),
-		AcceptTime:     int64(p.Detail.Ac),
-		JudgeLimitMem:  int64(p.Detail.JudgeLimitMem),
-		JudgeLimitTime: int64(p.Detail.JudgeLimitTime),
-		Publisher:      p.Publisher,
-		CreateTime:     p.Detail.CreateTime,
+		Id:             p.Id,
+		Title:          p.Title,
+		Description:    p.Description,
+		In:             p.InDescription,
+		Out:            p.OutDescription,
+		Hint:           p.Hint,
+		Difficulty:     int64(p.Difficulty),
+		Cognition:      int64(p.Cognition),
+		SubmitTime:     int64(p.SubmitTime),
+		AcceptTime:     int64(p.Ac),
+		JudgeLimitMem:  int64(p.JudgeLimitMem),
+		JudgeLimitTime: int64(p.JudgeLimitTime),
+		Publisher:      p.Name,
+		CreateTime:     p.CreateTime,
 	}
 	// set in and out example
 	var example []*protocol.ProblemExample
@@ -44,7 +48,7 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 
 	// set tags
 	tags := new([]int64)
-	json.Unmarshal([]byte(p.Detail.Tags), tags)
+	json.Unmarshal([]byte(p.Tags), tags)
 
 	problemProtobuf.Tags = *tags
 	return problemProtobuf
@@ -53,14 +57,14 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 // TurnMinProto : turn to protobuf with certain fields
 func (p *IntactProblem) TurnMinProto() *protocol.Problem {
 	return &protocol.Problem{
-		Id:         p.Detail.Id,
-		Title:      p.Detail.Title,
-		Difficulty: int64(p.Detail.Difficulty),
-		Cognition:  int64(p.Detail.Cognition),
-		SubmitTime: int64(p.Detail.SubmitTime),
-		AcceptTime: int64(p.Detail.Ac),
-		Publisher:  p.Publisher,
-		CreateTime: p.Detail.CreateTime,
+		Id:         p.Id,
+		Title:      p.Title,
+		Difficulty: int64(p.Difficulty),
+		Cognition:  int64(p.Cognition),
+		SubmitTime: int64(p.SubmitTime),
+		AcceptTime: int64(p.Ac),
+		Publisher:  p.Name,
+		CreateTime: p.CreateTime,
 	}
 }
 
@@ -71,7 +75,7 @@ func IsInited(p *model.Problem) bool {
 
 // ProtoToProblem : turn protobuf to problem
 func ProtoToProblem(p *protocol.Problem) *IntactProblem {
-	problem := &model.Problem{
+	problem := model.Problem{
 		Id:             p.Id,
 		Title:          p.Title,
 		Description:    p.Description,
@@ -97,7 +101,7 @@ func ProtoToProblem(p *protocol.Problem) *IntactProblem {
 	problem.Tags = string(tags)
 
 	return &IntactProblem{
-		Detail:          problem,
+		Problem:         problem,
 		InAndOutExample: inAndOutExample,
 	}
 }

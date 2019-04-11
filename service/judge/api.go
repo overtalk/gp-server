@@ -58,9 +58,9 @@ func (j *Judge) Judge(r *http.Request) proto.Message {
 	judgeResp, err := client.JudgeWithRequest(&judge.JudgeRequest{
 		Src:            req.Src,
 		LanguageConfig: getJudgeConfig(req.Language),
-		MaxCpuTime:     int64(problem.Detail.JudgeLimitTime),
-		MaxMemory:      int64(problem.Detail.JudgeLimitMem),
-		TestCaseId:     problem.Detail.JudgeFile,
+		MaxCpuTime:     int64(problem.JudgeLimitTime),
+		MaxMemory:      int64(problem.JudgeLimitMem),
+		TestCaseId:     problem.JudgeFile,
 	})
 	if err != nil {
 		logger.Sugar.Errorf("failed to judge : %v", err)
