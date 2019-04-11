@@ -66,3 +66,32 @@ func TestAuth_LoginAndLogOut(t *testing.T) {
 		return
 	}
 }
+
+func TestAuth_GetConfig(t *testing.T) {
+	dataStorage, err := config.NewConfig().GetDataStorage()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	authModule := auth.NewAuth(dataStorage)
+
+	// logout operations
+	r1, err := utils.MockHTTPReq("GET", "1", &protocol.LoginReq{
+		Account:  "jack0",
+		Password: "jack0",
+	})
+	if err != nil {
+		t.Errorf("failed to mock http request : %v", err)
+		return
+	}
+	data := authModule.GetConfig(r1)
+	resp := data.(*protocol.Config)
+	if resp.Status.Code != protocol.Code_OK {
+		t.Errorf("logoutResp.Code[%s] != protocol.Code_OK", protocol.Code_name[int32(resp.Status.Code)])
+		return
+	}
+	t.Log("LogOut.Code = ", resp.Status.Code)
+
+	// check the redis again
+	t.Log(resp)
+}

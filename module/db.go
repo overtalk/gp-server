@@ -7,6 +7,11 @@ import (
 
 // DB : database module
 type DB interface {
+	// conf
+	GetAllDifficulty() ([]*model.Difficulty, error)
+	GetAllCognition() ([]*model.Cognition, error)
+	GetAllTag() ([]*model.Tag, error)
+
 	// auth
 	CheckPlayer(username, password string) (*model.User, error)
 	GetUserByID(id int64) (*model.User, error)

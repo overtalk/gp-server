@@ -6,6 +6,24 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+func TestMysqlDriver_GetAllDifficulty(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	difficulty, err := mysqlDriver.GetAllDifficulty()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log(len(difficulty))
+	for _, d := range difficulty {
+		t.Logf("%+v\n", d)
+	}
+}
 func TestMysqlDriver_AddDifficulty(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {

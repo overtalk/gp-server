@@ -6,6 +6,24 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+func TestMysqlDriver_GetAllCognition(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	cognition, err := mysqlDriver.GetAllCognition()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log(len(cognition))
+	for _, c := range cognition {
+		t.Logf("%+v\n", c)
+	}
+}
 func TestMysqlDriver_AddCognition(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {

@@ -50,7 +50,7 @@ message Problem
     int64 judge_limit_time = 8;                     // 判题时间限制 
     int64 judge_limit_mem = 9;                      // 判题内存限制   
     repeated int64 tags = 10;                       // 题目标签
-    int64 difficluty = 11;                            // 难度
+    int64 difficulty = 11;                            // 难度
     int64 cognition = 12;                             // 认知程度
     int64 submit_time = 13;                         // 提交次数
     int64 accept_time = 14;                         // 通过次数

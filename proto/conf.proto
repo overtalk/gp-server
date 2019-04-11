@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package protocol;
+
+import "proto/status.proto";
+
+option go_package = "protocol;protocol";
+
+message Config
+{
+    Status status = 1;
+    map<int64,string> cognition = 2;
+    map<int64,string> tags = 3;
+    map<int64,string> difficulty = 4;
+}

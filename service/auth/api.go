@@ -65,3 +65,65 @@ func (a *Auth) Logout(r *http.Request) proto.Message {
 	a.cache.DelTokenByToken(token) // nolint : err check
 	return resp
 }
+
+// GetConfig : get all config
+func (a *Auth) GetConfig(r *http.Request) proto.Message {
+	resp := &protocol.Config{Status: &protocol.Status{}}
+	token, err := utils.GetToken(r)
+	if err != nil {
+		logger.Sugar.Infof("missing token : %v", err)
+		resp.Status.Code = protocol.Code_NO_TOKEN
+		resp.Status.Message = "missing token"
+		return resp
+	}
+
+	// check token
+	_, err = a.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Infof("invalid token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	difficulty, err := a.db.GetAllDifficulty()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all difficulty : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all difficulty"
+		return resp
+	}
+	d := make(map[int64]string)
+	for _, v := range difficulty {
+		d[int64(v.Id)] = v.Detail
+	}
+	resp.Difficulty = d
+
+	cognition, err := a.db.GetAllCognition()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all cognition : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all cognition"
+		return resp
+	}
+	c := make(map[int64]string)
+	for _, v := range cognition {
+		c[int64(v.Id)] = v.Detail
+	}
+	resp.Cognition = c
+
+	tags, err := a.db.GetAllTag()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all tags : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all tags"
+		return resp
+	}
+	t := make(map[int64]string)
+	for _, v := range tags {
+		t[int64(v.Id)] = v.Detail
+	}
+	resp.Tags = t
+
+	return resp
+}

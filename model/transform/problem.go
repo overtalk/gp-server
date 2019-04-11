@@ -22,7 +22,7 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 		In:             p.Detail.InDescription,
 		Out:            p.Detail.OutDescription,
 		Hint:           p.Detail.Hint,
-		Difficluty:     int64(p.Detail.Difficulty),
+		Difficulty:     int64(p.Detail.Difficulty),
 		Cognition:      int64(p.Detail.Cognition),
 		SubmitTime:     int64(p.Detail.SubmitTime),
 		AcceptTime:     int64(p.Detail.Ac),
@@ -52,7 +52,7 @@ func (p *IntactProblem) TurnMinProto() *protocol.Problem {
 	return &protocol.Problem{
 		Id:         p.Detail.Id,
 		Title:      p.Detail.Title,
-		Difficluty: int64(p.Detail.Difficulty),
+		Difficulty: int64(p.Detail.Difficulty),
 		Cognition:  int64(p.Detail.Cognition),
 		SubmitTime: int64(p.Detail.SubmitTime),
 		AcceptTime: int64(p.Detail.Ac),
@@ -75,7 +75,7 @@ func ProtoToProblem(p *protocol.Problem) *IntactProblem {
 		Hint:           p.Hint,
 		JudgeLimitMem:  int(p.JudgeLimitMem),
 		JudgeLimitTime: int(p.JudgeLimitTime),
-		Difficulty:     int(p.Difficluty),
+		Difficulty:     int(p.Difficulty),
 		Cognition:      int(p.Cognition),
 	}
 	// set problem test data

@@ -10,4 +10,5 @@ import (
 type Auth interface {
 	Login(r *http.Request) proto.Message
 	Logout(r *http.Request) proto.Message
+	GetConfig(r *http.Request) proto.Message
 }

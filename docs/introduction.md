@@ -55,6 +55,16 @@
   
   
 
+- [proto/conf.proto](#proto/conf.proto)
+    - [Config](#protocol.Config)
+    - [Config.CognitionEntry](#protocol.Config.CognitionEntry)
+    - [Config.DifficultyEntry](#protocol.Config.DifficultyEntry)
+    - [Config.TagsEntry](#protocol.Config.TagsEntry)
+  
+  
+  
+  
+
 - [proto/judge.proto](#proto/judge.proto)
     - [JudgeRequest](#protocol.JudgeRequest)
     - [JudgeResponse](#protocol.JudgeResponse)
@@ -660,7 +670,7 @@ Problem : 题目
 | judge_limit_time | [int64](#int64) |  | 判题时间限制 |
 | judge_limit_mem | [int64](#int64) |  | 判题内存限制 |
 | tags | [int64](#int64) | repeated | 题目标签 |
-| difficluty | [int64](#int64) |  | 难度 |
+| difficulty | [int64](#int64) |  | 难度 |
 | cognition | [int64](#int64) |  | 认知程度 |
 | submit_time | [int64](#int64) |  | 提交次数 |
 | accept_time | [int64](#int64) |  | 通过次数 |
@@ -760,6 +770,88 @@ Role : 用户角色（学生/老师...）
 | TEACHER | 1 |  |
 | MANAGER | 2 |  |
 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="proto/conf.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/conf.proto
+
+
+
+<a name="protocol.Config"></a>
+
+### Config
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| cognition | [Config.CognitionEntry](#protocol.Config.CognitionEntry) | repeated |  |
+| tags | [Config.TagsEntry](#protocol.Config.TagsEntry) | repeated |  |
+| difficulty | [Config.DifficultyEntry](#protocol.Config.DifficultyEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.Config.CognitionEntry"></a>
+
+### Config.CognitionEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.Config.DifficultyEntry"></a>
+
+### Config.DifficultyEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.Config.TagsEntry"></a>
+
+### Config.TagsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+ 
 
  
 

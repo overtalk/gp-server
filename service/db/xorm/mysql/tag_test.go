@@ -7,6 +7,24 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+func TestMysqlDriver_GetAllTag(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	tags, err := mysqlDriver.GetAllTag()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log(len(tags))
+	for _, tag := range tags {
+		t.Logf("%+v\n", tag)
+	}
+}
 func TestMysqlDriver_AddTag(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
