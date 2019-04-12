@@ -50,9 +50,11 @@ func TestAddSomeDifficulty(t *testing.T) {
 		return
 	}
 	var d = []string{
-		"简单",
+		"很简单",
+		"不那么简单",
 		"中等",
-		"困难",
+		"有点困难",
+		"很困难",
 	}
 
 	for _, v := range d {
