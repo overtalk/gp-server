@@ -10,7 +10,6 @@ type Problem struct {
 	JudgeLimitTime int    `xorm:"not null INT(11)"`
 	JudgeLimitMem  int    `xorm:"not null INT(11)"`
 	Tags           string `xorm:"not null TEXT"`
-	Cognition      int    `xorm:"not null default 1 index INT(11)"`
 	Difficulty     int    `xorm:"not null default 1 index INT(11)"`
 	CreateTime     int64  `xorm:"not null default 0 BIGINT(64)"`
 	Publisher      int64  `xorm:"not null index BIGINT(64)"`

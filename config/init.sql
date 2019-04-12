@@ -18,14 +18,6 @@ CREATE TABLE IF NOT EXISTS `difficulty` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- cognition 题目认知程度分级表
-CREATE TABLE IF NOT EXISTS `cognition` (
-  `id` int(11) NOT NULL auto_increment,
-  `detail` varchar(100) NOT NULL,
-  
-	PRIMARY KEY(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 -- 用户表
 CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(64) NOT NULL auto_increment,
@@ -98,9 +90,8 @@ CREATE TABLE IF NOT EXISTS `problem` (
   `hint` text,         -- 题目提示（可为空）
   `judge_limit_time` int(11) NOT NULL,    -- 时间限制
   `judge_limit_mem` int(11) NOT NULL,     -- 内存限制
-  `tags` text NOT NULL,                   -- tags
 
-  `cognition` int(11) NOT NULL DEFAULT 1,   -- 认知程度
+  `tags` text NOT NULL,                   -- tags
   `difficulty` int(11) NOT NULL DEFAULT 1,   -- 难度
   `create_time`  bigint(64) NOT NULL DEFAULT 0,  -- 创建时间
   `publisher` bigint(64) NOT NULL,              -- 发布人
@@ -119,17 +110,16 @@ CREATE TABLE IF NOT EXISTS `problem` (
 
 	PRIMARY KEY(`id`),
   foreign key(`publisher`) references `user`(`id`),
-  foreign key(`difficulty`) references `difficulty`(`id`),
-  foreign key(`cognition`) references `cognition`(`id`)  
+  foreign key(`difficulty`) references `difficulty`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 试卷表
 CREATE TABLE IF NOT EXISTS `paper` (
   `id` bigint(64) NOT NULL auto_increment,
 
-  `difficulty`  text NOT NULL,    
-  `tags`  text NOT NULL,    
-  `cognition` text NOT NULL,                 -- tags
+  `difficulty` int(11) NOT NULL,    
+  `problem_num`  int(11) NOT NULL,    
+  `tags` text NOT NULL,                 -- tags
 
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -47,7 +47,6 @@ func getMysqlDriver() (*db.MysqlDriver, error) {
 
 func TestMysqlDriver_AddTestData(t *testing.T) {
 	TestAddSomeGlobalAnnouncement(t)
-	TestAddSomeCognition(t)
 	TestAddSomeDifficulty(t)
 	TestAddSomeTags(t)
 	TestAddSomeUsers(t)

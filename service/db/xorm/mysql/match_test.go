@@ -35,15 +35,13 @@ func TestMysqlDriver_AddMatch(t *testing.T) {
 		return
 	}
 
-	d := make(map[int64]int64)
-	d[0] = 1
-	d[1] = 2
+	d := []int64{1, 2}
 	bytes, _ := json.Marshal(d)
 
 	p := model.Paper{
-		Difficulty: string(bytes),
+		Difficulty: 1,
 		Tags:       string(bytes),
-		Cognition:  string(bytes),
+		ProblemNum: 3,
 	}
 	paper := &transform.Paper{
 		Paper: p,
@@ -186,15 +184,13 @@ func TestAddSomeMatches(t *testing.T) {
 		return
 	}
 
-	d := make(map[int64]int64)
-	d[0] = 1
-	d[1] = 2
+	d := []int64{1, 2}
 	bytes, _ := json.Marshal(d)
 	for i := 0; i < 10; i++ {
 		p := model.Paper{
-			Difficulty: string(bytes),
 			Tags:       string(bytes),
-			Cognition:  string(bytes),
+			Difficulty: 1,
+			ProblemNum: 3,
 		}
 		paper := &transform.Paper{
 			Paper: p,

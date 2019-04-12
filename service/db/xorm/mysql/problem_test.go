@@ -114,7 +114,6 @@ func TestMysqlDriver_AddProblem(t *testing.T) {
 		Tags:           string(data),
 		Publisher:      1,
 		CreateTime:     time.Now().Unix(),
-		Cognition:      1,
 	}
 	testData := []*model.TestData{
 		&model.TestData{
@@ -220,7 +219,6 @@ func TestAddSomeProblems(t *testing.T) {
 			JudgeLimitTime: 1000,
 			JudgeLimitMem:  134217728,
 			Difficulty:     1,
-			Cognition:      1,
 			Tags:           string(data),
 			LastUsed:       time.Now().Unix(),
 			CreateTime:     time.Now().Unix(),
