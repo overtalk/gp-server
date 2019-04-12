@@ -54,7 +54,6 @@
 
 - [proto/conf.proto](#proto/conf.proto)
     - [Config](#protocol.Config)
-    - [Config.CognitionEntry](#protocol.Config.CognitionEntry)
     - [Config.DifficultyEntry](#protocol.Config.DifficultyEntry)
     - [Config.TagsEntry](#protocol.Config.TagsEntry)
   
@@ -746,25 +745,8 @@ Role : 用户角色（学生/老师...）
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
-| cognition | [Config.CognitionEntry](#protocol.Config.CognitionEntry) | repeated |  |
 | tags | [Config.TagsEntry](#protocol.Config.TagsEntry) | repeated |  |
 | difficulty | [Config.DifficultyEntry](#protocol.Config.DifficultyEntry) | repeated |  |
-
-
-
-
-
-
-<a name="protocol.Config.CognitionEntry"></a>
-
-### Config.CognitionEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [int64](#int64) |  |  |
-| value | [string](#string) |  |  |
 
 
 

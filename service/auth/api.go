@@ -99,19 +99,6 @@ func (a *Auth) GetConfig(r *http.Request) proto.Message {
 	}
 	resp.Difficulty = d
 
-	cognition, err := a.db.GetAllCognition()
-	if err != nil {
-		logger.Sugar.Errorf("failed to get all cognition : %v", err)
-		resp.Status.Code = protocol.Code_INTERNAL
-		resp.Status.Message = "failed to get all cognition"
-		return resp
-	}
-	c := make(map[int64]string)
-	for _, v := range cognition {
-		c[int64(v.Id)] = v.Detail
-	}
-	resp.Cognition = c
-
 	tags, err := a.db.GetAllTag()
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all tags : %v", err)

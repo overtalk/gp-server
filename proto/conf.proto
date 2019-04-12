@@ -9,7 +9,6 @@ option go_package = "protocol;protocol";
 message Config
 {
     Status status = 1;
-    map<int64,string> cognition = 2;
-    map<int64,string> tags = 3;
-    map<int64,string> difficulty = 4;
+    map<int64,string> tags = 2;
+    map<int64,string> difficulty = 3;
 }
