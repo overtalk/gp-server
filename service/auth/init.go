@@ -24,4 +24,5 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	gate.RegisterRoute("/login", "POST", module.Login)
 	gate.RegisterRoute("/logout", "GET", module.Logout)
 	gate.RegisterRoute("/conf", "GET", module.GetConfig)
+	gate.RegisterRoute("/userRole", "GET", module.GetUserRole)
 }

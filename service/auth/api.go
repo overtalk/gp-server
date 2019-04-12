@@ -114,3 +114,39 @@ func (a *Auth) GetConfig(r *http.Request) proto.Message {
 
 	return resp
 }
+
+// GetUserRole : get user role
+func (a *Auth) GetUserRole(r *http.Request) proto.Message {
+	resp := &protocol.UserRole{Status: &protocol.Status{}}
+	token, err := utils.GetToken(r)
+	if err != nil {
+		logger.Sugar.Infof("missing token : %v", err)
+		resp.Status.Code = protocol.Code_NO_TOKEN
+		resp.Status.Message = "missing token"
+		return resp
+	}
+
+	// check token
+	_, err = a.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Infof("invalid token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	roles, err := a.db.GetAllRole()
+	if err != nil {
+		logger.Sugar.Errorf("failed to get all difficulty : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get all difficulty"
+		return resp
+	}
+	d := make(map[int64]string)
+	for _, v := range roles {
+		d[int64(v.Id)] = v.Detail
+	}
+	resp.Role = d
+
+	return resp
+}

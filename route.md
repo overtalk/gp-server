@@ -5,6 +5,7 @@
 | 功能描述 | 路由 | HTTP方法 | protobuf |
 | ----- | ---- | ----- | ---- |
 | 配置 | /conf  | GET |  conf.proto --> Config |
+| 用户角色 | /userRole  | GET |  conf.proto --> UserRole |
 
 ## 登陆模块
 
