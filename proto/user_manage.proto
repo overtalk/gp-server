@@ -10,10 +10,9 @@ option go_package = "protocol;protocol";
 // 批量获取用户信息
 message GetUsersReq
 {
-    Role role = 1;
-    bool get_all = 2;
-    int64 page_index = 3;
-    int64 page_num = 4;
+    int64 role = 1;
+    int64 page_index = 2;
+    int64 page_num = 3;
 }
 message GetUsersResp
 {

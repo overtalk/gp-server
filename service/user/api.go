@@ -28,10 +28,10 @@ func (u *User) GetUsers(r *http.Request) proto.Message {
 	var err error
 	// get required users informations
 	role := req.Role
-	if req.GetAll {
+	if req.Role == 0 {
 		users, err = u.db.GetUsers(req.PageNum, req.PageIndex)
 	} else {
-		users, err = u.db.GetUsersByRole(req.PageNum, req.PageIndex, int64(role))
+		users, err = u.db.GetUsersByRole(req.PageNum, req.PageIndex, role)
 	}
 	if err != nil {
 		logger.Sugar.Errorf("failed to get users : %v", err)

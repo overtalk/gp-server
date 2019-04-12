@@ -4,19 +4,11 @@ package protocol;
 
 option go_package = "protocol;protocol";
 
-// Role : 用户角色（学生/老师...）
-enum Role
-{
-    STUDENT = 0;
-    TEACHER = 1;
-    MANAGER = 2;
-}
-
 // UserInfo : 用户基本信息
 message UserInfo 
 {
     int64 id = 1;
-    Role role = 4;
+    int64 role = 4;
     string name = 5;
     bool sex = 6;
     string phone = 7;

@@ -47,7 +47,6 @@
     - [SubmitRecord](#protocol.SubmitRecord)
     - [UserInfo](#protocol.UserInfo)
   
-    - [Role](#protocol.Role)
   
   
   
@@ -691,7 +690,7 @@ UserInfo : 用户基本信息
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [int64](#int64) |  |  |
-| role | [Role](#protocol.Role) |  |  |
+| role | [int64](#int64) |  |  |
 | name | [string](#string) |  |  |
 | sex | [bool](#bool) |  |  |
 | phone | [string](#string) |  |  |
@@ -707,19 +706,6 @@ UserInfo : 用户基本信息
 
 
  
-
-
-<a name="protocol.Role"></a>
-
-### Role
-Role : 用户角色（学生/老师...）
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| STUDENT | 0 |  |
-| TEACHER | 1 |  |
-| MANAGER | 2 |  |
-
 
  
 
@@ -1461,8 +1447,7 @@ Role : 用户角色（学生/老师...）
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| role | [Role](#protocol.Role) |  |  |
-| get_all | [bool](#bool) |  |  |
+| role | [int64](#int64) |  |  |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
 

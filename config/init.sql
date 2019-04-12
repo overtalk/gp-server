@@ -2,6 +2,14 @@ DROP database IF EXISTS gp_oj;
 CREATE DATABASE IF NOT EXISTS gp_oj;
 USE gp_oj;
 
+-- role 标签表
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- tag 标签表
 CREATE TABLE IF NOT EXISTS `tag` (
   `id` int(11) NOT NULL auto_increment,
@@ -23,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(64) NOT NULL auto_increment,
   `account` varchar(50) NOT NULL UNIQUE,  -- 用户登陆的账号密码
   `password` varchar(100) NOT NULL,
-  `role` tinyint(4) NOT NULL DEFAULT 0,  -- 0 ： 学生,
+  `role` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `sex` boolean NOT NULL DEFAULT 0,
   
@@ -34,7 +42,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `create` bigint(64) NOT NULL,        -- 创建时间 ： 时间戳
   `last_login` bigint(64) NOT NULL,    -- 上次登陆时间 ： 时间戳
 
-	PRIMARY KEY(`id`)
+	PRIMARY KEY(`id`),
+  foreign key(`role`) references `role`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 比赛表

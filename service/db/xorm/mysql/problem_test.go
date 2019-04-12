@@ -241,7 +241,5 @@ func TestAddSomeProblems(t *testing.T) {
 			t.Error(err)
 			return
 		}
-
-		t.Logf("%+v\n", problem)
 	}
 }

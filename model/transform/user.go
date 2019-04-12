@@ -18,7 +18,7 @@ func UserToProto(u *model.User) *protocol.UserInfo {
 		Name:      u.Name,
 		// Password:  u.Password,
 		Phone:  u.Phone,
-		Role:   protocol.Role(u.Role),
+		Role:   int64(u.Role),
 		School: u.School,
 		Sex:    u.Sex == 1,
 	}

@@ -6,6 +6,7 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/model/xorm"
+	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
 )
@@ -43,7 +44,7 @@ func (c *Class) checkArgsandAuth(r *http.Request, req proto.Message) (*model.Use
 		}
 	}
 
-	if user.Role != int(protocol.Role_MANAGER) {
+	if user.Role != module.MANAGER {
 		return nil, &protocol.Status{
 			Code:    protocol.Code_PERMISSION_DENIED,
 			Message: "permission denied",

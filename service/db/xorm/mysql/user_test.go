@@ -222,7 +222,7 @@ func TestAddSomeUsers(t *testing.T) {
 	num := 10
 	for i := 0; i < num; i++ {
 		key := keyWord + fmt.Sprintf("%d", i)
-		role, _ := utils.RandInt(0, 2)
+		role, _ := utils.RandInt(1, 3)
 		sex, _ := utils.RandInt(0, 1)
 		user := &model.User{
 			Account:   key,

@@ -5,11 +5,16 @@ import (
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
+const (
+	MANAGER = 3
+)
+
 // DB : database module
 type DB interface {
 	// conf
 	GetAllDifficulty() ([]*model.Difficulty, error)
 	GetAllTag() ([]*model.Tag, error)
+	GetAllRole() ([]*model.Role, error)
 
 	// auth
 	CheckPlayer(username, password string) (*model.User, error)
