@@ -11,9 +11,8 @@ option go_package = "protocol;protocol";
 message GetProblemsReq
 {
     int64 tag = 1;
-    bool get_all = 2;
-    int64 page_index = 3;
-    int64 page_num = 4;
+    int64 page_index = 2;
+    int64 page_num = 3;
 }
 message GetProblemsResp
 {

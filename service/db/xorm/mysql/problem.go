@@ -8,8 +8,13 @@ import (
 )
 
 // GetProblemsNum : get the num of problems
-func (m *MysqlDriver) GetProblemsNum() (int64, error) {
-	return m.conn.Count(&model.Problem{})
+func (m *MysqlDriver) GetProblemsNum(tag int) (int64, error) {
+	if tag == 0 {
+		m.conn.Count(&model.Problem{})
+	}
+	return m.conn.Where("tags like ? || tags like ? || tags like ? || tags like ?",
+		"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
+		Count(&model.Problem{})
 }
 
 // GetProblems : get problems

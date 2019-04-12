@@ -46,7 +46,7 @@ func (u *User) GetUsers(r *http.Request) proto.Message {
 	}
 
 	// get all number
-	usersNum, err := u.db.GetUsersNum()
+	usersNum, err := u.db.GetUsersNum(req.Role)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get the number of users : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL

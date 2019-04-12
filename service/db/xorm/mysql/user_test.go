@@ -18,7 +18,7 @@ func TestMysqlDriver_GetUsersNum(t *testing.T) {
 		return
 	}
 
-	num, err := mysqlDriver.GetUsersNum()
+	num, err := mysqlDriver.GetUsersNum(2)
 	if err != nil {
 		t.Error(err)
 		return

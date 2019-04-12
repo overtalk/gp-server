@@ -5,8 +5,11 @@ import (
 )
 
 // GetUsersNum : get the num of users
-func (m *MysqlDriver) GetUsersNum() (int64, error) {
-	return m.conn.Count(&model.User{})
+func (m *MysqlDriver) GetUsersNum(role int64) (int64, error) {
+	if role == 0 {
+		return m.conn.Count(&model.User{})
+	}
+	return m.conn.Where("role = ?", role).Count(&model.User{})
 }
 
 // GetUserByID : get uer model by user id

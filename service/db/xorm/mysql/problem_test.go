@@ -18,7 +18,7 @@ func TestMysqlDriver_GetProblemsNum(t *testing.T) {
 		return
 	}
 
-	num, err := mysqlDriver.GetProblemsNum()
+	num, err := mysqlDriver.GetProblemsNum(3)
 	if err != nil {
 		t.Error(err)
 		return
