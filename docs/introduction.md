@@ -55,6 +55,8 @@
     - [Config](#protocol.Config)
     - [Config.DifficultyEntry](#protocol.Config.DifficultyEntry)
     - [Config.TagsEntry](#protocol.Config.TagsEntry)
+    - [UserRole](#protocol.UserRole)
+    - [UserRole.RoleEntry](#protocol.UserRole.RoleEntry)
   
   
   
@@ -758,6 +760,38 @@ UserInfo : 用户基本信息
 <a name="protocol.Config.TagsEntry"></a>
 
 ### Config.TagsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.UserRole"></a>
+
+### UserRole
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| role | [UserRole.RoleEntry](#protocol.UserRole.RoleEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.UserRole.RoleEntry"></a>
+
+### UserRole.RoleEntry
 
 
 

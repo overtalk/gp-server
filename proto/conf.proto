@@ -12,3 +12,9 @@ message Config
     map<int64,string> tags = 2;
     map<int64,string> difficulty = 3;
 }
+
+message UserRole
+{
+    Status status = 1;
+    map<int64,string> role = 2;
+}
