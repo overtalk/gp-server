@@ -27,29 +27,6 @@ func TestMysqlDriver_GetProblemsNum(t *testing.T) {
 	t.Logf("the num of problems : %d", num)
 }
 
-func TestMysqlDriver_GetProblems(t *testing.T) {
-	mysqlDriver, err := getMysqlDriver()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	var pageIndex int64 = 1
-	var pageNum int64 = 3
-	problems, err := mysqlDriver.GetProblems(pageNum, pageIndex)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	t.Log(len(problems))
-	for _, problem := range problems {
-		t.Logf("%+v\n", problem.Name)
-		t.Logf("%+v\n", problem.Problem)
-		t.Logf("%+v\n", problem.InAndOutExample)
-	}
-}
-
 func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
@@ -58,9 +35,10 @@ func TestMysqlDriver_GetProblemsByTagID(t *testing.T) {
 	}
 
 	var tagID = 2
+	keyword := "2"
 	var pageIndex int64 = 1
 	var pageNum int64 = 1000
-	problems, err := mysqlDriver.GetProblemsByTagID(pageNum, pageIndex, tagID)
+	problems, err := mysqlDriver.GetProblemsByTagID(pageNum, pageIndex, tagID, keyword)
 	if err != nil {
 		t.Error(err)
 		return

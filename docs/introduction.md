@@ -1265,6 +1265,7 @@ UserInfo : 用户基本信息
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | tag | [int64](#int64) |  |  |
+| keyword | [string](#string) |  |  |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
 

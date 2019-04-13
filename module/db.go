@@ -30,8 +30,7 @@ type DB interface {
 
 	// problem manage
 	GetProblemsNum(tag int) (int64, error)
-	GetProblems(pageNum, pageIndex int64) ([]*transform.IntactProblem, error)
-	GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*transform.IntactProblem, error)
+	GetProblemsByTagID(pageNum, pageIndex int64, tag int, keyword string) ([]*transform.IntactProblem, error)
 	AddProblem(problem *transform.IntactProblem) error
 	GetProblemByID(id int64) (*transform.IntactProblem, error)
 	UpdateProblem(problem *transform.IntactProblem) error

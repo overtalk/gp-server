@@ -41,12 +41,7 @@ func (p *Problem) GetProblems(r *http.Request) proto.Message {
 		return resp
 	}
 
-	var problems []*transform.IntactProblem
-	if req.Tag == 0 {
-		problems, err = p.db.GetProblems(req.PageNum, req.PageIndex)
-	} else {
-		problems, err = p.db.GetProblemsByTagID(req.PageNum, req.PageIndex, int(req.Tag))
-	}
+	problems, err := p.db.GetProblemsByTagID(req.PageNum, req.PageIndex, int(req.Tag), req.Keyword)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get all problems : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL

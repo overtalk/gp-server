@@ -38,15 +38,41 @@ func (m *MysqlDriver) GetProblems(pageNum, pageIndex int64) ([]*transform.Intact
 }
 
 // GetProblemsByTagID : get problem by tag id
-func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int) ([]*transform.IntactProblem, error) {
+func (m *MysqlDriver) GetProblemsByTagID(pageNum, pageIndex int64, tag int, keyword string) ([]*transform.IntactProblem, error) {
 	problems := make([]*transform.IntactProblem, 0)
-	if err := m.conn.
-		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
-		Join("INNER", "user", "user.id = problem.publisher").
-		Where("tags like ? || tags like ? || tags like ? || tags like ?",
-			"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
-		Find(&problems); err != nil {
-		return nil, err
+	if tag == 0 && keyword == "" {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Join("INNER", "user", "user.id = problem.publisher").
+			Find(&problems); err != nil {
+			return nil, err
+		}
+	} else if tag != 0 && keyword == "" {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Join("INNER", "user", "user.id = problem.publisher").
+			Where("tags like ? || tags like ? || tags like ? || tags like ?",
+				"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
+			Find(&problems); err != nil {
+			return nil, err
+		}
+	} else if tag == 0 && keyword != "" {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Join("INNER", "user", "user.id = problem.publisher").
+			Where("title like ?", "%"+keyword+"%").
+			Find(&problems); err != nil {
+			return nil, err
+		}
+	} else {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Join("INNER", "user", "user.id = problem.publisher").
+			Where("(tags like ? || tags like ? || tags like ? || tags like ?) && title like ?",
+				"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag), "%"+keyword+"%").
+			Find(&problems); err != nil {
+			return nil, err
+		}
 	}
 
 	for _, problem := range problems {
