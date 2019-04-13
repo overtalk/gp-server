@@ -1,7 +1,6 @@
 package config
 
 import (
-	"flag"
 	"fmt"
 	"sync"
 
@@ -9,12 +8,7 @@ import (
 	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/service/cache/redis"
 	"github.com/qinhan-shu/gp-server/service/db/xorm/mysql"
-	// "github.com/qinhan-shu/gp-server/utils/file"
 	"github.com/qinhan-shu/gp-server/utils/parse"
-)
-
-var (
-	judgeFileDir = flag.String("judgeFileDir", "/Users/qinhan/judge", "judge files dir")
 )
 
 // InitConfig is to get config
