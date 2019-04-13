@@ -244,4 +244,22 @@ func TestAddSomeUsers(t *testing.T) {
 			return
 		}
 	}
+
+	sex, _ := utils.RandInt(0, 1)
+	user := &model.User{
+		Account:   "1",
+		Password:  utils.MD5("1"),
+		Role:      2,
+		Name:      "lyx",
+		Sex:       sex,
+		Phone:     "111",
+		Email:     "xxx@xxx",
+		School:    "shu",
+		Create:    time.Now().Unix(),
+		LastLogin: time.Now().Unix(),
+	}
+	if err := mysqlDriver.AddUser(user); err != nil {
+		t.Error(err)
+		return
+	}
 }
