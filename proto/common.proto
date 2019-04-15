@@ -119,3 +119,11 @@ message Match
     string introduction = 7;    // 比赛简介
     int64 paper_id = 8;         // 试卷id
 }
+
+message ClassMember
+{
+    int64 user_id = 1;
+    string name = 2;
+    bool is_administrator = 3;
+    bool is_checked = 4;
+}

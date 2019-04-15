@@ -24,10 +24,14 @@
     - [AddClassResp](#protocol.AddClassResp)
     - [EditClassReq](#protocol.EditClassReq)
     - [EditClassResp](#protocol.EditClassResp)
+    - [EnterClassReq](#protocol.EnterClassReq)
+    - [EnterClassResp](#protocol.EnterClassResp)
     - [GetClassByIDReq](#protocol.GetClassByIDReq)
     - [GetClassByIDResp](#protocol.GetClassByIDResp)
     - [GetClassesReq](#protocol.GetClassesReq)
     - [GetClassesResp](#protocol.GetClassesResp)
+    - [GetMemberReq](#protocol.GetMemberReq)
+    - [GetMemberResp](#protocol.GetMemberResp)
     - [MemberManageReq](#protocol.MemberManageReq)
     - [MemberManageResp](#protocol.MemberManageResp)
   
@@ -39,6 +43,7 @@
 - [proto/common.proto](#proto/common.proto)
     - [Announcement](#protocol.Announcement)
     - [Class](#protocol.Class)
+    - [ClassMember](#protocol.ClassMember)
     - [Match](#protocol.Match)
     - [Paper](#protocol.Paper)
     - [Problem](#protocol.Problem)
@@ -392,6 +397,37 @@
 
 
 
+<a name="protocol.EnterClassReq"></a>
+
+### EnterClassReq
+进入班级
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_id | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.EnterClassResp"></a>
+
+### EnterClassResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+
 <a name="protocol.GetClassByIDReq"></a>
 
 ### GetClassByIDReq
@@ -449,6 +485,42 @@
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
 | classes | [Class](#protocol.Class) | repeated |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| total | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetMemberReq"></a>
+
+### GetMemberReq
+获取班级成员
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_id | [int64](#int64) |  |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetMemberResp"></a>
+
+### GetMemberResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| menbers | [ClassMember](#protocol.ClassMember) | repeated |  |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
 | total | [int64](#int64) |  |  |
@@ -556,6 +628,24 @@ Class : 班级信息
 | is_check | [bool](#bool) |  | 加入班级设置：false（无需审核，运行任何人进入），true（需要导师审核） |
 | create_time | [int64](#int64) |  | 班级创建时间 |
 | announcements | [Announcement](#protocol.Announcement) | repeated | 班级公告 |
+
+
+
+
+
+
+<a name="protocol.ClassMember"></a>
+
+### ClassMember
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| user_id | [int64](#int64) |  |  |
+| name | [string](#string) |  |  |
+| is_administrator | [bool](#bool) |  |  |
+| is_checked | [bool](#bool) |  |  |
 
 
 
@@ -1488,7 +1578,6 @@ UserInfo : 用户基本信息
 | ----- | ---- | ----- | ----------- |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
-| total | [int64](#int64) |  |  |
 
 
 

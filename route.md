@@ -28,6 +28,7 @@
 | 新增用户 | /addUsers | POST |  user_manage.proto --> AddUsersReq & AddUsersResp |
 | 更新用户 | /updateUsers | POST |  user_manage.proto --> UpdateUsersReq & UpdateUsersResp |
 | 删除用户 | /delUsers | POST |  user_manage.proto --> DelUsersReq & DelUsersResp |
+| 提交记录 | /submitRecord | POST |  user_manage.proto --> GetSubmitRecordReq & GetSubmitRecordResp |
 
 ### 题目管理 （目前没有判题文件的部分）
 
@@ -48,6 +49,8 @@
 | 新增班级 | /addClass | POST | class_manage.proto --> AddClassReq & AddClassResp |
 | 编辑班级 | /editClass | POST | class_manage.proto --> EditClassReq & EditClassResp |
 | 班级成员管理 | /memberManage | POST | class_manage.proto --> MemberManageReq & MemberManageResp |
+| 获得班级成员信息 | /getMembers | POST | class_manage.proto --> GetMemberReq & GetMemberResp |
+| 进入班级 | /enterClass | POST | class_manage.proto --> EnterClassReq & EnterClassResp |
 
 ### 公告管理 
 

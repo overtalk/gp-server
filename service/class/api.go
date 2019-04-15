@@ -170,3 +170,87 @@ func (c *Class) MemberManage(r *http.Request) proto.Message {
 	resp.IsSuccess = true
 	return resp
 }
+
+// GetMembers : get all members
+func (c *Class) GetMembers(r *http.Request) proto.Message {
+	req := &protocol.GetMemberReq{}
+	resp := &protocol.GetMemberResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = c.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	members, num, err := c.db.GetMembers(req.ClassId, req.PageNum, req.PageIndex)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get class members : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get class members"
+		return resp
+	}
+
+	for _, member := range members {
+		resp.Menbers = append(resp.Menbers, transform.UserClassToProto(member))
+	}
+	resp.PageNum = req.PageNum
+	resp.PageIndex = req.PageIndex
+	resp.Total = num
+
+	return resp
+}
+
+// EnterClass : enter class
+func (c *Class) EnterClass(r *http.Request) proto.Message {
+	req := &protocol.EnterClassReq{}
+	resp := &protocol.EnterClassResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	userID, err := c.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	if err := c.db.EnterClass(userID, req.ClassId); err != nil {
+		logger.Sugar.Errorf("failed to enter class : %v", err)
+		resp.IsSuccess = false
+	} else {
+		resp.IsSuccess = true
+	}
+
+	return resp
+}

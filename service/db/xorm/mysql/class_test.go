@@ -198,6 +198,43 @@ func TestMysqlDriver_MemberManage(t *testing.T) {
 	}
 }
 
+func TestMysqlDriver_GetMembers(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var classID int64 = 1
+	var pageIndex int64 = 1
+	var pageNum int64 = 3
+	members, num, err := mysqlDriver.GetMembers(classID, pageNum, pageIndex)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log("成员总量 : ", num)
+	for _, member := range members {
+		t.Log(member)
+	}
+}
+
+func TestMysqlDriver_EnterClass(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var classID int64 = 1
+	var userID int64 = 1
+	if err := mysqlDriver.EnterClass(userID, classID); err != nil {
+		t.Error(err)
+		return
+	}
+}
+
 func TestAddSomeClasses(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
@@ -240,6 +277,14 @@ func TestAddSomeClasses(t *testing.T) {
 		}); err != nil {
 			t.Error(err)
 			return
+		}
+
+		// add some members
+		for k := 1; k < 9; k++ {
+			if err := mysqlDriver.EnterClass(int64(k), class.Id); err != nil {
+				t.Error(err)
+				return
+			}
 		}
 	}
 }

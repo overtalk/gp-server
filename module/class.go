@@ -13,4 +13,6 @@ type Class interface {
 	AddClass(r *http.Request) proto.Message
 	EditClass(r *http.Request) proto.Message
 	MemberManage(r *http.Request) proto.Message
+	GetMembers(r *http.Request) proto.Message
+	EnterClass(r *http.Request) proto.Message
 }

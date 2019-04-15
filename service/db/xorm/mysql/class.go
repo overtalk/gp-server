@@ -3,6 +3,7 @@ package db
 import (
 	"github.com/go-xorm/core"
 
+	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
@@ -137,6 +138,57 @@ func (m *MysqlDriver) MemberManage(manageType, classID, memberID int64) error {
 		return err
 	}
 	if affectd == 0 {
+		return ErrNoRowsAffected
+	}
+	return nil
+}
+
+// GetMembers : get all class members
+func (m *MysqlDriver) GetMembers(classID, pageNum, pageIndex int64) ([]*transform.UserClass, int64, error) {
+	members := make([]*transform.UserClass, 0)
+	if err := m.conn.
+		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Join("INNER", "user", "user.id = user_class.user_id").
+		Where("class_id = ?", classID).
+		Find(&members); err != nil {
+		return nil, 0, err
+	}
+
+	num, err := m.conn.Where("class_id = ?", classID).Count(&model.UserClass{})
+	if err != nil {
+		logger.Sugar.Errorf("failed to get class members : %v", err)
+		return nil, 0, err
+	}
+
+	return members, num, nil
+}
+
+// EnterClass : add member to class
+func (m *MysqlDriver) EnterClass(userID, classID int64) error {
+	class, err := m.GetClassByID(classID)
+	if err != nil {
+		logger.Sugar.Errorf("failed to enter class (get class fail) : %v", err)
+		return err
+	}
+
+	isChecked := 1
+	if class.Class.IsCheck == 1 {
+		isChecked = 0
+	}
+
+	member := &model.UserClass{
+		UserId:    userID,
+		ClassId:   classID,
+		IsChecked: isChecked,
+	}
+
+	i, err := m.conn.Insert(member)
+	if err != nil {
+		logger.Sugar.Errorf("failed to insert : %v", err)
+		return err
+	}
+	if i == 0 {
+		logger.Sugar.Error(ErrNoRowsAffected.Error())
 		return ErrNoRowsAffected
 	}
 	return nil
