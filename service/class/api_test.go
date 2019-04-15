@@ -117,10 +117,11 @@ func TestUserManage_UpdateClass(t *testing.T) {
 
 	r, err := utils.MockHTTPReq("POST", "1", &protocol.EditClassReq{
 		Class: &protocol.Class{
-			Id:   12,
+			Id:   1,
 			Name: "测试班级007(编辑时候被修改啦asdfasdfasdf)",
 			Announcements: []*protocol.Announcement{
 				&protocol.Announcement{
+					Title:  "sdfsd",
 					Detail: "测试班级007的公告(编辑时候产生asdfasdfasd)",
 				},
 			},

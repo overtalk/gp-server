@@ -87,8 +87,10 @@ func (m *MysqlDriver) GetClassByID(id int64) (*transform.IntactClass, error) {
 // UpdateClass : update class
 func (m *MysqlDriver) UpdateClass(intactClass *transform.IntactClass) error {
 	// set class id
+	var announcements []model.Announcement
 	for _, announcement := range intactClass.Announcements {
-		announcement.ClassId = intactClass.Class.Id
+		announcement.Announcement.ClassId = intactClass.Class.Id
+		announcements = append(announcements, announcement.Announcement)
 	}
 
 	session := m.conn.NewSession()
@@ -101,7 +103,7 @@ func (m *MysqlDriver) UpdateClass(intactClass *transform.IntactClass) error {
 		return err
 	}
 
-	_, err = session.Insert(intactClass.Announcements)
+	_, err = session.Insert(announcements)
 	if err != nil {
 		session.Rollback()
 		return err
