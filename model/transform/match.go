@@ -33,6 +33,7 @@ func MatchToMinProto(u *model.Match) *protocol.Match {
 		Id:        u.Id,
 		IsPublic:  u.IsPublic == 1,
 		StartTime: u.StartTime,
+		EndTime:   u.EndTime,
 		Name:      u.Title,
 		IsOver:    isOver,
 		PaperId:   u.PaperId,
