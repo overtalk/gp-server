@@ -10,6 +10,7 @@ import (
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 	"github.com/qinhan-shu/gp-server/protocol"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 // GetUsers : get users
@@ -133,5 +134,50 @@ func (u *User) DelUsers(r *http.Request) proto.Message {
 		}
 	}
 
+	return resp
+}
+
+// GetSubmitRecord : submit record
+func (u *User) GetSubmitRecord(r *http.Request) proto.Message {
+	req := &protocol.GetSubmitRecordReq{}
+	resp := &protocol.GetSubmitRecordResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	userID, err := u.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	records, num, err := u.db.GetSubmitRecord(userID, req.PageNum, req.PageIndex)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get submit records : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to get submit records"
+		return resp
+	}
+
+	for _, v := range records {
+		resp.SubmitRecords = append(resp.SubmitRecords, transform.UserProblemToProto(v))
+	}
+	resp.PageNum = req.PageNum
+	resp.PageIndex = req.PageIndex
+	resp.Total = num
 	return resp
 }

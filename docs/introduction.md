@@ -133,6 +133,8 @@
     - [AddUsersResp](#protocol.AddUsersResp)
     - [DelUsersReq](#protocol.DelUsersReq)
     - [DelUsersResp](#protocol.DelUsersResp)
+    - [GetSubmitRecordReq](#protocol.GetSubmitRecordReq)
+    - [GetSubmitRecordResp](#protocol.GetSubmitRecordResp)
     - [GetUsersReq](#protocol.GetUsersReq)
     - [GetUsersResp](#protocol.GetUsersResp)
     - [UpdateUsersReq](#protocol.UpdateUsersReq)
@@ -674,9 +676,13 @@ SubmitRecord : 提交情况
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| problem | [Problem](#protocol.Problem) |  | 题目 |
+| problem_id | [int64](#int64) |  | 题目 |
+| user_id | [int64](#int64) |  | 用户id |
 | submit_time | [int64](#int64) |  | 提交时间戳 |
 | is_pass | [bool](#bool) |  | 是否通过 |
+| running_time | [int64](#int64) |  |  |
+| running_mem | [int64](#int64) |  |  |
+| code | [string](#string) |  |  |
 
 
 
@@ -949,7 +955,6 @@ UserInfo : 用户基本信息
 | status | [Status](#protocol.Status) |  |  |
 | token | [string](#string) |  |  |
 | user | [UserInfo](#protocol.UserInfo) |  | 用户信息 |
-| submit_records | [SubmitRecord](#protocol.SubmitRecord) | repeated | submit记录 （ TODO: 可以考虑提到新的协议中） |
 
 
 
@@ -1467,6 +1472,42 @@ UserInfo : 用户基本信息
 | status | [Status](#protocol.Status) |  |  |
 | succeed | [int64](#int64) | repeated |  |
 | fail | [int64](#int64) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.GetSubmitRecordReq"></a>
+
+### GetSubmitRecordReq
+获得做题记录
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| total | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetSubmitRecordResp"></a>
+
+### GetSubmitRecordResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| submit_records | [SubmitRecord](#protocol.SubmitRecord) | repeated |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| total | [int64](#int64) |  |  |
 
 
 

@@ -12,4 +12,5 @@ type User interface {
 	AddUsers(r *http.Request) proto.Message
 	UpdateUsers(r *http.Request) proto.Message
 	DelUsers(r *http.Request) proto.Message
+	GetSubmitRecord(r *http.Request) proto.Message
 }

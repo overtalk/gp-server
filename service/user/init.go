@@ -28,4 +28,5 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	gate.RegisterRoute("/addUsers", "POST", module.AddUsers)
 	gate.RegisterRoute("/updateUsers", "POST", module.UpdateUsers)
 	gate.RegisterRoute("/delUsers", "POST", module.DelUsers)
+	gate.RegisterRoute("/submitRecord", "POST", module.GetSubmitRecord)
 }

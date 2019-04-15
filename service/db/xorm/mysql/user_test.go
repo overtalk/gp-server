@@ -263,3 +263,30 @@ func TestAddSomeUsers(t *testing.T) {
 		return
 	}
 }
+
+func TestMysqlDriver_GetSubmitRecord(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var userID int64 = 1
+	var pageIndex int64 = 1
+	var pageNum int64 = 3
+	records, num, err := mysqlDriver.GetSubmitRecord(userID, pageNum, pageIndex)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("the num of  all records : %d", num)
+	t.Logf("the num of records : %d", len(records))
+
+	for _, record := range records {
+		t.Log(record.Id)
+		t.Log(record.UserId)
+		t.Log(record.ProblemId)
+		t.Log(record)
+	}
+}

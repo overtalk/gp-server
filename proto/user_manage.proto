@@ -58,3 +58,21 @@ message DelUsersResp
     repeated int64 succeed = 2;
     repeated int64 fail = 3;
 }
+
+
+// 获得做题记录
+message GetSubmitRecordReq 
+{
+    int64 page_index = 3;
+    int64 page_num = 4;
+    int64 total = 5;
+}
+
+message GetSubmitRecordResp 
+{
+    Status status = 1;
+    repeated SubmitRecord submit_records = 2;  
+    int64 page_index = 3;
+    int64 page_num = 4;
+    int64 total = 5;
+}
