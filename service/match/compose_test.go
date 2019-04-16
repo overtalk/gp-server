@@ -27,9 +27,9 @@ func TestIntelligentCompose(t *testing.T) {
 	}
 
 	paper := &protocol.Paper{
-		Difficulty:      1,
-		ProblemNum:      3,
-		KnowledgePoints: []int64{1, 2},
+		Difficulty: 1,
+		ProblemNum: 3,
+		Tags:       []int64{1, 2},
 	}
 
 	paperProblems, err := module.IntelligentCompose(problems, paper)

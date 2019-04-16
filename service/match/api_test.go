@@ -22,16 +22,16 @@ func TestUserManage_NewMatch(t *testing.T) {
 
 	r, err := utils.MockHTTPReq("POST", "1", &protocol.NewMatchReq{
 		Paper: &protocol.Paper{
-			Difficulty:      1,
-			ProblemNum:      3,
-			KnowledgePoints: []int64{1, 2, 3},
+			Difficulty: 1,
+			ProblemNum: 3,
+			Tags:       []int64{1, 2, 3},
 		},
 		Match: &protocol.Match{
 			IsPublic:     false,
 			StartTime:    time.Now().Unix(),
-			Duration:     10000,
+			EndTime:      time.Now().Unix() + 10000,
 			Name:         "呵呵呵考试",
-			Intriduction: "asdfasdf",
+			Introduction: "asdfasdf",
 		},
 	})
 	if err != nil {
@@ -131,7 +131,7 @@ func TestUserManage_GetPaperByID(t *testing.T) {
 		return
 	}
 
-	t.Log(resp.Paper.KnowledgePoints)
+	t.Log(resp.Paper.Tags)
 	t.Log("题目数量", len(resp.Paper.Problems))
 	t.Log(resp.Paper.Problems)
 }
