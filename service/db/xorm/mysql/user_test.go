@@ -237,7 +237,7 @@ func TestAddSomeUsers(t *testing.T) {
 			LastLogin: time.Now().Unix(),
 		}
 		if i == 0 {
-			user.Role = 2
+			user.Role = 3
 		}
 		if err := mysqlDriver.AddUser(user); err != nil {
 			t.Error(err)
