@@ -6,16 +6,6 @@ import "proto/status.proto";
 
 option go_package = "protocol;protocol";
 
-// 判题语言
-enum Language
-{
-    C = 0;
-    C_PLUS = 1;
-    JAVA = 2;
-    PYTHON2 = 3;
-    PYTHON3 = 4;
-}
-
 message JudgeResult{
     // 判题目结果
     enum Result{
@@ -39,7 +29,7 @@ message JudgeRequest
 {
     int64 id = 1;
     string src = 2;
-    Language language = 3;
+    int64 language = 3;
 }
 
 message JudgeResponse

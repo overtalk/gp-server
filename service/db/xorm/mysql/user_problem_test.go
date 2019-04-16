@@ -15,17 +15,18 @@ func TestMysqlDriver_AddSubmitRecord(t *testing.T) {
 		return
 	}
 	isPass, _ := utils.RandInt(0, 1)
+	language, _ := utils.RandInt(1, 4)
 	user, _ := utils.RandInt(1, 10)
 
 	userProblem := &model.UserProblem{
-		Code:             "木有代码哦",
-		Ispass:           isPass,
-		ProblemId:        int64(user),
-		RunningLangurage: isPass,
-		RunningMem:       10,
-		RunningTime:      1,
-		SubmitTime:       int(time.Now().Unix()),
-		UserId:           int64(user),
+		Code:            "木有代码哦",
+		Ispass:          isPass,
+		ProblemId:       int64(user),
+		RunningLanguage: language,
+		RunningMem:      10,
+		RunningTime:     1,
+		SubmitTime:      int(time.Now().Unix()),
+		UserId:          int64(user),
 	}
 
 	if err := mysqlDriver.AddSubmitRecord(userProblem); err != nil {
@@ -45,17 +46,18 @@ func TestAddSomeUserProblem(t *testing.T) {
 
 	for i := 0; i < 300; i++ {
 		isPass, _ := utils.RandInt(0, 1)
+		language, _ := utils.RandInt(1, 4)
 		user, _ := utils.RandInt(1, 10)
 
 		userProblem := &model.UserProblem{
-			Code:             "木有代码哦",
-			Ispass:           isPass,
-			ProblemId:        int64(user),
-			RunningLangurage: isPass,
-			RunningMem:       10,
-			RunningTime:      1,
-			SubmitTime:       int(time.Now().Unix()),
-			UserId:           int64(user),
+			Code:            "木有代码哦",
+			Ispass:          isPass,
+			ProblemId:       int64(user),
+			RunningLanguage: language,
+			RunningMem:      10,
+			RunningTime:     1,
+			SubmitTime:      int(time.Now().Unix()),
+			UserId:          int64(user),
 		}
 
 		if err := mysqlDriver.AddSubmitRecord(userProblem); err != nil {

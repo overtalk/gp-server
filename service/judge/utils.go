@@ -3,34 +3,34 @@ package judge
 import (
 	"fmt"
 
-	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils/judge"
 )
 
-func getJudgeConfig(language protocol.Language) *judge.LangConfig {
-	var conf *judge.LangConfig
-	switch language {
-	case protocol.Language_C:
-		{
-			conf = judge.CLangConfig
-		}
-	case protocol.Language_C_PLUS:
-		{
-			conf = judge.CPPLangConfig
-		}
-	case protocol.Language_JAVA:
-		{
-			conf = judge.JavaLangConfig
-		}
-	case protocol.Language_PYTHON3:
-		{
-			conf = judge.PY3LangConfig
-		}
-	default:
-		// python2
-		conf = judge.PY2LangConfig
-	}
-	return conf
+func getJudgeConfig(language int64) *judge.LangConfig {
+	// var conf *judge.LangConfig
+	// switch language {
+	// case protocol.Language_C:
+	// 	{
+	// 		conf = judge.CLangConfig
+	// 	}
+	// case protocol.Language_C_PLUS:
+	// 	{
+	// 		conf = judge.CPPLangConfig
+	// 	}
+	// case protocol.Language_JAVA:
+	// 	{
+	// 		conf = judge.JavaLangConfig
+	// 	}
+	// case protocol.Language_PYTHON3:
+	// 	{
+	// 		conf = judge.PY3LangConfig
+	// 	}
+	// default:
+	// 	// python2
+	// 	conf = judge.PY2LangConfig
+	// }
+	// return conf
+	return nil
 }
 
 func (j *Judge) getJudgeServer() (*judge.Client, error) {

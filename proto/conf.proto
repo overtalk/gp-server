@@ -18,3 +18,9 @@ message UserRole
     Status status = 1;
     map<int64,string> role = 2;
 }
+
+message JudgeLanguage
+{
+    Status status = 1;
+    map<int64,string> language = 2;
+}

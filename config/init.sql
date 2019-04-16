@@ -26,6 +26,14 @@ CREATE TABLE IF NOT EXISTS `difficulty` (
 	PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- language 判题语言
+CREATE TABLE IF NOT EXISTS `language` (
+  `id` int(11) NOT NULL auto_increment,
+  `detail` varchar(100) NOT NULL,
+  
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- 用户表
 CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(64) NOT NULL auto_increment,
@@ -164,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `user_problem` (
   `submit_time` int(64) NOT NULL,               -- 提交时间
 
   `isPass` boolean NOT NULL,
-  `running_langurage` tinyint(4) NOT NULL,      -- 运行语言
+  `running_language` int(11) NOT NULL,      -- 运行语言
   `running_time` int(64),                       -- 运行时间 
   `running_mem`  int(64),                       -- 运行内存
 
@@ -172,7 +180,8 @@ CREATE TABLE IF NOT EXISTS `user_problem` (
   
 	PRIMARY KEY(`id`),
   foreign key(`user_id`) references `user`(`id`),
-  foreign key(`problem_id`) references `problem`(`id`)  
+  foreign key(`problem_id`) references `problem`(`id`),
+  foreign key(`running_language`) references `language`(`id`)    
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 输入输出样例表
