@@ -204,8 +204,9 @@ func TestAddSomeProblems(t *testing.T) {
 		}
 		testData := []*model.TestData{
 			&model.TestData{
-				In:  "in 1",
-				Out: "out 1",
+				Index: 1,
+				In:    "in 1",
+				Out:   "out 1",
 			},
 			&model.TestData{
 				In:  "in 2",

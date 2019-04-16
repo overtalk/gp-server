@@ -10,7 +10,7 @@ import (
 // GetProblemsNum : get the num of problems
 func (m *MysqlDriver) GetProblemsNum(tag int) (int64, error) {
 	if tag == 0 {
-		m.conn.Count(&model.Problem{})
+		return m.conn.Count(&model.Problem{})
 	}
 	return m.conn.Where("tags like ? || tags like ? || tags like ? || tags like ?",
 		"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
@@ -96,8 +96,16 @@ func (m *MysqlDriver) AddProblem(problem *transform.IntactProblem) error {
 		session.Rollback()
 		return err
 	}
+
+	nextIndex, err := m.getNextTestDataIndex(problem.Problem.Id)
+	if err != nil {
+		session.Rollback()
+		return err
+	}
 	// set problem id
 	for _, example := range problem.InAndOutExample {
+		nextIndex++
+		example.Index = nextIndex
 		example.ProblemId = problem.Id
 	}
 	_, err = session.Insert(problem.InAndOutExample)
@@ -120,7 +128,33 @@ func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 		session.Rollback()
 		return err
 	}
-	_, err = session.Insert(problem.InAndOutExample)
+
+	nextIndex, err := m.getNextTestDataIndex(problem.Problem.Id)
+	if err != nil {
+		session.Rollback()
+		return err
+	}
+	// get insert and update test data
+	var (
+		toInsert []*model.TestData
+		toUpdate []*model.TestData
+	)
+	for _, v := range problem.InAndOutExample {
+		if v.Index == 0 {
+			toUpdate = append(toUpdate, v)
+		} else {
+			nextIndex++
+			v.Index = nextIndex
+			toInsert = append(toInsert, v)
+		}
+	}
+	_, err = session.Insert(toInsert)
+	if err != nil {
+		session.Rollback()
+		return err
+	}
+
+	_, err = session.Update(toUpdate)
 	if err != nil {
 		session.Rollback()
 		return err
@@ -168,4 +202,9 @@ func (m *MysqlDriver) GetAllProblems() ([]*model.Problem, error) {
 		return nil, err
 	}
 	return problems, nil
+}
+
+// GetNextTestDataIndex : get max index
+func (m *MysqlDriver) getNextTestDataIndex(id int64) (int64, error) {
+	return m.conn.Where("problem_id = ?", id).Count(&model.TestData{})
 }

@@ -186,12 +186,12 @@ CREATE TABLE IF NOT EXISTS `user_problem` (
 
 -- 输入输出样例表
 CREATE TABLE IF NOT EXISTS `test_data` (
-  `id` bigint(64) NOT NULL auto_increment,
   `problem_id` bigint(64) NOT NULL, 
+  `index` bigint(64) NOT NULL,
   `in` text,
   `out` text,
   
-	PRIMARY KEY(`id`),
+	PRIMARY KEY(`index`, `problem_id`),
   foreign key(`problem_id`) references `problem`(`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

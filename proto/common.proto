@@ -24,8 +24,9 @@ message UserInfo
 // ProblemExample : 题目输入输出样例
 message ProblemExample
 {
-    string input = 1;
-    string output = 2;
+    int64 index = 1;
+    string input = 2;
+    string output = 3;
 }
 
 

@@ -39,6 +39,7 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 	var example []*protocol.ProblemExample
 	for _, testData := range p.InAndOutExample {
 		example = append(example, &protocol.ProblemExample{
+			Index:  testData.Index,
 			Input:  testData.In,
 			Output: testData.Out,
 		})

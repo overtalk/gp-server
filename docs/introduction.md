@@ -732,6 +732,7 @@ ProblemExample : 题目输入输出样例
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| index | [int64](#int64) |  |  |
 | input | [string](#string) |  |  |
 | output | [string](#string) |  |  |
 
