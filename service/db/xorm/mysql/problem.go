@@ -198,7 +198,7 @@ func (m *MysqlDriver) GetProblemByID(id int64) (*transform.IntactProblem, error)
 // GetAllProblems : get all
 func (m *MysqlDriver) GetAllProblems() ([]*model.Problem, error) {
 	problems := make([]*model.Problem, 0)
-	if err := m.conn.Cols("id", "tags", "submit_time", "ac").
+	if err := m.conn.Cols("id", "tags", "submit_time", "ac", "difficulty", "last_used").
 		Find(&problems); err != nil {
 		return nil, err
 	}
