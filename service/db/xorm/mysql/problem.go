@@ -123,7 +123,8 @@ func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 	defer session.Close()
 
 	err := session.Begin()
-	_, err = session.Id(problem.Id).Update(&problem.Problem)
+	affected, err := session.Id(problem.Id).Update(&problem.Problem)
+	fmt.Println("affected rows in update problem : ", affected)
 	if err != nil {
 		session.Rollback()
 		return err
@@ -141,10 +142,10 @@ func (m *MysqlDriver) UpdateProblem(problem *transform.IntactProblem) error {
 	)
 	for _, v := range problem.InAndOutExample {
 		if v.Index == 0 {
-			toUpdate = append(toUpdate, v)
-		} else {
 			nextIndex++
 			v.Index = nextIndex
+			toUpdate = append(toUpdate, v)
+		} else {
 			toInsert = append(toInsert, v)
 		}
 	}

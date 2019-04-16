@@ -48,7 +48,7 @@ func (m *Match) NewMatch(r *http.Request) proto.Message {
 		resp.Status.Message = "failed to new paper"
 		return resp
 	}
-	resp.Result = true
+	resp.IsSuccess = true
 	return resp
 }
 
@@ -220,6 +220,6 @@ func (m *Match) EditMatch(r *http.Request) proto.Message {
 		return resp
 	}
 
-	resp.IsOk = true
+	resp.IsSuccess = true
 	return resp
 }

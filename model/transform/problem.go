@@ -90,6 +90,7 @@ func ProtoToProblem(p *protocol.Problem) *IntactProblem {
 	for _, testData := range p.InOutExamples {
 		inAndOutExample = append(inAndOutExample, &model.TestData{
 			ProblemId: problem.Id,
+			Index:     testData.Index,
 			In:        testData.Input,
 			Out:       testData.Output,
 		})

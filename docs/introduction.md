@@ -1126,7 +1126,7 @@ UserInfo : 用户基本信息
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
-| is_ok | [bool](#bool) |  |  |
+| is_success | [bool](#bool) |  |  |
 
 
 
@@ -1255,7 +1255,7 @@ UserInfo : 用户基本信息
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
-| result | [bool](#bool) |  |  |
+| is_success | [bool](#bool) |  |  |
 
 
 

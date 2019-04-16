@@ -16,7 +16,7 @@ message NewMatchReq
 message NewMatchResp
 {
     Status status = 1;
-    bool result = 2;
+    bool is_success = 2;
 }
 
 // 拿到所有的比赛
@@ -64,5 +64,5 @@ message EditMatchReq
 message EditMatchResp
 {
     Status status = 1;
-    bool is_ok = 2;
+    bool is_success = 2;
 }
