@@ -774,6 +774,7 @@ SubmitRecord : 提交情况
 | running_time | [int64](#int64) |  |  |
 | running_mem | [int64](#int64) |  |  |
 | code | [string](#string) |  |  |
+| running_lan | [int64](#int64) |  |  |
 
 
 

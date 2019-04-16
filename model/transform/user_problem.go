@@ -15,5 +15,6 @@ func UserProblemToProto(u *model.UserProblem) *protocol.SubmitRecord {
 		RunningMem:  int64(u.RunningMem),
 		RunningTime: int64(u.RunningTime),
 		Code:        u.Code,
+		RunningLan:  int64(u.RunningLanguage),
 	}
 }

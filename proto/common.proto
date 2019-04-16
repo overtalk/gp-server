@@ -60,6 +60,7 @@ message SubmitRecord
     int64 running_time = 5;     
     int64 running_mem = 6;
     string code = 7;
+    int64 running_lan = 8;
 }
 
 // Announcement : 公告，包括班级公告和全局公告
