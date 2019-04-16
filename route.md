@@ -6,6 +6,7 @@
 | ----- | ---- | ----- | ---- |
 | 配置 | /conf  | GET |  conf.proto --> Config |
 | 用户角色 | /userRole  | GET |  conf.proto --> UserRole |
+| 判题语言 | /getAllLanguage  | GET |  conf.proto --> JudgeLanguage |
 
 ## 登陆模块
 

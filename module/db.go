@@ -13,6 +13,7 @@ const (
 type DB interface {
 	// conf
 	GetAllDifficulty() ([]*model.Difficulty, error)
+	GetAllLanguage() ([]*model.Language, error)
 	GetAllTag() ([]*model.Tag, error)
 	GetAllRole() ([]*model.Role, error)
 

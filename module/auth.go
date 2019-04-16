@@ -12,4 +12,5 @@ type Auth interface {
 	Logout(r *http.Request) proto.Message
 	GetConfig(r *http.Request) proto.Message
 	GetUserRole(r *http.Request) proto.Message
+	GetAllLanguage(r *http.Request) proto.Message
 }
