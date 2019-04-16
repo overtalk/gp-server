@@ -65,6 +65,8 @@ message GetSubmitRecordReq
 {
     int64 page_index = 1;
     int64 page_num = 2;
+    int64 problem_id = 3;
+    int64 user_id = 4;
 }
 
 message GetSubmitRecordResp 

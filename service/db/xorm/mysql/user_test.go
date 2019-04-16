@@ -272,9 +272,10 @@ func TestMysqlDriver_GetSubmitRecord(t *testing.T) {
 	}
 
 	var userID int64 = 1
+	var problemID int64 = 1
 	var pageIndex int64 = 1
 	var pageNum int64 = 3
-	records, num, err := mysqlDriver.GetSubmitRecord(userID, pageNum, pageIndex)
+	records, num, err := mysqlDriver.GetSubmitRecord(userID, problemID, pageNum, pageIndex)
 	if err != nil {
 		t.Error(err)
 		return

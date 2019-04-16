@@ -60,6 +60,8 @@
     - [Config](#protocol.Config)
     - [Config.DifficultyEntry](#protocol.Config.DifficultyEntry)
     - [Config.TagsEntry](#protocol.Config.TagsEntry)
+    - [JudgeLanguage](#protocol.JudgeLanguage)
+    - [JudgeLanguage.LanguageEntry](#protocol.JudgeLanguage.LanguageEntry)
     - [UserRole](#protocol.UserRole)
     - [UserRole.RoleEntry](#protocol.UserRole.RoleEntry)
   
@@ -73,7 +75,6 @@
     - [JudgeResult](#protocol.JudgeResult)
   
     - [JudgeResult.Result](#protocol.JudgeResult.Result)
-    - [Language](#protocol.Language)
   
   
   
@@ -520,7 +521,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
-| menbers | [ClassMember](#protocol.ClassMember) | repeated |  |
+| members | [ClassMember](#protocol.ClassMember) | repeated |  |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
 | total | [int64](#int64) |  |  |
@@ -869,6 +870,38 @@ UserInfo : 用户基本信息
 
 
 
+<a name="protocol.JudgeLanguage"></a>
+
+### JudgeLanguage
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| language | [JudgeLanguage.LanguageEntry](#protocol.JudgeLanguage.LanguageEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.JudgeLanguage.LanguageEntry"></a>
+
+### JudgeLanguage.LanguageEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="protocol.UserRole"></a>
 
 ### UserRole
@@ -927,7 +960,7 @@ UserInfo : 用户基本信息
 | ----- | ---- | ----- | ----------- |
 | id | [int64](#int64) |  |  |
 | src | [string](#string) |  |  |
-| language | [Language](#protocol.Language) |  |  |
+| language | [int64](#int64) |  |  |
 
 
 
@@ -986,21 +1019,6 @@ UserInfo : 用户基本信息
 | MEMORY_LIMIT_EXCEEDED | 3 |  |
 | RUNTIME_ERROR | 4 |  |
 | SYSTEM_ERROR | 5 |  |
-
-
-
-<a name="protocol.Language"></a>
-
-### Language
-判题语言
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| C | 0 |  |
-| C_PLUS | 1 |  |
-| JAVA | 2 |  |
-| PYTHON2 | 3 |  |
-| PYTHON3 | 4 |  |
 
 
  
@@ -1578,6 +1596,8 @@ UserInfo : 用户基本信息
 | ----- | ---- | ----- | ----------- |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
+| problem_id | [int64](#int64) |  |  |
+| user_id | [int64](#int64) |  |  |
 
 
 

@@ -99,16 +99,45 @@ func (m *MysqlDriver) DelUser(userID int64) error {
 }
 
 // GetSubmitRecord : get recrod from db
-func (m *MysqlDriver) GetSubmitRecord(userID, pageNum, pageIndex int64) ([]*model.UserProblem, int64, error) {
+func (m *MysqlDriver) GetSubmitRecord(userID, problemID, pageNum, pageIndex int64) ([]*model.UserProblem, int64, error) {
+	var (
+		num int64
+		err error
+	)
 	records := make([]*model.UserProblem, 0)
-	if err := m.conn.
-		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
-		Where("user_id = ?", userID).
-		Find(&records); err != nil {
-		return nil, 0, err
-	}
 
-	num, err := m.conn.Where("user_id = ?", userID).Count(&model.UserProblem{})
+	if userID != 0 && problemID == 0 {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Where("user_id = ?", userID).
+			Find(&records); err != nil {
+			return nil, 0, err
+		}
+		num, err = m.conn.Where("user_id = ?", userID).Count(&model.UserProblem{})
+	} else if userID == 0 && problemID != 0 {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Where("problem_id = ?", problemID).
+			Find(&records); err != nil {
+			return nil, 0, err
+		}
+		num, err = m.conn.Where("problem_id = ?", problemID).Count(&model.UserProblem{})
+	} else if userID != 0 && problemID != 0 {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Where("problem_id = ? and user_id = ?", problemID, userID).
+			Find(&records); err != nil {
+			return nil, 0, err
+		}
+		num, err = m.conn.Where("problem_id = ? and user_id = ?", problemID, userID).Count(&model.UserProblem{})
+	} else {
+		if err := m.conn.
+			Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+			Find(&records); err != nil {
+			return nil, 0, err
+		}
+		num, err = m.conn.Count(&model.UserProblem{})
+	}
 	if err != nil {
 		logger.Sugar.Errorf("failed to get the count of user_problem : %v", err)
 		return nil, 0, err

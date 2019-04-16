@@ -208,7 +208,7 @@ func (c *Class) GetMembers(r *http.Request) proto.Message {
 	}
 
 	for _, member := range members {
-		resp.Menbers = append(resp.Menbers, transform.UserClassToProto(member))
+		resp.Members = append(resp.Members, transform.UserClassToProto(member))
 	}
 	resp.PageNum = req.PageNum
 	resp.PageIndex = req.PageIndex

@@ -86,7 +86,7 @@ message GetMemberReq
 message GetMemberResp
 {
     Status status = 1;
-    repeated ClassMember menbers = 2; 
+    repeated ClassMember members = 2; 
     int64 page_index = 3;
     int64 page_num = 4;
     int64 total = 5;

@@ -28,7 +28,7 @@ type DB interface {
 	AddUser(user *model.User) error
 	UpdateUser(user *model.User) error // only id and changed filed is required
 	DelUser(userID int64) error
-	GetSubmitRecord(userID, pageNum, pageIndex int64) ([]*model.UserProblem, int64, error)
+	GetSubmitRecord(userID, problemID, pageNum, pageIndex int64) ([]*model.UserProblem, int64, error)
 
 	// problem manage
 	GetProblemsNum(tag int) (int64, error)

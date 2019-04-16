@@ -157,7 +157,7 @@ func (u *User) GetSubmitRecord(r *http.Request) proto.Message {
 	}
 
 	// check token
-	userID, err := u.cache.GetUserIDByToken(token)
+	_, err = u.cache.GetUserIDByToken(token)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get token : %v", err)
 		resp.Status.Code = protocol.Code_UNAUTHORIZATED
@@ -165,7 +165,7 @@ func (u *User) GetSubmitRecord(r *http.Request) proto.Message {
 		return resp
 	}
 
-	records, num, err := u.db.GetSubmitRecord(userID, req.PageNum, req.PageIndex)
+	records, num, err := u.db.GetSubmitRecord(req.UserId, req.ProblemId, req.PageNum, req.PageIndex)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get submit records : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
