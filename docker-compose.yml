@@ -20,6 +20,31 @@ services:
         ports:
             - 6379   
 
+    web:
+        build:
+            context : ./
+            dockerfile : ./docker/web/Dockerfile
+        container_name: gp-web
+        restart: always
+        ports:
+            - 8081:8080
+        environment:
+            REDIS_ADDR: gp-redis:6379  
+            REDIS_PASS: 12345678
+            REDIS_POOLSIZE: 10
+            MYSQL_ADDR: gp-mysql:3306
+            MYSQL_USER: root
+            MYSQL_PASS: 12345678
+            MYSQL_DBNAME: gp_oj
+            MYSQL_OPEN_CONNS_NUM: 100
+            MYSQL_IDLE_CONNS_NUM: 100
+            JUDGE_SERVER: judger:8080+shu
+        depends_on:
+            - mysql
+            - redis
+            - judge_server
+
+
     judge_server:
         image: registry.cn-hangzhou.aliyuncs.com/onlinejudge/judge_server
         container_name: judger
@@ -43,29 +68,4 @@ services:
             - SERVICE_URL=http://judge-server:12358
             - TOKEN=shu
         ports:
-            - 8081
-
-
-    web:
-        build:
-            context : ./
-            dockerfile : ./docker/web/Dockerfile
-        container_name: gp-web
-        restart: always
-        ports:
-            - 8080:8080
-        environment:
-            REDIS_ADDR: gp-redis:6379  
-            REDIS_PASS: 12345678
-            REDIS_POOLSIZE: 10
-            MYSQL_ADDR: gp-mysql:3306
-            MYSQL_USER: root
-            MYSQL_PASS: 12345678
-            MYSQL_DBNAME: gp_oj
-            MYSQL_OPEN_CONNS_NUM: 100
-            MYSQL_IDLE_CONNS_NUM: 100
-            JUDGE_SERVER: judger:8081+shu
-        depends_on:
-            - mysql
-            - redis
-            - judge_server
+            - 0.0.0.0:12358:8080

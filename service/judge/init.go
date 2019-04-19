@@ -34,8 +34,6 @@ func NewJudge(dataStorage *module.DataStorage) module.Judge {
 		})
 	}
 
-	logger.Sugar.Debugf("judge server : %v", judgeServer)
-
 	return &Judge{
 		db:          dataStorage.DB,
 		cache:       dataStorage.Cache,

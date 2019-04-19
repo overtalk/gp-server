@@ -34,7 +34,7 @@ func TestJudge_judge(t *testing.T) {
 			return 0;
 		}
 		`,
-		Language: protocol.Language_C_PLUS,
+		Language: 2,
 	})
 	if err != nil {
 		t.Errorf("failed to mock http request : %v", err)
