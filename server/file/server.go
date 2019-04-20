@@ -61,6 +61,7 @@ func uploadFileHandler() http.HandlerFunc {
 		// parse and validate file and post parameters
 		file, header, err := r.FormFile("uploadFile")
 		if err != nil {
+			logger.Sugar.Errorf("%v", err)
 			renderError(w, "INVALID_FILE", http.StatusBadRequest)
 			return
 		}
