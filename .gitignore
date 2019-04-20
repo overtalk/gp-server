@@ -1,4 +1,4 @@
 .vscode
-build/
-mysql/
-log/
+docker_data/mysql/data
+docker_data/judge/log
+docker_data/judge/run
