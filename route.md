@@ -14,6 +14,7 @@
 
 | 功能描述 | 路由 | HTTP方法 | protobuf |
 | ----- | ---- | ----- | ---- |
+| 注册 | /register  | POST |  login.proto --> RegisterReq & RegisterResp |
 | 登陆 | /login  | POST |  login.proto --> LoginReq & LoginResp |
 | 登出 | /logout | GET | login.proto --> LogoutResp |
  
