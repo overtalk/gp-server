@@ -239,13 +239,17 @@ func (a *Auth) GetJudgeResult(r *http.Request) proto.Message {
 		return resp
 	}
 
-	resp.JudgeResults[0] = "SUCCESS"
-	resp.JudgeResults[-1] = "WRONG_ANSWER"
-	resp.JudgeResults[1] = "CPU_TIME_LIMIT_EXCEEDED"
-	resp.JudgeResults[2] = "REAL_TIME_LIMIT_EXCEEDED"
-	resp.JudgeResults[3] = "MEMORY_LIMIT_EXCEEDED"
-	resp.JudgeResults[4] = "RUNTIME_ERROR"
-	resp.JudgeResults[5] = "SYSTEM_ERROR"
+	results := make(map[int64]string)
+
+	results[0] = "SUCCESS"
+	results[-1] = "WRONG_ANSWER"
+	results[1] = "CPU_TIME_LIMIT_EXCEEDED"
+	results[2] = "REAL_TIME_LIMIT_EXCEEDED"
+	results[3] = "MEMORY_LIMIT_EXCEEDED"
+	results[4] = "RUNTIME_ERROR"
+	results[5] = "SYSTEM_ERROR"
+
+	resp.JudgeResults = results
 
 	return resp
 }
