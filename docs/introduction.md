@@ -85,6 +85,8 @@
     - [LoginReq](#protocol.LoginReq)
     - [LoginResp](#protocol.LoginResp)
     - [LogoutResp](#protocol.LogoutResp)
+    - [RegisterReq](#protocol.RegisterReq)
+    - [RegisterResp](#protocol.RegisterResp)
   
   
   
@@ -1114,6 +1116,37 @@ UserInfo : 用户基本信息
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
+
+
+
+
+
+
+<a name="protocol.RegisterReq"></a>
+
+### RegisterReq
+登陆 (post)
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| user | [UserInfo](#protocol.UserInfo) |  |  |
+
+
+
+
+
+
+<a name="protocol.RegisterResp"></a>
+
+### RegisterResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
 
 
 

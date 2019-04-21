@@ -1,6 +1,8 @@
 package db
 
 import (
+	"time"
+
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
@@ -144,4 +146,20 @@ func (m *MysqlDriver) GetSubmitRecord(userID, problemID, pageNum, pageIndex int6
 	}
 
 	return records, num, nil
+}
+
+// CreatePlayer : create a new player
+func (m *MysqlDriver) CreatePlayer(user *model.User) error {
+	user.Role = 1
+	user.Create = time.Now().Unix()
+	user.LastLogin = time.Now().Unix()
+
+	i, err := m.conn.Insert(user)
+	if err != nil {
+		return err
+	}
+	if i == 0 {
+		return ErrNoRowsAffected
+	}
+	return nil
 }

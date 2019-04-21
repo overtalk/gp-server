@@ -8,6 +8,17 @@ import "proto/status.proto";
 option go_package = "protocol;protocol";
 
 // 登陆 (post)
+message RegisterReq
+{
+    UserInfo user = 1;  
+}
+message RegisterResp
+{
+    Status status = 1;
+    bool is_success = 2;
+}
+
+// 登陆 (post)
 message LoginReq
 {
     string account = 2;

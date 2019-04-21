@@ -8,6 +8,7 @@ import (
 
 // Auth : User identity authentication module
 type Auth interface {
+	Register(r *http.Request) proto.Message
 	Login(r *http.Request) proto.Message
 	Logout(r *http.Request) proto.Message
 

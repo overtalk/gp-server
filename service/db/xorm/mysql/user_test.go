@@ -291,3 +291,23 @@ func TestMysqlDriver_GetSubmitRecord(t *testing.T) {
 		t.Log(record)
 	}
 }
+
+func TestMysqlDriver_CreatePlayer(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	user := &model.User{
+		Account:  "qqq",
+		Password: "qqq",
+		Name:     "qinhan",
+		
+	}
+
+	if err := mysqlDriver.CreatePlayer(user); err != nil {
+		t.Error(err)
+		return
+	}
+}

@@ -11,6 +11,38 @@ import (
 	"github.com/qinhan-shu/gp-server/utils"
 )
 
+// Register : create a new player
+func (a *Auth) Register(r *http.Request) proto.Message {
+	req := new(protocol.RegisterReq)
+	resp := &protocol.RegisterResp{Status: &protocol.Status{}}
+	data, err := utils.GetRequestBody(r)
+	if err != nil {
+		logger.Sugar.Infof("missing request data : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "data lose in request body"
+		return resp
+	}
+
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	user := transform.ProtoToUser(req.User)
+
+	if err := a.db.CreatePlayer(user); err != nil {
+		logger.Sugar.Errorf("failed to create player : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to create player"
+		resp.IsSuccess = false
+	} else {
+		resp.IsSuccess = true
+	}
+	return resp
+}
+
 // Login : authentication, and get token
 func (a *Auth) Login(r *http.Request) proto.Message {
 	req := new(protocol.LoginReq)

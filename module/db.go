@@ -18,6 +18,7 @@ type DB interface {
 	GetAllRole() ([]*model.Role, error)
 
 	// auth
+	CreatePlayer(user *model.User) error
 	CheckPlayer(username, password string) (*model.User, error)
 	GetUserByID(id int64) (*model.User, error)
 
