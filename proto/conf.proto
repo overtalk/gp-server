@@ -24,3 +24,9 @@ message JudgeLanguage
     Status status = 1;
     map<int64,string> language = 2;
 }
+
+message JudgeResults
+{
+    Status status = 1;
+    map<int64,string> judge_results = 2;
+}

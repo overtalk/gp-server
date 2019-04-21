@@ -186,3 +186,34 @@ func (a *Auth) GetAllLanguage(r *http.Request) proto.Message {
 
 	return resp
 }
+
+// GetJudgeResult : get all judge result
+func (a *Auth) GetJudgeResult(r *http.Request) proto.Message {
+	resp := &protocol.JudgeResults{Status: &protocol.Status{}}
+	token, err := utils.GetToken(r)
+	if err != nil {
+		logger.Sugar.Infof("missing token : %v", err)
+		resp.Status.Code = protocol.Code_NO_TOKEN
+		resp.Status.Message = "missing token"
+		return resp
+	}
+
+	// check token
+	_, err = a.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Infof("invalid token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	resp.JudgeResults[0] = "SUCCESS"
+	resp.JudgeResults[-1] = "WRONG_ANSWER"
+	resp.JudgeResults[1] = "CPU_TIME_LIMIT_EXCEEDED"
+	resp.JudgeResults[2] = "REAL_TIME_LIMIT_EXCEEDED"
+	resp.JudgeResults[3] = "MEMORY_LIMIT_EXCEEDED"
+	resp.JudgeResults[4] = "RUNTIME_ERROR"
+	resp.JudgeResults[5] = "SYSTEM_ERROR"
+
+	return resp
+}

@@ -7,6 +7,7 @@
 | 配置 | /conf  | GET |  conf.proto --> Config |
 | 用户角色 | /userRole  | GET |  conf.proto --> UserRole |
 | 判题语言 | /getAllLanguage  | GET |  conf.proto --> JudgeLanguage |
+| 判题结果 | /getJudgeResult  | GET |  conf.proto --> JudgeResults |
 
 ## 登陆模块
 
@@ -79,3 +80,10 @@
 | 功能描述 | 路由 | HTTP方法 | protobuf |
 | ----- | ---- | ----- | ---- |
 | 排行榜信息 | /rank  | POST |  rank.proto --> RankListReq & RankListResp |
+
+
+## 判题模块
+
+| 功能描述 | 路由 | HTTP方法 | protobuf |
+| ----- | ---- | ----- | ---- |
+| 排行榜信息 | /judge  | POST |  judge.proto --> JudgeRequest & JudgeResponse |

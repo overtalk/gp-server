@@ -62,6 +62,8 @@
     - [Config.TagsEntry](#protocol.Config.TagsEntry)
     - [JudgeLanguage](#protocol.JudgeLanguage)
     - [JudgeLanguage.LanguageEntry](#protocol.JudgeLanguage.LanguageEntry)
+    - [JudgeResults](#protocol.JudgeResults)
+    - [JudgeResults.JudgeResultsEntry](#protocol.JudgeResults.JudgeResultsEntry)
     - [UserRole](#protocol.UserRole)
     - [UserRole.RoleEntry](#protocol.UserRole.RoleEntry)
   
@@ -891,6 +893,38 @@ UserInfo : 用户基本信息
 <a name="protocol.JudgeLanguage.LanguageEntry"></a>
 
 ### JudgeLanguage.LanguageEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.JudgeResults"></a>
+
+### JudgeResults
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| judge_results | [JudgeResults.JudgeResultsEntry](#protocol.JudgeResults.JudgeResultsEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.JudgeResults.JudgeResultsEntry"></a>
+
+### JudgeResults.JudgeResultsEntry
 
 
 
