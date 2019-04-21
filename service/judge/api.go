@@ -78,6 +78,10 @@ func (j *Judge) Judge(r *http.Request) proto.Message {
 			Signal:      int64(data.Signal),
 			ExitCode:    int64(data.ExitCode),
 		})
+		if data.Result != 0 {
+			resp.Result = int64(data.Result)
+		}
 	}
+
 	return resp
 }

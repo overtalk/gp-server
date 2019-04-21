@@ -35,5 +35,6 @@ message JudgeRequest
 message JudgeResponse
 {
     Status status = 1;
-    repeated JudgeResult results = 2;
+    int64 result = 2;
+    repeated JudgeResult results = 3;
 }

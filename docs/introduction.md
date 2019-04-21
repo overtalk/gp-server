@@ -1014,6 +1014,7 @@ UserInfo : 用户基本信息
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
+| result | [int64](#int64) |  |  |
 | results | [JudgeResult](#protocol.JudgeResult) | repeated |  |
 
 
