@@ -25,6 +25,14 @@ func NewConfigSource() (module.ConfigSource, error) {
 		"MYSQL_OPEN_CONNS_NUM",
 		"MYSQL_IDLE_CONNS_NUM",
 		"JUDGE_SERVER",
+		// optional( debug | info | warn | error | dpanic | panic | fatal), default is info
+		"LOG_LEVEL",
+		"CERTFILE",
+		"KEYFILE",
+		"WEB_PORT",
+		// for file server
+		"FILE_PORT",
+		"MAXUPLOADSIZE",
 	}
 
 	return &Env{

@@ -9,5 +9,11 @@
     "MYSQL_DBNAME":"gp_oj",
     "MYSQL_OPEN_CONNS_NUM":"100",
     "MYSQL_IDLE_CONNS_NUM":"100",
-    "JUDGE_SERVER":"127.0.0.1:12358+shu"
+    "JUDGE_SERVER":"127.0.0.1:12358+shu",
+    "LOG_LEVEL":"debug",
+    "WEB_PORT":":8081",
+    "CERTFILE":"",
+    "KEYFILE":"",
+    "FILE_PORT":":8082",
+    "MAXUPLOADSIZE":"2"
 }

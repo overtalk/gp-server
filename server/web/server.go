@@ -20,6 +20,7 @@ import (
 	"github.com/qinhan-shu/gp-server/service/problem"
 	"github.com/qinhan-shu/gp-server/service/rank"
 	"github.com/qinhan-shu/gp-server/service/user"
+	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
 var (
@@ -27,11 +28,7 @@ var (
 	commit string
 	branch string
 
-	version  = flag.Bool("version", false, "show version") // show version
-	port     = flag.String("addr", ":8080", "listen address")
-	certFile = flag.String("certFile", "", "ssl certficate filename")
-	keyFile  = flag.String("keyFile", "", "ssl private key filename")
-	logLevel = flag.String("log-level", "error", "log level, optional( debug | info | warn | error | dpanic | panic | fatal), default is error")
+	version = flag.Bool("version", false, "show version") // show version
 )
 
 func main() {
@@ -42,27 +39,51 @@ func main() {
 		return
 	}
 
-	// init logger
-	logger.InitLogger(*logLevel)
+	// get config
+	c := config.NewConfig()
+	dataStorage, err := c.GetDataStorage()
+	if err != nil {
+		logger.Sugar.Fatalf("failed to get data storage : %v", err)
+	}
 
-	gateService := gate.NewService(*port)
-	if *certFile != "" && *keyFile != "" {
-		gateService.AddTLSConfig(*certFile, *keyFile)
+	// init logger
+	logLevel, isExist := dataStorage.Configs.Load("LOG_LEVEL")
+	if !isExist {
+		logLevel = "info"
+	}
+	logger.InitLogger(parse.String(logLevel))
+
+	// create gate
+	port, isExist := dataStorage.Configs.Load("WEB_PORT")
+	if !isExist {
+		port = ":8081"
+	}
+	gateService := gate.NewService(parse.String(port))
+	certFile, isCertFileExist := dataStorage.Configs.Load("CERTFILE")
+	keyFile, isKeyFileExist := dataStorage.Configs.Load("KEYFILE")
+	if isCertFileExist && isKeyFileExist {
+		c := parse.String(certFile)
+		k := parse.String(keyFile)
+		if c != "" && k != "" {
+			logger.Sugar.Infof("TSL : certFile[%s], keyFile[%s]", c, k)
+			gateService.AddTLSConfig(c, k)
+		}
 	}
 
 	// register modules
-	registerModule(gateService)
+	registerModule(gateService, dataStorage)
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
+	// start service
 	go func() {
 		<-sigChan
 		logger.Sugar.Infof("Shutting down gate server...")
 		gateService.Stop()
 	}()
 
-	logger.Sugar.Infof("Starting gate server on %s", *port)
+	logger.Sugar.Infof("Starting gate server on %s", parse.String(port))
 	gateService.Start()
 }
 
@@ -89,13 +110,7 @@ func formatFullVersion() string {
 	return strings.Join(parts, "  ")
 }
 
-func registerModule(gate module.Gate) {
-	c := config.NewConfig()
-	dataStorage, err := c.GetDataStorage()
-	if err != nil {
-		logger.Sugar.Fatalf("failed to get data storage : %v", err)
-	}
-
+func registerModule(gate module.Gate, dataStorage *module.DataStorage) {
 	auth.Register(gate, dataStorage)
 	problem.Register(gate, dataStorage)
 	class.Register(gate, dataStorage)

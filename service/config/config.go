@@ -131,6 +131,18 @@ func (c *Config) GetDataStorage() (*module.DataStorage, error) {
 	}, nil
 }
 
+// GetDataStorageConfigs : get data storage only config map
+func (c *Config) GetDataStorageConfigs() (*module.DataStorage, error) {
+	var configs sync.Map
+	for key, value := range c.configMap {
+		configs.Store(key, value)
+	}
+	return &module.DataStorage{
+		// JudgeFilePath: *judgeFileDir,
+		Configs: configs,
+	}, nil
+}
+
 // GetTestDB : get test db
 func (c *Config) GetTestDB() (module.DB, error) {
 	keys := []string{
