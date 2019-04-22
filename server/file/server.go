@@ -59,14 +59,14 @@ func uploadFileHandler() http.HandlerFunc {
 		}
 
 		// parse and validate file and post parameters
-		file, header, err := r.FormFile("uploadFile")
+		targetFile, header, err := r.FormFile("uploadFile")
 		if err != nil {
 			logger.Sugar.Errorf("%v", err)
 			renderError(w, "INVALID_FILE", http.StatusBadRequest)
 			return
 		}
-		defer file.Close()
-		fileBytes, err := ioutil.ReadAll(file)
+		defer targetFile.Close()
+		fileBytes, err := ioutil.ReadAll(targetFile)
 		if err != nil {
 			renderError(w, "INVALID_FILE", http.StatusBadRequest)
 			return
@@ -82,11 +82,27 @@ func uploadFileHandler() http.HandlerFunc {
 			return
 		}
 
-		newPath := filepath.Join(*uploadPath, header.Filename)
+		// create a dir to store zip
+		results := strings.Split(header.Filename, ".")
+		if len(results) != 2 || results[1] != "zip" {
+			renderError(w, "INVALID_FILE_TYPE", http.StatusBadRequest)
+			return
+		}
+
+		dir := *uploadPath + results[0]
+		newPath := filepath.Join(dir, header.Filename)
+
+		err = os.Mkdir(dir, os.ModePerm)
+		if err != nil {
+			fmt.Println(err)
+			renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
+			return
+		}
 
 		// write file
 		newFile, err := os.Create(newPath)
 		if err != nil {
+			fmt.Println(err)
 			renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
 			return
 		}
@@ -96,7 +112,8 @@ func uploadFileHandler() http.HandlerFunc {
 			return
 		}
 
-		if err := zip.Unzip(*uploadPath+"/"+header.Filename, *uploadPath); err != nil {
+		// unzip
+		if err := zip.Unzip(dir+"/"+header.Filename, dir); err != nil {
 			logger.Sugar.Error(err)
 		}
 		w.Write([]byte("SUCCESS"))
