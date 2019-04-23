@@ -71,6 +71,13 @@
   
   
 
+- [proto/file.proto](#proto/file.proto)
+    - [File](#protocol.File)
+  
+  
+  
+  
+
 - [proto/judge.proto](#proto/judge.proto)
     - [JudgeRequest](#protocol.JudgeRequest)
     - [JudgeResponse](#protocol.JudgeResponse)
@@ -966,6 +973,38 @@ UserInfo : 用户基本信息
 | ----- | ---- | ----- | ----------- |
 | key | [int64](#int64) |  |  |
 | value | [string](#string) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="proto/file.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/file.proto
+
+
+
+<a name="protocol.File"></a>
+
+### File
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| file_id | [string](#string) |  |  |
 
 
 
