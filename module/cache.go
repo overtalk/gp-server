@@ -15,4 +15,9 @@ type Cache interface {
 	GetRank() ([]*RankItem, error)
 	CleanRank() (int64, error)
 	DelRank()
+
+	// file
+	SetFileItem(item *FileItem) error
+	DelFileItem(id string) error
+	GetExpiredFile() ([]string, error)
 }

@@ -5,7 +5,7 @@ JUDGE_FILE_PATH="$GOPATH/src/github.com/qinhan-shu/gp-server/docker_data/judge/j
 
 if [ $1 == "web" ]
 then
-    go run server/web/server.go 
+    go run server/web/server.go -uploadPath $JUDGE_FILE_PATH
     exit 1
 fi
 

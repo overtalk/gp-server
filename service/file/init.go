@@ -39,5 +39,6 @@ func NewFile(dataStorage *module.DataStorage) module.File {
 // Register : register module auth to gate
 func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	module := NewFile(dataStorage)
+	go module.Daemon()
 	gate.RegisterRoute("/upload", "POST", module.Upload)
 }
