@@ -729,6 +729,7 @@ Problem : 题目
 | accept_time | [int64](#int64) |  | 通过次数 |
 | create_time | [int64](#int64) |  | 创建时间 |
 | publisher | [string](#string) |  | 发布人 |
+| judge_file | [string](#string) |  | 判题文件 |
 
 
 

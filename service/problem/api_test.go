@@ -20,7 +20,6 @@ func TestUserManage_GetProblems(t *testing.T) {
 	module := problem.NewProblem(dataStorage)
 
 	r, err := utils.MockHTTPReq("POST", "1", &protocol.GetProblemsReq{
-		GetAll:    false,
 		Tag:       3,
 		PageIndex: 1,
 		PageNum:   5,
@@ -90,6 +89,7 @@ func TestUserManage_AddProblem(t *testing.T) {
 			Hint:           "没有提示",
 			JudgeLimitMem:  5,
 			JudgeLimitTime: 3,
+			JudgeFile:      "1120564623934791680",
 			Tags:           []int64{1, 3},
 			Difficulty:     1,
 			InOutExamples: []*protocol.ProblemExample{

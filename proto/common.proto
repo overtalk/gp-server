@@ -49,6 +49,7 @@ message Problem
     int64 accept_time = 14;                         // 通过次数
     int64 create_time = 15;                         // 创建时间
     string publisher = 16;                          // 发布人
+    string judge_file = 17;                         // 判题文件
 }
 
 // SubmitRecord : 提交情况

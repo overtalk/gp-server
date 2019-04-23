@@ -84,6 +84,7 @@ func ProtoToProblem(p *protocol.Problem) *IntactProblem {
 		JudgeLimitMem:  int(p.JudgeLimitMem),
 		JudgeLimitTime: int(p.JudgeLimitTime),
 		Difficulty:     int(p.Difficulty),
+		JudgeFile:      p.JudgeFile,
 	}
 	// set problem test data
 	var inAndOutExample []*model.TestData

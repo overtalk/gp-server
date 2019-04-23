@@ -11,6 +11,7 @@ import (
 	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils"
+	"github.com/qinhan-shu/gp-server/utils/file"
 )
 
 // GetProblems : get problems
@@ -122,15 +123,13 @@ func (p *Problem) AddProblem(r *http.Request) proto.Message {
 
 	// add problem
 	pro := transform.ProtoToProblem(req.Problem)
-	// relativePath := m.judgeFilePath + getJudgeFileRelativePath(p.Detail.Title)
-	// if err := file.Write(relativePath+"_in.txt", req.Problem.JudgeInFile); err != nil {
-	// 	resp.IsSuccess = false
-	// 	return resp
-	// }
-	// if err := file.Write(relativePath+"_out.txt", req.Problem.JudgeOutFile); err != nil {
-	// 	resp.IsSuccess = false
-	// 	return resp
-	// }
+
+	if !file.Exists(p.path + pro.Problem.JudgeFile) {
+		logger.Sugar.Errorf("the file id is not exist : %s", pro.JudgeFile)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "the file id is not exist"
+		return resp
+	}
 
 	// p.JudgeFile = relativePath
 	pro.CreateTime = time.Now().Unix()
