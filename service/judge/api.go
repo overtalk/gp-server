@@ -69,6 +69,7 @@ func (j *Judge) Judge(r *http.Request) proto.Message {
 		return resp
 	}
 
+	resp.Result = 0
 	for _, data := range judgeResp.SliceData() {
 		resp.Results = append(resp.Results, &protocol.JudgeResult{
 			JudgeResult: protocol.JudgeResult_Result(data.Result),
