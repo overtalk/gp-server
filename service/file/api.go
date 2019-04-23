@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/golang/protobuf/proto"
 
@@ -48,15 +47,8 @@ func (f *File) Upload(r *http.Request) proto.Message {
 	}
 
 	// create a dir to store zip
-	results := strings.Split(header.Filename, ".")
-	if len(results) != 2 || results[1] != "zip" {
-		logger.Sugar.Errorf("invalid file type : %s", filetype)
-		resp.Status.Code = protocol.Code_INTERNAL
-		resp.Status.Message = "invalid file type : " + filetype
-		return resp
-	}
-
-	dir := f.path + results[0]
+	fileID := f.node.Generate().String()
+	dir := f.path + fileID
 	newPath := filepath.Join(dir, header.Filename)
 
 	err = os.Mkdir(dir, os.ModePerm)
@@ -88,7 +80,9 @@ func (f *File) Upload(r *http.Request) proto.Message {
 		logger.Sugar.Errorf("failed to unzip : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
 		resp.Status.Message = "failed to unzipe"
+		return resp
 	}
 
+	resp.FileId = fileID
 	return resp
 }

@@ -2,8 +2,10 @@ package file
 
 import (
 	"flag"
-	"fmt"
 
+	"github.com/bwmarrin/snowflake"
+
+	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
 )
 
@@ -16,15 +18,21 @@ type File struct {
 	db    module.DB
 	cache module.Cache
 	path  string
+	node  *snowflake.Node
 }
 
 // NewFile : constructor for file
 func NewFile(dataStorage *module.DataStorage) module.File {
-	fmt.Println("文件路径 ： ", *uploadPath)
+	logger.Sugar.Infof("file path : %s", *uploadPath)
+	node, err := snowflake.NewNode(10)
+	if err != nil {
+		logger.Sugar.Fatalf("failed to new node")
+	}
 	return &File{
 		db:    dataStorage.DB,
 		cache: dataStorage.Cache,
 		path:  *uploadPath,
+		node:  node,
 	}
 }
 
