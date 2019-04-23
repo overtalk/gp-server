@@ -131,6 +131,13 @@ func (p *Problem) AddProblem(r *http.Request) proto.Message {
 		return resp
 	}
 
+	if err := p.cache.DelFileItem(pro.Problem.JudgeFile); err != nil {
+		logger.Sugar.Errorf("failed to del file item[%s] : %v", pro.JudgeFile, err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to del file item"
+		return resp
+	}
+
 	// p.JudgeFile = relativePath
 	pro.CreateTime = time.Now().Unix()
 	pro.Publisher = user.Id

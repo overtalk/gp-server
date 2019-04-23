@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	period = 30 * time.Minute
+	period = 20 * time.Minute
 )
 
 // Daemon : del expired file
@@ -23,9 +23,14 @@ func (f *File) Daemon() {
 					logger.Sugar.Errorf("failed to get expired file : %v", err)
 					continue
 				}
+				logger.Sugar.Infof(" expired files : %v", files)
 				for _, file := range files {
-					os.RemoveAll(f.path + file)
-					f.cache.DelFileItem(file)
+					if err := os.RemoveAll(f.path + file); err != nil {
+						logger.Sugar.Errorf("failed to del dir[%s] : %v", f.path+file, err)
+					}
+					if err := f.cache.DelFileItem(file); err != nil {
+						logger.Sugar.Errorf("failed to del file item[%s] : %v", file, err)
+					}
 				}
 			}
 		default:

@@ -5,10 +5,12 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/golang/protobuf/proto"
 
 	"github.com/qinhan-shu/gp-server/logger"
+	"github.com/qinhan-shu/gp-server/module"
 	"github.com/qinhan-shu/gp-server/protocol"
 	"github.com/qinhan-shu/gp-server/utils/zip"
 )
@@ -79,7 +81,17 @@ func (f *File) Upload(r *http.Request) proto.Message {
 	if err := zip.Unzip(dir+"/"+header.Filename, dir); err != nil {
 		logger.Sugar.Errorf("failed to unzip : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
-		resp.Status.Message = "failed to unzipe"
+		resp.Status.Message = "failed to unzip"
+		return resp
+	}
+
+	if err := f.cache.SetFileItem(&module.FileItem{
+		ID: fileID,
+		TS: time.Now().Unix(),
+	}); err != nil {
+		logger.Sugar.Errorf("failed to set file info to redis : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "failed to set file info to redis "
 		return resp
 	}
 
