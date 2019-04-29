@@ -17,7 +17,7 @@ message AnalysisByDifficultyReq
 message AnalysisByDifficultyResp
 {
     Status status = 1;
-    repeated int64 line = 2;
+    repeated double line = 2;
     repeated int64 pie = 3;
 }
 
@@ -33,6 +33,6 @@ message AnalysisByTagsReq
 message AnalysisByTagsResp
 {
     Status status = 1;
-    repeated int64 line = 2;
+    repeated double line = 2;
     repeated int64 pie = 3;
 }
