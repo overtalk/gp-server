@@ -5,8 +5,8 @@ import (
 )
 
 // AddSubmitRecord : add new record of submit
-func (m *MysqlDriver) AddSubmitRecord(user *model.UserProblem) error {
-	i, err := m.conn.Insert(user)
+func (m *MysqlDriver) AddSubmitRecord(submit *model.UserProblem) error {
+	i, err := m.conn.Insert(submit)
 	if err != nil {
 		return err
 	}

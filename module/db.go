@@ -73,4 +73,7 @@ type DB interface {
 	// analysis
 	GetDifficultyAnalysis(userID, startTime, endTime int64) (map[int64]float64, map[int64]int64, error)
 	GetTagsAnalysis(userID, startTime, endTime int64, tags []int64) (map[int64]float64, map[int64]int64, error)
+
+	// submit
+	AddSubmitRecord(submit *model.UserProblem) error
 }

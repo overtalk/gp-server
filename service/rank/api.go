@@ -1,7 +1,7 @@
 package rank
 
 import (
-	"fmt"
+	// "fmt"
 	"net/http"
 
 	"github.com/golang/protobuf/proto"
@@ -40,9 +40,9 @@ func (k *Rank) GetRankList(r *http.Request) proto.Message {
 	}
 
 	rankItems := k.getRanksFromCache()
-	for _, item := range rankItems {
-		fmt.Println(item)
-	}
+	// for _, item := range rankItems {
+	// 	fmt.Println(item)
+	// }
 	total := int64(len(rankItems))
 	start := (req.PageIndex - 1) * req.PageNum
 	end := start + req.PageNum
