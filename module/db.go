@@ -69,4 +69,8 @@ type DB interface {
 	GetMatchByID(id int64) (*model.Match, error)                 // 获得比赛
 	GetPaperByID(id int64) (*transform.Paper, error)             // 获取比赛的试卷信息
 	EditMatch(match *model.Match) error                          // 修改比赛的信息
+
+	// analysis
+	GetDifficultyAnalysis(userID, startTime, endTime int64) ([]int64, []int64, error)
+	GetTagsAnalysis(userID, startTime, endTime int64, tags []int64) ([]int64, []int64, error)
 }

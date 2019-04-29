@@ -18,3 +18,22 @@ func UserProblemToProto(u *model.UserProblem) *protocol.SubmitRecord {
 		RunningLan:  int64(u.RunningLanguage),
 	}
 }
+
+// UserProblemWithDifficulty : user problem with difficulty
+type UserProblemWithDifficulty struct {
+	model.UserProblem `xorm:"extends"`
+	Difficulty        int
+}
+
+func (UserProblemWithDifficulty) TableName() string {
+	return "user_problem"
+}
+
+type UserProblemWithTags struct {
+	model.UserProblem `xorm:"extends"`
+	Tags              string
+}
+
+func (UserProblemWithTags) TableName() string {
+	return "user_problem"
+}
