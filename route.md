@@ -88,3 +88,10 @@
 | 功能描述 | 路由 | HTTP方法 | protobuf |
 | ----- | ---- | ----- | ---- |
 | 排行榜信息 | /judge  | POST |  judge.proto --> JudgeRequest & JudgeResponse |
+
+## 用户做题情况模块
+
+| 功能描述 | 路由 | HTTP方法 | protobuf |
+| ----- | ---- | ----- | ---- |
+| 根据难度 | /difficultyAnalysis  | POST |  analysis.proto --> AnalysisByDifficultyReq & AnalysisByDifficultyResp |
+| 根据tags | /tagsAnalysis  | POST |  analysis.proto --> AnalysisByTagsReq & AnalysisByTagsResp |

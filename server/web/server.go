@@ -10,6 +10,7 @@ import (
 
 	"github.com/qinhan-shu/gp-server/logger"
 	"github.com/qinhan-shu/gp-server/module"
+	"github.com/qinhan-shu/gp-server/service/analysis"
 	"github.com/qinhan-shu/gp-server/service/announcement"
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/class"
@@ -119,4 +120,5 @@ func registerModule(gate module.Gate, dataStorage *module.DataStorage) {
 	announcement.Register(gate, dataStorage)
 	match.Register(gate, dataStorage)
 	judge.Register(gate, dataStorage)
+	analysis.Register(gate, dataStorage)
 }

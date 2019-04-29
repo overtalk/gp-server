@@ -1,6 +1,6 @@
 #! /bin/bash
 
-export CONFIG_FILE_PATH="$GOPATH/src/github.com/qinhan-shu/gp-server/config/" 
+export CONFIG_FILE_PATH="/Users/qinhan/go/src/github.com/qinhan-shu/gp-server/config/" 
 JUDGE_FILE_PATH="$GOPATH/src/github.com/qinhan-shu/gp-server/docker_data/judge/judgefile/" 
 
 if [ $1 == "web" ]
