@@ -3,6 +3,7 @@ package db
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"strings"
 
 	"github.com/qinhan-shu/gp-server/logger"
@@ -50,7 +51,7 @@ func (m *MysqlDriver) GetDifficultyAnalysis(userID, startTime, endTime int64) (m
 		if submitNum[int64(i)] == 0 {
 			line[int64(i)] = 0
 		} else {
-			line[int64(i)] = float64(pie[int64(i)]) / float64(submitNum[int64(i)])
+			line[int64(i)] = math.Trunc((float64(pie[int64(i)])/float64(submitNum[int64(i)]))*1e2+0.5) * 1e-2
 		}
 	}
 
@@ -130,7 +131,7 @@ func (m *MysqlDriver) GetTagsAnalysis(userID, startTime, endTime int64, tags []i
 		if submitNum[tag] == 0 {
 			line[tag] = 0
 		} else {
-			line[tag] = float64(pie[tag]) / float64(submitNum[tag])
+			line[tag] = math.Trunc((float64(pie[tag])/float64(submitNum[tag]))*1e2+0.5) * 1e-2
 		}
 	}
 
