@@ -17,8 +17,8 @@ message AnalysisByDifficultyReq
 message AnalysisByDifficultyResp
 {
     Status status = 1;
-    repeated double line = 2;
-    repeated int64 pie = 3;
+    map<int64,double> line = 2;
+    map<int64,int64> pie = 3;
 }
 
 // 根据tags进行数据分析
@@ -33,6 +33,6 @@ message AnalysisByTagsReq
 message AnalysisByTagsResp
 {
     Status status = 1;
-    repeated double line = 2;
-    repeated int64 pie = 3;
+    map<int64,double> line = 2;
+    map<int64,int64> pie = 3;
 }
