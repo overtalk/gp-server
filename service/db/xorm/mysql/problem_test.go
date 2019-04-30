@@ -185,7 +185,7 @@ func TestAddSomeProblems(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	num := 10
+	num := 500
 	data, _ := json.Marshal([]int64{1, 2, 3})
 	for i := 0; i < num; i++ {
 		problem := model.Problem{

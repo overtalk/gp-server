@@ -27,9 +27,9 @@ func TestIntelligentCompose(t *testing.T) {
 	}
 
 	paper := &protocol.Paper{
-		Difficulty: 1,
-		ProblemNum: 3,
-		Tags:       []int64{1, 2},
+		Difficulty: 2,
+		ProblemNum: 20,
+		Tags:       []int64{1},
 	}
 
 	paperProblems, err := module.IntelligentCompose(problems, paper)
@@ -38,7 +38,16 @@ func TestIntelligentCompose(t *testing.T) {
 		return
 	}
 
-	for _, paperProblem := range paperProblems {
-		t.Log(paperProblem)
+	var diff int
+	var d float64
+	for i := 0; i < len(paperProblems); i++ {
+		diff += problems[paperProblems[i].ProblemId].Difficulty
 	}
+	d = float64(diff) / float64(len(paperProblems))
+
+	for _, paperProblem := range paperProblems {
+		t.Logf("index = %d, problem id = %d", paperProblem.Index, paperProblem.ProblemId)
+	}
+	t.Logf("试卷难度系数为：%f", d)
+
 }
