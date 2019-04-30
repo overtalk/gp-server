@@ -40,14 +40,14 @@ func (m *MysqlDriver) GetDifficultyAnalysis(userID, startTime, endTime int64) (m
 
 	for _, userProblem := range userProblems {
 		// fmt.Printf("Difficulty = %d, isPass = %d\n", userProblem.Difficulty, userProblem.Ispass)
-		submitNum[int64(userProblem.Difficulty-1)]++
-		pie[int64(userProblem.Difficulty-1)] += int64(userProblem.Ispass)
+		submitNum[int64(userProblem.Difficulty)]++
+		pie[int64(userProblem.Difficulty)] += int64(userProblem.Ispass)
 	}
 	// fmt.Println("passTime : ", pie)
 	// fmt.Println("submitNum : ", submitNum)
 
 	// get pass rate
-	for i := 0; i < num; i++ {
+	for i := 1; i <= num; i++ {
 		if submitNum[int64(i)] == 0 {
 			line[int64(i)] = 0
 		} else {
