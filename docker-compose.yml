@@ -57,10 +57,10 @@ services:
         volumes:
             - $PWD/docker_data/judge/judgefile:/go/src/github.com/qinhan-shu/gp-server/docker_data/judge/judgefile
         environment:
-            REDIS_ADDR: 172.26.164.72:6379  
+            REDIS_ADDR: 172.19.154.222:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: 172.26.164.72:3306
+            MYSQL_ADDR: 172.19.154.222:3306
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
@@ -83,10 +83,10 @@ services:
         ports:
             - 8081:8081
         environment:
-            REDIS_ADDR: 172.26.164.72:6379  
+            REDIS_ADDR:  172.19.154.222:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: 172.26.164.72:3306
+            MYSQL_ADDR:  172.19.154.222:3306
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
