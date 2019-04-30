@@ -248,6 +248,7 @@ func (a *Auth) GetJudgeResult(r *http.Request) proto.Message {
 	results[3] = "MEMORY_LIMIT_EXCEEDED"
 	results[4] = "RUNTIME_ERROR"
 	results[5] = "SYSTEM_ERROR"
+	results[6] = "COMPILE_ERROR"
 
 	resp.JudgeResults = results
 

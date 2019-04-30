@@ -71,31 +71,37 @@ func (j *Judge) Judge(r *http.Request) proto.Message {
 		return resp
 	}
 
-	resp.Result = 0
-	var submit *model.UserProblem
+	resp.Result = 6
+	var (
+		men = 0
+		t   = 0
+	)
 	for _, data := range judgeResp.SliceData() {
 		resp.Results = append(resp.Results, &protocol.JudgeResult{
 			JudgeResult: protocol.JudgeResult_Result(data.Result),
 			CpuTime:     int64(data.CpuTime),
 			RealTime:    int64(data.RealTime),
-			Memory:      int64(data.Memory),
+			Memory:      data.Memory,
 			Signal:      int64(data.Signal),
 			ExitCode:    int64(data.ExitCode),
 		})
-		submit = &model.UserProblem{
-			Code:            req.Src,
-			ProblemId:       req.Id,
-			RunningLanguage: int(req.Language),
-			RunningMem:      int(data.Memory),
-			RunningTime:     int(data.RealTime),
-			SubmitTime:      int(time.Now().Unix()),
-			Ispass:          1,
-			UserId:          userID,
-		}
 		if data.Result != 0 {
-			submit.Ispass = 0
 			resp.Result = int64(data.Result)
+		} else if data.Result == 6 {
+			data.Result = 0
+			men = int(data.Memory)
+			t = data.RealTime
 		}
+	}
+	submit := &model.UserProblem{
+		Code:            req.Src,
+		ProblemId:       req.Id,
+		RunningLanguage: int(req.Language),
+		RunningMem:      men,
+		RunningTime:     t,
+		SubmitTime:      int(time.Now().Unix()),
+		Ispass:          int(resp.Result),
+		UserId:          userID,
 	}
 	if err := j.db.AddSubmitRecord(submit); err != nil {
 		logger.Sugar.Errorf("failed to add submit record : %v", err)
