@@ -17,3 +17,10 @@ func TestMD5(t *testing.T) {
 		return
 	}
 }
+
+func BenchmarkMD5(b *testing.B) {
+	originStr := "xxxxx"
+	for i := 0; i < b.N; i++ {
+		utils.MD5(originStr)
+	}
+}

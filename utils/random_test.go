@@ -31,3 +31,11 @@ func TestRandInt(t *testing.T) {
 	}
 
 }
+
+func Benchmarkrandom(b *testing.B) {
+	min := 1
+	max := 10000
+	for i := 0; i < b.N; i++ {
+		utils.RandInt(min, max)
+	}
+}
