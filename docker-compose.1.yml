@@ -26,25 +26,25 @@ services:
             - 0.0.0.0:12358:8080
 
 
-    # redis:
-    #     image: redis 
-    #     container_name: gp-redis
-    #     command: redis-server --requirepass 12345678
-    #     # restart: always
-    #     ports:
-    #         - 6380:6379  
+    redis:
+        image: redis 
+        container_name: gp-redis
+        command: redis-server --requirepass 12345678
+        # restart: always
+        ports:
+            - 6380:6379  
 
-    # mysql:
-    #     image: mysql
-    #     container_name: gp-mysql
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: 12345678
-    #     volumes:
-    #         - ./docker_data/mysql/data:/var/lib/mysql
-    #         - ./docker_data/mysql/my.cnf:/etc/my.cnf
-    #         - ./docker_data/mysql/init:/docker-entrypoint-initdb.d/
-    #     ports:
-    #         - 3307:3306
+    mysql:
+        image: mysql
+        container_name: gp-mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 12345678
+        volumes:
+            - ./docker_data/mysql/data:/var/lib/mysql
+            - ./docker_data/mysql/my.cnf:/etc/my.cnf
+            - ./docker_data/mysql/init:/docker-entrypoint-initdb.d/
+        ports:
+            - 3307:3306
 
     file:
         build:
@@ -57,10 +57,10 @@ services:
         volumes:
             - $PWD/docker_data/judge/judgefile:/go/src/github.com/qinhan-shu/gp-server/docker_data/judge/judgefile
         environment:
-            REDIS_ADDR: 172.19.154.222:6379  
+            REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: 172.19.154.222:3306
+            MYSQL_ADDR: gp-mysql:3306
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
@@ -83,10 +83,10 @@ services:
         ports:
             - 8081:8081
         environment:
-            REDIS_ADDR: 172.19.154.222:6379  
+            REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: 172.19.154.222:3306
+            MYSQL_ADDR: gp-mysql:3306
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
