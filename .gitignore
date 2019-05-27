@@ -1,4 +1,5 @@
 .vscode
+.idea
 docker_data/mysql/data
 docker_data/judge/log
 docker_data/judge/run
