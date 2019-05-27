@@ -52,8 +52,6 @@
 | 新增班级 | /addClass | POST | class_manage.proto --> AddClassReq & AddClassResp |
 | 编辑班级 | /editClass | POST | class_manage.proto --> EditClassReq & EditClassResp |
 | 班级成员管理 | /memberManage | POST | class_manage.proto --> MemberManageReq & MemberManageResp |
-| 获得班级成员信息 | /getMembers | POST | class_manage.proto --> GetMemberReq & GetMemberResp |
-| 进入班级 | /enterClass | POST | class_manage.proto --> EnterClassReq & EnterClassResp |
 
 ### 公告管理 
 
@@ -95,3 +93,12 @@
 | ----- | ---- | ----- | ---- |
 | 根据难度 | /difficultyAnalysis  | POST |  analysis.proto --> AnalysisByDifficultyReq & AnalysisByDifficultyResp |
 | 根据tags | /tagsAnalysis  | POST |  analysis.proto --> AnalysisByTagsReq & AnalysisByTagsResp |
+
+## 学生进入班级
+| 功能描述 | 路由 | HTTP方法 | protobuf |
+| ----- | ---- | ----- | ---- |
+| 搜索班级 | /searchClasses | POST | class_enter.proto --> SearchClassesReq & SearchClassesResp |
+| 学生申请进入班级 | /enterClass | POST | class_enter.proto --> EnterClassReq & EnterClassResp |
+| 学生申请退出班级 | /quitClass | POST | class_enter.proto --> QuitClassReq & QuitClassResp |
+| 教师查看申请加入班级的请求 | /getMember | POST | class_enter.proto --> GetMemberReq & GetMemberResp |
+| 教师批准/拒绝学生进入班级的申请 | /applyEnterRequest | POST | class_enter.proto --> ApplyEnterRequestReq & ApplyEnterRequestResp |
