@@ -3,6 +3,20 @@
 
 ## Table of Contents
 
+- [proto/analysis.proto](#proto/analysis.proto)
+    - [AnalysisByDifficultyReq](#protocol.AnalysisByDifficultyReq)
+    - [AnalysisByDifficultyResp](#protocol.AnalysisByDifficultyResp)
+    - [AnalysisByDifficultyResp.LineEntry](#protocol.AnalysisByDifficultyResp.LineEntry)
+    - [AnalysisByDifficultyResp.PieEntry](#protocol.AnalysisByDifficultyResp.PieEntry)
+    - [AnalysisByTagsReq](#protocol.AnalysisByTagsReq)
+    - [AnalysisByTagsResp](#protocol.AnalysisByTagsResp)
+    - [AnalysisByTagsResp.LineEntry](#protocol.AnalysisByTagsResp.LineEntry)
+    - [AnalysisByTagsResp.PieEntry](#protocol.AnalysisByTagsResp.PieEntry)
+  
+  
+  
+  
+
 - [proto/announcement.proto](#proto/announcement.proto)
     - [AddAnnouncementReq](#protocol.AddAnnouncementReq)
     - [AddAnnouncementResp](#protocol.AddAnnouncementResp)
@@ -19,19 +33,31 @@
   
   
 
+- [proto/class_enter.proto](#proto/class_enter.proto)
+    - [ApplyEnterRequestReq](#protocol.ApplyEnterRequestReq)
+    - [ApplyEnterRequestResp](#protocol.ApplyEnterRequestResp)
+    - [EnterClassReq](#protocol.EnterClassReq)
+    - [EnterClassResp](#protocol.EnterClassResp)
+    - [GetMemberReq](#protocol.GetMemberReq)
+    - [GetMemberResp](#protocol.GetMemberResp)
+    - [QuitClassReq](#protocol.QuitClassReq)
+    - [QuitClassResp](#protocol.QuitClassResp)
+    - [SearchClassesReq](#protocol.SearchClassesReq)
+    - [SearchClassesResp](#protocol.SearchClassesResp)
+  
+  
+  
+  
+
 - [proto/class_manage.proto](#proto/class_manage.proto)
     - [AddClassReq](#protocol.AddClassReq)
     - [AddClassResp](#protocol.AddClassResp)
     - [EditClassReq](#protocol.EditClassReq)
     - [EditClassResp](#protocol.EditClassResp)
-    - [EnterClassReq](#protocol.EnterClassReq)
-    - [EnterClassResp](#protocol.EnterClassResp)
     - [GetClassByIDReq](#protocol.GetClassByIDReq)
     - [GetClassByIDResp](#protocol.GetClassByIDResp)
     - [GetClassesReq](#protocol.GetClassesReq)
     - [GetClassesResp](#protocol.GetClassesResp)
-    - [GetMemberReq](#protocol.GetMemberReq)
-    - [GetMemberResp](#protocol.GetMemberResp)
     - [MemberManageReq](#protocol.MemberManageReq)
     - [MemberManageResp](#protocol.MemberManageResp)
   
@@ -162,6 +188,155 @@
   
 
 - [Scalar Value Types](#scalar-value-types)
+
+
+
+<a name="proto/analysis.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/analysis.proto
+
+
+
+<a name="protocol.AnalysisByDifficultyReq"></a>
+
+### AnalysisByDifficultyReq
+根据难度进行数据分析
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| user_id | [int64](#int64) |  |  |
+| startTime | [int64](#int64) |  |  |
+| endTime | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByDifficultyResp"></a>
+
+### AnalysisByDifficultyResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| line | [AnalysisByDifficultyResp.LineEntry](#protocol.AnalysisByDifficultyResp.LineEntry) | repeated |  |
+| pie | [AnalysisByDifficultyResp.PieEntry](#protocol.AnalysisByDifficultyResp.PieEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByDifficultyResp.LineEntry"></a>
+
+### AnalysisByDifficultyResp.LineEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [double](#double) |  |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByDifficultyResp.PieEntry"></a>
+
+### AnalysisByDifficultyResp.PieEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByTagsReq"></a>
+
+### AnalysisByTagsReq
+根据tags进行数据分析
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| user_id | [int64](#int64) |  |  |
+| startTime | [int64](#int64) |  |  |
+| endTime | [int64](#int64) |  |  |
+| tags | [int64](#int64) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByTagsResp"></a>
+
+### AnalysisByTagsResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| line | [AnalysisByTagsResp.LineEntry](#protocol.AnalysisByTagsResp.LineEntry) | repeated |  |
+| pie | [AnalysisByTagsResp.PieEntry](#protocol.AnalysisByTagsResp.PieEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByTagsResp.LineEntry"></a>
+
+### AnalysisByTagsResp.LineEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [double](#double) |  |  |
+
+
+
+
+
+
+<a name="protocol.AnalysisByTagsResp.PieEntry"></a>
+
+### AnalysisByTagsResp.PieEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [int64](#int64) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
 
 
 
@@ -340,6 +515,192 @@
 
 
 
+<a name="proto/class_enter.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/class_enter.proto
+
+
+
+<a name="protocol.ApplyEnterRequestReq"></a>
+
+### ApplyEnterRequestReq
+教师批准/拒绝学生进入班级的申请
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_id | [int64](#int64) |  |  |
+| user_id | [int64](#int64) |  |  |
+| is_apply | [bool](#bool) |  | 是否同意 |
+
+
+
+
+
+
+<a name="protocol.ApplyEnterRequestResp"></a>
+
+### ApplyEnterRequestResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="protocol.EnterClassReq"></a>
+
+### EnterClassReq
+申请进入班级
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_id | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.EnterClassResp"></a>
+
+### EnterClassResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetMemberReq"></a>
+
+### GetMemberReq
+获取班级成员
+包括了查看未批准的进入班级的请求
+当学生申请进入班级的时候，就会在user——class表中插入一条记录，对于需要进行教师认证的班级，其is-check字段为false
+这个请求返回user-class表中所有的记录，包括通过的和未通过的，is-check字段在ClassMember中
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_id | [int64](#int64) |  |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetMemberResp"></a>
+
+### GetMemberResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| members | [ClassMember](#protocol.ClassMember) | repeated |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| total | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.QuitClassReq"></a>
+
+### QuitClassReq
+申请退出班级
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_id | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.QuitClassResp"></a>
+
+### QuitClassResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="protocol.SearchClassesReq"></a>
+
+### SearchClassesReq
+搜索班级
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| keyword | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.SearchClassesResp"></a>
+
+### SearchClassesResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| classes | [Class](#protocol.Class) | repeated |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| total | [int64](#int64) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="proto/class_manage.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -396,37 +757,6 @@
 <a name="protocol.EditClassResp"></a>
 
 ### EditClassResp
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| status | [Status](#protocol.Status) |  |  |
-| is_success | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="protocol.EnterClassReq"></a>
-
-### EnterClassReq
-进入班级
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| class_id | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="protocol.EnterClassResp"></a>
-
-### EnterClassResp
 
 
 
@@ -497,42 +827,6 @@
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
 | classes | [Class](#protocol.Class) | repeated |  |
-| page_index | [int64](#int64) |  |  |
-| page_num | [int64](#int64) |  |  |
-| total | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="protocol.GetMemberReq"></a>
-
-### GetMemberReq
-获取班级成员
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| class_id | [int64](#int64) |  |  |
-| page_index | [int64](#int64) |  |  |
-| page_num | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="protocol.GetMemberResp"></a>
-
-### GetMemberResp
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| status | [Status](#protocol.Status) |  |  |
-| members | [ClassMember](#protocol.ClassMember) | repeated |  |
 | page_index | [int64](#int64) |  |  |
 | page_num | [int64](#int64) |  |  |
 | total | [int64](#int64) |  |  |
