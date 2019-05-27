@@ -7,10 +7,10 @@ import "proto/status.proto";
 
 option go_package = "protocol;protocol";
 
-// 创建比赛
+// 发布比赛
 message NewMatchReq
 {
-    Paper paper = 1;
+    int64 paper_id = 1;
     Match match = 2;
 }
 message NewMatchResp

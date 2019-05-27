@@ -8,6 +8,7 @@
 | 用户角色 | /userRole  | GET |  conf.proto --> UserRole |
 | 判题语言 | /getAllLanguage  | GET |  conf.proto --> JudgeLanguage |
 | 判题结果 | /getJudgeResult  | GET |  conf.proto --> JudgeResults |
+| 组卷算法 | /paperComposeAlgorithm  | GET |  conf.proto --> PaperComposeAlgorithm |
 
 ## 登陆模块
 

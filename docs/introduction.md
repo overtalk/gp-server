@@ -90,6 +90,8 @@
     - [JudgeLanguage.LanguageEntry](#protocol.JudgeLanguage.LanguageEntry)
     - [JudgeResults](#protocol.JudgeResults)
     - [JudgeResults.JudgeResultsEntry](#protocol.JudgeResults.JudgeResultsEntry)
+    - [PaperComposeAlgorithm](#protocol.PaperComposeAlgorithm)
+    - [PaperComposeAlgorithm.AlgorithmEntry](#protocol.PaperComposeAlgorithm.AlgorithmEntry)
     - [UserRole](#protocol.UserRole)
     - [UserRole.RoleEntry](#protocol.UserRole.RoleEntry)
   
@@ -137,6 +139,17 @@
     - [NewMatchReq](#protocol.NewMatchReq)
     - [NewMatchResp](#protocol.NewMatchResp)
   
+  
+  
+  
+
+- [proto/paper.proto](#proto/paper.proto)
+    - [ManualModifyPaperReq](#protocol.ManualModifyPaperReq)
+    - [ManualModifyPaperResp](#protocol.ManualModifyPaperResp)
+    - [NewPaperReq](#protocol.NewPaperReq)
+    - [NewPaperResp](#protocol.NewPaperResp)
+  
+    - [ManualModifyPaperReq.ModifyType](#protocol.ManualModifyPaperReq.ModifyType)
   
   
   
@@ -1242,6 +1255,38 @@ UserInfo : 用户基本信息
 
 
 
+<a name="protocol.PaperComposeAlgorithm"></a>
+
+### PaperComposeAlgorithm
+PaperCompose 组卷算法
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| algorithm | [PaperComposeAlgorithm.AlgorithmEntry](#protocol.PaperComposeAlgorithm.AlgorithmEntry) | repeated |  |
+
+
+
+
+
+
+<a name="protocol.PaperComposeAlgorithm.AlgorithmEntry"></a>
+
+### PaperComposeAlgorithm.AlgorithmEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="protocol.UserRole"></a>
 
 ### UserRole
@@ -1635,12 +1680,12 @@ UserInfo : 用户基本信息
 <a name="protocol.NewMatchReq"></a>
 
 ### NewMatchReq
-创建比赛
+发布比赛
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| paper | [Paper](#protocol.Paper) |  |  |
+| paper_id | [int64](#int64) |  |  |
 | match | [Match](#protocol.Match) |  |  |
 
 
@@ -1664,6 +1709,100 @@ UserInfo : 用户基本信息
 
 
  
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="proto/paper.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/paper.proto
+
+
+
+<a name="protocol.ManualModifyPaperReq"></a>
+
+### ManualModifyPaperReq
+手动修改试卷
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| modifyType | [ManualModifyPaperReq.ModifyType](#protocol.ManualModifyPaperReq.ModifyType) |  |  |
+| problem_id | [int64](#int64) |  |  |
+| paper_id | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.ManualModifyPaperResp"></a>
+
+### ManualModifyPaperResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="protocol.NewPaperReq"></a>
+
+### NewPaperReq
+创建试卷
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| paper | [Paper](#protocol.Paper) |  |  |
+| algorithm | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.NewPaperResp"></a>
+
+### NewPaperResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+| paper | [Paper](#protocol.Paper) |  |  |
+
+
+
+
+
+ 
+
+
+<a name="protocol.ManualModifyPaperReq.ModifyType"></a>
+
+### ManualModifyPaperReq.ModifyType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ADD | 0 |  |
+| DEL | 1 |  |
+
 
  
 

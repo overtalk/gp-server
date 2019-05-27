@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package protocol;
+
+import "proto/common.proto";
+import "proto/status.proto";
+
+option go_package = "protocol;protocol";
+
+// 创建试卷
+message NewPaperReq
+{
+    Paper paper = 1;
+    int64 algorithm = 2;
+}
+message NewPaperResp
+{
+    Status status = 1;
+    bool is_success = 2;
+    Paper paper = 3;
+}
+
+// 手动修改试卷
+message ManualModifyPaperReq
+{
+    enum ModifyType
+    {
+        ADD = 0;
+        DEL = 1;
+    }
+    ModifyType modifyType = 1;
+    int64 problem_id = 2;
+    int64 paper_id = 3;
+}
+
+message ManualModifyPaperResp
+{
+    Status status = 1;
+    bool is_success = 2;
+}
+
