@@ -187,5 +187,39 @@ func (c *Class) QuitClass(r *http.Request) proto.Message {
 
 // ApplyEnterRequest : teacher agree or disagree the enter class request of student
 func (c *Class) ApplyEnterRequest(r *http.Request) proto.Message {
-	return nil
+	req := &protocol.ApplyEnterRequestReq{}
+	resp := &protocol.ApplyEnterRequestResp{Status: &protocol.Status{}}
+	// get token and data
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = c.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	if err := c.db.ApplyEnterRequest(req.UserId, req.ClassId, req.IsApply); err != nil {
+		logger.Sugar.Errorf("failed to apply enter class request : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+	resp.IsSuccess = true
+
+	return resp
 }
