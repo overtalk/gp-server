@@ -52,7 +52,7 @@ func (s *Service) Start() {
 	s.registerToGate(mux)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
+		AllowedOrigins:   []string{"http://47.102.117.222:8083", "http://localhost:8000"},
 		AllowedHeaders:   []string{"*"},
 		ExposedHeaders:   []string{"*"},
 		AllowCredentials: true,

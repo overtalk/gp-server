@@ -38,6 +38,7 @@
     - [ApplyEnterRequestResp](#protocol.ApplyEnterRequestResp)
     - [EnterClassReq](#protocol.EnterClassReq)
     - [EnterClassResp](#protocol.EnterClassResp)
+    - [GetClasserByUserID](#protocol.GetClasserByUserID)
     - [GetMemberReq](#protocol.GetMemberReq)
     - [GetMemberResp](#protocol.GetMemberResp)
     - [QuitClassReq](#protocol.QuitClassReq)
@@ -599,6 +600,22 @@
 
 
 
+<a name="protocol.GetClasserByUserID"></a>
+
+### GetClasserByUserID
+通过学生id获取班级
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| classes | [Class](#protocol.Class) | repeated |  |
+
+
+
+
+
+
 <a name="protocol.GetMemberReq"></a>
 
 ### GetMemberReq
@@ -611,8 +628,6 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | class_id | [int64](#int64) |  |  |
-| page_index | [int64](#int64) |  |  |
-| page_num | [int64](#int64) |  |  |
 
 
 
@@ -629,9 +644,6 @@
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#protocol.Status) |  |  |
 | members | [ClassMember](#protocol.ClassMember) | repeated |  |
-| page_index | [int64](#int64) |  |  |
-| page_num | [int64](#int64) |  |  |
-| total | [int64](#int64) |  |  |
 
 
 

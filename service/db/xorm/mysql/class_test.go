@@ -207,15 +207,13 @@ func TestMysqlDriver_GetMembers(t *testing.T) {
 	}
 
 	var classID int64 = 1
-	var pageIndex int64 = 1
-	var pageNum int64 = 3
-	members, num, err := mysqlDriver.GetMembers(classID, pageNum, pageIndex)
+	members, err := mysqlDriver.GetMembers(classID)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	t.Log("成员总量 : ", num)
+	t.Log("成员总量 : ", len(members))
 	for _, member := range members {
 		t.Log(member)
 	}
@@ -252,7 +250,7 @@ func TestMysqlDriver_QuitClass(t *testing.T) {
 
 	mysqlDriver.QuitClass(userID, classID)
 
-	members, _, err := mysqlDriver.GetMembers(classID, 10000000000, 1)
+	members, err := mysqlDriver.GetMembers(classID)
 	if err != nil {
 		t.Error(err)
 		return
@@ -281,7 +279,7 @@ func TestMysqlDriver_ApplyEnterRequest(t *testing.T) {
 		return
 	}
 
-	members, _, err := mysqlDriver.GetMembers(classID, 10000000000, 1)
+	members, err := mysqlDriver.GetMembers(classID)
 	if err != nil {
 		t.Error(err)
 		return
@@ -302,6 +300,26 @@ func TestMysqlDriver_ApplyEnterRequest(t *testing.T) {
 		}
 	}
 	t.Error("the student is not belongs to the class")
+}
+
+func TestMysqlDriver_GetClassesByUserID(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var userID int64 = 1
+	classes, err := mysqlDriver.GetClassesByUserID(userID)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log("改生参加的班级总数 : ", len(classes))
+	for _, class := range classes {
+		t.Log(class.Class.Id)
+	}
 }
 
 func TestAddSomeClasses(t *testing.T) {

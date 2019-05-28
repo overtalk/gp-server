@@ -95,7 +95,7 @@ func (c *Class) GetMembers(r *http.Request) proto.Message {
 		return resp
 	}
 
-	members, num, err := c.db.GetMembers(req.ClassId, req.PageNum, req.PageIndex)
+	members, err := c.db.GetMembers(req.ClassId)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get class members : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
@@ -106,9 +106,6 @@ func (c *Class) GetMembers(r *http.Request) proto.Message {
 	for _, member := range members {
 		resp.Members = append(resp.Members, transform.UserClassToProto(member))
 	}
-	resp.PageNum = req.PageNum
-	resp.PageIndex = req.PageIndex
-	resp.Total = num
 
 	return resp
 }

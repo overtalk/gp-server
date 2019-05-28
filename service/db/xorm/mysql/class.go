@@ -145,23 +145,16 @@ func (m *MysqlDriver) MemberManage(manageType, classID, memberID int64) error {
 }
 
 // GetMembers : get all class members
-func (m *MysqlDriver) GetMembers(classID, pageNum, pageIndex int64) ([]*transform.UserClass, int64, error) {
+func (m *MysqlDriver) GetMembers(classID int64) ([]*transform.UserClass, error) {
 	members := make([]*transform.UserClass, 0)
 	if err := m.conn.
-		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
 		Join("INNER", "user", "user.id = user_class.user_id").
 		Where("class_id = ?", classID).
 		Find(&members); err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
-	num, err := m.conn.Where("class_id = ?", classID).Count(&model.UserClass{})
-	if err != nil {
-		logger.Sugar.Errorf("failed to get class members : %v", err)
-		return nil, 0, err
-	}
-
-	return members, num, nil
+	return members, nil
 }
 
 // EnterClass : add member to class
@@ -216,4 +209,25 @@ func (m *MysqlDriver) ApplyEnterRequest(userID, classID int64, isApply bool) err
 		return err
 	}
 	return nil
+}
+
+// GetClassesByUserID : get all classes of the player
+func (m *MysqlDriver) GetClassesByUserID(userID int64) ([]*transform.IntactClass, error) {
+	members := make([]*model.UserClass, 0)
+	if err := m.conn.
+		Where("user_id = ? and is_checked = ?", userID, 1).
+		Find(&members); err != nil {
+		return nil, err
+	}
+
+	var classes []*transform.IntactClass
+	for _, v := range members {
+		class, err := m.GetClassByID(v.ClassId)
+		if err != nil {
+			return nil, err
+		}
+		classes = append(classes, class)
+	}
+
+	return classes, nil
 }

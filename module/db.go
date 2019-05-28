@@ -48,10 +48,11 @@ type DB interface {
 	GetClassByID(id int64) (*transform.IntactClass, error)                                 // 获取班级具体信息
 	UpdateClass(intactClass *transform.IntactClass) error                                  // 修改班级信息
 	MemberManage(manageType, classID, memberID int64) error                                // 班级成员管理
-	GetMembers(classID, pageNum, pageIndex int64) ([]*transform.UserClass, int64, error)   // 获取所有班级成员
+	GetMembers(classID int64) ([]*transform.UserClass, error)                              // 获取所有班级成员
 	EnterClass(userID, classID int64) error                                                // 加入班级
 	QuitClass(userID, classID int64)                                                       // 退出班级
 	ApplyEnterRequest(userID, classID int64, isApply bool) error                           // 教师处理学生进入班级请求
+	GetClassesByUserID(userID int64) ([]*transform.IntactClass, error)                     // 根据userID获取classes
 
 	// rank
 	GetRank(num int) ([]*RankItem, error)                        // 从数据库中读取排名

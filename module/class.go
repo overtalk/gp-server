@@ -14,6 +14,7 @@ type Class interface {
 	EditClass(r *http.Request) proto.Message
 	MemberManage(r *http.Request) proto.Message
 
+	GetClassesByUserID(r *http.Request) proto.Message
 	SearchClass(r *http.Request) proto.Message
 	GetMembers(r *http.Request) proto.Message
 	EnterClass(r *http.Request) proto.Message

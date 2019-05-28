@@ -170,3 +170,40 @@ func (c *Class) MemberManage(r *http.Request) proto.Message {
 	resp.IsSuccess = true
 	return resp
 }
+
+// GetClassesByUserID : get classes by user id
+func (c *Class) GetClassesByUserID(r *http.Request) proto.Message {
+	resp := &protocol.GetClasserByUserID{Status: &protocol.Status{}}
+
+	// get token and data
+	token, err := utils.GetToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+
+	// check token
+	userID, err := c.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	classes, err := c.db.GetClassesByUserID(userID)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get classes by user id : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "failed to get classes by user id"
+		return resp
+	}
+
+	for _, class := range classes {
+		resp.Classes = append(resp.Classes, class.TurnMinProto())
+	}
+
+	return resp
+}
