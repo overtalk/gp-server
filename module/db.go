@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	TEACHER = 2
 	MANAGER = 3
 )
 
@@ -79,4 +80,7 @@ type DB interface {
 
 	// submit
 	AddSubmitRecord(submit *model.UserProblem) error
+
+	// paper
+	AddPaper(paper *transform.Paper) error // 新增试卷
 }
