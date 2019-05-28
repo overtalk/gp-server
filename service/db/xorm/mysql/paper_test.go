@@ -46,3 +46,35 @@ func TestMysqlDriver_AddPaper(t *testing.T) {
 		return
 	}
 }
+
+func TestMysqlDriver_AddPaperProblem(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var paperID int64 = 12
+	var problemID int64 = 3
+
+	if err := mysqlDriver.AddPaperProblem(paperID, problemID); err != nil {
+		t.Error(err)
+		return
+	}
+}
+
+func TestMysqlDriver_DelPAperProblem(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var paperID int64 = 12
+	var problemID int64 = 3
+
+	if err := mysqlDriver.DelPaperProblem(paperID, problemID); err != nil {
+		t.Error(err)
+		return
+	}
+}

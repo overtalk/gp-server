@@ -82,5 +82,7 @@ type DB interface {
 	AddSubmitRecord(submit *model.UserProblem) error
 
 	// paper
-	AddPaper(paper *transform.Paper) error // 新增试卷
+	AddPaper(paper *transform.Paper) error          // 新增试卷
+	AddPaperProblem(paperID, problemID int64) error // 增加题目
+	DelPaperProblem(paperID, problemID int64) error // 删除题目
 }
