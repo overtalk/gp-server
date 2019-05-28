@@ -16,4 +16,5 @@ type Auth interface {
 	GetUserRole(r *http.Request) proto.Message
 	GetAllLanguage(r *http.Request) proto.Message
 	GetJudgeResult(r *http.Request) proto.Message
+	GetAlgorithm(r *http.Request) proto.Message
 }

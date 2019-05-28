@@ -16,6 +16,7 @@ type DB interface {
 	GetAllLanguage() ([]*model.Language, error)
 	GetAllTag() ([]*model.Tag, error)
 	GetAllRole() ([]*model.Role, error)
+	GetAlgorithm() ([]*model.Algorithm, error)
 
 	// auth
 	CreatePlayer(user *model.User) error

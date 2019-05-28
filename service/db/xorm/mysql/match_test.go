@@ -1,14 +1,12 @@
 package db_test
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/model/xorm"
 )
 
@@ -35,32 +33,6 @@ func TestMysqlDriver_AddMatch(t *testing.T) {
 		return
 	}
 
-	d := []int64{1, 2}
-	bytes, _ := json.Marshal(d)
-
-	p := model.Paper{
-		Difficulty: 1,
-		Tags:       string(bytes),
-		ProblemNum: 3,
-	}
-	paper := &transform.Paper{
-		Paper: p,
-		P: []*model.PaperProblem{
-			&model.PaperProblem{
-				Index:     1,
-				ProblemId: 1,
-			},
-			&model.PaperProblem{
-				Index:     2,
-				ProblemId: 2,
-			},
-			&model.PaperProblem{
-				Index:     3,
-				ProblemId: 4,
-			},
-		},
-	}
-
 	match := &model.Match{
 		IsPublic:     1,
 		Title:        "比赛001",
@@ -69,7 +41,7 @@ func TestMysqlDriver_AddMatch(t *testing.T) {
 		EndTime:      time.Now().Unix() + 10000,
 	}
 
-	if err := mysqlDriver.AddMatch(paper, match); err != nil {
+	if err := mysqlDriver.AddMatch(match); err != nil {
 		t.Error(err)
 		return
 	}
@@ -184,32 +156,7 @@ func TestAddSomeMatches(t *testing.T) {
 		return
 	}
 
-	d := []int64{1, 2}
-	bytes, _ := json.Marshal(d)
 	for i := 0; i < 10; i++ {
-		p := model.Paper{
-			Tags:       string(bytes),
-			Difficulty: 1,
-			ProblemNum: 3,
-		}
-		paper := &transform.Paper{
-			Paper: p,
-			P: []*model.PaperProblem{
-				&model.PaperProblem{
-					Index:     1,
-					ProblemId: 1,
-				},
-				&model.PaperProblem{
-					Index:     2,
-					ProblemId: 2,
-				},
-				&model.PaperProblem{
-					Index:     3,
-					ProblemId: 4,
-				},
-			},
-		}
-
 		match := &model.Match{
 			IsPublic:     1,
 			Title:        "比赛0" + fmt.Sprintf("%d", i),
@@ -218,7 +165,7 @@ func TestAddSomeMatches(t *testing.T) {
 			EndTime:      time.Now().Unix() + 10000,
 		}
 
-		if err := mysqlDriver.AddMatch(paper, match); err != nil {
+		if err := mysqlDriver.AddMatch(match); err != nil {
 			t.Error(err)
 			return
 		}

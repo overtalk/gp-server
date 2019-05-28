@@ -254,3 +254,38 @@ func (a *Auth) GetJudgeResult(r *http.Request) proto.Message {
 
 	return resp
 }
+
+// GetAlgorithm : get all algorithms
+func (a *Auth) GetAlgorithm(r *http.Request) proto.Message {
+	resp := &protocol.PaperComposeAlgorithm{Status: &protocol.Status{}}
+	token, err := utils.GetToken(r)
+	if err != nil {
+		logger.Sugar.Infof("missing token : %v", err)
+		resp.Status.Code = protocol.Code_NO_TOKEN
+		resp.Status.Message = "missing token"
+		return resp
+	}
+
+	// check token
+	_, err = a.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Infof("invalid token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	algorithms, err := a.db.GetAlgorithm()
+	if err != nil {
+		logger.Sugar.Infof("failed to get all algorithms : %v", err)
+		resp.Status.Code = protocol.Code_INTERNAL
+		resp.Status.Message = "invalid token"
+		return resp
+	}
+
+	for _, v := range algorithms {
+		resp.Algorithm[int64(v.Id)] = v.Detail
+	}
+
+	return resp
+}
