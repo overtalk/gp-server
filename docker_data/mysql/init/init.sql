@@ -104,6 +104,30 @@ INSERT INTO `difficulty` VALUES (1,'很简单'),(2,'不那么简单'),(3,'中等
 UNLOCK TABLES;
 
 --
+-- Table structure for table `algorithm`
+--
+
+DROP TABLE IF EXISTS `algorithm`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `algorithm` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `detail` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `difficulty`
+--
+
+LOCK TABLES `algorithm` WRITE;
+/*!40000 ALTER TABLE `algorithm` DISABLE KEYS */;
+INSERT INTO `algorithm` VALUES (1,'遗传算法'),(2,'随机算法');
+/*!40000 ALTER TABLE `algorithm` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `language`
 --
 
