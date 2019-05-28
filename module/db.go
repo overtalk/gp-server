@@ -66,7 +66,7 @@ type DB interface {
 
 	// match
 	GetMatchesNum() (int64, error)                               // 比赛数量
-	AddMatch(paper *transform.Paper, match *model.Match) error   // 构造新比赛
+	AddMatch(match *model.Match) error                           // 构造新比赛
 	GetMatches(pageNum, pageIndex int64) ([]*model.Match, error) // 获得所有比赛信息
 	GetMatchByID(id int64) (*model.Match, error)                 // 获得比赛
 	GetPaperByID(id int64) (*transform.Paper, error)             // 获取比赛的试卷信息

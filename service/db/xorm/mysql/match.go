@@ -11,34 +11,10 @@ func (m *MysqlDriver) GetMatchesNum() (int64, error) {
 }
 
 // AddMatch : add new match
-func (m *MysqlDriver) AddMatch(paper *transform.Paper, match *model.Match) error {
-	p := &paper.Paper
-	session := m.conn.NewSession()
-	defer session.Close()
-
-	err := session.Begin()
-	_, err = session.Insert(p)
-	if err != nil {
-		session.Rollback()
-		return err
-	}
-	// set problem id
-	for _, problem := range paper.P {
-		problem.PaperId = p.Id
-	}
-	_, err = session.Insert(paper.P)
-	if err != nil {
-		session.Rollback()
-		return err
-	}
+func (m *MysqlDriver) AddMatch(match *model.Match) error {
 	// insert match
-	match.PaperId = p.Id
-	_, err = session.Insert(match)
-	if err != nil {
-		session.Rollback()
-		return err
-	}
-	return session.Commit()
+	_, err := m.conn.Insert(match)
+	return err
 }
 
 // GetMatches : get matches
