@@ -40,14 +40,16 @@ type DB interface {
 	GetAllProblems() ([]*model.Problem, error) // 这个是用于智能组卷的接口，只需要获取部分信息（id，tags,通过率即可）
 
 	// class manage
-	GetClassNum() (int64, error)                                                         // 获得班级数量
-	GetClasses(pageNum, pageIndex int64) ([]*transform.IntactClass, error)               // 获取所有班级
-	AddClass(intactClass *transform.IntactClass) error                                   // 新增班级
-	GetClassByID(id int64) (*transform.IntactClass, error)                               // 获取班级具体信息
-	UpdateClass(intactClass *transform.IntactClass) error                                // 修改班级信息
-	MemberManage(manageType, classID, memberID int64) error                              // 班级成员管理
-	GetMembers(classID, pageNum, pageIndex int64) ([]*transform.UserClass, int64, error) // 获取所有班级成员
-	EnterClass(userID, classID int64) error                                              // 加入班级
+	GetClassNum() (int64, error)                                                           // 获得班级数量
+	GetClasses(pageNum, pageIndex int64, keyword string) ([]*transform.IntactClass, error) // 获取所有班级
+	AddClass(intactClass *transform.IntactClass) error                                     // 新增班级
+	GetClassByID(id int64) (*transform.IntactClass, error)                                 // 获取班级具体信息
+	UpdateClass(intactClass *transform.IntactClass) error                                  // 修改班级信息
+	MemberManage(manageType, classID, memberID int64) error                                // 班级成员管理
+	GetMembers(classID, pageNum, pageIndex int64) ([]*transform.UserClass, int64, error)   // 获取所有班级成员
+	EnterClass(userID, classID int64) error                                                // 加入班级
+	QuitClass(userID, classID int64)                                                       // 退出班级
+	ApplyEnterRequest(userID, classID int64, isApply bool) error                           // 教师处理学生进入班级请求
 
 	// rank
 	GetRank(num int) ([]*RankItem, error)                        // 从数据库中读取排名

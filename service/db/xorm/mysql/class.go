@@ -15,10 +15,11 @@ func (m *MysqlDriver) GetClassNum() (int64, error) {
 }
 
 // GetClasses : get classes by page num and page index
-func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64) ([]*transform.IntactClass, error) {
+func (m *MysqlDriver) GetClasses(pageNum, pageIndex int64, keyword string) ([]*transform.IntactClass, error) {
 	classes := make([]*model.Class, 0)
 	if err := m.conn.
 		Limit(int(pageNum), int((pageIndex-1)*pageNum)).
+		Where("name like ?", "%"+keyword+"%").
 		Find(&classes); err != nil {
 		return nil, err
 	}
@@ -190,6 +191,29 @@ func (m *MysqlDriver) EnterClass(userID, classID int64) error {
 	if i == 0 {
 		logger.Sugar.Error(ErrNoRowsAffected.Error())
 		return ErrNoRowsAffected
+	}
+	return nil
+}
+
+// QuitClass : remove the player of class
+func (m *MysqlDriver) QuitClass(userID, classID int64) {
+	m.conn.Delete(&model.UserClass{
+		UserId:  userID,
+		ClassId: classID,
+	})
+}
+
+// ApplyEnterRequest : agree of disagree the player request of enter class
+func (m *MysqlDriver) ApplyEnterRequest(userID, classID int64, isApply bool) error {
+	isChecked := 0
+	if isApply {
+		isChecked = 1
+	}
+	member := &model.UserClass{IsChecked: isChecked}
+
+	_, err := m.conn.Where("user_id = ? and class_id = ?", userID, classID).Update(member)
+	if err != nil {
+		return err
 	}
 	return nil
 }

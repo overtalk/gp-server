@@ -28,6 +28,10 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	gate.RegisterRoute("/addClass", "POST", module.AddClass)
 	gate.RegisterRoute("/editClass", "POST", module.EditClass)
 	gate.RegisterRoute("/memberManage", "POST", module.EditClass)
-	gate.RegisterRoute("/getMembers", "POST", module.GetMembers)
+
+	gate.RegisterRoute("/searchClasses", "POST", module.SearchClass)
 	gate.RegisterRoute("/enterClass", "POST", module.EnterClass)
+	gate.RegisterRoute("/quitClass", "POST", module.QuitClass)
+	gate.RegisterRoute("/getMember", "POST", module.GetMembers)
+	gate.RegisterRoute("/applyEnterRequest", "POST", module.EnterClass)
 }

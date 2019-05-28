@@ -81,7 +81,7 @@ func TestMysqlDriver_GetClasses(t *testing.T) {
 
 	var pageIndex int64 = 1
 	var pageNum int64 = 3
-	classes, err := mysqlDriver.GetClasses(pageNum, pageIndex)
+	classes, err := mysqlDriver.GetClasses(pageNum, pageIndex, "1")
 	if err != nil {
 		t.Error(err)
 		return
@@ -89,6 +89,7 @@ func TestMysqlDriver_GetClasses(t *testing.T) {
 
 	t.Log(len(classes))
 	for _, class := range classes {
+		t.Logf("%+v\n", string(class.Class.Name))
 		t.Logf("%+v\n", class.Class)
 		t.Logf("%+v\n", class.Announcements)
 	}
@@ -233,6 +234,74 @@ func TestMysqlDriver_EnterClass(t *testing.T) {
 		t.Error(err)
 		return
 	}
+}
+
+func TestMysqlDriver_QuitClass(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var classID int64 = 1
+	var userID int64 = 9
+	if err := mysqlDriver.EnterClass(userID, classID); err != nil {
+		t.Error(err)
+		return
+	}
+
+	mysqlDriver.QuitClass(userID, classID)
+
+	members, _, err := mysqlDriver.GetMembers(classID, 10000000000, 1)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	for _, student := range members {
+		if student.UserId == userID {
+			t.Error("del user from class fail")
+			return
+		}
+	}
+}
+
+func TestMysqlDriver_ApplyEnterRequest(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var classID int64 = 10
+	var userID int64 = 8
+	var isApply = true
+	if err := mysqlDriver.ApplyEnterRequest(userID, classID, isApply); err != nil {
+		t.Error(err)
+		return
+	}
+
+	members, _, err := mysqlDriver.GetMembers(classID, 10000000000, 1)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	isCheck := 0
+	if isApply {
+		isCheck = 1
+	}
+	for _, student := range members {
+		if student.UserId == userID {
+			if student.IsChecked == isCheck {
+				return
+			} else {
+				t.Error("apply fail")
+				return
+			}
+		}
+	}
+	t.Error("the student is not belongs to the class")
 }
 
 func TestAddSomeClasses(t *testing.T) {
