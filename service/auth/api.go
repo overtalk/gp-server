@@ -283,9 +283,12 @@ func (a *Auth) GetAlgorithm(r *http.Request) proto.Message {
 		return resp
 	}
 
+	temp := make(map[int64]string)
 	for _, v := range algorithms {
-		resp.Algorithm[int64(v.Id)] = v.Detail
+		temp[int64(v.Id)] = v.Detail
 	}
+
+	resp.Algorithm = temp
 
 	return resp
 }
