@@ -15,6 +15,7 @@ import (
 	"github.com/qinhan-shu/gp-server/service/auth"
 	"github.com/qinhan-shu/gp-server/service/class"
 	"github.com/qinhan-shu/gp-server/service/compose"
+	"github.com/qinhan-shu/gp-server/service/conf"
 	"github.com/qinhan-shu/gp-server/service/config"
 	"github.com/qinhan-shu/gp-server/service/gate"
 	"github.com/qinhan-shu/gp-server/service/judge"
@@ -123,5 +124,6 @@ func registerModule(gate module.Gate, dataStorage *module.DataStorage) {
 	match.Register(gate, dataStorage)
 	judge.Register(gate, dataStorage)
 	analysis.Register(gate, dataStorage)
+	conf.Register(gate, dataStorage)
 	paper.Register(gate, dataStorage, compose.NewCompose(dataStorage))
 }
