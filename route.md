@@ -74,6 +74,14 @@
 | 获取比赛试卷 | /getPaperByID | POST | match.proto --> GetPaperByIDReq & GetPaperByIDResp |
 | 编辑比赛 | /editMatch | POST | match.proto --> EditMatchReq & EditMatchResp |
 
+### Tag管理 
+
+| 功能描述 | 路由 | HTTP方法 |  protobuf |  
+| ----- | ---- | ----- | ----- |
+| 获取所有tag信息 | /getTags  | POST | tag.proto --> GetTagsReq & GetTagsResp |
+| 修改tag信息 | /updateTag | POST | tag.proto --> UpdateTagReq & UpdateTagResp |
+| 新增他给 | /addTag | POST | tag.proto --> AddTagReq & AddTagResp |
+
 
 ## 排行榜模块
 

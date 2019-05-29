@@ -185,6 +185,19 @@
   
   
 
+- [proto/tag.proto](#proto/tag.proto)
+    - [AddTagReq](#protocol.AddTagReq)
+    - [AddTagResp](#protocol.AddTagResp)
+    - [GetTagsReq](#protocol.GetTagsReq)
+    - [GetTagsResp](#protocol.GetTagsResp)
+    - [GetTagsResp.TagsEntry](#protocol.GetTagsResp.TagsEntry)
+    - [UpdateTagReq](#protocol.UpdateTagReq)
+    - [UpdateTagResp](#protocol.UpdateTagResp)
+  
+  
+  
+  
+
 - [proto/user_manage.proto](#proto/user_manage.proto)
     - [AddUsersReq](#protocol.AddUsersReq)
     - [AddUsersResp](#protocol.AddUsersResp)
@@ -2061,6 +2074,136 @@ PaperCompose 组卷算法
 | UNAUTHORIZATED | 4 | token错误 |
 | PERMISSION_DENIED | 5 | 没有权限 |
 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="proto/tag.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## proto/tag.proto
+
+
+
+<a name="protocol.AddTagReq"></a>
+
+### AddTagReq
+新增Tag
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tag | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.AddTagResp"></a>
+
+### AddTagResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetTagsReq"></a>
+
+### GetTagsReq
+获取所有tag
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetTagsResp"></a>
+
+### GetTagsResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| tags | [GetTagsResp.TagsEntry](#protocol.GetTagsResp.TagsEntry) | repeated |  |
+| page_index | [int64](#int64) |  |  |
+| page_num | [int64](#int64) |  |  |
+| total | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="protocol.GetTagsResp.TagsEntry"></a>
+
+### GetTagsResp.TagsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [int64](#int64) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.UpdateTagReq"></a>
+
+### UpdateTagReq
+修改tag
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  |  |
+| tag | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="protocol.UpdateTagResp"></a>
+
+### UpdateTagResp
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [Status](#protocol.Status) |  |  |
+| is_success | [bool](#bool) |  |  |
+
+
+
+
+
+ 
 
  
 
