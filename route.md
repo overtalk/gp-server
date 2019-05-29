@@ -111,7 +111,7 @@
 | 学生申请退出班级 | /quitClass | POST | class_enter.proto --> QuitClassReq & QuitClassResp |
 | 教师查看申请加入班级的请求 | /getMember | POST | class_enter.proto --> GetMemberReq & GetMemberResp |
 | 教师批准/拒绝学生进入班级的申请 | /applyEnterRequest | POST | class_enter.proto --> ApplyEnterRequestReq & ApplyEnterRequestResp |
-| 根据用户的id获取参加的班级 | /applyEnterRequest | GET | class_enter.proto --> GetClasserByUserID |
+| 根据用户的id获取参加的班级 | /getClassesByUserID | GET | class_enter.proto --> GetClasserByUserID |
 
 ## 智能组卷
 | 功能描述 | 路由 | HTTP方法 | protobuf |
