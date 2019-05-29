@@ -17,4 +17,9 @@ type Conf interface {
 	GetAllLanguage(r *http.Request) proto.Message
 	GetJudgeResult(r *http.Request) proto.Message
 	GetAlgorithm(r *http.Request) proto.Message
+
+	// tag
+	GetTags(r *http.Request) proto.Message
+	AddTag(r *http.Request) proto.Message
+	UpdateTag(r *http.Request) proto.Message
 }

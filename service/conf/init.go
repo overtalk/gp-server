@@ -26,4 +26,9 @@ func Register(gate module.Gate, dataStorage *module.DataStorage) {
 	gate.RegisterRoute("/getAllLanguage", "GET", module.GetAllLanguage)
 	gate.RegisterRoute("/getJudgeResult", "GET", module.GetJudgeResult)
 	gate.RegisterRoute("/paperComposeAlgorithm", "GET", module.GetAlgorithm)
+
+	// tag
+	gate.RegisterRoute("/getTags", "POST", module.GetTags)
+	gate.RegisterRoute("/updateTag", "POST", module.UpdateTag)
+	gate.RegisterRoute("/addTag", "POST", module.AddTag)
 }
