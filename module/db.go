@@ -86,4 +86,9 @@ type DB interface {
 	AddPaper(paper *transform.Paper) error          // 新增试卷
 	AddPaperProblem(paperID, problemID int64) error // 增加题目
 	DelPaperProblem(paperID, problemID int64) error // 删除题目
+
+	// tag
+	GetAllTagsByPage(pageNum, pageIndex int64) ([]*model.Tag, error) // 获取所有的tag
+	AddTag(tag *model.Tag) error
+	UpdateTag(tag *model.Tag) error
 }

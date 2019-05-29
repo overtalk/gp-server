@@ -44,6 +44,26 @@ func TestMysqlDriver_AddTag(t *testing.T) {
 	t.Logf("%+v\n", tag)
 }
 
+func TestMysqlDriver_UpdateTag(t *testing.T) {
+	mysqlDriver, err := getMysqlDriver()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	tag := &model.Tag{
+		Id:     1,
+		Detail: "xxx",
+	}
+
+	if err := mysqlDriver.UpdateTag(tag); err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("%+v\n", tag)
+}
+
 func TestAddSomeTags(t *testing.T) {
 	mysqlDriver, err := getMysqlDriver()
 	if err != nil {
