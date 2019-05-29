@@ -130,7 +130,7 @@ func (m *MysqlDriver) MemberManage(manageType, classID, memberID int64) error {
 			IsChecked:       1,
 		})
 	case int64(protocol.MemberManageReq_CANCEL_ADMINISTRATOR):
-		affectd, err = m.conn.Id(core.PK{classID, memberID}).Update(&model.UserClass{
+		affectd, err = m.conn.Id(core.PK{classID, memberID}).Cols("is_administrator").Update(&model.UserClass{
 			IsAdministrator: 0,
 			IsChecked:       1,
 		})
