@@ -8,4 +8,5 @@ import (
 // Compose : paper compose module
 type Compose interface {
 	IntelligentCompose(problems []*model.Problem, paper *protocol.Paper) ([]*model.PaperProblem, error)
+	RandomCompose(problems []*model.Problem, paper *protocol.Paper) ([]*model.PaperProblem, error)
 }

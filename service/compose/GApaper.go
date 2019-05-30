@@ -19,7 +19,6 @@ type GAPaper struct {
 }
 
 //初始化试卷
-//TODO: 连接数据库的数据
 func (paper *GAPaper) init(id int, p *protocol.Paper, problems []*model.Problem) {
 	paper.id = id
 	var papernum, num int //papernum:要求数量,num:题库数量
@@ -47,22 +46,22 @@ func (paper *GAPaper) gettotaldifficulty() float64 {
  */
 func (paper *GAPaper) getfitness(p *protocol.Paper) float64 {
 	var fitness float64
-	var diff, diffend, difffront float64 //老师要求试卷难度的期望值,和组成卷子的难度
+	var diff, difficulty, diffficlty1 float64 //老师要求试卷难度的期望值,和组成卷子的难度
 
 	switch p.GetDifficulty() {
 	case 1:
-		difffront = 0.1
+		diffficlty1 = 0.1
 	case 2:
-		difffront = 0.3
+		diffficlty1 = 0.3
 	case 3:
-		difffront = 0.5
+		diffficlty1 = 0.5
 	case 4:
-		difffront = 0.7
+		diffficlty1 = 0.7
 	case 5:
-		difffront = 0.9
+		diffficlty1 = 0.9
 	}
-	diffend = paper.gettotaldifficulty()
-	diff = math.Abs(diffend - difffront)
+	difficulty = paper.gettotaldifficulty()
+	diff = math.Abs(difficulty - diffficlty1)
 	fitness = 1.0 - diff
 	return fitness
 }
