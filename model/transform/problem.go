@@ -56,7 +56,7 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 
 // TurnMinProto : turn to protobuf with certain fields
 func (p *IntactProblem) TurnMinProto() *protocol.Problem {
-	return &protocol.Problem{
+	problemProtobuf := &protocol.Problem{
 		Id:         p.Id,
 		Title:      p.Title,
 		Difficulty: int64(p.Difficulty),
@@ -65,6 +65,12 @@ func (p *IntactProblem) TurnMinProto() *protocol.Problem {
 		Publisher:  p.Name,
 		CreateTime: p.CreateTime,
 	}
+
+	tags := new([]int64)
+	json.Unmarshal([]byte(p.Tags), tags)
+	problemProtobuf.Tags = *tags
+
+	return problemProtobuf
 }
 
 // IsInited : check the default value of each fields
