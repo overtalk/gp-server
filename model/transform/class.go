@@ -57,10 +57,10 @@ func TurnProtoToIntactClass(p *protocol.Class) *IntactClass {
 		Introduction: p.Introduction,
 		Name:         p.Name,
 	}
+	c.IsCheck = 0
 	if p.IsCheck {
 		c.IsCheck = 1
 	}
-	c.IsCheck = 0
 
 	// set problem test data
 	var announcements []*AnnouncementWithName
