@@ -62,18 +62,18 @@ func Unzip(archive, target string) error {
 
 		fileReader, err := file.Open()
 		if err != nil {
-			return err
+			continue
 		}
 		defer fileReader.Close()
 
 		targetFile, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
 		if err != nil {
-			return err
+			continue
 		}
 		defer targetFile.Close()
 
 		if _, err := io.Copy(targetFile, fileReader); err != nil {
-			return err
+			continue
 		}
 	}
 
