@@ -43,7 +43,7 @@ func (p *Paper) checkArgsandAuth(r *http.Request, req proto.Message, role int) (
 		}
 	}
 
-	if user.Role != role {
+	if user.Role < role {
 		return nil, &protocol.Status{
 			Code:    protocol.Code_PERMISSION_DENIED,
 			Message: "permission denied",
