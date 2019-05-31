@@ -35,6 +35,12 @@ func ProtoToUser(user *protocol.UserInfo) *model.User {
 	if user.Sex {
 		sex = 1
 	}
+
+	p := ""
+	if len(user.Password)!=0{
+		p = utils.MD5(user.Password)
+	}
+
 	return &model.User{
 		Id:        user.Id,
 		Role:      int(user.Role),
@@ -46,6 +52,6 @@ func ProtoToUser(user *protocol.UserInfo) *model.User {
 		LastLogin: user.LastLogin,
 		Create:    user.Create,
 		Account:   user.Account,
-		Password:  utils.MD5(user.Password),
+		Password:  p,
 	}
 }
