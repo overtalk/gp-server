@@ -82,6 +82,8 @@ services:
         restart: always
         ports:
             - 8081:8081
+        volumes:
+            - $PWD/docker_data/judge/judgefile:/go/src/github.com/qinhan-shu/gp-server/docker_data/judge/judgefile
         environment:
             REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678

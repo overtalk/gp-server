@@ -20,7 +20,7 @@ func (f *File) Upload(r *http.Request) proto.Message {
 	resp := &protocol.File{Status: &protocol.Status{}}
 
 	// parse and validate file and post parameters
-	targetFile, header, err := r.FormFile("uploadFile")
+	targetFile, _, err := r.FormFile("uploadFile")
 	if err != nil {
 		logger.Sugar.Errorf("failed to get form file : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
@@ -51,7 +51,8 @@ func (f *File) Upload(r *http.Request) proto.Message {
 	// create a dir to store zip
 	fileID := f.node.Generate().String()
 	dir := f.path + fileID
-	newPath := filepath.Join(dir, header.Filename)
+	newFileName := fileID+".zip"
+	newPath := filepath.Join(dir,newFileName)
 
 	err = os.Mkdir(dir, os.ModePerm)
 	if err != nil {
@@ -78,7 +79,7 @@ func (f *File) Upload(r *http.Request) proto.Message {
 	}
 
 	// unzip
-	if err := zip.Unzip(dir+"/"+header.Filename, dir); err != nil {
+	if err := zip.Unzip(dir+"/"+newFileName, dir); err != nil {
 		logger.Sugar.Errorf("failed to unzip : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL
 		resp.Status.Message = "failed to unzip"
@@ -96,5 +97,7 @@ func (f *File) Upload(r *http.Request) proto.Message {
 	}
 
 	resp.FileId = fileID
+
+	logger.Sugar.Info("fileID = ", fileID)
 	return resp
 }
