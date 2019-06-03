@@ -10,6 +10,12 @@ import (
 	"github.com/qinhan-shu/gp-server/utils/parse"
 )
 
+
+func (s *Service) AddFileDownLoad(path string){
+	s.file = path
+}
+
+
 // RegisterRoute : registered route
 func (s *Service) RegisterRoute(router, method string, handler module.Handler) {
 	if _, ok := s.routeMap.Load(router); ok {
@@ -46,4 +52,8 @@ func (s *Service) registerToGate(mux *http.ServeMux) {
 		})
 		return true
 	})
+	if s.file != ""{
+		mux.Handle("/download/", http.StripPrefix("/download/", http.FileServer(http.Dir(s.file))))
+		//http.Handle("/staticfile/", http.StripPrefix("/staticfile/", http.FileServer(http.Dir("./staticfile"))))
+	}
 }

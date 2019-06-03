@@ -21,6 +21,7 @@ type Service struct {
 	keyFile  string
 	srv      *http.Server
 	routeMap sync.Map
+	file string
 }
 
 // NewService creates a game gate service
@@ -46,6 +47,10 @@ func (s *Service) Start() {
 		logger.Sugar.Debugf("[%s]----[%v]", handler.Method, k)
 		return true
 	})
+
+	if s.file!=""{
+		logger.Sugar.Debugf("[file download]----[%s]", s.file)
+	}
 
 	// register all routes that have been registered to routeMap to the gate
 	mux := http.NewServeMux()

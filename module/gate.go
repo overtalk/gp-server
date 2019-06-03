@@ -17,5 +17,6 @@ type Router struct {
 
 // Gate : gateway module
 type Gate interface {
+	AddFileDownLoad(path string)
 	RegisterRoute(router, method string, handler Handler)
 }
