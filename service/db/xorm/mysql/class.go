@@ -10,8 +10,11 @@ import (
 )
 
 // GetClassNum : get the number of all class
-func (m *MysqlDriver) GetClassNum() (int64, error) {
-	return m.conn.Count(&model.Class{})
+func (m *MysqlDriver) GetClassNum(keyword string) (int64, error) {
+	if keyword == "" {
+		return m.conn.Count(&model.Class{})
+	}
+	return m.conn.Where("name like ?", "%"+keyword+"%").Count(&model.Class{})
 }
 
 // GetClasses : get classes by page num and page index

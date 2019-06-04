@@ -87,8 +87,8 @@ func (j *Judge) Judge(r *http.Request) proto.Message {
 		})
 		if data.Result != 0 {
 			resp.Result = int64(data.Result)
-		} else if data.Result == 6 {
-			data.Result = 0
+		} else {
+			resp.Result = 0
 			men = int(data.Memory)
 			t = data.RealTime
 		}

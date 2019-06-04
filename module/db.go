@@ -34,7 +34,7 @@ type DB interface {
 	GetSubmitRecord(userID, problemID, pageNum, pageIndex int64) ([]*model.UserProblem, int64, error)
 
 	// problem manage
-	GetProblemsNum(tag int) (int64, error)
+	GetProblemsNum(tag int,keyword string) (int64, error)
 	GetProblemsByTagID(pageNum, pageIndex int64, tag int, keyword string) ([]*transform.IntactProblem, error)
 	AddProblem(problem *transform.IntactProblem) error
 	GetProblemByID(id int64) (*transform.IntactProblem, error)
@@ -42,7 +42,7 @@ type DB interface {
 	GetAllProblems() ([]*model.Problem, error) // 这个是用于智能组卷的接口，只需要获取部分信息（id，tags,通过率即可）
 
 	// class manage
-	GetClassNum() (int64, error)                                                           // 获得班级数量
+	GetClassNum(keyword string) (int64, error)                                                           // 获得班级数量
 	GetClasses(pageNum, pageIndex int64, keyword string) ([]*transform.IntactClass, error) // 获取所有班级
 	AddClass(intactClass *transform.IntactClass) error                                     // 新增班级
 	GetClassByID(id int64) (*transform.IntactClass, error)                                 // 获取班级具体信息

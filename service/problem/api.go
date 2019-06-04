@@ -55,7 +55,7 @@ func (p *Problem) GetProblems(r *http.Request) proto.Message {
 	}
 
 	// get all number
-	problemsNum, err := p.db.GetProblemsNum(int(req.Tag))
+	problemsNum, err := p.db.GetProblemsNum(int(req.Tag), req.Keyword)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get the number of problems : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL

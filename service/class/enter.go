@@ -53,7 +53,7 @@ func (c *Class) SearchClass(r *http.Request) proto.Message {
 	}
 
 	// get all number
-	classesNum, err := c.db.GetClassNum()
+	classesNum, err := c.db.GetClassNum(req.Keyword)
 	if err != nil {
 		logger.Sugar.Errorf("failed to get the number of classes : %v", err)
 		resp.Status.Code = protocol.Code_INTERNAL

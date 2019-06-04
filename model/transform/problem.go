@@ -33,6 +33,7 @@ func (p *IntactProblem) TurnProto() *protocol.Problem {
 		JudgeLimitMem:  int64(p.JudgeLimitMem),
 		JudgeLimitTime: int64(p.JudgeLimitTime),
 		Publisher:      p.Name,
+		JudgeFile:		p.JudgeFile,
 		CreateTime:     p.CreateTime,
 	}
 	// set in and out example

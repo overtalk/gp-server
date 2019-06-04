@@ -40,6 +40,16 @@ func (p *Paper) NewPaper(r *http.Request) proto.Message {
 		return resp
 	}
 	paper.P = paperProblems
+	for _, v := range  paperProblems {
+		problem, err := p.db.GetProblemByID(v.ProblemId)
+		if err != nil {
+			logger.Sugar.Errorf("failed to get problem by id after compose : %v", err)
+			resp.Status.Code = protocol.Code_INTERNAL
+			resp.Status.Message = "failed to get problem by id after compose"
+			return resp
+		}
+		paper.ProblemsDetail = append(paper.ProblemsDetail, problem)
+	}
 
 	if err := p.db.AddPaper(paper); err != nil {
 		logger.Sugar.Errorf("failed to save intelligent compose paper : %v", err)

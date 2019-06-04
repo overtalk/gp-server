@@ -8,12 +8,18 @@ import (
 )
 
 // GetProblemsNum : get the num of problems
-func (m *MysqlDriver) GetProblemsNum(tag int) (int64, error) {
-	if tag == 0 {
+func (m *MysqlDriver) GetProblemsNum(tag int, keyword string) (int64, error) {
+	if tag == 0 && keyword == "" {
 		return m.conn.Count(&model.Problem{})
+	} else if tag == 0 && keyword != "" {
+		return m.conn.Where("title like ?", "%"+keyword+"%").Count(&model.Problem{})
+	} else if tag != 0 && keyword == ""  {
+		return m.conn.Where("tags like ? || tags like ? || tags like ? || tags like ?",
+			"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
+			Count(&model.Problem{})
 	}
-	return m.conn.Where("tags like ? || tags like ? || tags like ? || tags like ?",
-		"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag)).
+	return m.conn.Where("(tags like ? || tags like ? || tags like ? || tags like ?) && title like ?",
+		"%"+fmt.Sprintf(",%d,", tag)+"%", fmt.Sprintf("[%d,", tag)+"%", "%"+fmt.Sprintf(",%d]", tag), fmt.Sprintf("[%d]", tag), "%"+keyword+"%").
 		Count(&model.Problem{})
 }
 
