@@ -20,6 +20,7 @@ func ProtoToMatch(match *protocol.Match) *model.Match {
 		IsPublic:     isPublic,
 		StartTime:    match.StartTime,
 		Title:        match.Name,
+		PaperId:      match.PaperId,
 	}
 }
 
