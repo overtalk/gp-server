@@ -7,7 +7,7 @@ import (
 	"github.com/qinhan-shu/gp-server/logger"
 	// "github.com/qinhan-shu/gp-server/model/transform"
 	"github.com/qinhan-shu/gp-server/protocol"
-	// "github.com/qinhan-shu/gp-server/utils"
+	"github.com/qinhan-shu/gp-server/utils"
 )
 
 // DifficultyAnalysis : analyse data by difficulty
@@ -15,10 +15,26 @@ func (a *Analysis) DifficultyAnalysis(r *http.Request) proto.Message {
 	req := &protocol.AnalysisByDifficultyReq{}
 	resp := &protocol.AnalysisByDifficultyResp{Status: &protocol.Status{}}
 
-	_, status := a.checkArgsandAuth(r, req)
-	if status != nil {
-		logger.Sugar.Error(status.Message)
-		resp.Status = status
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = a.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
 		return resp
 	}
 
@@ -39,10 +55,26 @@ func (a *Analysis) TagsAnalysis(r *http.Request) proto.Message {
 	req := &protocol.AnalysisByTagsReq{}
 	resp := &protocol.AnalysisByTagsResp{Status: &protocol.Status{}}
 
-	_, status := a.checkArgsandAuth(r, req)
-	if status != nil {
-		logger.Sugar.Error(status.Message)
-		resp.Status = status
+	data, token, err := utils.GetReqAndToken(r)
+	if err != nil {
+		logger.Sugar.Error(err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = err.Error()
+		return resp
+	}
+	if err := proto.Unmarshal(data, req); err != nil {
+		logger.Sugar.Errorf("failed to unmarshal request body : %v", err)
+		resp.Status.Code = protocol.Code_DATA_LOSE
+		resp.Status.Message = "failed to unmarshal request body"
+		return resp
+	}
+
+	// check token
+	_, err = a.cache.GetUserIDByToken(token)
+	if err != nil {
+		logger.Sugar.Errorf("failed to get token : %v", err)
+		resp.Status.Code = protocol.Code_UNAUTHORIZATED
+		resp.Status.Message = "invalid token"
 		return resp
 	}
 
