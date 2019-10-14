@@ -23,7 +23,7 @@ services:
             - SERVICE_URL=http://judge-server:12358
             - TOKEN=shu
         ports:
-            - 0.0.0.0:12358:8080
+            - 0.0.0.0:12358:8079
 
 
     redis:
@@ -66,7 +66,7 @@ services:
             MYSQL_DBNAME: gp_oj
             MYSQL_OPEN_CONNS_NUM: 100
             MYSQL_IDLE_CONNS_NUM: 100
-            JUDGE_SERVER: gp_judger:8080+shu
+            JUDGE_SERVER: gp_judger:8079+shu
             LOG_LEVEL: debug
             MAXUPLOADSIZE: 2
             WEB_PORT: :8081
@@ -94,7 +94,7 @@ services:
             MYSQL_DBNAME: gp_oj
             MYSQL_OPEN_CONNS_NUM: 100
             MYSQL_IDLE_CONNS_NUM: 100
-            JUDGE_SERVER: gp_judger:8080+shu
+            JUDGE_SERVER: gp_judger:8079+shu
             LOG_LEVEL: debug
             MAXUPLOADSIZE: 2
             WEB_PORT: :8081
