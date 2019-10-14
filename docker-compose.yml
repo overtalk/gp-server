@@ -44,7 +44,7 @@ services:
             - ./docker_data/mysql/my.cnf:/etc/my.cnf
             - ./docker_data/mysql/init:/docker-entrypoint-initdb.d/
         ports:
-            - 3307:3306
+            - 3307:3307
 
     file:
         build:
@@ -60,7 +60,7 @@ services:
             REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: gp-mysql:3306
+            MYSQL_ADDR: gp-mysql:3307
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
@@ -88,7 +88,7 @@ services:
             REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: gp-mysql:3306
+            MYSQL_ADDR: gp-mysql:3307
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
