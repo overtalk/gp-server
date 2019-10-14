@@ -23,7 +23,7 @@ services:
             - SERVICE_URL=http://judge-server:12358
             - TOKEN=shu
         ports:
-            - 0.0.0.0:12358:8079
+            - 0.0.0.0:12358:8080
 
 
     redis:
@@ -44,7 +44,7 @@ services:
             - ./docker_data/mysql/my.cnf:/etc/my.cnf
             - ./docker_data/mysql/init:/docker-entrypoint-initdb.d/
         ports:
-            - 3307:3307
+            - 3307:3306
 
     file:
         build:
@@ -60,13 +60,13 @@ services:
             REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: gp-mysql:3307
+            MYSQL_ADDR: gp-mysql:3306
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
             MYSQL_OPEN_CONNS_NUM: 100
             MYSQL_IDLE_CONNS_NUM: 100
-            JUDGE_SERVER: gp_judger:8079+shu
+            JUDGE_SERVER: gp_judger:8080+shu
             LOG_LEVEL: debug
             MAXUPLOADSIZE: 2
             WEB_PORT: :8081
@@ -88,13 +88,13 @@ services:
             REDIS_ADDR: gp-redis:6379  
             REDIS_PASS: 12345678
             REDIS_POOLSIZE: 10
-            MYSQL_ADDR: gp-mysql:3307
+            MYSQL_ADDR: gp-mysql:3306
             MYSQL_USER: root
             MYSQL_PASS: 12345678
             MYSQL_DBNAME: gp_oj
             MYSQL_OPEN_CONNS_NUM: 100
             MYSQL_IDLE_CONNS_NUM: 100
-            JUDGE_SERVER: gp_judger:8079+shu
+            JUDGE_SERVER: gp_judger:8080+shu
             LOG_LEVEL: debug
             MAXUPLOADSIZE: 2
             WEB_PORT: :8081
